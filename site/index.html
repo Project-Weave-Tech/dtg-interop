@@ -460,7 +460,7 @@ class Component extends DCLogic {
     const activityOf = (p) => {
       const ds = (p.repositories || []).map((u) => ((d.repos || {})[u] || {}).pushedAt).filter(Boolean).sort();
       const last = ds[ds.length - 1];
-      if (!last) return { activity: true, hot: false, cold: true, dot: 'transparent', act: (p.repositories || []).length ? 'not reported' : 'no public repository', items: [] };
+      if (!last) return (p.repositories || []).length ? { unknown: true, none: false, items: [], more: false, moreN: 0 } : { unknown: false, none: true, items: [], more: false, moreN: 0 };
       const age = (now - Date.parse(last)) / 864e5;
       return { activity: true, hot: age <= 7, cold: age > 7, dot: age <= 90 ? 'var(--amber-t)' : 'var(--muted)', act: age <= 1 ? 'pushed today' : age <= 7 ? 'pushed this week' : 'pushed ' + this.fmt(last), items: [] };
     };
