@@ -257,7 +257,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
 <sc-if value="{{c.tt}}" hint-placeholder-val="{{ false }}"><button class="ttcell" type="button" title="{{c.ttTitle}}" sc-camel-on-click="{{c.openTT}}"><span class="sdot sd-{{c.ttStatus}}" role="img" title="{{c.ttStatus}}" aria-label="{{c.ttStatus}}"></span><sc-for list="{{c.ttParts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></button></sc-if>
 <sc-if value="{{c.cred}}" hint-placeholder-val="{{ false }}"><div class="creds"><sc-for list="{{c.creds}}" as="e" hint-placeholder-count="1"><div class="cred" title="{{e.title}}"><span class="sdot sd-{{e.status}}" role="img" title="{{e.status}}" aria-label="{{e.status}}"></span><button class="tchip {{e.mHue}} {{e.mOn}}" type="button" aria-pressed="{{e.mPressed}}" sc-camel-on-click="{{e.mToggle}}">{{e.model}}</button><sc-for list="{{e.proofs}}" as="x" hint-placeholder-count="1"><button class="proofb {{x.on}}" type="button" title="Show only projects with this proof" aria-pressed="{{x.pressed}}" sc-camel-on-click="{{x.toggle}}">{{x.label}}</button></sc-for><sc-for list="{{e.fams}}" as="f" hint-placeholder-count="1"><button class="tchip {{f.hue}} {{f.on}}" type="button" title="{{f.title}}" aria-pressed="{{f.pressed}}" sc-camel-on-click="{{f.toggle}}">{{f.label}}</button></sc-for></div></sc-for></div></sc-if>
-<sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}"><sc-if value="{{v.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{v.cold}}" hint-placeholder-val="{{ false }}"><span class="still" style="background: {{v.dot}}" aria-hidden="true"></span></sc-if>{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
+<sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}"><sc-if value="{{v.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{v.cold}}" hint-placeholder-val="{{ false }}"><span class="still" style="background: {{v.dot}}" aria-hidden="true"></span></sc-if>{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><sc-if value="{{v.hasStatus}}" hint-placeholder-val="{{ false }}"><span class="sdot sd-{{v.status}}" role="img" aria-label="{{v.status}}" style="margin-right: 6px"></span></sc-if>{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
 <sc-if value="{{c.hasText}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px" title="{{c.textTitle}}">{{c.text}}</span></sc-if>
 <sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
 </div></sc-for>
@@ -474,7 +474,9 @@ class Component extends DCLogic {
     };
     const LIC = [[/Apache[- ]2\.0/i, 'Apache-2.0'], [/\bMIT\b/, 'MIT'], [/AGPL-3\.0/i, 'AGPL-3.0'], [/(?<!A)GPL-3\.0(-only)?/i, 'GPL-3.0-only'], [/CC[- ]BY[- ]SA[- ]4\.0/i, 'CC-BY-SA-4.0'], [/CC[- ]BY[- ]4\.0/i, 'CC-BY-4.0'], [/CAL-1\.0/i, 'CAL-1.0'], [/UNLICENSED/, 'UNLICENSED'], [/commercial/i, 'commercial']];
     const licVals = (p) => (typeof p.licence === 'string' && p.licence ? LIC.filter((x) => x[0].test(p.licence)).map((x) => x[1]) : null);
-    const fv = (p, k) => k === 'licence' ? licVals(p) : (k === 'credentials' || k === 'credFamily' || k === 'credProof') ? credVals(p, k) : (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k] : null;
+    const fVal = (x) => (x && typeof x === 'object' ? x.value : x);
+    const fShow = (x) => (x && typeof x === 'object' ? x.value + (x.status ? ' (' + x.status + ')' : '') : x);
+    const fv = (p, k) => k === 'licence' ? licVals(p) : (k === 'credentials' || k === 'credFamily' || k === 'credProof') ? credVals(p, k) : (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k].map(fVal) : null;
     const setFilter = (k, v) => () => {
       const cur = (filters[k] || []).slice(); const i = cur.indexOf(v);
       if (i >= 0) cur.splice(i, 1); else cur.push(v);
@@ -528,15 +530,17 @@ class Component extends DCLogic {
       const v = fv(p, k);
       if (v === null) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
       const lic = k === 'licence';
+      const raw = (!lic && p.facets && Array.isArray(p.facets[k])) ? p.facets[k] : [];
       return {
         unknown: false, none: v.length === 0 && !lic, more: false, moreN: 0,
         hasText: lic && (v.length === 0 || /not (stated|public)/.test(p.licence)),
         text: !lic ? '' : v.length === 0 ? p.licence.split(/[;(]/)[0].trim() : p.licence.split(';').map((s) => s.trim()).filter((s) => /not (stated|public)/.test(s)).join('; '),
         textTitle: lic ? p.licence : '',
-        items: v.map((x) => {
+        items: v.map((x, i) => {
           const on = (filters[k] || []).indexOf(x) >= 0;
+          const ro = raw[i] && typeof raw[i] === 'object' ? raw[i] : null;
           const off = k === 'offline';
-          return { label: x, chip: !off, ok: off && x === 'yes', bad: off && x === 'no', hue: hueFor(k, x), on: on ? 'on' : '', pressed: on, toggle: setFilter(k, x), title: lic ? p.licence : on ? 'Remove this filter' : 'Show only projects with ' + x };
+          return { label: x, chip: !off, ok: off && x === 'yes', bad: off && x === 'no', hue: hueFor(k, x), on: on ? 'on' : '', pressed: on, toggle: setFilter(k, x), hasStatus: !!(ro && ro.status), status: ro && ro.status ? ro.status : '', title: lic ? p.licence : (ro && ro.status ? ro.status + (ro.note ? ': ' + ro.note : '') + ' · ' : '') + (on ? 'Remove this filter' : 'Show only projects with ' + x) };
         }),
       };
     };
@@ -639,7 +643,7 @@ class Component extends DCLogic {
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
-        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
+        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.map(fShow).join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.map(fShow).join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
         scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
