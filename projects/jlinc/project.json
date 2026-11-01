@@ -2,7 +2,7 @@
   "slug": "jlinc",
   "name": "JLINC",
   "website": "https://protocol.jlinc.io/",
-  "logo": "https://github.com/jlinclabs.png?size=96",
+  "logo": "logo-jlinc.png",
   "licence": "MIT for some packages, others unstated",
   "repositories": [
     "https://github.com/jlinclabs/jlinc-node",

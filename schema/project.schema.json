@@ -33,9 +33,9 @@
       "format": "uri"
     },
     "logo": {
-      "description": "URL of a square logo or icon the project publishes itself (its website or its GitHub account). The board falls back to initials when absent.",
+      "description": "Square logo or icon of the project: a URL the project publishes itself (its website or its GitHub account), or the file name of a logo kept in site/ (logo-<slug>.png). The board falls back to initials when absent.",
       "type": "string",
-      "format": "uri"
+      "format": "uri-reference"
     },
     "licence": {
       "type": "string",

@@ -2,7 +2,7 @@
   "slug": "civic-social",
   "name": "Civic.Social",
   "docs": "https://github.com/Mosaic-Foundation/civic-social-docs",
-  "logo": "https://civic.social/favicon.png",
+  "logo": "logo-civic-social.png",
   "licence": "CC-BY-4.0 (specs)",
   "repositories": [
     "https://github.com/Mosaic-Foundation/civic-social-docs"
