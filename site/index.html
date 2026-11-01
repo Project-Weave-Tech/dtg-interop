@@ -243,7 +243,7 @@ body{margin:0;background:#F6F6F3}
 <div class="trw thead" style="grid-template-columns: {{grid}}"><span class="c0">Project</span><sc-for list="{{heads}}" as="h" hint-placeholder-count="12"><span>{{h}}</span></sc-for></div>
 <sc-for list="{{rows}}" as="p" hint-placeholder-count="11">
 <div class="trw" style="grid-template-columns: {{grid}}">
-<button class="pname c0" type="button" title="{{p.prov}}" sc-camel-on-click="{{p.open}}"><span class="av {{p.hue}} {{p.avCls}}" aria-hidden="true" style="{{p.logoStyle}}">{{p.mono}}</span><span class="pn">{{p.short}}</span></button>
+<button class="pname c0" type="button" title="{{p.nameTitle}}" sc-camel-on-click="{{p.open}}"><span class="av {{p.hue}} {{p.avCls}}" aria-hidden="true" style="{{p.logoStyle}}">{{p.mono}}</span><span class="pn">{{p.short}}</span></button>
 <sc-for list="{{p.cells}}" as="c" hint-placeholder-count="12"><div class="cell">
 <sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
@@ -540,6 +540,7 @@ class Component extends DCLogic {
       prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
       provCls: isPub(p) ? 'prov-public' : 'prov-project',
       hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
+      nameTitle: (p.purpose ? p.purpose + ' · ' : '') + (isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project'),
       cells: vis.map((c) => cellOf(p, c[0])),
     }));
     const filterGroups = FACETS.map((c) => {
