@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>DTG Interop Board: Map</title>
+<title>DTG Interop Board: Potential</title>
 <meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
 <script src="dc-runtime.js"></script>
 </head>
@@ -160,10 +160,10 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections">
 <a href="./">Projects</a>
-<a href="map.html" aria-current="page">Map</a>
 <a href="credentials.html">Credentials</a>
 <a href="trust-tasks.html">Trust Tasks</a>
-<a href="pairs.html">Pairs</a>
+<a href="map.html" aria-current="page">Potential</a>
+<a href="pairs.html">Realized</a>
 <a href="threads.html">Threads</a>
 </nav>
 </div>
@@ -179,7 +179,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Add a point</a></div>
+<div class="bhead"><h2 id="h-map">Potential</h2><p>Where projects could meet, and who brings what, sorted by how close each point is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Add a point</a></div>
 <div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
 <div class="cols">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
@@ -188,7 +188,7 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
 <article class="card {{k.selCls}} {{k.thin}}">
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}</h3></button>
-<sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Shown: {{k.shown}}</span></sc-if>
+<sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Realized: {{k.shown}}</span></sc-if>
 <div class="faces">
 <sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="nobody">nobody yet</span></sc-if>
