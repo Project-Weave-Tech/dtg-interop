@@ -1,0 +1,75 @@
+{
+  "slug": "ad4m",
+  "name": "AD4M (Coasys)",
+  "website": "https://ad4m.dev",
+  "docs": "https://docs.ad4m.dev/",
+  "logo": "https://github.com/coasys.png?size=96",
+  "licence": "CAL-1.0 (ad4m)",
+  "repositories": [
+    "https://github.com/coasys/ad4m",
+    "https://github.com/coasys/flux"
+  ],
+  "apps": [
+    {
+      "kind": "desktop",
+      "label": "AD4M Launcher and executor (GitHub releases)",
+      "url": "https://github.com/coasys/ad4m/releases",
+      "status": "alpha"
+    }
+  ],
+  "stack": {
+    "didMethods": "did:key for agents",
+    "credentials": "none documented; every Expression is signed by its author",
+    "transport": "Holochain DHT per Neighbourhood; optional self-hosted link-server over HTTP and WebSocket",
+    "trustTasks": "none; pluggable Languages define how data is stored and shared",
+    "groups": "Neighbourhoods: app-independent shared graphs joined by URL, with access control in the Neighbourhood Expression (details not documented)",
+    "sharedState": "Perspectives as semantic graphs; Perspective Diff Sync, a CRDT on Holochain; Social DNA in SHACL",
+    "devices": "one executor per agent, on the device or a trusted host"
+  },
+  "facets": {
+    "didMethods": [
+      "did:key"
+    ],
+    "keys": [
+      "device"
+    ],
+    "credentials": [],
+    "transport": [
+      "Holochain"
+    ],
+    "relay": [
+      "none (Holochain DHT)",
+      "link-server (optional)"
+    ],
+    "trustTasks": [],
+    "language": [
+      "Rust",
+      "TypeScript"
+    ]
+  },
+  "requiredParty": "none by default (Holochain peers); an optional link-server",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "Agents are did:key."
+    },
+    "shared-room": {
+      "status": "potential",
+      "note": "Neighbourhoods are shared graphs synced by a link language."
+    },
+    "authority-model": {
+      "status": "potential",
+      "note": "Access control sits in the Neighbourhood Expression; the model is not documented."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-11-01",
+    "sources": [
+      "https://github.com/coasys/ad4m",
+      "https://docs.ad4m.dev/",
+      "https://docs.ad4m.dev/neighbourhoods"
+    ]
+  },
+  "updated": "2026-11-01"
+}
