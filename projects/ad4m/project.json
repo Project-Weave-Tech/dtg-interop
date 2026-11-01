@@ -81,10 +81,6 @@
     "shared-room": {
       "status": "potential",
       "note": "Neighbourhoods are shared graphs synced by a link language."
-    },
-    "authority-model": {
-      "status": "potential",
-      "note": "Access control sits in the Neighbourhood Expression; the model is not documented."
     }
   },
   "provenance": {

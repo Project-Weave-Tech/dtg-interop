@@ -243,14 +243,6 @@
       "status": "potential",
       "note": "Epoch chain gives newcomers earlier epochs."
     },
-    "key-agreement": {
-      "status": "potential",
-      "note": "MLS 0x0001 in Data Rooms."
-    },
-    "authority-model": {
-      "status": "potential",
-      "note": "Owner and host epoch."
-    },
     "registry-lookup": {
       "status": "runs",
       "note": "Trust registry as part of the VTC.",

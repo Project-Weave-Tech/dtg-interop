@@ -120,10 +120,6 @@
       "status": "potential",
       "note": "Direct connections with NAT traversal."
     },
-    "authority-model": {
-      "status": "potential",
-      "note": "Admins."
-    },
     "wire-conformance": {
       "status": "potential",
       "note": "No driver in tsp-conformance yet."

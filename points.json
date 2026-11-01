@@ -60,11 +60,6 @@
       "id": "conformance",
       "title": "Conformance",
       "asks": "How do we know a claim holds?"
-    },
-    {
-      "id": "collaboration",
-      "title": "Building together",
-      "asks": "How do the teams and their agents work across codebases?"
     }
   ],
   "points": [
@@ -95,8 +90,17 @@
       "derivedFrom": {
         "field": "credentials",
         "match": {
+          "model": [
+            "W3C VC 2.0",
+            "W3C VC 1.1"
+          ],
           "profiles": [
             "VRC"
+          ],
+          "proof": [
+            "eddsa-jcs-2022",
+            "eddsa-rdfc-2022",
+            "ecdsa-jcs-2019"
           ]
         }
       },
@@ -223,26 +227,12 @@
       "asks": "Two connected people on two different apps exchange a message each way, as a document both read.",
       "requires": [
         "Both apps: a relationship between the two people (contact-ceremony, or any ceremony both apps accept)",
-        "Both apps: the same message document type",
+        "Both apps: the same message document type, carrying a pairwise proof (a MAC or an equivalent construction) rather than a transferable signature",
         "Both apps: a path between them (same-carrier or cross-carrier)"
       ],
-      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, and the reply arrives the same way.",
-      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp",
+      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it.",
+      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp",
       "status": "accepted"
-    },
-    {
-      "id": "message-privacy",
-      "layer": "messaging",
-      "title": "Deniable messages",
-      "asks": "A message both apps read carries no proof a third party can verify.",
-      "requires": [
-        "Both apps: the shared message type with a pairwise proof (a MAC or an equivalent construction) instead of a transferable signature"
-      ],
-      "done": "A message carrying only a pairwise proof is shown by the other app, and a third party holding the envelope cannot show who wrote it.",
-      "origin": "rltp",
-      "status": "proposed",
-      "proposedBy": "rltp",
-      "candidate": "Merge into direct-message as a property of the shared message type; a separate run adds nothing the message-over-tsp pass criterion does not already check."
     },
     {
       "id": "membership-statement",
@@ -287,27 +277,12 @@
       "status": "accepted"
     },
     {
-      "id": "authority-model",
-      "layer": "membership",
-      "title": "Who decides what the group is",
-      "asks": "A membership statement names which authority model produced it (owner, committer race, steward, signed log), and another app reads that.",
-      "requires": [
-        "Community side: states its authority model in a named profile the membership statement refers to",
-        "Other app: reads the profile and shows or applies it"
-      ],
-      "done": "Another app reads from a membership statement which authority model produced it and shows or applies that.",
-      "origin": "Weave one-pager (how groups hold their own truth across apps, outliving founders); rltp",
-      "status": "proposed",
-      "proposedBy": "rltp",
-      "candidate": "Already a facet (groupAuthority). Keep only if the profile becomes part of the membership statement; otherwise drop."
-    },
-    {
       "id": "shared-room",
       "layer": "shared-state",
       "title": "Same group in two apps",
       "asks": "Several apps read and write the same encrypted shared state of one community.",
       "requires": [
-        "Host side: a group whose shared state is encrypted and joinable by welcome or invitation",
+        "Host side: a group whose shared state is encrypted under one group key agreement at the boundary (MLS 1.0, ciphersuite 0x0001), joinable by welcome or invitation",
         "Joining side: a client of its own implementation that joins, reads and writes"
       ],
       "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back.",
@@ -319,7 +294,7 @@
           ]
         }
       },
-      "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps)",
+      "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps); key agreement at the boundary from rltp (E13)",
       "weaveLevel": "2a",
       "status": "accepted"
     },
@@ -350,20 +325,6 @@
       "origin": "Weave deck, Level 0 question: is web access necessary and sufficient",
       "weaveLevel": "0",
       "status": "accepted"
-    },
-    {
-      "id": "key-agreement",
-      "layer": "keys",
-      "title": "Group key agreement at the boundary",
-      "asks": "Implementations with different internal key worlds share group keys through one agreement (MLS) where they meet.",
-      "requires": [
-        "Both sides: the same group key agreement at the boundary (MLS 1.0, ciphersuite 0x0001), whatever runs inside"
-      ],
-      "done": "Two implementations hold the same group key after a join and each decrypts a message the other encrypted under it, with no data room semantics involved.",
-      "origin": "rltp (E13), Consensual, OpenVTC Data Rooms",
-      "status": "proposed",
-      "proposedBy": "rltp",
-      "candidate": "Merge into shared-room: whoever passes shared-room on MLS has shown this. Keep only for an MLS-only run without a data room."
     },
     {
       "id": "captured-device",
@@ -458,32 +419,6 @@
       "done": "The shared runner re-derives another implementation's vectors byte-exact and finds the negatives.",
       "origin": "Trust Tasks task force; Weave one-pager (online test and compliance harness)",
       "status": "accepted"
-    },
-    {
-      "id": "ui-consistency",
-      "layer": "collaboration",
-      "title": "Consistent user interfaces",
-      "asks": "The same relationship class or ceremony warning is shown with the same words across apps.",
-      "requires": [
-        "Both apps: adopt a published shared vocabulary for relationship classes and ceremony warnings"
-      ],
-      "done": "Both apps show the same relationship class and the same warning for the same situation, by a shared vocabulary each one cites.",
-      "origin": "Weave one-pager (consistency across different user interfaces)",
-      "status": "accepted",
-      "candidate": "No run between two implementations; shown by comparing screens against the vocabulary. Keep as a point or move to a shared document."
-    },
-    {
-      "id": "agent-collaboration",
-      "layer": "collaboration",
-      "title": "Agents across codebases",
-      "asks": "A coding agent of one team contributes a correction or a vector to another team's repository.",
-      "requires": [
-        "Each team: a repository with written rules an agent can follow (an AGENTS.md or equivalent) and a way to accept changes from outside"
-      ],
-      "done": "An agent of one project files a change or a vector in another project's repository and it is accepted.",
-      "origin": "Weave one-pager (agent-assisted collaboration)",
-      "status": "accepted",
-      "candidate": "The one-pager asks for an end-to-end encrypted channel between agents; this board and its AGENTS.md are the channel in use. Keep as reformulated or drop."
     }
   ],
   "statusWords": {

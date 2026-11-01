@@ -158,14 +158,6 @@
       "status": "potential",
       "note": "Direct messages are MLS rooms of two today."
     },
-    "key-agreement": {
-      "status": "potential",
-      "note": "MLS 0x0001 rooms."
-    },
-    "authority-model": {
-      "status": "potential",
-      "note": "Committer race with settle window; admins in policy."
-    },
     "multi-device": {
       "status": "potential",
       "note": "Device set with persona card."

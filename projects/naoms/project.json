@@ -136,10 +136,6 @@
       "status": "potential",
       "note": "DIDComm v2 over iroh; no TSP documented."
     },
-    "authority-model": {
-      "status": "potential",
-      "note": "Hive chain with quorum; steward."
-    },
     "shared-room": {
       "status": "potential",
       "note": "Spaces as hash chains."

@@ -4,8 +4,7 @@
   "points": [
     "direct-message",
     "same-carrier",
-    "document-framework",
-    "message-privacy"
+    "document-framework"
   ],
   "summary": "After a shared ceremony, each side sends the other one message as a Trust Task document in a TSP envelope through one mediator. The receiving app shows it in the right conversation and can answer.",
   "participants": [
