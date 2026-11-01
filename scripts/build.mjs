@@ -56,6 +56,27 @@ githubFetched = issuesOk && reposOk
 // the snapshot only ever takes successful fetches
 if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
 
+// Derived point statuses: where a point names derivedFrom and a project said no
+// more than potential there, a matching detail entry with status runs makes the
+// point runs, marked derived, with the entry's evidence. Projects that said
+// spec, open, vectors or n/a themselves are left alone.
+const matches = (entry, match) => Object.entries(match).every(([k, accepted]) => {
+  const v = entry[k]
+  return Array.isArray(v) ? v.some((x) => accepted.includes(x)) : accepted.includes(v)
+})
+for (const pt of map.points) {
+  if (!pt.derivedFrom) continue
+  const { field, match } = pt.derivedFrom
+  for (const p of projects) {
+    const cell = p.points?.[pt.id]
+    if (cell && cell.status !== 'potential') continue
+    const entries = Array.isArray(p[field]) ? p[field] : p[field] ? [p[field]] : []
+    const hit = entries.find((e) => e.status === 'runs' && matches(e, match))
+    if (!hit) continue
+    ;(p.points ??= {})[pt.id] = { ...(cell ?? {}), status: 'runs', derived: { from: field, said: cell?.status ?? null }, evidence: hit.evidence ?? cell?.evidence ?? [] }
+  }
+}
+
 // Pairs: every result between two projects. shown: the points a pair has shown,
 // derived only from a pass (all points of the scenario) or a partial (its named
 // points); project statuses never add up to shown.

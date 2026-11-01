@@ -1,5 +1,5 @@
 {
-  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point is its own account of how far it meets the requirements; whether the point was shown between two projects follows only from a passing scenario result. Points marked proposed were suggested by one project and become accepted when a maintainer merges the change; a candidate line is an open question about the point itself.",
+  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point is its own account of how far it meets the requirements; whether the point was shown between two projects follows only from a passing scenario result. Points marked proposed were suggested by one project and become accepted when a maintainer merges the change; a candidate line is an open question about the point itself. Points with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than potential; the result is marked derived.",
   "layers": [
     {
       "id": "identity",
@@ -92,6 +92,14 @@
         "Each side: resolves the other side's DID method (did-resolution)"
       ],
       "done": "Each side verifies proof, context and issuer scope of a relationship credential the other side issued.",
+      "derivedFrom": {
+        "field": "credentials",
+        "match": {
+          "profiles": [
+            "VRC"
+          ]
+        }
+      },
       "origin": "Weave deck, Level 0a",
       "weaveLevel": "0a",
       "status": "accepted"
@@ -145,6 +153,18 @@
         "Both apps: seal and open messages for the other side's identifier"
       ],
       "done": "A sealed message from one app arrives at the other through one carrier and opens, in both directions.",
+      "derivedFrom": {
+        "field": "messaging",
+        "match": {
+          "protocol": [
+            "TSP 1.0",
+            "TSP (version not stated)"
+          ],
+          "via": [
+            "mediator"
+          ]
+        }
+      },
       "origin": "tsp-conformance, VTI",
       "status": "accepted"
     },
@@ -172,6 +192,14 @@
         "Each side: parses foreign Trust Task documents, with a shared library or its own"
       ],
       "done": "A document emitted by one app parses in the other as a Trust Task document and its proof verifies, even where the receiver does not know the type.",
+      "derivedFrom": {
+        "field": "trustTaskUse",
+        "match": {
+          "status": [
+            "runs"
+          ]
+        }
+      },
       "origin": "DTGWG Trust Tasks framework",
       "status": "accepted"
     },
@@ -283,6 +311,14 @@
         "Joining side: a client of its own implementation that joins, reads and writes"
       ],
       "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back.",
+      "derivedFrom": {
+        "field": "replication",
+        "match": {
+          "protocol": [
+            "MLS"
+          ]
+        }
+      },
       "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps)",
       "weaveLevel": "2a",
       "status": "accepted"

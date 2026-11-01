@@ -37,6 +37,18 @@
           "weaveLevel": { "type": "string", "maxLength": 4, "description": "The level in the Project Weave deck, if the point comes from there." },
           "status": { "enum": ["accepted", "proposed"] },
           "proposedBy": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,40}$", "description": "Project slug; required when proposed." },
+          "derivedFrom": {
+            "type": "object", "additionalProperties": false, "required": ["field", "match"],
+            "description": "How the build fills a project's status at this point from its detail fields when the project has not said more than potential: an entry of `field` with status runs that matches every key in `match` makes the point runs (derived), with that entry's evidence.",
+            "properties": {
+              "field": { "enum": ["credentials", "messaging", "replication", "trustTaskUse"] },
+              "match": {
+                "type": "object", "minProperties": 1,
+                "additionalProperties": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                "description": "Key of the entry → accepted values. A string value must be one of them; an array value must contain one of them."
+              }
+            }
+          },
           "candidate": { "type": "string", "maxLength": 240, "description": "An open question about the point itself: a proposal to merge it into another point or to drop it, with the reason. Removed when decided." }
         }
       }
