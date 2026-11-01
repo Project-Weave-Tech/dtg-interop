@@ -179,10 +179,6 @@
       "status": "potential",
       "note": "Holds VMCs issued by communities."
     },
-    "document-conformance": {
-      "status": "potential",
-      "note": "Conformance roadmap in the Trust Tasks TF discussions 905 and 914."
-    },
     "error-answers": {
       "status": "potential",
       "note": "@openvtc/trust-tasks includes trust-task-error; whether the wallet shows it is not documented."

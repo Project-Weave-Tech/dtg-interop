@@ -339,6 +339,10 @@
         {
           "label": "tf-proof vectors",
           "url": "https://github.com/real-life-org/trust-protocol/tree/main/vectors/tf-proof"
+        },
+        {
+          "label": "vectors/ (byte-exact, re-derived by conformance/)",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/index.md"
         }
       ]
     },
@@ -379,24 +383,6 @@
     "traditional-tools": {
       "status": "spec",
       "note": "A group points at its data (document.attach) and a tool asks only who belongs through the authorization view; not built."
-    },
-    "wire-conformance": {
-      "status": "n/a",
-      "note": "We use @openvtc/vti-tsp-js, the library tsp-conformance tests; a driver of our own would measure the same code."
-    },
-    "document-conformance": {
-      "status": "vectors",
-      "note": "Byte-exact vectors for every document type, re-derived by a runner; would join a shared document-level suite.",
-      "evidence": [
-        {
-          "label": "vectors/",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/index.md"
-        },
-        {
-          "label": "conformance/",
-          "url": "https://github.com/real-life-org/trust-protocol/tree/main/conformance"
-        }
-      ]
     }
   },
   "provenance": {

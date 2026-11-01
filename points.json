@@ -30,11 +30,6 @@
       "id": "networks",
       "title": "Networks",
       "asks": "How do communities recognise one another?"
-    },
-    {
-      "id": "conformance",
-      "title": "Conformance",
-      "asks": "How do we know a claim holds?"
     }
   ],
   "points": [
@@ -137,7 +132,7 @@
       "title": "Delivery through one carrier",
       "asks": "Two apps reach each other through the same mediator or relay.",
       "requires": [
-        "Both apps: speak the carrier's wire protocol (TSP for the VTI mediator) and have a relationship or an account at the same carrier",
+        "Both apps: speak the carrier's wire protocol (TSP for the VTI mediator) and have a relationship or an account at the same carrier; a passing run of tsp-conformance shows the wire side",
         "Both apps: seal and open messages for the other side's identifier"
       ],
       "done": "A sealed message from one app arrives at the other through one carrier and opens, in both directions.",
@@ -153,7 +148,7 @@
           ]
         }
       },
-      "origin": "tsp-conformance, VTI"
+      "origin": "tsp-conformance, VTI; wire conformance from OpenVTC tsp-conformance"
     },
     {
       "id": "cross-carrier",
@@ -185,7 +180,7 @@
           ]
         }
       },
-      "origin": "DTGWG Trust Tasks framework"
+      "origin": "DTGWG Trust Tasks framework; document conformance (shared vectors and runner) from the Trust Tasks task force and the Weave one-pager"
     },
     {
       "id": "error-answers",
@@ -333,35 +328,12 @@
       "done": "A community accepts a membership statement of a community it has no direct relation with, through one it has.",
       "origin": "Weave deck, Level 3b",
       "weaveLevel": "3b"
-    },
-    {
-      "id": "wire-conformance",
-      "layer": "conformance",
-      "title": "Wire conformance",
-      "asks": "The TSP implementation passes the shared conformance suite.",
-      "requires": [
-        "The implementation: a driver for the tsp-conformance protocol"
-      ],
-      "done": "The driver passes the shared conformance suite in a published run.",
-      "origin": "OpenVTC tsp-conformance"
-    },
-    {
-      "id": "document-conformance",
-      "layer": "conformance",
-      "title": "Document conformance",
-      "asks": "Document types are exercised by shared byte-exact vectors and a shared runner.",
-      "requires": [
-        "The implementation: byte-exact vectors for its document types in the shared format",
-        "A shared runner that re-derives them"
-      ],
-      "done": "The shared runner re-derives another implementation's vectors byte-exact and finds the negatives.",
-      "origin": "Trust Tasks task force; Weave one-pager (online test and compliance harness)"
     }
   ],
   "statusWords": {
     "potential": "compiled from public sources: the project appears to meet the requirements; not confirmed by the project",
     "runs": "the project meets the requirements in code or a live service another project can exercise today; not yet a run between two projects",
-    "vectors": "byte-exact test vectors published, not yet exercised against another implementation",
+    "vectors": "byte-exact test vectors published, re-derivable by a shared runner, not yet exercised against another implementation",
     "spec": "written down, not yet built",
     "open": "the project knows the gap and says so",
     "n/a": "the project does not aim at this point, with a reason"

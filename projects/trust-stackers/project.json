@@ -120,10 +120,6 @@
       "status": "potential",
       "note": "Direct connections with NAT traversal."
     },
-    "wire-conformance": {
-      "status": "potential",
-      "note": "No driver in tsp-conformance yet."
-    },
     "error-answers": {
       "status": "potential",
       "note": "Own task namespace task:p2pts; an error type is not documented."

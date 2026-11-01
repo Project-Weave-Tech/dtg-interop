@@ -202,6 +202,10 @@
         {
           "label": "tsp-conformance",
           "url": "https://github.com/OpenVTC/tsp-conformance"
+        },
+        {
+          "label": "tsp-conformance",
+          "url": "https://github.com/OpenVTC/tsp-conformance"
         }
       ]
     },
@@ -250,16 +254,6 @@
         {
           "label": "verifiable-trust-infrastructure",
           "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
-        }
-      ]
-    },
-    "wire-conformance": {
-      "status": "runs",
-      "note": "tsp-conformance: driver protocol over JSON Lines, drivers for Rust, TS, Go, Dart.",
-      "evidence": [
-        {
-          "label": "tsp-conformance",
-          "url": "https://github.com/OpenVTC/tsp-conformance"
         }
       ]
     },

@@ -16,8 +16,7 @@
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/905",
     "context": "What every Trust Task implementation must get identical for documents to be readable across apps.",
     "points": [
-      "document-framework",
-      "document-conformance"
+      "document-framework"
     ],
     "state": "open",
     "updated": "2026-10-28"
@@ -28,7 +27,7 @@
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/914",
     "context": "How a shared document-level conformance suite could be layered.",
     "points": [
-      "document-conformance"
+      "document-framework"
     ],
     "state": "open",
     "updated": "2026-10-30"
@@ -51,8 +50,7 @@
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/934",
     "context": "Lets any project publish its own document types so that others can pin and generate them.",
     "points": [
-      "document-framework",
-      "document-conformance"
+      "document-framework"
     ],
     "state": "implemented",
     "updated": "2026-10-26"
