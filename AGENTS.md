@@ -59,13 +59,13 @@ With write access, push straight to `main`:
 npm install
 # edit projects/<slug>/project.json
 npm run validate          # must print "valid: …"
-npm run build             # optional: builds site/dist to look at
-git pull --rebase
+git add projects/<slug>/
 git commit -m "<slug>: <what changed>"
+git pull --rebase
 git push
 ```
 
-One project per commit. Do not commit `site/github-snapshot.json` or `site/dist/`; the build changes them as a side effect.
+One project per commit; add only your own folder. If you ran `npm run build` to look at the board, reset what it changed before pulling (`git checkout -- site/github-snapshot.json`), otherwise the rebase stops on unstaged changes. A rebase conflict means someone else changed the same file in the meantime: keep both changes where they do not contradict, and ask the other side where they do.
 
 The deploy runs `npm run validate` before every publication. An invalid push is not published; the live board stays on the last good state. Whoever sees a failed run fixes it with a new commit.
 
