@@ -4,35 +4,183 @@
   "title": "DTG interop scenario",
   "type": "object",
   "additionalProperties": false,
-  "required": ["slug", "title", "points", "participants", "status", "updated"],
+  "required": [
+    "slug",
+    "title",
+    "points",
+    "participants",
+    "status",
+    "updated"
+  ],
   "properties": {
-    "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,60}$" },
-    "title": { "type": "string", "maxLength": 120 },
-    "points": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" }, "description": "Interop point ids from points.json this scenario exercises." },
-    "summary": { "type": "string", "maxLength": 400 },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,60}$"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "points": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]{1,40}$"
+      },
+      "description": "Interop point ids from points.json this scenario exercises."
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 400
+    },
     "participants": {
-      "type": "array", "minItems": 1,
-      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,40}$" },
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]{1,40}$"
+      },
       "description": "Project slugs. A scenario with one participant is a proposal waiting for a counterpart."
     },
-    "status": { "enum": ["proposed", "running", "passing", "failing"] },
-    "waitingOn": { "type": "string", "maxLength": 200, "description": "What has to happen next, in one line: a counterpart, a vector, a decision." },
-    "vectors": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["label", "url"], "properties": { "label": { "type": "string" }, "url": { "type": "string", "format": "uri" } } } },
-    "results": {
+    "status": {
+      "enum": [
+        "proposed",
+        "running",
+        "passing",
+        "failing"
+      ]
+    },
+    "waitingOn": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What has to happen next, in one line: a counterpart, a vector, a decision."
+    },
+    "vectors": {
       "type": "array",
       "items": {
-        "type": "object", "additionalProperties": false, "required": ["date", "sides", "outcome"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "url"
+        ],
         "properties": {
-          "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
-          "sides": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["project", "version"], "properties": { "project": { "type": "string" }, "version": { "type": "string" } } } },
-          "outcome": { "enum": ["pass", "fail", "partial"] },
-          "points": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" }, "description": "The points of the scenario this result shows. Omit when a pass shows all of them; required for a partial." },
-          "note": { "type": "string", "maxLength": 600 },
-          "protocol": { "type": "string", "format": "uri" }
+          "label": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       }
     },
-    "issue": { "type": "integer", "description": "Tracking issue number in this repository, if any." },
-    "updated": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "sides",
+          "outcome"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "sides": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "project",
+                "version"
+              ],
+              "properties": {
+                "project": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "outcome": {
+            "enum": [
+              "pass",
+              "fail",
+              "partial"
+            ]
+          },
+          "points": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]{1,40}$"
+            },
+            "description": "The points of the scenario this result shows. Omit when a pass shows all of them; required for a partial."
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 600
+          },
+          "protocol": {
+            "type": "string",
+            "format": "uri"
+          },
+          "reportedBy": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "project",
+              "sources"
+            ],
+            "description": "Present when neither side entered the result: the project that compiled it from public sources, and those sources. The board shows such a result as reported until one of the sides edits it and removes this field.",
+            "properties": {
+              "project": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]{1,40}$"
+              },
+              "sources": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "label",
+                    "url"
+                  ],
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "issue": {
+      "type": "integer",
+      "description": "Tracking issue number in this repository, if any."
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    }
   }
 }

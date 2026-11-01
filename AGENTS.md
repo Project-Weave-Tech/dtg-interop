@@ -103,6 +103,6 @@ Only ids from `points.json`. A missing point is added to `points.json` with `ori
 }
 ```
 
-`outcome` is `pass`, `fail` or `partial`; a `partial` also names the points it did show in `points`. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`. A scenario lists only the points whose `done` the run exercises; its README states the pass criterion in terms of those `done` sentences.
+`outcome` is `pass`, `fail` or `partial`; a `partial` also names the points it did show in `points`. A result you compile from public sources about two other projects carries `reportedBy: { project, sources }`; the board shows it as reported until one of the sides confirms it by editing the result and removing the field. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`. A scenario lists only the points whose `done` the run exercises; its README states the pass criterion in terms of those `done` sentences.
 
 **3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then push (or open a pull request if you have no write access yet).

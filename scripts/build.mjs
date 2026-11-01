@@ -79,15 +79,16 @@ for (const pt of map.points) {
 
 // Pairs: every result between two projects. shown: the points a pair has shown,
 // derived only from a pass (all points of the scenario) or a partial (its named
-// points); project statuses never add up to shown.
+// points); project statuses never add up to shown. A result neither side
+// entered carries reportedBy and is flagged reported here.
 const pairs = {}, shown = {}
 for (const s of scenarios) for (const r of s.results ?? []) {
   const slugs = [...new Set(r.sides.map((x) => x.project))].sort()
   const points = r.outcome === 'pass' ? s.points : r.outcome === 'partial' ? r.points ?? [] : []
   for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
     const key = `${slugs[i]}|${slugs[j]}`
-    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points })
-    for (const id of points) ((shown[key] ??= {})[id] ??= []).push({ scenario: s.slug, date: r.date })
+    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points, ...(r.reportedBy ? { reported: true } : {}) })
+    for (const id of points) ((shown[key] ??= {})[id] ??= []).push({ scenario: s.slug, date: r.date, ...(r.reportedBy ? { reported: true } : {}) })
   }
 }
 // Trust Tasks: every project's types resolved (inline or from trust-tasks.json),

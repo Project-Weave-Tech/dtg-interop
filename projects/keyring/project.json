@@ -191,11 +191,15 @@
     },
     "membership-statement": {
       "status": "stated",
-      "note": "Holds VMCs issued by communities.",
+      "note": "Holds VMCs and vetting credentials issued by VTI communities; shown with OpenVTC in Prague, October 2026.",
       "evidence": [
         {
           "label": "keyring-wallet",
           "url": "https://github.com/berkmancenter/keyring-wallet"
+        },
+        {
+          "label": "LFDT blog, 15 Oct 2026",
+          "url": "https://www.lfdecentralizedtrust.org/blog/lf-decentralized-trust-demonstrates-the-first-open-source-verifiable-trust-community-in-prague"
         }
       ]
     },
