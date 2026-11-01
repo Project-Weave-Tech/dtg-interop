@@ -295,6 +295,132 @@
           "description": "Short values; an empty list means none, a missing key means not known."
         }
       }
+    },
+    "trustTaskUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "description": "Which Trust Task types the project uses, where they come from, and how far along it is. A missing key means not known.",
+      "properties": {
+        "status": {
+          "enum": [
+            "runs",
+            "building",
+            "committed",
+            "none"
+          ],
+          "description": "runs: in running code. building: code exists, not complete. committed: announced or agreed, nothing running yet. none: uses no Trust Tasks."
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "namespaces": {
+          "type": "array",
+          "description": "Where the types come from.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "kind"
+            ],
+            "properties": {
+              "label": {
+                "type": "string",
+                "maxLength": 60
+              },
+              "prefix": {
+                "type": "string",
+                "maxLength": 120
+              },
+              "kind": {
+                "enum": [
+                  "registry",
+                  "own"
+                ]
+              }
+            }
+          }
+        },
+        "types": {
+          "type": "array",
+          "description": "Type URIs without version; a trailing /* stands for a whole family. An object entry overrides the status for one type.",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "type",
+                  "status"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed",
+                      "none"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "typesFile": {
+          "const": "trust-tasks.json",
+          "description": "Long type lists live in projects/<slug>/trust-tasks.json (extracted from the source)."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many types, where the list itself is not public."
+        },
+        "mapsTo": {
+          "type": "object",
+          "description": "Own type mapped to a registry type.",
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "url"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

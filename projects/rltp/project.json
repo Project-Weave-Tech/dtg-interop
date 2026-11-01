@@ -72,12 +72,9 @@
       "VTI mediator"
     ],
     "trustTasks": [
+      "own namespace real-life.org",
       "trust-task-error",
-      "rltp: encounter",
-      "rltp: membership",
-      "rltp: access",
-      "rltp: delivery",
-      "rltp: message"
+      "trust-task-next-step"
     ],
     "groupAuthority": [
       "signed log, no admin"
@@ -92,6 +89,29 @@
     "language": [
       "TypeScript",
       "JavaScript"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "runs",
+    "namespaces": [
+      {
+        "label": "real-life.org",
+        "prefix": "https://real-life.org/trust-tasks/spec/",
+        "kind": "own"
+      },
+      {
+        "label": "Trust Tasks registry",
+        "prefix": "https://trusttasks.org/spec/",
+        "kind": "registry"
+      }
+    ],
+    "typesFile": "trust-tasks.json",
+    "note": "Own types in the Trust Tasks framework; from the registry it reads trust-task-error (0.2 to 0.6) and trust-task-next-step.",
+    "evidence": [
+      {
+        "label": "trust-protocol",
+        "url": "https://github.com/real-life-org/trust-protocol"
+      }
     ]
   },
   "requiredParty": "the other person",
@@ -353,5 +373,5 @@
     "kind": "project",
     "date": "2026-10-31"
   },
-  "updated": "2026-10-31"
+  "updated": "2026-11-01"
 }

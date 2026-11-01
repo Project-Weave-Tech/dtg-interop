@@ -12,7 +12,7 @@
     "didMethods": "did:key, did:naoms, did:webvh",
     "credentials": "W3C VCs, VRCs after the First Person Project",
     "transport": "iroh/QUIC, mDNS, DIDComm v2; MLS for calls",
-    "trustTasks": "fork of the Trust Tasks registry and registry PRs",
+    "trustTasks": "own task library (~507 specs, not public); registry PRs closed unmerged",
     "groups": "Hives as signed hash chains with a quorum from current membership; steward role",
     "sharedState": "signed hash chain per space, encrypted storage",
     "devices": "FROST threshold signing across the devices of a person; did:key as root"
@@ -37,7 +37,8 @@
       "none (iroh, direct)"
     ],
     "trustTasks": [
-      "registry proposals: social-recovery"
+      "own library (~507)",
+      "social-recovery/*"
     ],
     "groupAuthority": [
       "steward, quorum chain"
@@ -51,6 +52,33 @@
     "language": [
       "Rust",
       "TypeScript"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "building",
+    "namespaces": [
+      {
+        "label": "NAOMS library",
+        "kind": "own"
+      }
+    ],
+    "count": 507,
+    "types": [
+      "social-recovery/buddies/add",
+      "social-recovery/buddies/list",
+      "social-recovery/buddies/remove",
+      "social-recovery/status/get"
+    ],
+    "note": "About 507 own specs, not public; four verified against the implementation. Registry PRs 672 and 674 closed unmerged on 2026-10-29; the maintainers suggested a NAOMS task library first.",
+    "evidence": [
+      {
+        "label": "registry PR 674",
+        "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/674"
+      },
+      {
+        "label": "registry PR 672",
+        "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/672"
+      }
     ]
   },
   "requiredParty": "a steward, per the public material",
@@ -93,5 +121,5 @@
       "https://github.com/javruben"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

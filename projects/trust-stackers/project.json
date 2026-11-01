@@ -33,7 +33,11 @@
       "none (libp2p, direct)"
     ],
     "trustTasks": [
-      "own namespace task:p2pts"
+      "own namespace task:p2pts",
+      "policy/*",
+      "credential/*",
+      "vtc/establish",
+      "governance/*"
     ],
     "groupAuthority": [
       "admins"
@@ -41,6 +45,28 @@
     "groupKeys": [],
     "language": [
       "TypeScript"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "runs",
+    "namespaces": [
+      {
+        "label": "p2pts",
+        "prefix": "task:p2pts:",
+        "kind": "own"
+      }
+    ],
+    "typesFile": "trust-tasks.json",
+    "mapsTo": {
+      "task:p2pts:policy:upsert": "https://trusttasks.org/spec/policy/upsert",
+      "task:p2pts:policy:evaluate": "https://trusttasks.org/spec/policy/evaluate"
+    },
+    "note": "Own namespace by choice (\"interop, not conformance\"); two policy types are mapped to registry types out of band.",
+    "evidence": [
+      {
+        "label": "type-uris.ts",
+        "url": "https://github.com/TrustStackers/p2p-trust-stack/blob/main/packages/core/src/services/trust-tasks/type-uris.ts"
+      }
     ]
   },
   "requiredParty": "none at runtime (direct libp2p); community admins",
@@ -77,5 +103,5 @@
       "https://github.com/TrustStackers/p2p-trust-stack"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

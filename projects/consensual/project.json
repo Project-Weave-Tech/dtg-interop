@@ -48,6 +48,21 @@
     ],
     "offline": [
       "yes"
+    ],
+    "trustTasks": [
+      "committed, nothing running"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "committed",
+    "namespaces": [],
+    "types": [],
+    "note": "Trust Task documents on plain TSP agreed as the shared layer; no running Trust Task code public yet. A shared-connect ceremony is drafted jointly with RLTP.",
+    "evidence": [
+      {
+        "label": "VTI spec issue 86",
+        "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86"
+      }
     ]
   },
   "requiredParty": "no central party; relays for rendezvous",
@@ -98,5 +113,5 @@
       "https://app.consenu.al"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

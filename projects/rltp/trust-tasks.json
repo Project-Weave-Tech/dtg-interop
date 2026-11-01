@@ -1,0 +1,27 @@
+{
+  "extracted": "2026-11-01",
+  "method": "type URIs in spec/ and lib/src/, versions dropped",
+  "sources": [
+    "https://github.com/real-life-org/trust-protocol/tree/75f1fa3997500dae30f4aa9f10ee239af969a9f2"
+  ],
+  "types": [
+    "https://real-life.org/trust-tasks/spec/access-operation",
+    "https://real-life.org/trust-tasks/spec/delivery-ack",
+    "https://real-life.org/trust-tasks/spec/delivery-carrier",
+    "https://real-life.org/trust-tasks/spec/encounter-bundle",
+    "https://real-life.org/trust-tasks/spec/encounter-credential-delivery",
+    "https://real-life.org/trust-tasks/spec/introduction-request",
+    "https://real-life.org/trust-tasks/spec/key-delivery",
+    "https://real-life.org/trust-tasks/spec/membership-accept",
+    "https://real-life.org/trust-tasks/spec/membership-evidence",
+    "https://real-life.org/trust-tasks/spec/membership-invite",
+    "https://real-life.org/trust-tasks/spec/membership-prelude-reply",
+    "https://real-life.org/trust-tasks/spec/membership-prelude-request",
+    "https://real-life.org/trust-tasks/spec/message",
+    "https://real-life.org/trust-tasks/spec/registry-declaration",
+    "https://real-life.org/trust-tasks/spec/removal-notice",
+    "https://real-life.org/trust-tasks/spec/sealed-envelope",
+    "https://trusttasks.org/spec/trust-task-error",
+    "https://trusttasks.org/spec/trust-task-next-step"
+  ]
+}

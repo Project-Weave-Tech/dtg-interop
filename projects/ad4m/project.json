@@ -47,6 +47,10 @@
       "TypeScript"
     ]
   },
+  "trustTaskUse": {
+    "status": "none",
+    "note": "Pluggable Languages define how data is stored and shared."
+  },
   "requiredParty": "none by default (Holochain peers); an optional link-server",
   "points": {
     "did-resolution": {

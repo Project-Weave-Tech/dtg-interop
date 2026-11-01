@@ -45,6 +45,10 @@
     ],
     "language": []
   },
+  "trustTaskUse": {
+    "status": "none",
+    "note": "ActivityStreams 2.0 profile with its own JSON-LD context."
+  },
   "requiredParty": "an engine hosting the civic space",
   "points": {
     "vrc-exchange": {
@@ -67,5 +71,5 @@
       "https://github.com/Mosaic-Foundation/civic-social-docs"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

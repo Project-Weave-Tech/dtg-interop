@@ -45,6 +45,10 @@
       "Go"
     ]
   },
+  "trustTaskUse": {
+    "status": "none",
+    "note": "Agreements and events with audit records."
+  },
   "requiredParty": "an archive for audit records",
   "points": {
     "vrc-exchange": {
@@ -64,5 +68,5 @@
       "https://github.com/jlinclabs"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

@@ -53,6 +53,9 @@
       "TypeScript"
     ]
   },
+  "trustTaskUse": {
+    "status": "none"
+  },
   "requiredParty": "the Hylo server",
   "points": {
     "did-resolution": {
@@ -86,5 +89,5 @@
       "https://www.hylo.com"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

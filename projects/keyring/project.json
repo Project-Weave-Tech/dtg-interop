@@ -19,7 +19,7 @@
     "didMethods": "did:peer, did:key, did:webvh",
     "credentials": "DTG VRC and witness credentials; credentials held in the wallet",
     "transport": "DIDComm v1/v2 between wallets; TSP (Rev 3 / 1.0) on the VTI peer leg",
-    "trustTasks": "@openvtc/trust-tasks 0.9.0 for VRC and witness tasks",
+    "trustTasks": "@openvtc/trust-tasks ^0.27.8; about 100 registry types (vtc, vta, vetting, acl, auth, vault, credential-exchange, witness, vrc)",
     "groups": "joins VTI communities; no group model of its own documented",
     "sharedState": "none documented",
     "devices": "one wallet per device; did:peer and did:key on the device, did:webvh personas via a VTA"
@@ -60,6 +60,24 @@
     "language": [
       "TypeScript",
       "JavaScript"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "runs",
+    "namespaces": [
+      {
+        "label": "Trust Tasks registry",
+        "prefix": "https://trusttasks.org/spec/",
+        "kind": "registry"
+      }
+    ],
+    "typesFile": "trust-tasks.json",
+    "note": "@openvtc/trust-tasks ^0.27.8 in keyring-bifold; older 0.6 to 0.9 pins in the tsp-reference stages of keyring-wallet.",
+    "evidence": [
+      {
+        "label": "keyring-bifold",
+        "url": "https://github.com/berkmancenter/keyring-bifold"
+      }
     ]
   },
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
@@ -107,5 +125,5 @@
       "https://github.com/berkmancenter/keyring-bifold"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

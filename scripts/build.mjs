@@ -1,5 +1,5 @@
 // Builds site/dist/data.json for the board from points.json, threads.json,
-// projects/*/project.json and scenarios/*/scenario.json, plus what GitHub
+// projects/*/project.json (with trust-tasks.json) and scenarios/*/scenario.json, plus what GitHub
 // reports: licence and last push of every project repository, and this
 // repository's own issues (shown among the threads). GitHub is the database;
 // data.json is a view. Without network access the committed snapshot is used.
@@ -48,7 +48,37 @@ for (const s of scenarios) for (const r of s.results ?? []) {
   const slugs = [...new Set(r.sides.map((x) => x.project))].sort()
   for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) (pairs[`${slugs[i]}|${slugs[j]}`] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome })
 }
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, threads: [...threads, ...issues], repos }
+// Trust Tasks: every project's types resolved (inline or from trust-tasks.json),
+// then for each type who uses it, and for each pair of projects what they share.
+// An own type mapped to a registry type counts for that registry type too (via).
+const REGISTRY = 'https://trusttasks.org/spec/'
+const covers = (a, b) => a === b || (a.endsWith('/*') && b.startsWith(a.slice(0, -1)))
+const users = new Map()
+for (const p of projects) {
+  const u = p.trustTaskUse
+  if (!u) continue
+  const fileTypes = u.typesFile ? read(`projects/${p.slug}/${u.typesFile}`) : null
+  const types = [...(u.types ?? []), ...(fileTypes?.types ?? [])].map((t) => (typeof t === 'string' ? { type: t, status: u.status } : t))
+  p.trustTaskUse = { ...u, types, ...(fileTypes ? { typesSource: { extracted: fileTypes.extracted, method: fileTypes.method, sources: fileTypes.sources } } : {}) }
+  const add = (type, use) => { const list = users.get(type) ?? []; list.push(use); users.set(type, list) }
+  for (const t of types) {
+    add(t.type, { project: p.slug, status: t.status })
+    if (u.mapsTo?.[t.type]) add(u.mapsTo[t.type], { project: p.slug, status: t.status, via: t.type })
+  }
+  p.trustTaskUse.summary = { registry: types.filter((t) => t.type.startsWith(REGISTRY)).length, own: types.filter((t) => !t.type.startsWith(REGISTRY)).length, ...(u.count ? { count: u.count } : {}) }
+}
+const ttTypes = [...users].map(([type, list]) => ({ type, registry: type.startsWith(REGISTRY), family: type.startsWith(REGISTRY) ? type.slice(REGISTRY.length).split('/')[0] : null, users: list }))
+// a family wildcard (x/*) of one project meets the exact types of another
+for (const w of ttTypes.filter((t) => t.type.endsWith('/*'))) for (const t of ttTypes) if (t !== w && covers(w.type, t.type)) for (const u of w.users) if (!t.users.some((x) => x.project === u.project)) t.users.push({ ...u, via: w.type })
+ttTypes.sort((a, b) => b.users.length - a.users.length || a.type.localeCompare(b.type))
+const ttShared = {}
+for (const t of ttTypes) {
+  const slugs = [...new Set(t.users.map((u) => u.project))].sort()
+  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) (ttShared[`${slugs[i]}|${slugs[j]}`] ??= []).push(t.type)
+}
+const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared }
+
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))

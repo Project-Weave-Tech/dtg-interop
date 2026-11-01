@@ -59,11 +59,11 @@
     "trustTasks": [
       "trust-task-error",
       "trust-task-discovery",
+      "vtc/*",
+      "vta/*",
+      "persona/*",
       "rooms/*",
-      "vtc/directory/*",
-      "provision/vta/*",
-      "messaging/*",
-      "sync/event"
+      "auth/*"
     ],
     "groupAuthority": [
       "owner / host"
@@ -77,6 +77,24 @@
     "language": [
       "Rust",
       "TypeScript"
+    ]
+  },
+  "trustTaskUse": {
+    "status": "runs",
+    "namespaces": [
+      {
+        "label": "Trust Tasks registry",
+        "prefix": "https://trusttasks.org/spec/",
+        "kind": "registry"
+      }
+    ],
+    "typesFile": "trust-tasks.json",
+    "note": "Every wire operation is bound to a versioned Trust Task; trust-tasks-rs. OpenVTC maintains the registry.",
+    "evidence": [
+      {
+        "label": "verifiable-trust-infrastructure",
+        "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+      }
     ]
   },
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
@@ -189,5 +207,5 @@
       "https://www.firstperson.network/white-paper"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

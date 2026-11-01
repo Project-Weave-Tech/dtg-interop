@@ -1,0 +1,25 @@
+{
+  "extracted": "2026-11-01",
+  "method": "task types defined in packages/core/src/services/trust-tasks/type-uris.ts, versions dropped",
+  "sources": [
+    "https://github.com/TrustStackers/p2p-trust-stack/blob/d7ebe8f2dc6cc1e7bbe4ff40d6debf2f9184b84c/packages/core/src/services/trust-tasks/type-uris.ts"
+  ],
+  "types": [
+    "task:p2pts:ceremony:co-sign",
+    "task:p2pts:ceremony:propose",
+    "task:p2pts:credential:invitation-vic",
+    "task:p2pts:credential:membership-vmc",
+    "task:p2pts:credential:onboarding-vmc",
+    "task:p2pts:credential:relationship-vrc",
+    "task:p2pts:error:trust-task",
+    "task:p2pts:governance:apply-change",
+    "task:p2pts:policy:evaluate",
+    "task:p2pts:policy:governance-change-authorized",
+    "task:p2pts:policy:invitation-vic-authorized",
+    "task:p2pts:policy:membership-vmc-authorized",
+    "task:p2pts:policy:test",
+    "task:p2pts:policy:upsert",
+    "task:p2pts:policy:validate",
+    "task:p2pts:vtc:establish"
+  ]
+}

@@ -43,6 +43,10 @@
       "Guile Scheme"
     ]
   },
+  "trustTaskUse": {
+    "status": "none",
+    "note": "ValueFlows vocabulary."
+  },
   "requiredParty": "not stated publicly",
   "points": {
     "did-resolution": {
@@ -66,5 +70,5 @@
       "https://www.valueflo.ws/"
     ]
   },
-  "updated": "2026-10-30"
+  "updated": "2026-11-01"
 }

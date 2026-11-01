@@ -1,4 +1,5 @@
-// Validates points.json, threads.json, projects/*/project.json and
+// Validates points.json, threads.json, projects/*/project.json (with an
+// optional projects/*/trust-tasks.json) and
 // scenarios/*/scenario.json against the schemas and checks that every point id
 // and participant slug exists. Exits 1 with every error.
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
@@ -12,6 +13,7 @@ const ajv = new Ajv2020({ allErrors: true, strict: true }); addFormats(ajv)
 const projectSchema = ajv.compile(read('schema/project.schema.json'))
 const scenarioSchema = ajv.compile(read('schema/scenario.schema.json'))
 const threadSchema = ajv.compile(read('schema/thread.schema.json'))
+const trustTasksSchema = ajv.compile(read('schema/trust-tasks.schema.json'))
 const map = read('points.json')
 const layerIds = new Set(map.layers.map((l) => l.id))
 const pointIds = new Set(map.points.map((p) => p.id))
@@ -34,6 +36,10 @@ for (const slug of folders('projects')) {
     if (['runs', 'vectors'].includes(cell.status) && !(cell.evidence?.length)) errors.push(`${file}: point ${id} is "${cell.status}" without evidence`)
   }
   if (!existsSync(join(root, `projects/${slug}/README.md`))) errors.push(`projects/${slug}/README.md: missing`)
+  const tt = `projects/${slug}/trust-tasks.json`
+  if (row.trustTaskUse?.typesFile && !existsSync(join(root, tt))) errors.push(`${tt}: named in trustTaskUse.typesFile but missing`)
+  if (existsSync(join(root, tt)) && !trustTasksSchema(read(tt))) errors.push(`${tt}: ${ajv.errorsText(trustTasksSchema.errors, { separator: '\n  ' })}`)
+  if (row.trustTaskUse?.status === 'runs' && !(row.trustTaskUse.evidence?.length)) errors.push(`${file}: trustTaskUse is "runs" without evidence`)
   projects.set(slug, row)
 }
 for (const slug of folders('scenarios')) {
