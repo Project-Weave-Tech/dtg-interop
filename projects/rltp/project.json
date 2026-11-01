@@ -1,6 +1,7 @@
 {
   "slug": "rltp",
   "name": "Real Life Trust Protocol",
+  "purpose": "Trust rooted in real encounters between people, recorded as verifiable credentials, without a certifying institution.",
   "website": "https://trust-protocol.real-life.org",
   "docs": "https://trust-protocol.real-life.org/",
   "logo": "https://trust-protocol.real-life.org/favicon.svg",

@@ -1,6 +1,7 @@
 {
   "slug": "your-slug",
   "name": "Your project",
+  "purpose": "One sentence on what the project sets out to do, in its own words.",
   "website": "https://example.org",
   "docs": "https://example.org/docs",
   "licence": "SPDX identifiers, one per repository if they differ",

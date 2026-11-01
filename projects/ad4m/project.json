@@ -1,6 +1,7 @@
 {
   "slug": "ad4m",
   "name": "AD4M (Coasys)",
+  "purpose": "One open layer for identity, data and a group's shared spaces, where every agent, human or AI, runs its own node.",
   "website": "https://ad4m.dev",
   "docs": "https://docs.ad4m.dev/",
   "logo": "https://github.com/coasys.png?size=96",

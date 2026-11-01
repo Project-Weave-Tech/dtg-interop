@@ -1,6 +1,7 @@
 {
   "slug": "keyring",
   "name": "Keyring (Harvard Applied Technology Lab)",
+  "purpose": "Phone wallet for your own identity, your relationships and the communities you belong to.",
   "logo": "logo-keyring.png",
   "licence": "Apache-2.0",
   "repositories": [

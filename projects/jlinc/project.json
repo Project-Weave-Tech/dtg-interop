@@ -1,6 +1,7 @@
 {
   "slug": "jlinc",
   "name": "JLINC",
+  "purpose": "Data sharing under verifiable contractual agreements, with zero-knowledge auditing.",
   "website": "https://protocol.jlinc.io/",
   "logo": "logo-jlinc.png",
   "licence": "jlinx Apache-2.0; jlinc-node UNLICENSED; didserver none stated",

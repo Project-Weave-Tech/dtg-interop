@@ -1,6 +1,7 @@
 {
   "slug": "civic-social",
   "name": "Civic.Social",
+  "purpose": "Open, federated infrastructure connecting the pro-democracy ecosystem.",
   "docs": "https://github.com/Mosaic-Foundation/civic-social-docs",
   "logo": "logo-civic-social.png",
   "licence": "CC-BY-4.0 (specs)",

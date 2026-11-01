@@ -1,6 +1,7 @@
 {
   "slug": "trust-stackers",
   "name": "Trust Stackers / p2p-trust-stack",
+  "purpose": "Peer-to-peer trust API on libp2p: TSP, DIDs, relationships, verified trust communities and credentials.",
   "logo": "https://github.com/TrustStackers.png?size=96",
   "licence": "GPL-3.0-only or commercial, CLA",
   "repositories": [

@@ -1,6 +1,7 @@
 {
   "slug": "naoms",
   "name": "NAOMS",
+  "purpose": "Identity, encrypted storage, sync, self-governing groups and a trust network on people's own devices, with no servers.",
   "website": "https://naoms.dev",
   "docs": "https://blog.naoms.dev/",
   "licence": "core not public; mirror MIT",

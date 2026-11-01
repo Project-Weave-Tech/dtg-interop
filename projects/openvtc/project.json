@@ -1,6 +1,7 @@
 {
   "slug": "openvtc",
   "name": "OpenVTC / Verifiable Trust Infrastructure",
+  "purpose": "Verifiable trust relationships within communities, starting with developers (\"Know Your Developer\"), after the First Person Project.",
   "website": "https://openvtc.net",
   "docs": "https://firstperson.dev/",
   "logo": "https://github.com/OpenVTC.png?size=96",

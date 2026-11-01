@@ -24,6 +24,11 @@
       "minLength": 1,
       "maxLength": 80
     },
+    "purpose": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "One sentence on what the project sets out to do, in its own words. Omit rather than guess."
+    },
     "website": {
       "type": "string",
       "format": "uri"
