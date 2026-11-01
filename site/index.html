@@ -42,6 +42,14 @@ body{margin:0;background:#F6F6F3}
 .prov-project::before{background:var(--ink)}
 .prov-public::before{border:1.5px solid var(--muted)}
 .prov-public{color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block;box-sizing:border-box}
+.dot.prov-project{background:var(--ink)}
+.dot.prov-public{border:1.5px solid var(--muted)}
+.repos{display:flex;flex-direction:column;gap:2px}
+.repo{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plegend{margin:0;padding:10px 20px 14px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.plegend .dot{margin-left:6px}
+.plegend .dot:first-child{margin-left:0}
 .chips{display:flex;flex-wrap:wrap;gap:4px 6px}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);max-width:100%}
 .chip .st{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
@@ -132,11 +140,11 @@ body{margin:0;background:#F6F6F3}
 <div class="wrap">
 <section class="block" aria-labelledby="h-projects">
 <div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p></div>
-<div class="prow prow-h"><span>Project</span><span>Source</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span></div>
+<div class="prow prow-h"><span>Project</span><span>Repositories</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span></div>
 <sc-for list="{{projects}}" as="p" hint-placeholder-count="11">
 <div class="prow">
-<button class="pname" sc-camel-on-click="{{p.open}}"><span class="num">{{p.num}}</span><span class="pn">{{p.short}}</span></button>
-<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span class="prov {{p.provCls}}">{{p.prov}}</span><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
+<button class="pname" sc-camel-on-click="{{p.open}}"><span class="dot {{p.provCls}}" title="{{p.prov}}" aria-label="{{p.prov}}"></span><span class="pn">{{p.short}}</span></button>
+<div class="repos" style="min-width: 0"><span class="lbl">Repositories</span><sc-for list="{{p.repos}}" as="r" hint-placeholder-count="2"><a class="repo mono" href="{{r.url}}" target="_blank" rel="noopener" title="{{r.title}}">{{r.name}}</a></sc-for><sc-if value="{{p.moreRepos}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" sc-camel-on-click="{{p.open}}">+{{p.more}}</button></sc-if><sc-if value="{{p.noRepos}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">no public repository</span></sc-if><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
 <div class="wide" style="min-width: 0"><span class="lbl">DID methods</span><div class="clamp mono" title="{{p.did}}">{{p.did}}</div></div>
 <div class="wide" style="min-width: 0"><span class="lbl">Transport</span><div class="clamp" title="{{p.transport}}">{{p.transport}}</div></div>
 <div class="wide" style="min-width: 0"><span class="lbl">Groups</span><div class="clamp" title="{{p.groups}}">{{p.groups}}</div></div>
@@ -146,6 +154,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 </div>
 </sc-for>
+<p class="plegend"><span class="dot prov-project"></span>confirmed by the project <span class="dot prov-public"></span>compiled from public sources, not yet confirmed</p>
 </section>
 </div>
 </sc-if>
@@ -262,12 +271,14 @@ class Component extends DCLogic {
     const projects = P.map((p, i) => {
       const st = p.stack || {};
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status }));
+      const repoList = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; const name = r.name || u.replace(/^https?:\/\/(www\.)?(github\.com\/)?/, ''); return { url: u, name, title: name + (r.licence ? ' · ' + r.licence : '') + (r.pushedAt ? ' · pushed ' + this.fmt(r.pushedAt) : '') }; });
       return {
         num: i + 1, short: short(p), open: () => this.setState({ open: p.slug }),
         prov: isPub(p) ? 'Public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         did: st.didMethods || 'not stated', transport: st.transport || 'not stated', groups: st.groups || 'not stated',
         apps, noApps: apps.length === 0, stale: stale(p.updated), updated: this.fmt(p.updated),
+        repos: repoList.slice(0, 3), more: repoList.length - 3, moreRepos: repoList.length > 3, noRepos: repoList.length === 0,
       };
     });
 

@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-11-01T04:27:50.050Z",
+  "fetched": "2026-11-01T04:33:14.556Z",
   "issues": [],
   "repos": {
     "https://github.com/Mosaic-Foundation/civic-social-docs": {
@@ -13,84 +13,52 @@
       "pushedAt": "2026-10-31"
     },
     "https://github.com/jlinclabs/jlinc-node": {
-      "name": "jlinclabs/jlinc-node",
-      "licence": null,
-      "pushedAt": "2023-06-15"
+      "error": "/repos/jlinclabs/jlinc-node: 403"
     },
     "https://github.com/jlinclabs/jlinx": {
-      "name": "jlinclabs/jlinx",
-      "licence": "Apache-2.0",
-      "pushedAt": "2023-03-09"
+      "error": "/repos/jlinclabs/jlinx: 403"
     },
     "https://github.com/jlinclabs/didserver": {
-      "name": "jlinclabs/didserver",
-      "licence": null,
-      "pushedAt": "2025-01-16"
+      "error": "/repos/jlinclabs/didserver: 403"
     },
     "https://github.com/berkmancenter/keyring-wallet": {
-      "name": "berkmancenter/keyring-wallet",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-11-01"
+      "error": "/repos/berkmancenter/keyring-wallet: 403"
     },
     "https://github.com/berkmancenter/keyring-bifold": {
-      "name": "berkmancenter/keyring-bifold",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/berkmancenter/keyring-bifold: 403"
     },
     "https://github.com/javruben/naoms-flow-funding": {
-      "name": "javruben/naoms-flow-funding",
-      "licence": "MIT",
-      "pushedAt": "2026-10-01"
+      "error": "/repos/javruben/naoms-flow-funding: 403"
     },
     "https://github.com/javruben/naoms-devlog": {
-      "name": "javruben/naoms-devlog",
-      "licence": null,
-      "pushedAt": "2026-10-31"
+      "error": "/repos/javruben/naoms-devlog: 403"
     },
     "https://github.com/OpenVTC/verifiable-trust-infrastructure": {
-      "name": "OpenVTC/verifiable-trust-infrastructure",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-11-01"
+      "error": "/repos/OpenVTC/verifiable-trust-infrastructure: 403"
     },
     "https://github.com/OpenVTC/openvtc": {
-      "name": "OpenVTC/openvtc",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/OpenVTC/openvtc: 403"
     },
     "https://github.com/OpenVTC/dtg-credentials": {
-      "name": "OpenVTC/dtg-credentials",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/OpenVTC/dtg-credentials: 403"
     },
     "https://github.com/OpenVTC/tsp-conformance": {
-      "name": "OpenVTC/tsp-conformance",
-      "licence": null,
-      "pushedAt": "2026-10-22"
+      "error": "/repos/OpenVTC/tsp-conformance: 403"
     },
     "https://github.com/OpenVTC/vti-setup": {
-      "name": "OpenVTC/vti-setup",
-      "licence": null,
-      "pushedAt": "2026-10-23"
+      "error": "/repos/OpenVTC/vti-setup: 403"
     },
     "https://github.com/real-life-org/trust-protocol": {
-      "name": "real-life-org/trust-protocol",
-      "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/real-life-org/trust-protocol: 403"
     },
     "https://github.com/real-life-org/web-of-trust": {
-      "name": "real-life-org/web-of-trust",
-      "licence": "MIT",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/real-life-org/web-of-trust: 403"
     },
     "https://github.com/real-life-org/port-experimente": {
-      "name": "real-life-org/port-experimente",
-      "licence": "MIT",
-      "pushedAt": "2026-10-26"
+      "error": "/repos/real-life-org/port-experimente: 403"
     },
     "https://github.com/TrustStackers/p2p-trust-stack": {
-      "name": "TrustStackers/p2p-trust-stack",
-      "licence": "GPL-3.0",
-      "pushedAt": "2026-10-31"
+      "error": "/repos/TrustStackers/p2p-trust-stack: 403"
     }
   }
 }
