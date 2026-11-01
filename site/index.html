@@ -107,12 +107,24 @@ body{margin:0;background:#F6F6F3}
 .tbl-box{overflow-x:auto}
 .trw{display:grid;gap:12px;align-items:start;padding:8px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
 .thead{position:sticky;top:0;z-index:2;background:var(--surface);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px;align-items:end}
-.c0{position:sticky;left:0;z-index:1;background:var(--surface);padding-right:8px}
+.c0{position:sticky;left:0;z-index:1;background:var(--surface);padding-right:8px;align-self:stretch;align-items:flex-start}
 .thead .c0{z-index:3}
-.cell{display:flex;flex-direction:column;gap:2px;min-width:0}
+.cell{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;min-width:0;align-items:flex-start}
+.tchip{display:inline-flex;align-items:center;border:0;border-radius:999px;padding:2px 9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:18px;cursor:pointer;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;transition:transform .12s ease,box-shadow .12s ease}
+.tchip:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.tchip.on{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px currentColor}
+.offb{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:0;cursor:pointer;font-size:12.5px;font-weight:500}
+.offb.ok{color:var(--green-t)}
+.offb.bad{color:var(--red-t)}
+.offb.on .ico{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px currentColor}
+.ico{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+.act{display:inline-flex;align-items:center;gap:8px;font-size:12px}
+.fdot{width:8px;height:8px;border-radius:50%;flex:none;background:currentColor !important}
+.tbl .trw:not(.thead){transition:background .15s}
+.tbl .trw:not(.thead):hover,.tbl .trw:not(.thead):hover .c0{background:var(--soft)}
 .val{overflow-wrap:anywhere}
-.vlink{font-size:12px;overflow-wrap:anywhere}
-.unk{color:var(--warn);font-family:"IBM Plex Mono",monospace;font-size:12px}
+.vlink{font-size:12px;overflow-wrap:anywhere;flex-basis:100%}
+.unk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--muted);color:var(--muted);font-size:11px;font-weight:600;box-sizing:border-box}
 @media (max-width: 640px){.frow{grid-template-columns:minmax(0,1fr)}.trw{padding:8px 16px}}
 @media (max-width: 1000px){
 .prow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
@@ -125,6 +137,40 @@ body{margin:0;background:#F6F6F3}
 .kv{grid-template-columns:minmax(0,1fr)}
 .kv dt{margin-top:6px}
 }
+.board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
+.board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}}
+.h-blue{background:var(--blue-b);color:var(--blue-t)}.h-teal{background:var(--teal-b);color:var(--teal-t)}.h-violet{background:var(--violet-b);color:var(--violet-t)}.h-amber{background:var(--amber-b);color:var(--amber-t)}.h-pink{background:var(--pink-b);color:var(--pink-t)}.h-green{background:var(--green-b);color:var(--green-t)}.h-red{background:var(--red-b);color:var(--red-t)}.h-slate{background:var(--slate-b);color:var(--slate-t)}.h-rust{background:var(--rust-b);color:var(--rust-t)}.h-sky{background:var(--sky-b);color:var(--sky-t)}.h-olive{background:var(--olive-b);color:var(--olive-t)}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;font-weight:600;font-size:12.5px;letter-spacing:.02em;flex:none;position:relative;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.av-sm{width:26px;height:26px;border-radius:7px;font-size:10.5px}
+.av.pub::after,.av.conf::after{content:"";position:absolute;right:-3px;bottom:-3px;width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.av.pub::after{background:var(--surface);border:2px dashed var(--muted)}
+.av.conf::after{background:var(--green-t);border:2px solid var(--surface)}
+.board a.av{text-decoration:none;transition:transform .12s ease}
+.board a.av:hover{transform:translateY(-2px)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--green-t);position:relative;flex:none;display:inline-block}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green-t);opacity:0;animation:dtgring 2s ease-out infinite}
+@keyframes dtgring{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse::after{animation:none}}
+.still{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.pill{border-width:1.5px;font-weight:500}
+.s-runs{background:var(--green-t);color:var(--surface);border-color:var(--green-t)}
+.s-vectors{background:var(--blue-b);color:var(--blue-t);border-color:var(--blue-t)}
+.s-spec{background:var(--violet-b);color:var(--violet-t);border:1.5px dashed var(--violet-t)}
+.s-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.s-na{color:var(--muted)}
+.s-potential{color:var(--muted);font-style:italic;border:1.5px dotted var(--muted)}
+.o-pass{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.o-partial{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.o-fail{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-proposed{background:var(--slate-b);color:var(--slate-t);border-color:transparent}
+.st-running{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-passing{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.st-failing{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.btn-icon{width:40px;height:40px;padding:0;justify-content:center}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -138,8 +184,8 @@ body{margin:0;background:#F6F6F3}
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <span class="mono muted">data {{head.generated}}</span>
-<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
-<a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
+<button class="btn btn-icon" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<a class="btn btn-icon" href="{{head.repo}}" target="_blank" rel="noopener" aria-label="Repository on GitHub" title="Repository on GitHub"><svg width="18" height="18" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
@@ -165,24 +211,25 @@ body{margin:0;background:#F6F6F3}
 <div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p>
 <div class="tools"><button class="btn {{filterBtnCls}}" type="button" aria-expanded="{{showFilters}}" sc-camel-on-click="{{toggleFilters}}">Filter{{filterCount}}</button><button class="btn {{colBtnCls}}" type="button" aria-expanded="{{showColumns}}" sc-camel-on-click="{{toggleColumns}}">Columns{{hiddenCount}}</button></div></div>
 <sc-if value="{{showColumns}}" hint-placeholder-val="{{ false }}"><div class="panel"><div class="frow"><span class="plbl">Show</span><div class="chips"><sc-for list="{{colToggles}}" as="c" hint-placeholder-count="12"><button class="fchip {{c.cls}}" type="button" aria-pressed="{{c.on}}" sc-camel-on-click="{{c.toggle}}">{{c.label}}</button></sc-for></div></div><div class="frow"><span class="plbl"></span><div class="chips"><button class="linkbtn" type="button" sc-camel-on-click="{{showAllCols}}">show all</button></div></div></div></sc-if>
-<sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}"><div class="panel"><sc-for list="{{filterGroups}}" as="g" hint-placeholder-count="11"><div class="frow"><span class="plbl">{{g.label}}</span><div class="chips"><sc-for list="{{g.values}}" as="v" hint-placeholder-count="3"><button class="fchip {{v.cls}}" type="button" aria-pressed="{{v.on}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}<span class="cnt">{{v.count}}</span></button></sc-for></div></div></sc-for></div></sc-if>
+<sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}"><div class="panel"><sc-for list="{{filterGroups}}" as="g" hint-placeholder-count="11"><div class="frow"><span class="plbl">{{g.label}}</span><div class="chips"><sc-for list="{{g.values}}" as="v" hint-placeholder-count="3"><button class="fchip {{v.cls}}" type="button" aria-pressed="{{v.on}}" sc-camel-on-click="{{v.toggle}}"><span class="fdot {{v.hue}}" aria-hidden="true"></span>{{v.label}}<span class="cnt">{{v.count}}</span></button></sc-for></div></div></sc-for></div></sc-if>
 <sc-if value="{{hasActive}}" hint-placeholder-val="{{ false }}"><div class="activebar"><span class="muted">{{shownLine}}</span><sc-for list="{{active}}" as="f" hint-placeholder-count="1"><button class="fchip on" type="button" sc-camel-on-click="{{f.remove}}" aria-label="Remove filter {{f.label}}">{{f.label}} ×</button></sc-for><button class="linkbtn" type="button" sc-camel-on-click="{{clearFilters}}">clear all</button></div></sc-if>
 <div class="tbl-box"><div class="tbl" style="min-width: {{minW}}">
 <div class="trw thead" style="grid-template-columns: {{grid}}"><span class="c0">Project</span><sc-for list="{{heads}}" as="h" hint-placeholder-count="12"><span>{{h}}</span></sc-for></div>
 <sc-for list="{{rows}}" as="p" hint-placeholder-count="11">
 <div class="trw" style="grid-template-columns: {{grid}}">
-<button class="pname c0" type="button" sc-camel-on-click="{{p.open}}"><span class="dot {{p.provCls}}" title="{{p.prov}}" aria-label="{{p.prov}}"></span><span class="pn">{{p.short}}</span></button>
+<button class="pname c0" type="button" title="{{p.prov}}" sc-camel-on-click="{{p.open}}"><span class="av {{p.hue}} {{p.avCls}}" aria-hidden="true" style="{{p.logoStyle}}">{{p.mono}}</span><span class="pn">{{p.short}}</span></button>
 <sc-for list="{{p.cells}}" as="c" hint-placeholder-count="12"><div class="cell">
 <sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
-<sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}">{{v.label}}</a></sc-if><sc-if value="{{v.plain}}" hint-placeholder-val="{{ true }}"><span class="val">{{v.label}}</span></sc-if></sc-for>
+<sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}">{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
+<sc-if value="{{c.activity}}" hint-placeholder-val="{{ false }}"><span class="act"><sc-if value="{{c.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{c.cold}}" hint-placeholder-val="{{ true }}"><span class="still" style="background: {{c.dot}}" aria-hidden="true"></span></sc-if>{{c.act}}</span></sc-if>
 <sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
 </div></sc-for>
 </div>
 </sc-for>
 <sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><p class="muted" style="padding: 16px 20px; margin: 0">No project matches these filters.</p></sc-if>
 </div></div>
-<p class="plegend"><span class="dot prov-project"></span>confirmed by the project <span class="dot prov-public"></span>compiled from public sources, not yet confirmed <span class="unk">?</span> not known <span class="muted">–</span> none</p>
+<p class="plegend"><span class="av av-sm h-slate conf" aria-hidden="true">AB</span>confirmed by the project &#160; <span class="av av-sm h-slate pub" aria-hidden="true">AB</span>compiled from public sources, not yet confirmed &#160; <span class="unk">?</span> not known &#160; <span class="muted">–</span> none &#160; <span class="pulse" aria-hidden="true"></span> pushed in the last 7 days &#160; <span class="still" style="background: var(--amber-t)" aria-hidden="true"></span> in the last 90 days &#160; Click any value to filter by it.</p>
 </section>
 </div>
 </sc-if>
@@ -192,7 +239,7 @@ body{margin:0;background:#F6F6F3}
 <aside class="sheet" aria-label="Project details">
 <div class="sh-head">
 <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
-<h3>{{pp.name}}</h3>
+<div style="display: flex; align-items: center; gap: 12px"><span class="av {{pp.hue}} {{pp.avCls}}" aria-hidden="true" style="{{pp.logoStyle}}">{{pp.mono}}</span><h3>{{pp.name}}</h3></div>
 <span class="prov {{pp.provCls}}">{{pp.prov}}</span>
 </div>
 <button class="x" aria-label="Close" sc-camel-on-click="{{close}}"><svg width="16" height="16" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
@@ -264,11 +311,15 @@ class Component extends DCLogic {
     this.state = { data: null, err: '', open: null , theme: savedTheme, hidden: Array.isArray(savedHidden) ? savedHidden : [], filters: {}, panel: null };
   }
   componentDidMount() {
+    this.onHash = () => { const m = /project=([\w-]+)/.exec(window.location.hash || ''); if (m) this.setState({ open: m[1] }); };
+    this.onHash();
+    window.addEventListener('hashchange', this.onHash);
     fetch('./data.json')
       .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then((data) => this.setState({ data }))
       .catch((e) => this.setState({ err: String((e && e.message) || e) }));
   }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
   fmt(d) {
     if (!d) return '';
     const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -276,15 +327,25 @@ class Component extends DCLogic {
     return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
   }
   renderVals() {
-    const theme = this.state.theme || 'auto';
-    const themeLabel = 'Theme: ' + theme;
-    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    let sysDark = false; try { sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    const theme = this.state.theme === 'light' || this.state.theme === 'dark' ? this.state.theme : (sysDark ? 'dark' : 'light');
+    const isDark = theme === 'dark';
+    const themeAria = isDark ? 'Switch to light' : 'Switch to dark';
+    const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
-    const close = () => this.setState({ open: null });
-    const base = { theme, themeLabel, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    const close = () => { try { if (window.location.hash) window.history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {} this.setState({ open: null }); };
+    const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
     if (!d) return { ...base, head: {}, heads: [], rows: [], grid: '', minW: '0', colToggles: [], filterGroups: [], active: [], pp: { show: false } };
 
     const repo = d.repo;
+    const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
+    const face = (p, i) => {
+      const n = p.name.split(' / ')[0].split(' (')[0];
+      const w = n.split(/[\s.]+/).filter(Boolean);
+      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: #fff url('" + p.logo + "') center / 74% no-repeat; color: transparent; box-shadow: inset 0 0 0 1px var(--line)" : '' };
+    };
+    const faces = (d.projects || []).map(face);
+    const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
     const pts = (d.map && d.map.points) || [];
     const scenarios = d.scenarios || [];
@@ -300,9 +361,30 @@ class Component extends DCLogic {
     const COLS = [
       ['didMethods', 'DID methods'], ['keys', 'Keys held by'], ['credentials', 'Credential format'], ['proof', 'Proof'],
       ['transport', 'Transport'], ['relay', 'Relay / mediator'], ['trustTasks', 'Trust Tasks'], ['groupAuthority', 'Group authority'],
-      ['groupKeys', 'Group keys'], ['offline', 'Offline'], ['language', 'Language'], ['apps', 'Try it'], ['repos', 'Repositories'],
+      ['groupKeys', 'Group keys'], ['offline', 'Offline'], ['language', 'Language'], ['apps', 'Try it'], ['activity', 'Activity'], ['repos', 'Repositories'],
     ];
-    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos');
+    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos' && c[0] !== 'activity');
+    const FAMILY = {
+      didMethods: [[/^did:key/, 'h-blue'], [/^did:peer/, 'h-teal'], [/^did:web/, 'h-violet']],
+      keys: [[/^device/, 'h-teal'], [/^agent/, 'h-violet'], [/^threshold/, 'h-amber']],
+      credentials: [[/W3C VC/, 'h-blue'], [/^VRC/, 'h-teal'], [/SD-JWT/, 'h-violet'], [/Open Badges/, 'h-amber'], [/ACDC/, 'h-rust']],
+      proof: [[/^eddsa/, 'h-blue'], [/MAC/, 'h-teal'], [/JWS|SD-JWT/, 'h-violet'], [/KERI/, 'h-rust']],
+      transport: [[/^TSP/, 'h-teal'], [/^DIDComm/, 'h-blue'], [/^HTTPS/, 'h-slate']],
+      relay: [[/VTI mediator/, 'h-violet'], [/^none/, 'h-green'], [/Nostr/, 'h-pink'], [/mesh|lodge/, 'h-rust']],
+      trustTasks: [[/^trust-task-/, 'h-blue'], [/^rltp:/, 'h-teal'], [/\//, 'h-violet']],
+      groupAuthority: [[/./, 'h-olive']],
+      groupKeys: [[/^MLS/, 'h-pink'], [/^BeeKEM/, 'h-amber']],
+      language: [[/^TypeScript/, 'h-blue'], [/^JavaScript/, 'h-amber'], [/^Rust/, 'h-rust'], [/^Go$/, 'h-sky'], [/Scheme/, 'h-violet']],
+    };
+    const hueFor = (k, v) => { const r = (FAMILY[k] || []).find((x) => x[0].test(v)); return r ? r[1] : (k === 'didMethods' ? 'h-amber' : k === 'transport' ? 'h-rust' : 'h-slate'); };
+    const now = Date.parse(d.generated);
+    const activityOf = (p) => {
+      const ds = (p.repositories || []).map((u) => ((d.repos || {})[u] || {}).pushedAt).filter(Boolean).sort();
+      const last = ds[ds.length - 1];
+      if (!last) return { activity: true, hot: false, cold: true, dot: 'transparent', act: (p.repositories || []).length ? 'not reported' : 'no public repository', items: [] };
+      const age = (now - Date.parse(last)) / 864e5;
+      return { activity: true, hot: age <= 7, cold: age > 7, dot: age <= 90 ? 'var(--amber-t)' : 'var(--muted)', act: age <= 1 ? 'pushed today' : age <= 7 ? 'pushed this week' : 'pushed ' + this.fmt(last), items: [] };
+    };
     const hidden = this.state.hidden || [];
     const filters = this.state.filters || {};
     const saveHidden = (h) => { try { localStorage.setItem('dtg-interop-hidden', JSON.stringify(h)); } catch (e) {} this.setState({ hidden: h }); };
@@ -323,24 +405,33 @@ class Component extends DCLogic {
         const all = k === 'repos' ? repoItems(p) : appItems(p);
         return { unknown: false, none: all.length === 0, items: all.slice(0, 3), more: all.length > 3, moreN: all.length - 3 };
       }
+      if (k === 'activity') return activityOf(p);
       const v = fv(p, k);
       if (v === null) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
-      return { unknown: false, none: v.length === 0, items: v.map((x) => ({ label: x, link: false, plain: true })), more: false, moreN: 0 };
+      return {
+        unknown: false, none: v.length === 0, more: false, moreN: 0,
+        items: v.map((x) => {
+          const on = (filters[k] || []).indexOf(x) >= 0;
+          const off = k === 'offline';
+          return { label: x, chip: !off, ok: off && x === 'yes', bad: off && x === 'no', hue: hueFor(k, x), on: on ? 'on' : '', pressed: on, toggle: setFilter(k, x), title: on ? 'Remove this filter' : 'Show only projects with ' + x };
+        }),
+      };
     };
-    const widths = { didMethods: 150, keys: 120, credentials: 150, proof: 140, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 70, language: 110, apps: 170, repos: 220 };
+    const widths = { didMethods: 150, keys: 120, credentials: 150, proof: 140, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 80, language: 110, apps: 170, activity: 150, repos: 220 };
     const grid = 'minmax(150px, 180px) ' + vis.map((c) => 'minmax(' + widths[c[0]] + 'px, 1fr)').join(' ');
     const minW = (180 + vis.reduce((n, c) => n + widths[c[0]] + 12, 0) + 40) + 'px';
     const rows = shown.map((p) => ({
       short: short(p), open: () => this.setState({ open: p.slug }),
       prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
       provCls: isPub(p) ? 'prov-public' : 'prov-project',
+      hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
       cells: vis.map((c) => cellOf(p, c[0])),
     }));
     const filterGroups = FACETS.map((c) => {
       const counts = {};
       P.forEach((p) => (fv(p, c[0]) || []).forEach((x) => { counts[x] = (counts[x] || 0) + 1; }));
       const vals = Object.keys(counts).sort((x, y) => counts[y] - counts[x] || x.localeCompare(y));
-      return { label: c[1], values: vals.map((x) => { const on = (filters[c[0]] || []).indexOf(x) >= 0; return { label: x, count: counts[x], on, cls: on ? 'on' : '', toggle: setFilter(c[0], x) }; }) };
+      return { label: c[1], values: vals.map((x) => { const on = (filters[c[0]] || []).indexOf(x) >= 0; return { label: x, count: counts[x], on, cls: on ? 'on' : '', hue: hueFor(c[0], x), toggle: setFilter(c[0], x) }; }) };
     }).filter((g) => g.values.length);
     const active = [];
     Object.keys(filters).forEach((k) => filters[k].forEach((x) => { const col = COLS.find((c) => c[0] === k); active.push({ label: (col ? col[1] : k) + ': ' + x, remove: setFilter(k, x) }); }));
@@ -372,7 +463,7 @@ class Component extends DCLogic {
       }));
       const inScn = scenarios.filter((s) => (s.participants || []).indexOf(p.slug) >= 0).map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated' }));
       pp = {
-        show: true, name: p.name,
+        show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
         prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,

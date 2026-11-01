@@ -1,6 +1,7 @@
 {
   "slug": "trust-stackers",
   "name": "Trust Stackers / p2p-trust-stack",
+  "logo": "https://github.com/TrustStackers.png?size=96",
   "licence": "GPL-3.0-only or commercial, CLA",
   "repositories": [
     "https://github.com/TrustStackers/p2p-trust-stack"

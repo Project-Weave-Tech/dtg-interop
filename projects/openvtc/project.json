@@ -3,6 +3,7 @@
   "name": "OpenVTC / Verifiable Trust Infrastructure",
   "website": "https://openvtc.net",
   "docs": "https://firstperson.dev/",
+  "logo": "https://github.com/OpenVTC.png?size=96",
   "licence": "Apache-2.0 (VTI, openvtc, dtg-credentials); tsp-conformance and browser plugin without a stated licence",
   "repositories": [
     "https://github.com/OpenVTC/verifiable-trust-infrastructure",

@@ -3,6 +3,7 @@
   "name": "Real Life Trust Protocol",
   "website": "https://trust-protocol.real-life.org",
   "docs": "https://trust-protocol.real-life.org/",
+  "logo": "https://trust-protocol.real-life.org/favicon.svg",
   "licence": "specification text CC BY 4.0; code Apache-2.0 (trust-protocol) and MIT (app, test bench)",
   "repositories": [
     "https://github.com/real-life-org/trust-protocol",

@@ -56,7 +56,9 @@ body{margin:0;background:#F6F6F3}
 .map-pt{position:sticky;left:0;z-index:1;background:var(--surface);border:0;border-right:1px solid var(--line);text-align:left;padding:7px 14px 7px 20px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;min-height:40px;font-size:13px}
 .map-pt:hover .pt-title{text-decoration:underline}
 .map-corner{cursor:default;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.map-col{font-size:11.5px;font-weight:500;padding:10px 6px;text-align:center;display:flex;align-items:flex-end;justify-content:center;line-height:1.25}
+.map-col{font-size:11.5px;font-weight:500;padding:10px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;line-height:1.25}
+.col-off .av{opacity:.45}
+.who{display:inline-flex;align-items:center;gap:6px;font-weight:500}
 .col-on{color:var(--accent);background:var(--accent-soft)}
 .col-off{color:var(--muted)}
 .map-cell{display:flex;align-items:center;justify-content:center;padding:4px}
@@ -75,6 +77,40 @@ body{margin:0;background:#F6F6F3}
 @media (max-width: 640px){
 .wrap{padding:0 16px}
 }
+.board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
+.board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}}
+.h-blue{background:var(--blue-b);color:var(--blue-t)}.h-teal{background:var(--teal-b);color:var(--teal-t)}.h-violet{background:var(--violet-b);color:var(--violet-t)}.h-amber{background:var(--amber-b);color:var(--amber-t)}.h-pink{background:var(--pink-b);color:var(--pink-t)}.h-green{background:var(--green-b);color:var(--green-t)}.h-red{background:var(--red-b);color:var(--red-t)}.h-slate{background:var(--slate-b);color:var(--slate-t)}.h-rust{background:var(--rust-b);color:var(--rust-t)}.h-sky{background:var(--sky-b);color:var(--sky-t)}.h-olive{background:var(--olive-b);color:var(--olive-t)}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;font-weight:600;font-size:12.5px;letter-spacing:.02em;flex:none;position:relative;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.av-sm{width:26px;height:26px;border-radius:7px;font-size:10.5px}
+.av.pub::after,.av.conf::after{content:"";position:absolute;right:-3px;bottom:-3px;width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.av.pub::after{background:var(--surface);border:2px dashed var(--muted)}
+.av.conf::after{background:var(--green-t);border:2px solid var(--surface)}
+.board a.av{text-decoration:none;transition:transform .12s ease}
+.board a.av:hover{transform:translateY(-2px)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--green-t);position:relative;flex:none;display:inline-block}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green-t);opacity:0;animation:dtgring 2s ease-out infinite}
+@keyframes dtgring{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse::after{animation:none}}
+.still{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.pill{border-width:1.5px;font-weight:500}
+.s-runs{background:var(--green-t);color:var(--surface);border-color:var(--green-t)}
+.s-vectors{background:var(--blue-b);color:var(--blue-t);border-color:var(--blue-t)}
+.s-spec{background:var(--violet-b);color:var(--violet-t);border:1.5px dashed var(--violet-t)}
+.s-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.s-na{color:var(--muted)}
+.s-potential{color:var(--muted);font-style:italic;border:1.5px dotted var(--muted)}
+.o-pass{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.o-partial{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.o-fail{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-proposed{background:var(--slate-b);color:var(--slate-t);border-color:transparent}
+.st-running{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-passing{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.st-failing{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.btn-icon{width:40px;height:40px;padding:0;justify-content:center}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -88,8 +124,8 @@ body{margin:0;background:#F6F6F3}
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <span class="mono muted">data {{head.generated}}</span>
-<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
-<a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
+<button class="btn btn-icon" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<a class="btn btn-icon" href="{{head.repo}}" target="_blank" rel="noopener" aria-label="Repository on GitHub" title="Repository on GitHub"><svg width="18" height="18" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
@@ -120,7 +156,7 @@ body{margin:0;background:#F6F6F3}
 <div class="map-box">
 <div class="map">
 <div class="map-row map-headrow" style="grid-template-columns: {{grid}}"><div class="map-pt map-corner">Point</div>
-<sc-for list="{{cols}}" as="c" hint-placeholder-count="11"><div class="map-col {{c.cls}}">{{c.short}}</div></sc-for>
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="11"><div class="map-col {{c.cls}}"><span class="av av-sm {{c.hue}} {{c.prov}}" aria-hidden="true" style="{{c.logoStyle}}">{{c.mono}}</span>{{c.short}}</div></sc-for>
 </div>
 <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
 <div class="map-layer"><div class="map-layer-in"><strong>{{g.title}}</strong><span>{{g.asks}}</span></div></div>
@@ -139,7 +175,7 @@ body{margin:0;background:#F6F6F3}
 <div>
 <h4>Who touches it</h4>
 <ul class="dl">
-<sc-for list="{{r.d.projects}}" as="x" hint-placeholder-count="3"><li><span class="pill s-{{x.cls}}">{{x.status}}</span> <a href="./">{{x.short}}</a><span class="muted"> {{x.note}}</span></li></sc-for>
+<sc-for list="{{r.d.projects}}" as="x" hint-placeholder-count="3"><li><span class="pill s-{{x.cls}}">{{x.status}}</span> <a class="who" href="{{x.href}}"><span class="av av-sm {{x.hue}}" aria-hidden="true" style="{{x.logoStyle}}">{{x.mono}}</span>{{x.short}}</a><span class="muted"> {{x.note}}</span></li></sc-for>
 <sc-if value="{{r.d.noProjects}}" hint-placeholder-val="{{ false }}"><li class="muted">No project has stated anything here yet.</li></sc-if>
 </ul>
 </div>
@@ -187,14 +223,24 @@ class Component extends DCLogic {
     return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
   }
   renderVals() {
-    const theme = this.state.theme || 'auto';
-    const themeLabel = 'Theme: ' + theme;
-    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    let sysDark = false; try { sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    const theme = this.state.theme === 'light' || this.state.theme === 'dark' ? this.state.theme : (sysDark ? 'dark' : 'light');
+    const isDark = theme === 'dark';
+    const themeAria = isDark ? 'Switch to light' : 'Switch to dark';
+    const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
-    const base = { theme, themeLabel, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
     if (!d) return { ...base, head: {}, legend: [], grid: '', cols: [], groups: [] };
 
     const repo = d.repo;
+    const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
+    const face = (p, i) => {
+      const n = p.name.split(' / ')[0].split(' (')[0];
+      const w = n.split(/[\s.]+/).filter(Boolean);
+      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: #fff url('" + p.logo + "') center / 74% no-repeat; color: transparent; box-shadow: inset 0 0 0 1px var(--line)" : '' };
+    };
+    const faces = (d.projects || []).map(face);
+    const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
     const pts = (d.map && d.map.points) || [];
     const words = (d.map && d.map.statusWords) || {};
@@ -212,7 +258,7 @@ class Component extends DCLogic {
     const sel = this.state.point;
     const touches = sel ? P.filter((p) => p.points && p.points[sel]).map((p) => p.slug) : null;
     const grid = 'minmax(240px, 300px) repeat(' + P.length + ', minmax(84px, 1fr))';
-    const cols = P.map((p) => ({ short: short(p), cls: !touches ? '' : (touches.indexOf(p.slug) >= 0 ? 'col-on' : 'col-off') }));
+    const cols = P.map((p) => ({ short: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, prov: faceOf[p.slug].prov, cls: !touches ? '' : (touches.indexOf(p.slug) >= 0 ? 'col-on' : 'col-off') }));
     const groups = ((d.map && d.map.layers) || []).map((l) => ({
       title: l.title, asks: l.asks,
       rows: pts.filter((pt) => pt.layer === l.id).map((pt) => {
@@ -231,7 +277,7 @@ class Component extends DCLogic {
           d: {
             asks: pt.asks, origin: pt.origin,
             statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy ? nameOf(pt.proposedBy) : 'a project') + ', not yet accepted' : 'Accepted point',
-            projects: selected ? touching.map((p) => { const c = p.points[pt.id]; return { short: short(p), status: c.status, cls: scls(c.status), note: c.note || '' }; }) : [],
+            projects: selected ? touching.map((p) => { const c = p.points[pt.id]; return { short: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, href: faceOf[p.slug].href, status: c.status, cls: scls(c.status), note: c.note || '' }; }) : [],
             noProjects: touching.length === 0,
             scenarios: scn, noScenarios: scn.length === 0, threads: thr, noThreads: thr.length === 0,
           },

@@ -54,14 +54,16 @@ body{margin:0;background:#F6F6F3}
 .mx-box{overflow-x:auto;padding:18px 20px 20px;flex:1 1 620px;min-width:0}
 .mx-row{display:flex;gap:4px;margin-bottom:4px}
 .mx-label{width:170px;flex:none;font-size:13px;display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden}
-.mx-head{width:38px;height:26px;flex:none;display:flex;align-items:flex-end;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+.mx-head{width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center}
+.mx-head .av,.mx-label .av{width:30px;height:30px;font-size:11px}
+.faces{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 .mx-cell{width:38px;height:38px;flex:none;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:0;font-size:14px;line-height:1}
 .mx-cell:hover{border-color:var(--accent)}
 .mx-empty::after{content:"";display:block;width:3px;height:3px;margin:auto;border-radius:50%;background:var(--line)}
 .mx-diag{background:var(--soft);border-color:transparent;cursor:default}
-.mx-pass{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.mx-partial{border:1.5px solid var(--warn);color:var(--warn)}
-.mx-fail{background:var(--fail);border-color:var(--fail);color:var(--surface)}
+.mx-pass{background:var(--green-b);border-color:var(--green-t);color:var(--green-t)}
+.mx-partial{background:var(--amber-b);border-color:var(--amber-t);color:var(--amber-t)}
+.mx-fail{background:var(--red-b);border-color:var(--red-t);color:var(--red-t)}
 .side{flex:1 1 300px;max-width:420px;padding:20px 24px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
 .side p{margin:0;font-size:13px}
 .cols4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 20px 22px}
@@ -89,6 +91,40 @@ body{margin:0;background:#F6F6F3}
 .wrap{padding:0 16px}
 .cols4{grid-template-columns:minmax(0,1fr)}
 }
+.board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
+.board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}}
+.h-blue{background:var(--blue-b);color:var(--blue-t)}.h-teal{background:var(--teal-b);color:var(--teal-t)}.h-violet{background:var(--violet-b);color:var(--violet-t)}.h-amber{background:var(--amber-b);color:var(--amber-t)}.h-pink{background:var(--pink-b);color:var(--pink-t)}.h-green{background:var(--green-b);color:var(--green-t)}.h-red{background:var(--red-b);color:var(--red-t)}.h-slate{background:var(--slate-b);color:var(--slate-t)}.h-rust{background:var(--rust-b);color:var(--rust-t)}.h-sky{background:var(--sky-b);color:var(--sky-t)}.h-olive{background:var(--olive-b);color:var(--olive-t)}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;font-weight:600;font-size:12.5px;letter-spacing:.02em;flex:none;position:relative;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.av-sm{width:26px;height:26px;border-radius:7px;font-size:10.5px}
+.av.pub::after,.av.conf::after{content:"";position:absolute;right:-3px;bottom:-3px;width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.av.pub::after{background:var(--surface);border:2px dashed var(--muted)}
+.av.conf::after{background:var(--green-t);border:2px solid var(--surface)}
+.board a.av{text-decoration:none;transition:transform .12s ease}
+.board a.av:hover{transform:translateY(-2px)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--green-t);position:relative;flex:none;display:inline-block}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green-t);opacity:0;animation:dtgring 2s ease-out infinite}
+@keyframes dtgring{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse::after{animation:none}}
+.still{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.pill{border-width:1.5px;font-weight:500}
+.s-runs{background:var(--green-t);color:var(--surface);border-color:var(--green-t)}
+.s-vectors{background:var(--blue-b);color:var(--blue-t);border-color:var(--blue-t)}
+.s-spec{background:var(--violet-b);color:var(--violet-t);border:1.5px dashed var(--violet-t)}
+.s-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.s-na{color:var(--muted)}
+.s-potential{color:var(--muted);font-style:italic;border:1.5px dotted var(--muted)}
+.o-pass{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.o-partial{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.o-fail{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-proposed{background:var(--slate-b);color:var(--slate-t);border-color:transparent}
+.st-running{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-passing{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.st-failing{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.btn-icon{width:40px;height:40px;padding:0;justify-content:center}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -102,8 +138,8 @@ body{margin:0;background:#F6F6F3}
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <span class="mono muted">data {{head.generated}}</span>
-<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
-<a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
+<button class="btn btn-icon" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<a class="btn btn-icon" href="{{head.repo}}" target="_blank" rel="noopener" aria-label="Repository on GitHub" title="Repository on GitHub"><svg width="18" height="18" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
@@ -130,9 +166,9 @@ body{margin:0;background:#F6F6F3}
 <div class="bhead"><h2 id="h-pairs">Pairs</h2><p>What runs between two projects. Only here is realised interop counted, and it fills during a meeting.</p></div>
 <div class="pairs">
 <div class="mx-box">
-<div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}">{{h.num}}</div></sc-for></div>
+<div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}"><span class="av {{h.hue}}" style="{{h.logoStyle}}">{{h.mono}}</span></div></sc-for></div>
 <sc-for list="{{matrix.rows}}" as="r" hint-placeholder-count="11">
-<div class="mx-row"><div class="mx-label"><span class="num">{{r.num}}</span><span class="clip">{{r.short}}</span></div>
+<div class="mx-row"><div class="mx-label"><span class="av {{r.hue}} {{r.prov}}" aria-hidden="true" style="{{r.logoStyle}}">{{r.mono}}</span><span class="clip">{{r.short}}</span></div>
 <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><button class="mx-cell {{c.cls}}" aria-label="{{c.label}}" title="{{c.label}}" disabled="{{c.diag}}" sc-camel-on-click="{{c.open}}">{{c.mark}}</button></sc-for>
 </div>
 </sc-for>
@@ -143,7 +179,7 @@ body{margin:0;background:#F6F6F3}
 <p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
 <sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
 <p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
-<p class="muted" style="font-size: 12px">● pass &nbsp; ◐ partial &nbsp; ✕ fail</p>
+<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span></p>
 </div>
 </div>
 </section>
@@ -159,7 +195,7 @@ body{margin:0;background:#F6F6F3}
 <h3>{{s.title}}</h3>
 <p>{{s.summary}}</p>
 <div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><span class="chip">{{pt}}</span></sc-for></div>
-<p class="muted">With {{s.parts}}<sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
+<p class="muted faces">With <sc-for list="{{s.faces}}" as="f" hint-placeholder-count="1"><span class="faces"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</span></sc-for><sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
 <sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
 <sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
 <sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><p><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p></sc-for>
@@ -227,15 +263,25 @@ class Component extends DCLogic {
     return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
   }
   renderVals() {
-    const theme = this.state.theme || 'auto';
-    const themeLabel = 'Theme: ' + theme;
-    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    let sysDark = false; try { sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    const theme = this.state.theme === 'light' || this.state.theme === 'dark' ? this.state.theme : (sysDark ? 'dark' : 'light');
+    const isDark = theme === 'dark';
+    const themeAria = isDark ? 'Switch to light' : 'Switch to dark';
+    const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
     const close = () => this.setState({ pair: null });
-    const base = { theme, themeLabel, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
     if (!d) return { ...base, head: {}, matrix: { head: [], rows: [], none: false }, columns: [], pair: { show: false }, runAny: '' };
 
     const repo = d.repo;
+    const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
+    const face = (p, i) => {
+      const n = p.name.split(' / ')[0].split(' (')[0];
+      const w = n.split(/[\s.]+/).filter(Boolean);
+      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: #fff url('" + p.logo + "') center / 74% no-repeat; color: transparent; box-shadow: inset 0 0 0 1px var(--line)" : '' };
+    };
+    const faces = (d.projects || []).map(face);
+    const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
     const pts = (d.map && d.map.points) || [];
     const scenarios = d.scenarios || [];
@@ -253,12 +299,12 @@ class Component extends DCLogic {
 
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newScenario: repo + '/tree/main/scenarios' };
 
-    const glyph = { pass: '●', partial: '◐', fail: '✕' };
+    const glyph = { pass: '✓', partial: '◐', fail: '✕' };
     let anyRun = false;
     const matrix = {
-      head: P.map((p, i) => ({ num: i + 1, name: short(p) })),
+      head: P.map((p, i) => ({ num: i + 1, name: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle })),
       rows: P.map((a, i) => ({
-        num: i + 1, short: short(a),
+        num: i + 1, short: short(a), hue: faceOf[a.slug].hue, mono: faceOf[a.slug].mono, logoStyle: faceOf[a.slug].logoStyle, prov: faceOf[a.slug].prov,
         cells: P.map((b, j) => {
           if (i === j) return { diag: true, cls: 'mx-diag', mark: '', label: short(a), open: null };
           const runs = pairOf(a.slug, b.slug);
@@ -279,7 +325,7 @@ class Component extends DCLogic {
       return {
         title: s.title, summary: s.summary, status: s.status,
         points: (s.points || []).map((id) => (ptById[id] ? ptById[id].title : id)),
-        parts: parts.map(nameOf).join(', ') || 'nobody yet', lonely: parts.length < 2,
+        parts: parts.map(nameOf).join(', ') || 'nobody yet', faces: parts.map((x) => faceOf[x] || { hue: 'h-slate', mono: '?', name: x, logoStyle: '' }), lonely: parts.length < 2,
         waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
         vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
         results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × ') })),

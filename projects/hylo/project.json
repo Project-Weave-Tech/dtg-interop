@@ -3,6 +3,7 @@
   "name": "Hylo",
   "website": "https://www.hylo.com",
   "docs": "https://github.com/Hylozoic/hylo",
+  "logo": "https://github.com/Hylozoic.png?size=96",
   "licence": "Apache-2.0 (monorepo)",
   "repositories": [
     "https://github.com/Hylozoic/hylo"

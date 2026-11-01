@@ -32,6 +32,11 @@
       "type": "string",
       "format": "uri"
     },
+    "logo": {
+      "description": "URL of a square logo or icon the project publishes itself (its website or its GitHub account). The board falls back to initials when absent.",
+      "type": "string",
+      "format": "uri"
+    },
     "licence": {
       "type": "string",
       "maxLength": 160,
