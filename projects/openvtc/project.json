@@ -43,12 +43,6 @@
     "keys": [
       "agent (VTA)"
     ],
-    "credentials": [
-      "W3C VC 2.0 (DTG)"
-    ],
-    "proof": [
-      "eddsa-jcs-2022"
-    ],
     "transport": [
       "TSP 1.0",
       "DIDComm v2"
@@ -79,6 +73,52 @@
       "TypeScript"
     ]
   },
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VMC",
+        "VRC",
+        "VIC",
+        "VAC",
+        "VDC",
+        "VPC",
+        "VSC",
+        "VEC",
+        "VWC",
+        "VSC-vetted",
+        "VSC-presented",
+        "Personhood"
+      ],
+      "proof": [
+        "eddsa-jcs-2022",
+        "ecdsa-jcs-2019"
+      ],
+      "status": "runs",
+      "note": "DTG Core Credentials; pre-core Endorsement/Witness types are refused at parse.",
+      "evidence": [
+        {
+          "label": "dtg-credentials",
+          "url": "https://github.com/OpenVTC/dtg-credentials"
+        },
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    {
+      "model": "SD-JWT VC",
+      "status": "runs",
+      "note": "dc+sd-jwt issuance and presentation in vta-sdk.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "runs",
     "namespaces": [

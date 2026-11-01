@@ -27,9 +27,6 @@
       "device",
       "threshold (FROST)"
     ],
-    "credentials": [
-      "W3C VC"
-    ],
     "transport": [
       "DIDComm v2"
     ],
@@ -54,6 +51,22 @@
       "TypeScript"
     ]
   },
+  "credentials": [
+    {
+      "model": "W3C VC (version not stated)",
+      "profiles": [
+        "VRC"
+      ],
+      "status": "building",
+      "note": "VRCs after the First Person Project; code not public.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "building",
     "namespaces": [

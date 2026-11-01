@@ -8,7 +8,7 @@
   ],
   "stack": {
     "didMethods": "did:scid:vh, did:peer:4",
-    "credentials": "VRC/VTC in progress",
+    "credentials": "DTG credentials (W3C VC 2.0, eddsa-jcs-2022): VRC, VMC, VIC minted by ceremonies; pre-core Witness/Endorsement types too",
     "transport": "TSP directly over libp2p, NAT traversal; no mediator",
     "trustTasks": "own task namespace task:p2pts:",
     "groups": "communities in SQL with admins",
@@ -22,9 +22,6 @@
     ],
     "keys": [
       "device"
-    ],
-    "credentials": [
-      "VRC (in progress)"
     ],
     "transport": [
       "TSP"
@@ -47,6 +44,33 @@
       "TypeScript"
     ]
   },
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC",
+        "VMC",
+        "VIC",
+        "VSC",
+        "VPC",
+        "VDC",
+        "Personhood",
+        "WitnessCredential",
+        "EndorsementCredential"
+      ],
+      "proof": [
+        "eddsa-jcs-2022"
+      ],
+      "status": "runs",
+      "note": "VRC, VMC and VIC are minted by ceremonies in the code.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "runs",
     "namespaces": [

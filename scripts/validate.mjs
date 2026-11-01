@@ -1,5 +1,5 @@
 // Validates points.json, threads.json, projects/*/project.json (with an
-// optional projects/*/trust-tasks.json) and
+// optional projects/*/trust-tasks.json), credential-profiles.json and
 // scenarios/*/scenario.json against the schemas and checks that every point id
 // and participant slug exists. Exits 1 with every error.
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
@@ -14,10 +14,14 @@ const projectSchema = ajv.compile(read('schema/project.schema.json'))
 const scenarioSchema = ajv.compile(read('schema/scenario.schema.json'))
 const threadSchema = ajv.compile(read('schema/thread.schema.json'))
 const trustTasksSchema = ajv.compile(read('schema/trust-tasks.schema.json'))
+const profilesSchema = ajv.compile(read('schema/credential-profiles.schema.json'))
+const catalogue = read('credential-profiles.json')
 const map = read('points.json')
 const layerIds = new Set(map.layers.map((l) => l.id))
 const pointIds = new Set(map.points.map((p) => p.id))
 const errors = []
+if (!profilesSchema(catalogue)) errors.push(`credential-profiles.json: ${ajv.errorsText(profilesSchema.errors, { separator: '\n  ' })}`)
+for (const [id, pr] of Object.entries(catalogue.profiles)) if (!catalogue.families[pr.family]) errors.push(`credential-profiles.json: profile "${id}" names unknown family "${pr.family}"`)
 for (const p of map.points) {
   if (!layerIds.has(p.layer)) errors.push(`points.json: point "${p.id}" names unknown layer "${p.layer}"`)
   if (p.status === 'proposed' && !p.proposedBy) errors.push(`points.json: proposed point "${p.id}" without proposedBy`)
@@ -40,6 +44,10 @@ for (const slug of folders('projects')) {
   if (row.trustTaskUse?.typesFile && !existsSync(join(root, tt))) errors.push(`${tt}: named in trustTaskUse.typesFile but missing`)
   if (existsSync(join(root, tt)) && !trustTasksSchema(read(tt))) errors.push(`${tt}: ${ajv.errorsText(trustTasksSchema.errors, { separator: '\n  ' })}`)
   if (row.trustTaskUse?.status === 'runs' && !(row.trustTaskUse.evidence?.length)) errors.push(`${file}: trustTaskUse is "runs" without evidence`)
+  for (const [i, c] of (row.credentials ?? []).entries()) {
+    if (c.status === 'runs' && !(c.evidence?.length)) errors.push(`${file}: credentials[${i}] is "runs" without evidence`)
+    for (const pr of c.profiles ?? []) if (!catalogue.profiles[pr]) errors.push(`${file}: credentials[${i}] names unknown profile "${pr}" (add it to credential-profiles.json)`)
+  }
   projects.set(slug, row)
 }
 for (const slug of folders('scenarios')) {

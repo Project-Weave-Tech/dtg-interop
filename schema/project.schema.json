@@ -222,22 +222,6 @@
           },
           "description": "Short values; an empty list means none, a missing key means not known."
         },
-        "credentials": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "maxLength": 60
-          },
-          "description": "Short values; an empty list means none, a missing key means not known."
-        },
-        "proof": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "maxLength": 60
-          },
-          "description": "Short values; an empty list means none, a missing key means not known."
-        },
         "transport": {
           "type": "array",
           "items": {
@@ -293,6 +277,87 @@
             "maxLength": 60
           },
           "description": "Short values; an empty list means none, a missing key means not known."
+        }
+      }
+    },
+    "credentials": {
+      "type": "array",
+      "description": "One entry per credential form. An empty list means none; a missing key means not known.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "model",
+          "status"
+        ],
+        "properties": {
+          "model": {
+            "enum": [
+              "W3C VC 2.0",
+              "W3C VC 1.1",
+              "W3C VC (version not stated)",
+              "SD-JWT VC",
+              "ACDC",
+              "JLINC agreement",
+              "flat JSON (fpp-poc)"
+            ],
+            "description": "Data model or format."
+          },
+          "profiles": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "maxLength": 60
+            },
+            "description": "Credential types carried; keys of credential-profiles.json."
+          },
+          "proof": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "eddsa-jcs-2022",
+                "eddsa-rdfc-2022",
+                "ecdsa-jcs-2019",
+                "JWS EdDSA",
+                "KERI signatures"
+              ]
+            },
+            "description": "Proof suites; empty where the format brings its own (SD-JWT VC)."
+          },
+          "status": {
+            "enum": [
+              "runs",
+              "building",
+              "committed"
+            ],
+            "description": "runs: in running code. building: code exists, not complete. committed: announced or agreed, nothing running yet."
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "url"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -418,6 +483,16 @@
                 "format": "uri"
               }
             }
+          }
+        },
+        "documentProof": {
+          "type": "array",
+          "description": "What secures the Trust Task documents themselves (not credentials).",
+          "items": {
+            "enum": [
+              "Data Integrity eddsa-jcs-2022",
+              "pairwise MAC"
+            ]
           }
         }
       }

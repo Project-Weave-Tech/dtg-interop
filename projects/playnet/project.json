@@ -22,12 +22,6 @@
     "keys": [
       "device"
     ],
-    "credentials": [
-      "ACDC"
-    ],
-    "proof": [
-      "KERI"
-    ],
     "transport": [
       "Reticulum"
     ],
@@ -43,6 +37,22 @@
       "Guile Scheme"
     ]
   },
+  "credentials": [
+    {
+      "model": "ACDC",
+      "proof": [
+        "KERI signatures"
+      ],
+      "status": "committed",
+      "note": "Named on the project page; no public code checked.",
+      "evidence": [
+        {
+          "label": "playnet.earth",
+          "url": "https://playnet.earth/info"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "none",
     "note": "ValueFlows vocabulary."

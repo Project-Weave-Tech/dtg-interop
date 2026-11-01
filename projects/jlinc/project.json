@@ -22,12 +22,6 @@
     "didMethods": [
       "did:jlinc"
     ],
-    "credentials": [
-      "JWS agreements"
-    ],
-    "proof": [
-      "JWS EdDSA"
-    ],
     "transport": [
       "HTTPS"
     ],
@@ -45,6 +39,22 @@
       "Go"
     ]
   },
+  "credentials": [
+    {
+      "model": "JLINC agreement",
+      "proof": [
+        "JWS EdDSA"
+      ],
+      "status": "runs",
+      "note": "Signed agreements with JCS and SHA-256, not credentials in the VC sense.",
+      "evidence": [
+        {
+          "label": "jlinc-node",
+          "url": "https://github.com/jlinclabs/jlinc-node"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "none",
     "note": "Agreements and events with audit records."

@@ -58,13 +58,6 @@
     "keys": [
       "device"
     ],
-    "credentials": [
-      "W3C VC 2.0 (DTG)"
-    ],
-    "proof": [
-      "eddsa-jcs-2022",
-      "pairwise MAC"
-    ],
     "transport": [
       "TSP 1.0"
     ],
@@ -91,6 +84,27 @@
       "JavaScript"
     ]
   },
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC",
+        "VIC",
+        "EndorsementCredential"
+      ],
+      "proof": [
+        "eddsa-jcs-2022"
+      ],
+      "status": "runs",
+      "note": "RelationshipCredential (pairwise), InvitationCredential (membership invite), EndorsementCredential (admission vouch, pre-core type).",
+      "evidence": [
+        {
+          "label": "trust-protocol",
+          "url": "https://github.com/real-life-org/trust-protocol"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "runs",
     "namespaces": [
@@ -112,6 +126,10 @@
         "label": "trust-protocol",
         "url": "https://github.com/real-life-org/trust-protocol"
       }
+    ],
+    "documentProof": [
+      "Data Integrity eddsa-jcs-2022",
+      "pairwise MAC"
     ]
   },
   "requiredParty": "the other person",

@@ -17,7 +17,7 @@
   ],
   "stack": {
     "didMethods": "did:peer, did:key, did:webvh",
-    "credentials": "DTG VRC and witness credentials; credentials held in the wallet",
+    "credentials": "DTG credentials (W3C VC 2.0, eddsa-jcs-2022 and eddsa-rdfc-2022): VRC, witness and vetting statements, VMC, VAC, VIC; pre-core Witness/Endorsement types too",
     "transport": "DIDComm v1/v2 between wallets; TSP (Rev 3 / 1.0) on the VTI peer leg",
     "trustTasks": "@openvtc/trust-tasks ^0.27.8; about 100 registry types (vtc, vta, vetting, acl, auth, vault, credential-exchange, witness, vrc)",
     "groups": "joins VTI communities; no group model of its own documented",
@@ -33,9 +33,6 @@
     "keys": [
       "device",
       "agent (VTA)"
-    ],
-    "credentials": [
-      "W3C VC 2.0 (DTG)"
     ],
     "transport": [
       "DIDComm v2",
@@ -62,6 +59,40 @@
       "JavaScript"
     ]
   },
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC",
+        "VWC",
+        "VSC-vetted",
+        "VMC",
+        "VAC",
+        "VIC",
+        "VPC",
+        "VDC",
+        "VEC",
+        "WitnessCredential",
+        "EndorsementCredential"
+      ],
+      "proof": [
+        "eddsa-jcs-2022",
+        "eddsa-rdfc-2022"
+      ],
+      "status": "runs",
+      "note": "Both the DTG Core statement form and the pre-core Witness/Endorsement types appear in the code; VC 1.1 contexts appear too.",
+      "evidence": [
+        {
+          "label": "keyring-bifold",
+          "url": "https://github.com/berkmancenter/keyring-bifold"
+        },
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "runs",
     "namespaces": [

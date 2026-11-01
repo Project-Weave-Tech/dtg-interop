@@ -4,8 +4,17 @@
   "website": "https://example.org",
   "docs": "https://example.org/docs",
   "licence": "SPDX identifiers, one per repository if they differ",
-  "repositories": ["https://github.com/your-org/your-repo"],
-  "apps": [{ "kind": "web", "label": "Try it", "url": "https://example.org/app", "status": "prototype" }],
+  "repositories": [
+    "https://github.com/your-org/your-repo"
+  ],
+  "apps": [
+    {
+      "kind": "web",
+      "label": "Try it",
+      "url": "https://example.org/app",
+      "status": "prototype"
+    }
+  ],
   "stack": {
     "didMethods": "which DID methods, for what",
     "credentials": "which credential formats and proof suites",
@@ -17,11 +26,64 @@
   },
   "requiredParty": "the party without which your implementation does not work, or 'the other person'",
   "points": {
-    "vrc-exchange": { "status": "open", "note": "one sentence", "evidence": [] },
-    "contact-ceremony": { "status": "open", "note": "one sentence" },
-    "direct-message": { "status": "open", "note": "one sentence" },
-    "shared-room": { "status": "open", "note": "one sentence" }
+    "vrc-exchange": {
+      "status": "open",
+      "note": "one sentence",
+      "evidence": []
+    },
+    "contact-ceremony": {
+      "status": "open",
+      "note": "one sentence"
+    },
+    "direct-message": {
+      "status": "open",
+      "note": "one sentence"
+    },
+    "shared-room": {
+      "status": "open",
+      "note": "one sentence"
+    }
   },
-  "provenance": { "kind": "project", "date": "2026-11-01" },
-  "updated": "2026-11-01"
+  "provenance": {
+    "kind": "project",
+    "date": "2026-11-01"
+  },
+  "updated": "2026-11-01",
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC"
+      ],
+      "proof": [
+        "eddsa-jcs-2022"
+      ],
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "where it is in the code",
+          "url": "https://github.com/your-org/your-repo"
+        }
+      ]
+    }
+  ],
+  "trustTaskUse": {
+    "status": "runs",
+    "namespaces": [
+      {
+        "label": "Trust Tasks registry",
+        "prefix": "https://trusttasks.org/spec/",
+        "kind": "registry"
+      }
+    ],
+    "types": [
+      "https://trusttasks.org/spec/trust-task-error"
+    ],
+    "evidence": [
+      {
+        "label": "where it is in the code",
+        "url": "https://github.com/your-org/your-repo"
+      }
+    ]
+  }
 }

@@ -33,7 +33,6 @@
     "keys": [
       "device"
     ],
-    "credentials": [],
     "transport": [
       "Holochain"
     ],
@@ -47,6 +46,7 @@
       "TypeScript"
     ]
   },
+  "credentials": [],
   "trustTaskUse": {
     "status": "none",
     "note": "Pluggable Languages define how data is stored and shared."

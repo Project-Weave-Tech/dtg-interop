@@ -1,5 +1,6 @@
 // Builds site/dist/data.json for the board from points.json, threads.json,
-// projects/*/project.json (with trust-tasks.json) and scenarios/*/scenario.json, plus what GitHub
+// projects/*/project.json (with trust-tasks.json), credential-profiles.json and
+// scenarios/*/scenario.json, plus what GitHub
 // reports: licence and last push of every project repository, and this
 // repository's own issues (shown among the threads). GitHub is the database;
 // data.json is a view. Without network access the committed snapshot is used.
@@ -71,14 +72,21 @@ const ttTypes = [...users].map(([type, list]) => ({ type, registry: type.startsW
 // a family wildcard (x/*) of one project meets the exact types of another
 for (const w of ttTypes.filter((t) => t.type.endsWith('/*'))) for (const t of ttTypes) if (t !== w && covers(w.type, t.type)) for (const u of w.users) if (!t.users.some((x) => x.project === u.project)) t.users.push({ ...u, via: w.type })
 ttTypes.sort((a, b) => b.users.length - a.users.length || a.type.localeCompare(b.type))
-const ttShared = {}
+// shared: both use the type directly; sharedVia: at least one only through mapsTo or a family
+const ttShared = {}, ttSharedVia = {}
 for (const t of ttTypes) {
   const slugs = [...new Set(t.users.map((u) => u.project))].sort()
-  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) (ttShared[`${slugs[i]}|${slugs[j]}`] ??= []).push(t.type)
+  const direct = (s) => t.users.some((u) => u.project === s && !u.via)
+  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) ((direct(slugs[i]) && direct(slugs[j]) ? ttShared : ttSharedVia)[`${slugs[i]}|${slugs[j]}`] ??= []).push(t.type)
 }
-const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared }
+const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared, sharedVia: ttSharedVia }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, threads: [...threads, ...issues], repos }
+// Credentials: the profile catalogue and the closed vocabularies, so the board builds its filters from data
+const credSchema = read('schema/project.schema.json').properties.credentials.items.properties
+const credentialProfiles = read('credential-profiles.json')
+const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
+
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, credentialProfiles, credentialVocabulary, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))

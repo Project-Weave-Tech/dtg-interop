@@ -28,12 +28,6 @@
     "keys": [
       "device"
     ],
-    "credentials": [
-      "VRC (in transition)"
-    ],
-    "proof": [
-      "eddsa-jcs-2022 (announced)"
-    ],
     "transport": [
       "TSP"
     ],
@@ -53,6 +47,32 @@
       "committed, nothing running"
     ]
   },
+  "credentials": [
+    {
+      "model": "flat JSON (fpp-poc)",
+      "profiles": [
+        "VRC"
+      ],
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
+    },
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC"
+      ],
+      "proof": [
+        "eddsa-jcs-2022"
+      ],
+      "status": "committed",
+      "note": "Announced move to VCDM and eddsa-jcs-2022."
+    }
+  ],
   "trustTaskUse": {
     "status": "committed",
     "namespaces": [],

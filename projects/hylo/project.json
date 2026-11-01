@@ -32,8 +32,6 @@
     "keys": [
       "server account"
     ],
-    "credentials": [],
-    "proof": [],
     "transport": [
       "HTTPS"
     ],
@@ -53,6 +51,7 @@
       "TypeScript"
     ]
   },
+  "credentials": [],
   "trustTaskUse": {
     "status": "none"
   },

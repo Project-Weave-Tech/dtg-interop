@@ -22,13 +22,6 @@
       "did:web",
       "did:webvh"
     ],
-    "credentials": [
-      "SD-JWT VC"
-    ],
-    "proof": [
-      "SD-JWT",
-      "eddsa-rdfc-2022"
-    ],
     "transport": [
       "HTTPS"
     ],
@@ -45,6 +38,33 @@
     ],
     "language": []
   },
+  "credentials": [
+    {
+      "model": "SD-JWT VC",
+      "status": "committed",
+      "note": "Required by the Civic Identity spec; no code yet.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
+    },
+    {
+      "model": "W3C VC 2.0",
+      "proof": [
+        "eddsa-rdfc-2022"
+      ],
+      "status": "committed",
+      "note": "Optional Data Integrity form.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "none",
     "note": "ActivityStreams 2.0 profile with its own JSON-LD context."
