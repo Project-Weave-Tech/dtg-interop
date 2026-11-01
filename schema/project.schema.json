@@ -24,6 +24,11 @@
       "minLength": 1,
       "maxLength": 80
     },
+    "shortName": {
+      "type": "string",
+      "maxLength": 16,
+      "description": "Short form for tight places, as the project itself uses it. Omit when the name is short enough."
+    },
     "purpose": {
       "type": "string",
       "maxLength": 160,
