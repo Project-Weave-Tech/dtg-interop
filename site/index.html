@@ -241,7 +241,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-projects">
-<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p>
+<div class="bhead"><h2 id="h-projects">Projects</h2><p>One row per implementation. Open a name for details; click a value to filter.</p>
 <div class="tools"><button class="btn {{filterBtnCls}}" type="button" aria-expanded="{{showFilters}}" sc-camel-on-click="{{toggleFilters}}">Filter{{filterCount}}</button><button class="btn {{colBtnCls}}" type="button" aria-expanded="{{showColumns}}" sc-camel-on-click="{{toggleColumns}}">Columns{{hiddenCount}}</button></div></div>
 <sc-if value="{{showColumns}}" hint-placeholder-val="{{ false }}"><div class="panel"><div class="frow"><span class="plbl">Show</span><div class="chips"><sc-for list="{{colToggles}}" as="c" hint-placeholder-count="12"><button class="fchip {{c.cls}}" type="button" aria-pressed="{{c.on}}" sc-camel-on-click="{{c.toggle}}">{{c.label}}</button></sc-for></div></div><div class="frow"><span class="plbl"></span><div class="chips"><button class="linkbtn" type="button" sc-camel-on-click="{{showAllCols}}">show all</button></div></div></div></sc-if>
 <sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}"><div class="panel"><sc-for list="{{filterGroups}}" as="g" hint-placeholder-count="11"><div class="frow"><span class="plbl">{{g.label}}</span><div class="chips"><sc-for list="{{g.values}}" as="v" hint-placeholder-count="3"><button class="fchip {{v.cls}}" type="button" aria-pressed="{{v.on}}" sc-camel-on-click="{{v.toggle}}"><span class="fdot {{v.hue}}" aria-hidden="true"></span>{{v.label}}<span class="cnt">{{v.count}}</span></button></sc-for></div></div></sc-for></div></sc-if>
@@ -265,7 +265,7 @@ body{margin:0;background:#F6F6F3}
 </sc-for>
 <sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><p class="muted" style="padding: 16px 20px; margin: 0">No project matches these filters.</p></sc-if>
 </div></div>
-<p class="plegend"><span class="av av-sm h-slate conf" aria-hidden="true">AB</span>green dot: confirmed by the project; without it the row is compiled from public sources &#160; <span class="unk">?</span> not known &#160; <span class="muted">–</span> none &#160; <span class="pulse" aria-hidden="true"></span> pushed in the last 7 days &#160; <span class="still" style="background: var(--amber-t)" aria-hidden="true"></span> in the last 90 days &#160; <span class="sdot sd-runs"></span> runs <span class="sdot sd-building"></span> building <span class="sdot sd-committed"></span> committed &#160; Click any value to filter by it.</p>
+<p class="plegend"><span class="av av-sm h-slate conf" aria-hidden="true">AB</span>green dot: confirmed by the project; without it the row is compiled from public sources &#160; <span class="unk">?</span> not known &#160; <span class="muted">–</span> none &#160; <span class="pulse" aria-hidden="true"></span> pushed in the last 7 days &#160; <span class="still" style="background: var(--amber-t)" aria-hidden="true"></span> in the last 90 days &#160; <span class="sdot sd-runs"></span> runs <span class="sdot sd-building"></span> building <span class="sdot sd-committed"></span> committed</p>
 </section>
 </div>
 </sc-if>
