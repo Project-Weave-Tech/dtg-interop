@@ -74,8 +74,28 @@
       "signed log, no admin"
     ],
     "groupKeys": [
-      "BeeKEM",
-      "MLS"
+      {
+        "value": "BeeKEM",
+        "status": "building",
+        "note": "Candidate in port-experimente.",
+        "evidence": [
+          {
+            "label": "rltp-beekem notes",
+            "url": "https://github.com/real-life-org/port-experimente/blob/main/src/candidates/rltp-beekem/NOTES.md"
+          }
+        ]
+      },
+      {
+        "value": "MLS",
+        "status": "building",
+        "note": "Candidate in port-experimente.",
+        "evidence": [
+          {
+            "label": "rltp-mls notes",
+            "url": "https://github.com/real-life-org/port-experimente/blob/main/src/candidates/rltp-mls/NOTES.md"
+          }
+        ]
+      }
     ],
     "offline": [
       "yes"

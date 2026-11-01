@@ -44,6 +44,7 @@ for (const slug of folders('projects')) {
   if (row.trustTaskUse?.typesFile && !existsSync(join(root, tt))) errors.push(`${tt}: named in trustTaskUse.typesFile but missing`)
   if (existsSync(join(root, tt)) && !trustTasksSchema(read(tt))) errors.push(`${tt}: ${ajv.errorsText(trustTasksSchema.errors, { separator: '\n  ' })}`)
   if (row.trustTaskUse?.status === 'runs' && !(row.trustTaskUse.evidence?.length)) errors.push(`${file}: trustTaskUse is "runs" without evidence`)
+  for (const [k, vals] of Object.entries(row.facets ?? {})) for (const v of vals) if (typeof v === 'object' && v.status === 'runs' && !(v.evidence?.length)) errors.push(`${file}: facets.${k} "${v.value}" is "runs" without evidence`)
   for (const [i, c] of (row.credentials ?? []).entries()) {
     if (c.status === 'runs' && !(c.evidence?.length)) errors.push(`${file}: credentials[${i}] is "runs" without evidence`)
     for (const pr of c.profiles ?? []) if (!catalogue.profiles[pr]) errors.push(`${file}: credentials[${i}] names unknown profile "${pr}" (add it to credential-profiles.json)`)

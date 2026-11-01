@@ -28,7 +28,17 @@
   },
   "facets": {
     "didMethods": [
-      "did:plc (experiment)"
+      {
+        "value": "did:plc",
+        "status": "building",
+        "note": "Only in the branch atproto-pds-experiment; production uses no DIDs.",
+        "evidence": [
+          {
+            "label": "atproto-pds-experiment",
+            "url": "https://github.com/Hylozoic/hylo/tree/atproto-pds-experiment"
+          }
+        ]
+      }
     ],
     "keys": [
       "server account"

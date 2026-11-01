@@ -214,74 +214,515 @@
         "didMethods": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "keys": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "transport": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "relay": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "trustTasks": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "groupAuthority": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "groupKeys": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "offline": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "language": {
           "type": "array",
           "items": {
-            "type": "string",
-            "maxLength": 60
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "status": {
+                    "enum": [
+                      "runs",
+                      "building",
+                      "committed"
+                    ]
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "url"
+                      ],
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           },
-          "description": "Short values; an empty list means none, a missing key means not known."
+          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         }
       }
     },
