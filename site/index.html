@@ -178,6 +178,14 @@ body{margin:0;background:#F6F6F3}
 .tt-committed{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
 .tt-none{color:var(--muted);border-color:var(--line)}
 #tt-sec{scroll-margin-top:96px}
+.creds{display:flex;flex-direction:column;gap:6px;width:100%}
+.cred{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.proofb{background:none;border:0;padding:0 2px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);cursor:pointer}
+.proofb:hover{color:var(--ink);text-decoration:underline}
+.proofb.on{color:var(--accent);text-decoration:underline}
+.credcard{padding:10px 0;border-top:1px dashed var(--line)}
+.credcard:first-of-type{border-top:0;padding-top:0}
+.warnline{margin:8px 0 0;font-size:12.5px;color:var(--amber-t);background:var(--amber-b);border-radius:6px;padding:6px 9px}
 .ttg{margin-top:12px}
 .ttg-h{font-size:12px;font-weight:600;margin-bottom:5px;display:flex;gap:8px;align-items:baseline}
 .ttype{display:inline-flex;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;padding:1px 7px;border-radius:6px;background:var(--soft);color:var(--ink)}
@@ -235,6 +243,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
 <sc-if value="{{c.tt}}" hint-placeholder-val="{{ false }}"><button class="ttcell" type="button" title="{{c.ttTitle}}" sc-camel-on-click="{{c.openTT}}"><span class="pill tt-{{c.ttStatus}}">{{c.ttStatus}}</span><sc-for list="{{c.ttParts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></button></sc-if>
+<sc-if value="{{c.cred}}" hint-placeholder-val="{{ false }}"><div class="creds"><sc-for list="{{c.creds}}" as="e" hint-placeholder-count="1"><div class="cred" title="{{e.title}}"><button class="tchip {{e.mHue}} {{e.mOn}}" type="button" aria-pressed="{{e.mPressed}}" sc-camel-on-click="{{e.mToggle}}">{{e.model}}</button><sc-for list="{{e.fams}}" as="f" hint-placeholder-count="1"><button class="tchip {{f.hue}} {{f.on}}" type="button" title="{{f.title}}" aria-pressed="{{f.pressed}}" sc-camel-on-click="{{f.toggle}}">{{f.label}}</button></sc-for><span class="pill tt-{{e.status}}">{{e.status}}</span><sc-for list="{{e.proofs}}" as="x" hint-placeholder-count="1"><button class="proofb {{x.on}}" type="button" title="Show only projects with this proof" aria-pressed="{{x.pressed}}" sc-camel-on-click="{{x.toggle}}">{{x.label}}</button></sc-for></div></sc-for></div></sc-if>
 <sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}">{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
 <sc-if value="{{c.activity}}" hint-placeholder-val="{{ false }}"><span class="act"><sc-if value="{{c.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{c.cold}}" hint-placeholder-val="{{ true }}"><span class="still" style="background: {{c.dot}}" aria-hidden="true"></span></sc-if>{{c.act}}</span></sc-if>
 <sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
@@ -285,12 +294,26 @@ body{margin:0;background:#F6F6F3}
 <dt>Needs</dt><dd>{{pp.required}}</dd>
 </dl>
 </div>
+<sc-if value="{{pp.creds.has}}" hint-placeholder-val="{{ false }}">
+<div class="sec">
+<h4>Credentials</h4>
+<sc-if value="{{pp.creds.none}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No credentials.</p></sc-if>
+<sc-for list="{{pp.creds.list}}" as="e" hint-placeholder-count="1"><div class="credcard">
+<div class="cred"><span class="tchip {{e.mHue}}">{{e.model}}</span><span class="pill tt-{{e.status}}">{{e.status}}</span><sc-if value="{{e.hasProof}}" hint-placeholder-val="{{ true }}"><span class="mono muted">{{e.proof}}</span></sc-if></div>
+<sc-if value="{{e.hasProfiles}}" hint-placeholder-val="{{ true }}"><div class="chips" style="margin-top: 8px"><sc-for list="{{e.profiles}}" as="x" hint-placeholder-count="3"><span class="tchip {{x.hue}}" title="{{x.title}}">{{x.label}}</span></sc-for></div></sc-if>
+<sc-for list="{{e.warns}}" as="w" hint-placeholder-count="0"><p class="warnline">⚠ {{w}}</p></sc-for>
+<sc-if value="{{e.hasNote}}" hint-placeholder-val="{{ true }}"><p class="muted" style="margin: 8px 0 0; font-size: 12.5px">{{e.note}}</p></sc-if>
+<div class="chips" style="margin-top: 8px"><sc-for list="{{e.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div>
+</div></sc-for>
+</div>
+</sc-if>
 <sc-if value="{{pp.tt.has}}" hint-placeholder-val="{{ false }}">
 <div class="sec" id="tt-sec">
 <h4>Trust Tasks</h4>
 <div class="chips" style="align-items: center; margin-bottom: 8px"><span class="pill tt-{{pp.tt.status}}">{{pp.tt.status}}</span><sc-for list="{{pp.tt.parts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></div>
 <p class="muted" style="margin: 0 0 10px; font-size: 12.5px">{{pp.tt.note}}</p>
 <ul class="dl"><sc-for list="{{pp.tt.namespaces}}" as="n" hint-placeholder-count="1"><li><span class="tchip {{n.hue}}">{{n.kindLabel}}</span> {{n.label}} <span class="mono muted">{{n.prefix}}</span></li></sc-for></ul>
+<sc-if value="{{pp.tt.hasDocProof}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 4px; font-size: 12px">Documents secured with</p><div class="chips"><sc-for list="{{pp.tt.docProof}}" as="x" hint-placeholder-count="1"><span class="tchip h-slate">{{x}}</span></sc-for></div></sc-if>
 <sc-if value="{{pp.tt.hasMaps}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 4px; font-size: 12px">Mapped to the registry</p><ul class="dl"><sc-for list="{{pp.tt.maps}}" as="m" hint-placeholder-count="1"><li class="mono" style="font-size: 12px">{{m.from}} → {{m.to}}</li></sc-for></ul></sc-if>
 <sc-for list="{{pp.tt.groups}}" as="g" hint-placeholder-count="3"><div class="ttg"><div class="ttg-h">{{g.family}} <span class="muted mono">{{g.n}}</span></div><div class="chips"><sc-for list="{{g.items}}" as="x" hint-placeholder-count="4"><span class="ttype {{x.cls}}" title="{{x.title}}">{{x.label}}</span></sc-for></div></div></sc-for>
 <sc-if value="{{pp.tt.hasShared}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 12px 0 0; font-size: 12px"><span class="ttype shared">green</span> also used by another project on the board</p></sc-if>
@@ -399,15 +422,16 @@ class Component extends DCLogic {
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
 
     const COLS = [
-      ['didMethods', 'DID methods'], ['keys', 'Keys held by'], ['credentials', 'Credential format'], ['proof', 'Proof'],
+      ['didMethods', 'DID methods'], ['keys', 'Keys held by'], ['credentials', 'Credentials'],
       ['transport', 'Transport'], ['relay', 'Relay / mediator'], ['trustTasks', 'Trust Tasks'], ['groupAuthority', 'Group authority'],
       ['groupKeys', 'Group keys'], ['offline', 'Offline'], ['language', 'Language'], ['apps', 'Try it'], ['activity', 'Activity'], ['repos', 'Repositories'],
     ];
-    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos' && c[0] !== 'activity');
+    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos' && c[0] !== 'activity').concat([['credFamily', 'Credential profiles'], ['credProof', 'Proof']]);
     const FAMILY = {
       didMethods: [[/^did:key/, 'h-blue'], [/^did:peer/, 'h-teal'], [/^did:web/, 'h-violet']],
       keys: [[/^device/, 'h-teal'], [/^agent/, 'h-violet'], [/^threshold/, 'h-amber']],
-      credentials: [[/W3C VC/, 'h-blue'], [/^VRC/, 'h-teal'], [/SD-JWT/, 'h-violet'], [/Open Badges/, 'h-amber'], [/ACDC/, 'h-rust']],
+      credentials: [[/^W3C VC/, 'h-blue'], [/SD-JWT/, 'h-violet'], [/ACDC/, 'h-rust']],
+      credFamily: [[/pre-core/, 'h-amber'], [/^DTG/, 'h-teal'], [/Open Badges/, 'h-violet']],
       proof: [[/^eddsa/, 'h-blue'], [/MAC/, 'h-teal'], [/JWS|SD-JWT/, 'h-violet'], [/KERI/, 'h-rust']],
       transport: [[/^TSP/, 'h-teal'], [/^DIDComm/, 'h-blue'], [/^HTTPS/, 'h-slate']],
       relay: [[/VTI mediator/, 'h-violet'], [/^none/, 'h-green'], [/Nostr/, 'h-pink'], [/mesh|lodge/, 'h-rust']],
@@ -429,7 +453,18 @@ class Component extends DCLogic {
     const filters = this.state.filters || {};
     const saveHidden = (h) => { try { localStorage.setItem('dtg-interop-hidden', JSON.stringify(h)); } catch (e) {} this.setState({ hidden: h }); };
     const vis = COLS.filter((c) => hidden.indexOf(c[0]) < 0);
-    const fv = (p, k) => (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k] : null;
+    const CP = (d.credentialProfiles && d.credentialProfiles.profiles) || {};
+    const famOfProfile = (x) => (CP[x] && CP[x].family) || 'other';
+    const credVals = (p, k) => {
+      if (!Array.isArray(p.credentials)) return null;
+      const out = [];
+      p.credentials.forEach((e) => {
+        const vals = k === 'credentials' ? [e.model] : k === 'credFamily' ? (e.profiles || []).map(famOfProfile) : (e.proof || []);
+        vals.forEach((v) => { if (v && out.indexOf(v) < 0) out.push(v); });
+      });
+      return out;
+    };
+    const fv = (p, k) => (k === 'credentials' || k === 'credFamily' || k === 'credProof') ? credVals(p, k) : (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k] : null;
     const setFilter = (k, v) => () => {
       const cur = (filters[k] || []).slice(); const i = cur.indexOf(v);
       if (i >= 0) cur.splice(i, 1); else cur.push(v);
@@ -446,6 +481,26 @@ class Component extends DCLogic {
         return { unknown: false, none: all.length === 0, items: all.slice(0, 3), more: all.length > 3, moreN: all.length - 3 };
       }
       if (k === 'activity') return activityOf(p);
+      if (k === 'credentials') {
+        if (!Array.isArray(p.credentials)) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
+        return {
+          cred: true, none: p.credentials.length === 0, items: [], more: false, moreN: 0,
+          creds: p.credentials.map((e) => {
+            const fams = {}; (e.profiles || []).forEach((x) => { const f = famOfProfile(x); (fams[f] = fams[f] || []).push(x); });
+            const mOn = (filters.credentials || []).indexOf(e.model) >= 0;
+            return {
+              model: e.model, mHue: hueFor('credentials', e.model), mOn: mOn ? 'on' : '', mPressed: mOn, mToggle: setFilter('credentials', e.model),
+              status: e.status, title: e.note || '',
+              fams: Object.keys(fams).map((f) => {
+                const on = (filters.credFamily || []).indexOf(f) >= 0; const pre = /pre-core/.test(f);
+                const notes = fams[f].map((x) => (CP[x] && CP[x].note) ? x + ': ' + CP[x].note : '').filter(Boolean);
+                return { label: (pre ? '⚠ ' : '') + f + ' · ' + fams[f].length, hue: hueFor('credFamily', f), on: on ? 'on' : '', pressed: on, toggle: setFilter('credFamily', f), title: fams[f].join(', ') + (notes.length ? ' · ' + notes.join(' ') : '') };
+              }),
+              proofs: (e.proof || []).map((x) => { const on = (filters.credProof || []).indexOf(x) >= 0; return { label: x, on: on ? 'on' : '', pressed: on, toggle: setFilter('credProof', x) }; }),
+            };
+          }),
+        };
+      }
       if (k === 'trustTasks') {
         const u = p.trustTaskUse;
         if (!u) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
@@ -463,7 +518,7 @@ class Component extends DCLogic {
         }),
       };
     };
-    const widths = { didMethods: 150, keys: 120, credentials: 150, proof: 140, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 80, language: 110, apps: 170, activity: 150, repos: 220 };
+    const widths = { didMethods: 150, keys: 120, credentials: 300, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 80, language: 110, apps: 170, activity: 150, repos: 220 };
     const grid = 'minmax(150px, 180px) ' + vis.map((c) => 'minmax(' + widths[c[0]] + 'px, 1fr)').join(' ');
     const minW = (180 + vis.reduce((n, c) => n + widths[c[0]] + 12, 0) + 40) + 'px';
     const rows = shown.map((p) => ({
@@ -519,7 +574,8 @@ class Component extends DCLogic {
           const gm = {}; let shared = 0;
           (tu.types || []).forEach((x) => {
             const i = info[x.type]; const s = shortT(x.type);
-            const fam = (i && i.family) || s.split(/[/:]/)[0] || 'other';
+            const ns = (tu.namespaces || []).find((n) => n.prefix && x.type.indexOf(n.prefix) === 0);
+            const fam = (i && i.family) || (/[/:]/.test(s) ? s.split(/[/:]/)[0] : (ns ? ns.label : (tu.namespaces && tu.namespaces[0] ? tu.namespaces[0].label : 'other')));
             const others = i ? i.users.filter((u) => u.project !== p.slug).map((u) => nameOf(u.project)) : [];
             if (others.length) shared++;
             (gm[fam] = gm[fam] || []).push({ label: s, cls: (others.length ? 'shared' : '') + (x.status === 'building' ? ' bld' : ''), title: x.type + (others.length ? ' · also used by ' + others.join(', ') : '') + (x.status && x.status !== 'runs' ? ' · ' + x.status : '') });
@@ -534,7 +590,24 @@ class Component extends DCLogic {
             groups, hasShared: shared > 0,
             hasMore: cnt > listed, more: cnt > listed ? (listed ? listed + ' of about ' + cnt + ' types are public; the full list is not.' : 'About ' + cnt + ' types; the list is not public.') : '',
             hasSource: !!src, sourceText: src ? 'List extracted ' + this.fmt(src.extracted) + ': ' + src.method + '.' : '', sourceUrl: src && src.sources ? src.sources[0] : '',
-            evidence: tu.evidence || [],
+            evidence: tu.evidence || [], docProof: tu.documentProof || [], hasDocProof: (tu.documentProof || []).length > 0,
+          };
+        })(),
+        creds: (() => {
+          const c = p.credentials;
+          if (!Array.isArray(c)) return { has: false };
+          return {
+            has: true, none: c.length === 0,
+            list: c.map((e) => {
+              const prof = e.profiles || [];
+              const warns = prof.filter((x) => /pre-core/.test(famOfProfile(x)) && CP[x] && CP[x].note).map((x) => x + ': ' + CP[x].note);
+              return {
+                model: e.model, mHue: hueFor('credentials', e.model), status: e.status,
+                proof: (e.proof || []).join(', '), hasProof: (e.proof || []).length > 0,
+                profiles: prof.map((x) => { const f = famOfProfile(x); const info = CP[x] || {}; return { label: (/pre-core/.test(f) ? '⚠ ' : '') + x, hue: hueFor('credFamily', f), title: (info.name || x) + ' · ' + f + (info.note ? ' · ' + info.note : '') }; }),
+                hasProfiles: prof.length > 0, warns, note: e.note || '', hasNote: !!e.note, evidence: e.evidence || [],
+              };
+            }),
           };
         })(),
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
@@ -542,7 +615,7 @@ class Component extends DCLogic {
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
-        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Credentials', st.credentials], ['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
+        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
         scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
