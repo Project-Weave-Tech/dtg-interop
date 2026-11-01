@@ -177,6 +177,10 @@
     "error-answers": {
       "status": "potential",
       "note": "Trust Task documents on plain TSP agreed as the shared layer; trust-task-error not mentioned."
+    },
+    "document-framework": {
+      "status": "potential",
+      "note": "Trust Task documents on plain TSP agreed as the shared layer; committed, nothing running."
     }
   },
   "provenance": {

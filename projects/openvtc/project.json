@@ -264,6 +264,14 @@
     "error-answers": {
       "status": "potential",
       "note": "trust-task-error is a type of the Trust Tasks framework; the VTA answers with it."
+    },
+    "direct-message": {
+      "status": "potential",
+      "note": "DIDComm v2 and TSP via the VTI mediator; the catalogue has no person-to-person message type (chat/message is agent-to-platform)."
+    },
+    "multi-device": {
+      "status": "potential",
+      "note": "A persona under did:webvh on a trust agent, devices and apps under did:key; not described as a cross-app property."
     }
   },
   "provenance": {

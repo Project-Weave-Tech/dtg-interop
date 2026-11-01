@@ -76,6 +76,10 @@
     "document-framework": {
       "status": "potential",
       "note": "Agreements and events could be expressed as a Trust Task family."
+    },
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:jlinc with an own didserver; resolution by others not documented."
     }
   },
   "provenance": {

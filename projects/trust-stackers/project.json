@@ -123,6 +123,14 @@
     "error-answers": {
       "status": "potential",
       "note": "Own task namespace task:p2pts; an error type is not documented."
+    },
+    "membership-statement": {
+      "status": "potential",
+      "note": "VMC minted by community ceremonies in the code; verification by another app not shown."
+    },
+    "contact-ceremony": {
+      "status": "potential",
+      "note": "Ceremonies in the code mint VRC, VMC and VIC; a QR ceremony between two apps is not documented."
     }
   },
   "provenance": {

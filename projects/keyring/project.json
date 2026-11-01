@@ -186,6 +186,26 @@
     "multi-device": {
       "status": "potential",
       "note": "One wallet per device; did:webvh personas via a VTA could tie devices together, not documented as such."
+    },
+    "direct-message": {
+      "status": "potential",
+      "note": "DIDComm v2 between wallets through mediators; whether a person-to-person message is a Trust Task document is not documented."
+    },
+    "app-change": {
+      "status": "potential",
+      "note": "A wallet holds the person's credentials on the device; export and import between wallets is not documented."
+    },
+    "registry-lookup": {
+      "status": "potential",
+      "note": "Joins communities through a VTA, which reads the VTC trust registry."
+    },
+    "newcomer-history": {
+      "status": "potential",
+      "note": "MLS data rooms via the VTA; what a newcomer may read follows the host's epoch chain."
+    },
+    "captured-device": {
+      "status": "potential",
+      "note": "MLS data rooms via the VTA; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property."
     }
   },
   "provenance": {
