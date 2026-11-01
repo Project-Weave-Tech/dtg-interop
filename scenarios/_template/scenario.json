@@ -1,0 +1,16 @@
+{
+  "slug": "your-scenario",
+  "title": "What is exercised, in one line",
+  "points": [
+    "vrc-exchange"
+  ],
+  "summary": "One or two sentences: what is exchanged, in which direction, what counts as pass.",
+  "participants": [
+    "your-slug"
+  ],
+  "status": "proposed",
+  "vectors": [],
+  "results": [],
+  "updated": "2026-11-01",
+  "waitingOn": "what has to happen next"
+}

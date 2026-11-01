@@ -1,0 +1,24 @@
+{
+  "slug": "message-over-tsp",
+  "title": "Two connected people on two different apps exchange a message each way",
+  "points": [
+    "direct-message",
+    "same-carrier",
+    "document-framework",
+    "message-privacy"
+  ],
+  "summary": "After a shared ceremony, each side sends the other one message as a Trust Task document in a TSP envelope through one mediator. The receiving app shows it in the right conversation and can answer.",
+  "participants": [
+    "rltp"
+  ],
+  "status": "proposed",
+  "waitingOn": "agreement on a shared message document type (proposal) and a counterpart on the same mediator",
+  "vectors": [
+    {
+      "label": "RLTP message@1 (pairwise MAC, no transferable proof)",
+      "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/message.json"
+    }
+  ],
+  "results": [],
+  "updated": "2026-10-31"
+}

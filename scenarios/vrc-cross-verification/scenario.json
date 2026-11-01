@@ -1,0 +1,26 @@
+{
+  "slug": "vrc-cross-verification",
+  "title": "A relationship credential issued in one app verifies in another",
+  "points": [
+    "vrc-exchange",
+    "did-resolution"
+  ],
+  "summary": "Each side hands the other a DTG RelationshipCredential it issued. The receiving side verifies the proof, the context and the issuer scope with its own library and states the result.",
+  "participants": [
+    "rltp"
+  ],
+  "status": "proposed",
+  "waitingOn": "a counterpart that issues a DTG RelationshipCredential and verifies ours",
+  "vectors": [
+    {
+      "label": "RLTP encounter credential (DTG context v1)",
+      "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/encounter-cards.json"
+    },
+    {
+      "label": "Foreign plain DTG VRCs, informative",
+      "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/dtg-vrc-foreign.json"
+    }
+  ],
+  "results": [],
+  "updated": "2026-10-31"
+}

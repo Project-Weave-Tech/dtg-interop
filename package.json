@@ -1,0 +1,18 @@
+{
+  "name": "dtg-interop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Map of interop points, project rows, scenarios, issues view and dashboard for the implementations of the decentralized trust graph",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/build.mjs && node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  },
+  "engines": { "node": ">=20" }
+}

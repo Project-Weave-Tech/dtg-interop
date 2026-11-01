@@ -1,0 +1,73 @@
+{
+  "slug": "consensual",
+  "name": "Consensual / Geb",
+  "website": "https://app.consenu.al",
+  "licence": "CLI ALPS 0.3.1 (core open); application code not public",
+  "repositories": [],
+  "apps": [
+    {
+      "kind": "web",
+      "label": "app.consenu.al",
+      "url": "https://app.consenu.al",
+      "status": "prototype"
+    }
+  ],
+  "stack": {
+    "didMethods": "did:peer:2 per device; a person is the set of devices with mutual same-person statements",
+    "credentials": "VRC (moving to eddsa-jcs-2022 and VCDM, announced)",
+    "transport": "TSP; Nostr relays as rendezvous; WebRTC for people present",
+    "trustTasks": "Trust Task documents on plain TSP agreed as the shared layer; MLS optional",
+    "groups": "rooms on MLS (OpenMLS, 0x0001), any member may commit, lowest hash wins in a settle window, admins in policy",
+    "sharedState": "MLS rooms; agreement ledger merged as a CRDT",
+    "devices": "one leaf per device, persona card binds devices"
+  },
+  "requiredParty": "no central party; relays for rendezvous",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:peer:2, resolvable offline."
+    },
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "Joint ceremony vectors with RLTP exist; VRC format in transition."
+    },
+    "contact-ceremony": {
+      "status": "potential",
+      "note": "shared-connect ceremony on VTI trigger links, defined jointly with RLTP.",
+      "evidence": [
+        {
+          "label": "VTI spec issue 86",
+          "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86"
+        }
+      ]
+    },
+    "same-carrier": {
+      "status": "potential",
+      "note": "TSP; relay path to be agreed with the counterpart."
+    },
+    "direct-message": {
+      "status": "potential",
+      "note": "Direct messages are MLS rooms of two today."
+    },
+    "key-agreement": {
+      "status": "potential",
+      "note": "MLS 0x0001 rooms."
+    },
+    "authority-model": {
+      "status": "potential",
+      "note": "Committer race with settle window; admins in policy."
+    },
+    "multi-device": {
+      "status": "potential",
+      "note": "Device set with persona card."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://app.consenu.al"
+    ]
+  },
+  "updated": "2026-10-30"
+}

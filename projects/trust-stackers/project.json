@@ -1,0 +1,52 @@
+{
+  "slug": "trust-stackers",
+  "name": "Trust Stackers / p2p-trust-stack",
+  "licence": "GPL-3.0-only or commercial, CLA",
+  "repositories": [
+    "https://github.com/TrustStackers/p2p-trust-stack"
+  ],
+  "stack": {
+    "didMethods": "did:scid:vh, did:peer:4",
+    "credentials": "VRC/VTC in progress",
+    "transport": "TSP directly over libp2p, NAT traversal; no mediator",
+    "trustTasks": "own task namespace task:p2pts:",
+    "groups": "communities in SQL with admins",
+    "sharedState": "none documented",
+    "devices": "Node only"
+  },
+  "requiredParty": "none at runtime (direct libp2p); community admins",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:scid:vh and did:peer:4."
+    },
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "VRC in progress; DTG conformance to be checked."
+    },
+    "same-carrier": {
+      "status": "potential",
+      "note": "TSP over libp2p without a carrier; a tsp-conformance driver would be the quickest interop finding."
+    },
+    "cross-carrier": {
+      "status": "potential",
+      "note": "Direct connections with NAT traversal."
+    },
+    "authority-model": {
+      "status": "potential",
+      "note": "Admins."
+    },
+    "wire-conformance": {
+      "status": "potential",
+      "note": "No driver in tsp-conformance yet."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://github.com/TrustStackers/p2p-trust-stack"
+    ]
+  },
+  "updated": "2026-10-30"
+}

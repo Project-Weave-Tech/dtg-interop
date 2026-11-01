@@ -1,0 +1,148 @@
+{
+  "slug": "openvtc",
+  "name": "OpenVTC / Verifiable Trust Infrastructure",
+  "website": "https://openvtc.net",
+  "docs": "https://firstperson.dev/",
+  "licence": "Apache-2.0 (VTI, openvtc, dtg-credentials); tsp-conformance and browser plugin without a stated licence",
+  "repositories": [
+    "https://github.com/OpenVTC/verifiable-trust-infrastructure",
+    "https://github.com/OpenVTC/openvtc",
+    "https://github.com/OpenVTC/dtg-credentials",
+    "https://github.com/OpenVTC/tsp-conformance",
+    "https://github.com/OpenVTC/vti-setup"
+  ],
+  "apps": [
+    {
+      "kind": "web",
+      "label": "FirstPerson.dev test community",
+      "url": "https://firstperson.dev/",
+      "status": "alpha"
+    },
+    {
+      "kind": "cli",
+      "label": "pnm / openvtc operator CLIs (vti-setup)",
+      "url": "https://github.com/OpenVTC/vti-setup",
+      "status": "alpha"
+    }
+  ],
+  "stack": {
+    "didMethods": "did:webvh for personas, trust agents and rooms; did:key for members and apps",
+    "credentials": "DTG Core Credentials (VC 2.0): VMC, VRC, VIC, VEC, VWC, VAC, VDC; digest SHA-256 over JCS",
+    "transport": "TSP 1.0 (also DIDComm v2, REST); Affinidi and own mediators",
+    "trustTasks": "Trust Tasks framework as the operation layer; trust-tasks-rs",
+    "groups": "Verifiable Trust Communities (VTC) on a trust agent with policies; VMC/VEC issuance; trust registry",
+    "sharedState": "Data Rooms on MLS (RFC 9420): host holds ciphertext, owner advances the epoch; tiers open/attributed built, private pending",
+    "devices": "keys in the Verifiable Trust Agent (VTA), one identity per persona"
+  },
+  "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:webvh and did:key; resolution needs the web for did:webvh."
+    },
+    "vrc-exchange": {
+      "status": "runs",
+      "note": "dtg-credentials (Rust) issues and verifies DTG RelationshipCredentials, WD 0.6.0.",
+      "evidence": [
+        {
+          "label": "dtg-credentials",
+          "url": "https://github.com/OpenVTC/dtg-credentials"
+        }
+      ]
+    },
+    "app-change": {
+      "status": "potential",
+      "note": "VRCs and VMCs live in the VTA/wallet."
+    },
+    "contact-ceremony": {
+      "status": "potential",
+      "note": "Keyring joins communities by QR; a person-to-person ceremony between apps is not documented."
+    },
+    "same-carrier": {
+      "status": "runs",
+      "note": "VTI mediator over TSP 1.0; conformance suite for TSP implementations.",
+      "evidence": [
+        {
+          "label": "tsp-conformance",
+          "url": "https://github.com/OpenVTC/tsp-conformance"
+        }
+      ]
+    },
+    "cross-carrier": {
+      "status": "potential",
+      "note": "Two parties at different mediators have no TSP relationship in VTI today."
+    },
+    "document-framework": {
+      "status": "runs",
+      "note": "Trust Tasks as the operation layer of the stack.",
+      "evidence": [
+        {
+          "label": "openvtc",
+          "url": "https://github.com/OpenVTC/openvtc"
+        }
+      ]
+    },
+    "membership-statement": {
+      "status": "runs",
+      "note": "VMC issued by the community (VTC).",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    "shared-room": {
+      "status": "runs",
+      "note": "Data Rooms on MLS, join by welcome, epoch chain for newcomers.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    "newcomer-history": {
+      "status": "potential",
+      "note": "Epoch chain gives newcomers earlier epochs."
+    },
+    "key-agreement": {
+      "status": "potential",
+      "note": "MLS 0x0001 in Data Rooms."
+    },
+    "authority-model": {
+      "status": "potential",
+      "note": "Owner and host epoch."
+    },
+    "registry-lookup": {
+      "status": "runs",
+      "note": "Trust registry as part of the VTC.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    "wire-conformance": {
+      "status": "runs",
+      "note": "tsp-conformance: driver protocol over JSON Lines, drivers for Rust, TS, Go, Dart.",
+      "evidence": [
+        {
+          "label": "tsp-conformance",
+          "url": "https://github.com/OpenVTC/tsp-conformance"
+        }
+      ]
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://github.com/OpenVTC",
+      "https://firstperson.dev/",
+      "https://www.firstperson.network/white-paper"
+    ]
+  },
+  "updated": "2026-10-30"
+}

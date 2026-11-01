@@ -1,0 +1,26 @@
+{
+  "slug": "shared-ceremony",
+  "title": "Two people on two different apps connect through one ceremony",
+  "points": [
+    "contact-ceremony",
+    "ceremony-definitions"
+  ],
+  "summary": "One side displays a trigger link as a QR code, the other scans it; both run the shared-connect ceremony and end with a relationship credential the other app verifies.",
+  "participants": [
+    "rltp"
+  ],
+  "status": "proposed",
+  "waitingOn": "shared-connect v0.3 and the second app implementing it",
+  "vectors": [
+    {
+      "label": "shared-connect enactment binding",
+      "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
+    },
+    {
+      "label": "encounter-scan ceremony definition (DTGWG format)",
+      "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
+    }
+  ],
+  "results": [],
+  "updated": "2026-10-31"
+}

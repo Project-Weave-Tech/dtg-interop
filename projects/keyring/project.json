@@ -1,0 +1,72 @@
+{
+  "slug": "keyring",
+  "name": "Keyring (Harvard Applied Technology Lab)",
+  "licence": "Apache-2.0",
+  "repositories": [
+    "https://github.com/berkmancenter/keyring-wallet",
+    "https://github.com/berkmancenter/keyring-bifold"
+  ],
+  "apps": [
+    {
+      "kind": "android",
+      "label": "Keyring on Google Play",
+      "url": "https://play.google.com/store/apps/details?id=asml.bkc.harvard.wallet",
+      "status": "alpha"
+    }
+  ],
+  "stack": {
+    "didMethods": "did:peer / did:key on the device; did:webvh personas via a VTA",
+    "credentials": "DTG VRC and witness credentials; credentials held in the wallet",
+    "transport": "DIDComm v1/v2 between wallets; TSP (Rev 3 / 1.0) on the VTI peer leg",
+    "trustTasks": "@openvtc/trust-tasks 0.9.0 for VRC and witness tasks",
+    "groups": "joins VTI communities; no group model of its own documented",
+    "sharedState": "none documented",
+    "devices": "one wallet per device"
+  },
+  "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:peer and did:key on device; did:webvh via VTA."
+    },
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "DTG VRC exchange wallet to wallet; acceptance of foreign issuers to be checked.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    },
+    "contact-ceremony": {
+      "status": "potential",
+      "note": "QR join to a VTI community; not a peer ceremony."
+    },
+    "same-carrier": {
+      "status": "potential",
+      "note": "TSP only on the VTI peer leg; VRC path over DIDComm."
+    },
+    "document-framework": {
+      "status": "potential",
+      "note": "Trust Tasks 0.9.0 on the DIDComm path."
+    },
+    "membership-statement": {
+      "status": "potential",
+      "note": "Holds VMCs issued by communities."
+    },
+    "document-conformance": {
+      "status": "potential",
+      "note": "Conformance roadmap in the Trust Tasks TF discussions 905 and 914."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://github.com/berkmancenter/keyring-wallet",
+      "https://github.com/berkmancenter/keyring-bifold"
+    ]
+  },
+  "updated": "2026-10-30"
+}

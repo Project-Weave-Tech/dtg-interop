@@ -1,0 +1,41 @@
+{
+  "slug": "civic-social",
+  "name": "Civic.Social",
+  "docs": "https://github.com/Mosaic-Foundation/civic-social-docs",
+  "licence": "CC-BY-4.0 (specs)",
+  "repositories": [
+    "https://github.com/Mosaic-Foundation/civic-social-docs"
+  ],
+  "stack": {
+    "didMethods": "did:key, did:web, did:webvh (set open)",
+    "credentials": "VC 2.0 with SD-JWT VC required, Data Integrity eddsa-rdfc-2022 optional; OpenID4VCI/VP, SIOPv2",
+    "transport": "HTTPS",
+    "trustTasks": "none; ActivityStreams 2.0 profile with own JSON-LD context",
+    "groups": "Civic Space, portable between engines",
+    "sharedState": "Civic Personal Data Store: relationships, memberships, pointers",
+    "devices": "not stated"
+  },
+  "requiredParty": "an engine hosting the civic space",
+  "points": {
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite."
+    },
+    "app-change": {
+      "status": "potential",
+      "note": "Civic Personal Data Store holds relationships and memberships for portability."
+    },
+    "shared-room": {
+      "status": "potential",
+      "note": "Civic Space portable across engines."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://github.com/Mosaic-Foundation/civic-social-docs"
+    ]
+  },
+  "updated": "2026-10-30"
+}

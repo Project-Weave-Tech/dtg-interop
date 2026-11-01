@@ -1,0 +1,128 @@
+[
+  {
+    "id": "shared-connect-trigger-links",
+    "title": "Trigger links: a person-to-person flow (shared-connect), carried invitation, size budget, registry entry",
+    "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86",
+    "context": "Defines the QR and link form two apps need to share for a contact ceremony between apps.",
+    "points": [
+      "contact-ceremony",
+      "ceremony-definitions"
+    ],
+    "state": "open",
+    "updated": "2026-10-31"
+  },
+  {
+    "id": "tt-shared-wire-core",
+    "title": "A shared wire core across Trust Task implementations: one test, eight dimensions, and a self-report",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/905",
+    "context": "What every Trust Task implementation must get identical for documents to be readable across apps.",
+    "points": [
+      "document-framework",
+      "document-conformance"
+    ],
+    "state": "open",
+    "updated": "2026-10-28"
+  },
+  {
+    "id": "tt-conformance-roadmap",
+    "title": "A roadmap to Trust Task conformance: layers, profiles and optional modules",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/914",
+    "context": "How a shared document-level conformance suite could be layered.",
+    "points": [
+      "document-conformance"
+    ],
+    "state": "open",
+    "updated": "2026-10-30"
+  },
+  {
+    "id": "tt-rulings",
+    "title": "Rulings requested: blocked, verdict versus refusal, already-in-state, defaulted quorum, proof bytes, freshness, indeterminate",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-spec/issues/31",
+    "context": "Open rulings in the Trust Tasks specification that decide how two implementations read the same answer.",
+    "points": [
+      "document-framework",
+      "error-answers"
+    ],
+    "state": "open",
+    "updated": "2026-10-30"
+  },
+  {
+    "id": "tt-third-party-sources",
+    "title": "Pin and generate tasks from third-party sources beside the registry",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/934",
+    "context": "Lets any project publish its own document types so that others can pin and generate them.",
+    "points": [
+      "document-framework",
+      "document-conformance"
+    ],
+    "state": "implemented",
+    "updated": "2026-10-26"
+  },
+  {
+    "id": "tt-extends",
+    "title": "A version may declare it extends an earlier one, and every library reads the newer version as the older",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/922",
+    "context": "Version compatibility rule for shared document types.",
+    "points": [
+      "document-framework"
+    ],
+    "state": "implemented",
+    "updated": "2026-10-26"
+  },
+  {
+    "id": "vrc-verifier-relative-edges",
+    "title": "Verifier-relative edges: a VRC as an edge for a verifier that already knows its issuer",
+    "url": "https://github.com/trustoverip/dtgwg-cred-spec/issues/72",
+    "context": "How a relationship credential is read by a verifier that already knows one side; affects credential exchange between apps.",
+    "points": [
+      "vrc-exchange"
+    ],
+    "state": "open",
+    "updated": "2026-10-03"
+  },
+  {
+    "id": "data-rooms-keyring-requests",
+    "title": "Data rooms: a few requests from the Keyring wallet integration",
+    "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure/issues/2294",
+    "context": "What a second client needs from a Data Room host; relevant for any app joining a room it does not host.",
+    "points": [
+      "shared-room",
+      "newcomer-history"
+    ],
+    "state": "open",
+    "updated": "2026-10-30"
+  },
+  {
+    "id": "multi-device-p-commit",
+    "title": "K2 ledger: P-Commit flags issuance by a sister M device",
+    "url": "https://github.com/real-life-org/port-experimente/issues/85",
+    "context": "One of three open findings from the multi-device experiment E15: how several devices of one person act toward another app.",
+    "points": [
+      "multi-device"
+    ],
+    "state": "open",
+    "updated": "2026-10-25"
+  },
+  {
+    "id": "multi-device-effect-authorship",
+    "title": "K2 fold: effect authorship depends on fold order",
+    "url": "https://github.com/real-life-org/port-experimente/issues/86",
+    "context": "Multi-device experiment E15, second finding: order-free effect identity across devices.",
+    "points": [
+      "multi-device"
+    ],
+    "state": "open",
+    "updated": "2026-10-25"
+  },
+  {
+    "id": "multi-device-foreign-pool",
+    "title": "K2 fold: a foreign pool is accepted outside the enrolment ceremony",
+    "url": "https://github.com/real-life-org/port-experimente/issues/87",
+    "context": "Multi-device experiment E15, third finding: which device may provision one-time keys.",
+    "points": [
+      "multi-device"
+    ],
+    "state": "open",
+    "updated": "2026-10-25"
+  }
+]

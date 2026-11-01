@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/real-life-org/dtg-interop/schema/project.schema.json",
+  "title": "DTG interop project row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slug", "name", "repositories", "stack", "points", "provenance", "updated"],
+  "properties": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,40}$", "description": "Folder name under projects/." },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "website": { "type": "string", "format": "uri" },
+    "docs": { "type": "string", "format": "uri" },
+    "licence": { "type": "string", "maxLength": 160, "description": "In the project's words; the build also shows the licence GitHub reports per repository." },
+    "repositories": { "type": "array", "items": { "type": "string", "format": "uri" } },
+    "apps": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["kind", "label", "url"], "properties": { "kind": { "enum": ["android", "ios", "web", "desktop", "cli", "simulator", "other"] }, "label": { "type": "string" }, "url": { "type": "string", "format": "uri" }, "status": { "enum": ["live", "alpha", "prototype"] } } }
+    },
+    "stack": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "didMethods": { "type": "string" }, "credentials": { "type": "string" }, "transport": { "type": "string" },
+        "trustTasks": { "type": "string" }, "groups": { "type": "string" }, "sharedState": { "type": "string" }, "devices": { "type": "string" }
+      }
+    },
+    "requiredParty": { "type": "string", "description": "The party without which the implementation does not work." },
+    "points": {
+      "type": "object", "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9-]{1,40}$": {
+          "type": "object", "additionalProperties": false, "required": ["status", "note"],
+          "properties": {
+            "status": { "enum": ["potential", "runs", "vectors", "spec", "open", "n/a"] },
+            "note": { "type": "string", "maxLength": 400 },
+            "evidence": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["label", "url"], "properties": { "label": { "type": "string" }, "url": { "type": "string", "format": "uri" } } } }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "date"],
+      "properties": {
+        "kind": { "enum": ["project", "public"], "description": "project: written or confirmed by the project. public: compiled from public sources by someone else." },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "sources": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      }
+    },
+    "updated": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "social-fabric",
+  "name": "Social Fabric",
+  "website": "https://social-fabric.us",
+  "docs": "https://social-fabric.us/developers",
+  "repositories": [],
+  "stack": {
+    "didMethods": "not stated publicly",
+    "credentials": "badges / credential entitlements; Open Badges 3.0 per the one-pager",
+    "transport": "mesh: LibreMesh, MeshCore, Meshtastic, sneaker-net; Lodge nodes replicate bundles",
+    "trustTasks": "not stated",
+    "groups": "TrustZones with delegated rights",
+    "sharedState": "bundles replicated between lodge nodes",
+    "devices": "not stated"
+  },
+  "requiredParty": "not stated publicly",
+  "points": {
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "OB 3.0 is VC 2.0; proof suite to be checked."
+    },
+    "cross-carrier": {
+      "status": "potential",
+      "note": "Mesh transports with small MTU; a candidate for an offline track."
+    },
+    "traditional-tools": {
+      "status": "potential",
+      "note": "Recipe manifests unlocked by badges."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://social-fabric.us",
+      "https://social-fabric.us/developers",
+      "https://social-fabric.us/support-areas/infrastructure"
+    ]
+  },
+  "updated": "2026-10-30"
+}

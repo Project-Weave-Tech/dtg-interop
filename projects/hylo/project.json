@@ -1,0 +1,61 @@
+{
+  "slug": "hylo",
+  "name": "Hylo",
+  "website": "https://www.hylo.com",
+  "docs": "https://github.com/Hylozoic/hylo",
+  "licence": "Apache-2.0 (monorepo)",
+  "repositories": [
+    "https://github.com/Hylozoic/hylo"
+  ],
+  "apps": [
+    {
+      "kind": "web",
+      "label": "hylo.com",
+      "url": "https://www.hylo.com",
+      "status": "live"
+    }
+  ],
+  "stack": {
+    "didMethods": "none in production; branch atproto-pds-experiment with did:plc identities",
+    "credentials": "none",
+    "transport": "HTTPS, GraphQL",
+    "trustTasks": "none",
+    "groups": "groups and nested networks in a central Postgres database",
+    "sharedState": "central database; Murmurations profiles",
+    "devices": "accounts"
+  },
+  "requiredParty": "the Hylo server",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:plc experiment (ATProto).",
+      "evidence": [
+        {
+          "label": "atproto-pds-experiment",
+          "url": "https://github.com/Hylozoic/hylo/tree/atproto-pds-experiment"
+        }
+      ]
+    },
+    "app-change": {
+      "status": "potential",
+      "note": "ATProto identities would make a Hylo account portable."
+    },
+    "shared-room": {
+      "status": "potential",
+      "note": "ATProto Spaces as a possible group substrate; not in the code yet."
+    },
+    "traditional-tools": {
+      "status": "potential",
+      "note": "Existing community platform; a candidate consumer of membership statements."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://github.com/Hylozoic/hylo",
+      "https://www.hylo.com"
+    ]
+  },
+  "updated": "2026-10-30"
+}

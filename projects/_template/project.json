@@ -1,0 +1,27 @@
+{
+  "slug": "your-slug",
+  "name": "Your project",
+  "website": "https://example.org",
+  "docs": "https://example.org/docs",
+  "licence": "SPDX identifiers, one per repository if they differ",
+  "repositories": ["https://github.com/your-org/your-repo"],
+  "apps": [{ "kind": "web", "label": "Try it", "url": "https://example.org/app", "status": "prototype" }],
+  "stack": {
+    "didMethods": "which DID methods, for what",
+    "credentials": "which credential formats and proof suites",
+    "transport": "protocol and mediator or relay, e.g. TSP 1.0 via VTI mediator",
+    "trustTasks": "Trust Tasks framework version and types, or which other document format",
+    "groups": "how a group is formed and who may change it",
+    "sharedState": "how shared data is kept and encrypted",
+    "devices": "what a person with several devices is"
+  },
+  "requiredParty": "the party without which your implementation does not work, or 'the other person'",
+  "points": {
+    "vrc-exchange": { "status": "open", "note": "one sentence", "evidence": [] },
+    "contact-ceremony": { "status": "open", "note": "one sentence" },
+    "direct-message": { "status": "open", "note": "one sentence" },
+    "shared-room": { "status": "open", "note": "one sentence" }
+  },
+  "provenance": { "kind": "project", "date": "2026-11-01" },
+  "updated": "2026-11-01"
+}

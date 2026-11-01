@@ -1,0 +1,40 @@
+{
+  "slug": "jlinc",
+  "name": "JLINC",
+  "website": "https://protocol.jlinc.io/",
+  "licence": "MIT for some packages, others unstated",
+  "repositories": [
+    "https://github.com/jlinclabs/jlinc-node",
+    "https://github.com/jlinclabs/jlinx",
+    "https://github.com/jlinclabs/didserver"
+  ],
+  "stack": {
+    "didMethods": "did:jlinc; capabilityDelegation of type jlinc",
+    "credentials": "JWS EdDSA agreements with JCS and SHA-256",
+    "transport": "HTTP POST",
+    "trustTasks": "none; agreements and events with audit records",
+    "groups": "none",
+    "sharedState": "zero-knowledge audit records at archives",
+    "devices": "not stated"
+  },
+  "requiredParty": "an archive for audit records",
+  "points": {
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "Same primitives (Ed25519, JCS), different envelope (JWS)."
+    },
+    "document-framework": {
+      "status": "potential",
+      "note": "Agreements and events could be expressed as a Trust Task family."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://protocol.jlinc.io/",
+      "https://github.com/jlinclabs"
+    ]
+  },
+  "updated": "2026-10-30"
+}

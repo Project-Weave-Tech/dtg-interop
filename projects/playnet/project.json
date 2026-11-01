@@ -1,0 +1,43 @@
+{
+  "slug": "playnet",
+  "name": "Playnet / ValueFlows",
+  "website": "https://playnet.earth/info",
+  "docs": "https://www.valueflo.ws/",
+  "licence": "not stated; ValueFlows CC-BY-SA-4.0",
+  "repositories": [
+    "https://codeberg.org/valueflows/valueflows"
+  ],
+  "stack": {
+    "didMethods": "KERI (AIDs, key event log)",
+    "credentials": "ACDC / KERI",
+    "transport": "Reticulum over Tor, LoRa, packet radio, TCP; Goblins actors over OCapN",
+    "trustTasks": "none; ValueFlows vocabulary (needs, offers, processes, commitments, recipes)",
+    "groups": "commons written in Guile Scheme",
+    "sharedState": "own event log per participant",
+    "devices": "not stated"
+  },
+  "requiredParty": "not stated publicly",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "KERI identifiers; bridge to DIDs needed."
+    },
+    "cross-carrier": {
+      "status": "potential",
+      "note": "Reticulum mesh; TSP over it is untried."
+    },
+    "traditional-tools": {
+      "status": "potential",
+      "note": "ValueFlows as a shared content vocabulary for offers and needs."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://playnet.earth/info",
+      "https://www.valueflo.ws/"
+    ]
+  },
+  "updated": "2026-10-30"
+}

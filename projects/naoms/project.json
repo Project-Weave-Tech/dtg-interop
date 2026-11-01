@@ -1,0 +1,61 @@
+{
+  "slug": "naoms",
+  "name": "NAOMS",
+  "website": "https://naoms.dev",
+  "docs": "https://blog.naoms.dev/",
+  "licence": "core not public; mirror MIT",
+  "repositories": [
+    "https://github.com/javruben/naoms-flow-funding",
+    "https://github.com/javruben/naoms-devlog"
+  ],
+  "stack": {
+    "didMethods": "did:key root, did:naoms, did:webvh; FROST across devices",
+    "credentials": "W3C VCs, VRCs after the First Person Project",
+    "transport": "iroh/QUIC, mDNS, DIDComm v2; MLS for calls",
+    "trustTasks": "fork of the Trust Tasks registry and registry PRs",
+    "groups": "Hives as signed hash chains with a quorum from current membership; steward role",
+    "sharedState": "signed hash chain per space, encrypted storage",
+    "devices": "FROST threshold signing across the devices of a person"
+  },
+  "requiredParty": "a steward, per the public material",
+  "points": {
+    "did-resolution": {
+      "status": "potential",
+      "note": "did:key root; did:webvh and did:naoms."
+    },
+    "vrc-exchange": {
+      "status": "potential",
+      "note": "VRC vectors planned for cross-verification."
+    },
+    "contact-ceremony": {
+      "status": "potential",
+      "note": "Contacts by handshake; format not public."
+    },
+    "same-carrier": {
+      "status": "potential",
+      "note": "DIDComm v2 over iroh; no TSP documented."
+    },
+    "authority-model": {
+      "status": "potential",
+      "note": "Hive chain with quorum; steward."
+    },
+    "shared-room": {
+      "status": "potential",
+      "note": "Spaces as hash chains."
+    },
+    "multi-device": {
+      "status": "potential",
+      "note": "FROST across devices."
+    }
+  },
+  "provenance": {
+    "kind": "public",
+    "date": "2026-10-30",
+    "sources": [
+      "https://naoms.dev",
+      "https://blog.naoms.dev/",
+      "https://github.com/javruben"
+    ]
+  },
+  "updated": "2026-10-30"
+}

@@ -1,0 +1,313 @@
+{
+  "slug": "rltp",
+  "name": "Real Life Trust Protocol",
+  "website": "https://trust-protocol.real-life.org",
+  "docs": "https://trust-protocol.real-life.org/",
+  "licence": "specification text CC BY 4.0; code Apache-2.0 (trust-protocol) and MIT (app, test bench)",
+  "repositories": [
+    "https://github.com/real-life-org/trust-protocol",
+    "https://github.com/real-life-org/web-of-trust",
+    "https://github.com/real-life-org/port-experimente"
+  ],
+  "apps": [
+    {
+      "kind": "android",
+      "label": "Web of Trust (Play, alpha)",
+      "url": "https://play.google.com/store/apps/details?id=de.web_of_trust.app",
+      "status": "alpha"
+    },
+    {
+      "kind": "web",
+      "label": "web-of-trust.de",
+      "url": "https://web-of-trust.de/",
+      "status": "live"
+    },
+    {
+      "kind": "simulator",
+      "label": "The app on three devices (browser)",
+      "url": "https://trust-protocol.real-life.org/simulator/network.html",
+      "status": "live"
+    },
+    {
+      "kind": "simulator",
+      "label": "One ceremony under the microscope",
+      "url": "https://trust-protocol.real-life.org/simulator/index.html",
+      "status": "live"
+    },
+    {
+      "kind": "simulator",
+      "label": "The graph",
+      "url": "https://trust-protocol.real-life.org/simulator/graph.html",
+      "status": "live"
+    }
+  ],
+  "stack": {
+    "didMethods": "did:key only; one anchor per relationship; device keys derived under the person (Identity 0.55)",
+    "credentials": "DTG RelationshipCredential (registry context v1, issuerScope pairwise, eddsa-jcs-2022); pairwise documents under a relationship MAC",
+    "transport": "TSP 1.0 through the VTI mediator, routed with direct fallback; own mediator instance; the delivery port takes further carriers",
+    "trustTasks": "Trust Tasks framework: type URI with /spec/, JSON schema, Data Integrity proof or pairwise MAC; reads trust-task-error 0.2 to 0.6",
+    "groups": "a signed, replicated authority log every member holds; no owner, no admin role; policy as data; contested authority fails closed",
+    "sharedState": "replication contract over a key-blind carrier; key agreement behind a port (BeeKEM reference, MLS shown through the same port)",
+    "devices": "keys per device derived under the person, allocation of one-time keys by the person, no seed on any device (experiment E15)"
+  },
+  "requiredParty": "the other person",
+  "points": {
+    "vrc-exchange": {
+      "status": "vectors",
+      "note": "Our encounter credential is a DTG RelationshipCredential; a conformance reader for foreign plain DTG VRCs under did:peer:2 and did:key exists with negatives. No documented run against another implementation's issuer yet.",
+      "evidence": [
+        {
+          "label": "encounter-cards.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/encounter-cards.json"
+        },
+        {
+          "label": "dtg-vrc-foreign.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/dtg-vrc-foreign.json"
+        },
+        {
+          "label": "conformance/dtg-vrc.mjs",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/conformance/dtg-vrc.mjs"
+        }
+      ]
+    },
+    "app-change": {
+      "status": "open",
+      "note": "Relationships are documents and travel; membership is a fact in a replicated log, not a credential a wallet carries. An outward membership statement is designed, not built.",
+      "evidence": [
+        {
+          "label": "Membership Tasks 0.21",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/membership-tasks.md"
+        }
+      ]
+    },
+    "contact-ceremony": {
+      "status": "vectors",
+      "note": "encounter-scan is published in the DTGWG ceremony definition format; shared-connect is being defined jointly with Consensual on VTI trigger links, with shared binding vectors.",
+      "evidence": [
+        {
+          "label": "encounter-scan.ceremony.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
+        },
+        {
+          "label": "shared-connect-binding.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
+        }
+      ]
+    },
+    "direct-message": {
+      "status": "vectors",
+      "note": "A pairwise message document under a relationship MAC, no transferable proof. Only RLTP reads it today; we propose a shared type (scenario message-over-tsp).",
+      "evidence": [
+        {
+          "label": "message.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/message.json"
+        }
+      ]
+    },
+    "membership-statement": {
+      "status": "spec",
+      "note": "Membership is invite, the subject's own signed accept, and admission under the group's stated policy, all in the log. No wallet-held VMC; an outward statement for parties outside the group is designed, not built.",
+      "evidence": [
+        {
+          "label": "membership-tasks.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/membership-tasks.json"
+        },
+        {
+          "label": "Access 0.58",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/access-layer.md"
+        }
+      ]
+    },
+    "multi-app-access": {
+      "status": "open",
+      "note": "Not exercised. Would follow from the outward membership statement."
+    },
+    "subgroups": {
+      "status": "spec",
+      "note": "A sub-group is a group with its own log and policy; no special mechanism. Not exercised across apps."
+    },
+    "shared-room": {
+      "status": "runs",
+      "note": "Spike: a browser tab without a trust agent joins an OpenVTC Data Room, reads records and writes one that pnm reads back. Our replication contract treats a data room as a key-blind carrier. Run protocol to be published.",
+      "evidence": [
+        {
+          "label": "Replication Contract 0.26",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/replication-contract.md"
+        }
+      ]
+    },
+    "registry-lookup": {
+      "status": "n/a",
+      "note": "A registry is a service that becomes mandatory; we have no counterpart and do not plan one. We read registry trust tasks at the adapter boundary."
+    },
+    "trust-network": {
+      "status": "n/a",
+      "note": "See 3a."
+    },
+    "did-resolution": {
+      "status": "runs",
+      "note": "did:key only, resolved locally without a network; one anchor per relationship.",
+      "evidence": [
+        {
+          "label": "identity-derivation.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/identity-derivation.json"
+        }
+      ]
+    },
+    "offline-write": {
+      "status": "runs",
+      "note": "A write is valid when issued, never because it arrived (Access §1.3); the simulators run with no network at all.",
+      "evidence": [
+        {
+          "label": "Simulator: the app on three devices",
+          "url": "https://trust-protocol.real-life.org/simulator/network.html"
+        }
+      ]
+    },
+    "ceremony-definitions": {
+      "status": "vectors",
+      "note": "encounter-scan published in the DTGWG ceremony definition format; shared-connect to follow at v0.3.",
+      "evidence": [
+        {
+          "label": "encounter-scan.ceremony.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
+        }
+      ]
+    },
+    "same-carrier": {
+      "status": "runs",
+      "note": "TSP 1.0 through the VTI mediator, routed with direct fallback; own instance at mediator.web-of-trust.de.",
+      "evidence": [
+        {
+          "label": "VTI adapter profile 0.30",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/adapter-vti-mediator.md"
+        },
+        {
+          "label": "vti-routed-addressing.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/vti-routed-addressing.json"
+        }
+      ]
+    },
+    "cross-carrier": {
+      "status": "open",
+      "note": "Two parties at different mediators have no TSP relationship in VTI today; the delivery port takes further carriers but none is built."
+    },
+    "document-framework": {
+      "status": "runs",
+      "note": "Every wire artifact is a Trust Task document: type URI with /spec/, schema, Data Integrity proof or pairwise MAC. Types not yet published as a third-party source.",
+      "evidence": [
+        {
+          "label": "schemas/",
+          "url": "https://github.com/real-life-org/trust-protocol/tree/main/schemas"
+        },
+        {
+          "label": "tf-proof vectors",
+          "url": "https://github.com/real-life-org/trust-protocol/tree/main/vectors/tf-proof"
+        }
+      ]
+    },
+    "error-answers": {
+      "status": "vectors",
+      "note": "Reads trust-task-error 0.2 to 0.6 as answers; the states each one leaves are in the envelope vector.",
+      "evidence": [
+        {
+          "label": "vti-sealed-envelope.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/vti-sealed-envelope.json"
+        }
+      ]
+    },
+    "message-privacy": {
+      "status": "vectors",
+      "note": "message@1 carries a pairwise MAC and no Data Integrity proof; only the two parties can verify it.",
+      "evidence": [
+        {
+          "label": "message.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/message.json"
+        }
+      ]
+    },
+    "authority-model": {
+      "status": "spec",
+      "note": "Signed log with causal order and a rule for every concurrent pair; contested authority fails closed. Offered as a profile, not as the model others should adopt.",
+      "evidence": [
+        {
+          "label": "Access 0.58",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/access-layer.md"
+        },
+        {
+          "label": "access-conflicts.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/access-conflicts.json"
+        }
+      ]
+    },
+    "newcomer-history": {
+      "status": "spec",
+      "note": "History through the key chain; the retained set decides what a newcomer may open (Membership Tasks §1.3). Exercised in the test bench, not across apps."
+    },
+    "key-agreement": {
+      "status": "vectors",
+      "note": "Key world behind a port; BeeKEM reference, MLS (OpenMLS 0.9.1, 0x0001) shown through the same port in experiment E13 with the same scenarios.",
+      "evidence": [
+        {
+          "label": "E13 notes (rltp-mls)",
+          "url": "https://github.com/real-life-org/port-experimente/blob/main/src/candidates/rltp-mls/NOTES.md"
+        }
+      ]
+    },
+    "captured-device": {
+      "status": "vectors",
+      "note": "Test bench K4: PCS after a captured device, concurrent removals; not exercised across apps.",
+      "evidence": [
+        {
+          "label": "rltp-beekem notes",
+          "url": "https://github.com/real-life-org/port-experimente/blob/main/src/candidates/rltp-beekem/NOTES.md"
+        }
+      ]
+    },
+    "multi-device": {
+      "status": "vectors",
+      "note": "Experiment E15: keys per device, allocation by the person, 20 scenarios; core merged, restore lifecycle open.",
+      "evidence": [
+        {
+          "label": "mehrgeraet-k2 notes",
+          "url": "https://github.com/real-life-org/port-experimente/blob/main/src/candidates/mehrgeraet-k2/NOTES.md"
+        }
+      ]
+    },
+    "traditional-tools": {
+      "status": "spec",
+      "note": "A group points at its data (document.attach) and a tool asks only who belongs through the authorization view; not built."
+    },
+    "wire-conformance": {
+      "status": "n/a",
+      "note": "We use @openvtc/vti-tsp-js, the library tsp-conformance tests; a driver of our own would measure the same code."
+    },
+    "document-conformance": {
+      "status": "vectors",
+      "note": "Byte-exact vectors for every document type, re-derived by a runner; would join a shared document-level suite.",
+      "evidence": [
+        {
+          "label": "vectors/",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/index.md"
+        },
+        {
+          "label": "conformance/",
+          "url": "https://github.com/real-life-org/trust-protocol/tree/main/conformance"
+        }
+      ]
+    },
+    "ui-consistency": {
+      "status": "open",
+      "note": "Relationship classes met, introduced, link with colours and warnings are defined for our app; no shared vocabulary across apps yet."
+    },
+    "agent-collaboration": {
+      "status": "open",
+      "note": "Not joined yet."
+    }
+  },
+  "provenance": {
+    "kind": "project",
+    "date": "2026-10-31"
+  },
+  "updated": "2026-10-31"
+}
