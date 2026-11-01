@@ -704,7 +704,7 @@ class Component extends DCLogic {
         agentCls: this.state.agentCopied === p.slug ? 'on' : '',
         hasAgentText: !!(this.state.agentText && this.state.agentText.slug === p.slug), agentText: this.state.agentText && this.state.agentText.slug === p.slug ? this.state.agentText.text : '',
         copyAgent: () => {
-          const task = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. Update projects/' + p.slug + '/project.json to match our project as of today, confirm it (provenance.kind: project), run npm run validate, then git pull --rebase, and commit and push to main as "' + p.slug + ': <what changed>" (open a pull request instead if you have no write access).';
+          const task = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. Update projects/' + p.slug + '/project.json to match our project as of today, confirm it (provenance.kind: project), run npm run validate, commit only that file as "' + p.slug + ': <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
           this.copyText(task).then((ok) => { if (ok) { this.setState({ agentCopied: p.slug, agentText: null }); setTimeout(() => this.setState({ agentCopied: null }), 4000); } else this.setState({ agentText: { slug: p.slug, text: task } }); });
         },
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
