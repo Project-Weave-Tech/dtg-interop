@@ -186,7 +186,7 @@ body{margin:0;background:#F6F6F3}
 <div class="col {{c.cls}}">
 <div class="colh"><strong>{{c.title}} <span class="cnum">{{c.n}}</span></strong><span>{{c.sub}}</span></div>
 <sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
-<article class="card {{k.selCls}} {{k.thin}}">
+<article class="card {{k.selCls}} {{k.thin}}" id="pt-{{k.id}}">
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}</h3></button>
 <sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Realized: {{k.shown}}</span></sc-if>
 <div class="faces">
@@ -222,12 +222,13 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
-    this.state = { data: null, err: '', theme: savedTheme, layers: [], point: null, copied: null };
+    let hashPoint = null; try { hashPoint = decodeURIComponent(location.hash.slice(1)) || null; } catch (e) {}
+    this.state = { data: null, err: '', theme: savedTheme, layers: [], point: hashPoint, copied: null };
   }
   componentDidMount() {
     fetch('./data.json')
       .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then((data) => this.setState({ data }))
+      .then((data) => this.setState({ data }, () => { const el = this.state.point && document.getElementById('pt-' + this.state.point); if (el) setTimeout(() => el.scrollIntoView({ block: 'center' }), 50); }))
       .catch((e) => this.setState({ err: String((e && e.message) || e) }));
   }
   copyText(text) {

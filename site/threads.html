@@ -43,12 +43,40 @@ body{margin:0;background:#F6F6F3}
 .chip{display:inline-flex;align-items:center;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .stale{font-size:11px;color:var(--muted);font-style:italic}
 .grp{display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--soft);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
-.trow{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:20px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:start}
-.ttitle{font-weight:500;font-size:14.5px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.fchip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:12.5px;cursor:pointer}
+.fchip:hover{border-color:var(--muted)}
+.fchip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.fchip .n{font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.7}
+.sec{padding:18px 20px 22px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sech{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 14px}
+.sech h3{margin:0;font-size:15px;font-weight:600;text-transform:capitalize}
+.sech .cnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+.sech p{margin:0;color:var(--muted);font-size:13px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.tcard{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.tcard.c-open{border-left-color:var(--amber-t)}
+.tcard.c-decided{border-left-color:var(--blue-t)}
+.tcard.c-implemented{border-left-color:var(--green-t)}
+.trepo{display:flex;align-items:center;gap:8px;min-width:0;font-family:"IBM Plex Mono",monospace;font-size:12px}
+.board a.rlink{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--ink)}
+.rlink .own{color:var(--muted);white-space:nowrap;flex:none}
+.rlink .nm{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kind{margin-left:auto;flex:none;color:var(--muted);white-space:nowrap}
+.board a.ttitle{font-weight:600;font-size:15px;line-height:1.35;color:var(--ink)}
+.board a.ttitle:hover{color:var(--accent)}
+.tctx{margin:0;font-size:13px;color:var(--muted)}
+.tfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.tfoot .when{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.board a.chip{color:var(--ink)}
+.board a.chip:hover{border-color:var(--muted);text-decoration:none}
 @media (max-width: 640px){
 .wrap{padding:0 16px}
-.trow{grid-template-columns:minmax(0,1fr);gap:6px}
-.meta{text-align:left !important}
+.tgrid{grid-template-columns:minmax(0,1fr)}
+.sec,.filters{padding-left:14px;padding-right:14px}
+.trepo{flex-wrap:wrap;row-gap:2px}
+.kind{margin-left:0;width:100%}
 }
 .board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
 .board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
@@ -123,22 +151,27 @@ body{margin:0;background:#F6F6F3}
 <div class="wrap">
 <section class="block" aria-labelledby="h-threads">
 <div class="bhead"><h2 id="h-threads">Threads</h2><p>Where the conversations about interop happen, in specs, mediators, task forces and experiments. Answer there, not here.</p><a class="btn" href="{{head.newThread}}" target="_blank" rel="noopener">Add a thread</a></div>
+<div class="filters" role="group" aria-label="Filter by repository">
+<sc-for list="{{repoChips}}" as="r" hint-placeholder-count="4"><button class="fchip" type="button" aria-pressed="{{r.on}}" sc-camel-on-click="{{r.pick}}">{{r.label}} <span class="n">{{r.n}}</span></button></sc-for>
+</div>
 <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
-<div class="grp"><span class="pill st-{{g.state}}">{{g.state}}</span></div>
-<sc-for list="{{g.items}}" as="t" hint-placeholder-count="5">
-<div class="trow">
-<div style="min-width: 0; display: flex; flex-direction: column; gap: 5px">
+<div class="sec">
+<div class="sech"><h3>{{g.state}}</h3><span class="cnum">{{g.n}}</span><p>{{g.sub}}</p></div>
+<div class="tgrid">
+<sc-for list="{{g.items}}" as="t" hint-placeholder-count="4">
+<article class="tcard c-{{t.state}}">
+<div class="trepo"><a class="rlink" href="{{t.repoUrl}}" target="_blank" rel="noopener" title="{{t.repo}}"><svg width="14" height="14" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true" style="flex: none"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg><span class="own">{{t.owner}} /</span><span class="nm">{{t.repoName}}</span></a><span class="kind">{{t.kind}}</span></div>
 <a class="ttitle" href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a>
-<span style="font-size: 13px">{{t.context}}</span>
-<div class="chips"><sc-for list="{{t.points}}" as="p" hint-placeholder-count="2"><a class="chip" href="map.html">{{p}}</a></sc-for></div>
+<p class="tctx">{{t.context}}</p>
+<div class="tfoot">
+<sc-for list="{{t.points}}" as="p" hint-placeholder-count="1"><a class="chip" href="{{p.href}}">{{p.title}}</a></sc-for>
+<span class="when" title="last activity">{{t.updated}}</span>
 </div>
-<div class="meta" style="display: flex; flex-direction: column; gap: 2px; text-align: right">
-<span class="mono muted">{{t.host}}</span>
-<span class="mono muted">{{t.updated}}</span>
-<sc-if value="{{t.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{t.updated}}</span></sc-if>
-</div>
-</div>
+<sc-if value="{{t.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">no activity for over 90 days</span></sc-if>
+</article>
 </sc-for>
+</div>
+</div>
 </sc-for>
 </section>
 </div>
@@ -151,7 +184,7 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
-    this.state = { data: null, err: '' , theme: savedTheme };
+    this.state = { data: null, err: '' , theme: savedTheme, repo: null };
   }
   componentDidMount() {
     fetch('./data.json')
@@ -173,21 +206,34 @@ class Component extends DCLogic {
     const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
     const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, groups: [] };
+    if (!d) return { ...base, head: {}, groups: [], repoChips: [] };
 
     const repo = d.repo;
     const ptById = {}; ((d.map && d.map.points) || []).forEach((p) => { ptById[p.id] = p; });
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newThread: repo + '/edit/main/threads.json' };
 
-    const items = (d.threads || []).slice().sort((a, b) => String(b.updated).localeCompare(String(a.updated))).map((t) => ({
-      title: t.title, url: t.url, host: t.host, context: t.context, state: t.state,
-      points: (t.points || []).map((id) => (ptById[id] ? ptById[id].title : id)),
-      updated: this.fmt(t.updated), stale: stale(t.updated),
-    }));
-    const groups = ['open', 'decided', 'implemented'].map((s) => ({ state: s, items: items.filter((t) => t.state === s) })).filter((g) => g.items.length);
+    const kinds = { issues: 'Issue', discussions: 'Discussion', pull: 'PR' };
+    const all = (d.threads || []).slice().sort((a, b) => String(b.updated).localeCompare(String(a.updated))).map((t) => {
+      const m = String(t.url).match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)(?:\/(issues|discussions|pull)\/(\d+))?/);
+      const owner = m ? m[1] : t.host; const repoName = m ? m[2] : '';
+      return {
+        title: t.title, url: t.url, context: t.context, state: t.state,
+        owner, repoName, repo: m ? owner + '/' + repoName : t.host, repoUrl: m ? 'https://github.com/' + owner + '/' + repoName : t.url,
+        kind: m && m[3] ? kinds[m[3]] + ' #' + m[4] : '',
+        points: (t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'map.html#' + encodeURIComponent(id) })),
+        updated: this.fmt(t.updated), stale: stale(t.updated),
+      };
+    });
+    const counts = {}; all.forEach((t) => { counts[t.repo] = (counts[t.repo] || 0) + 1; });
+    const sel = this.state.repo && counts[this.state.repo] ? this.state.repo : null;
+    const repoChips = [{ label: 'All repositories', n: all.length, on: !sel, pick: () => this.setState({ repo: null }) }]
+      .concat(Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b)).map((r) => ({ label: r, n: counts[r], on: sel === r, pick: () => this.setState({ repo: sel === r ? null : r }) })));
+    const items = sel ? all.filter((t) => t.repo === sel) : all;
+    const subs = { open: 'Still being discussed. Join in there.', decided: 'Agreed, not yet built.', implemented: 'Merged or running.' };
+    const groups = ['open', 'decided', 'implemented'].map((s) => ({ state: s, sub: subs[s], items: items.filter((t) => t.state === s) })).filter((g) => g.items.length).map((g) => ({ ...g, n: g.items.length }));
 
-    return { ...base, head, groups };
+    return { ...base, head, groups, repoChips };
   }
 }
 </script>
