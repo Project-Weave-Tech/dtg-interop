@@ -1,6 +1,7 @@
 {
   "slug": "keyring",
   "name": "Keyring (Harvard Applied Technology Lab)",
+  "logo": "logo-keyring.png",
   "licence": "Apache-2.0",
   "repositories": [
     "https://github.com/berkmancenter/keyring-wallet",
