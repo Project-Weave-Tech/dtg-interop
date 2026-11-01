@@ -38,6 +38,10 @@
     ],
     "trustTasks": [
       "committed, nothing running"
+    ],
+    "language": [
+      "Rust",
+      "JavaScript"
     ]
   },
   "credentials": [
