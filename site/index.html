@@ -182,6 +182,14 @@ body{margin:0;background:#F6F6F3}
 .sd-runs{background:var(--green-t)}
 .sd-building{background:linear-gradient(90deg,var(--blue-t) 50%,transparent 50%);border:1.5px solid var(--blue-t)}
 .sd-committed{border:2px solid var(--amber-t)}
+.pname{position:relative}
+.tip{position:absolute;left:calc(100% + 10px);top:0;z-index:6;width:300px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 28px rgba(0,0,0,.18);font-weight:400;font-size:13px;line-height:1.45;color:var(--ink);text-align:left;white-space:normal;opacity:0;visibility:hidden;transform:translateX(-4px);transition:opacity .12s ease,transform .12s ease,visibility .12s;pointer-events:none}
+.pname:hover .tip,.pname:focus-visible .tip{opacity:1;visibility:visible;transform:none}
+.tbl .trw:hover .c0,.tbl .trw:focus-within .c0{z-index:4}
+.tip-m{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.tip-m::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
+.tip-m.prov-project::before{background:var(--green-t)}
+.tip-m.prov-public::before{border:1.5px solid var(--muted)}
 .creds{display:flex;flex-direction:column;gap:6px;width:100%}
 .cred{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .proofb{background:none;border:0;padding:0 2px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);cursor:pointer}
@@ -243,7 +251,7 @@ body{margin:0;background:#F6F6F3}
 <div class="trw thead" style="grid-template-columns: {{grid}}"><span class="c0">Project</span><sc-for list="{{heads}}" as="h" hint-placeholder-count="12"><span>{{h}}</span></sc-for></div>
 <sc-for list="{{rows}}" as="p" hint-placeholder-count="11">
 <div class="trw" style="grid-template-columns: {{grid}}">
-<button class="pname c0" type="button" title="{{p.nameTitle}}" sc-camel-on-click="{{p.open}}"><span class="av {{p.hue}} {{p.avCls}}" aria-hidden="true" style="{{p.logoStyle}}">{{p.mono}}</span><span class="pn">{{p.short}}</span></button>
+<button class="pname c0" type="button" sc-camel-on-click="{{p.open}}"><span class="av {{p.hue}} {{p.avCls}}" aria-hidden="true" style="{{p.logoStyle}}">{{p.mono}}</span><span class="pn">{{p.short}}</span><span class="tip" role="tooltip"><sc-if value="{{p.hasPurpose}}" hint-placeholder-val="{{ false }}"><span style="display: block">{{p.purpose}}</span></sc-if><span class="tip-m {{p.provCls}}">{{p.prov}}</span></span></button>
 <sc-for list="{{p.cells}}" as="c" hint-placeholder-count="12"><div class="cell">
 <sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
@@ -540,7 +548,7 @@ class Component extends DCLogic {
       prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
       provCls: isPub(p) ? 'prov-public' : 'prov-project',
       hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
-      nameTitle: (p.purpose ? p.purpose + ' · ' : '') + (isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project'),
+      purpose: p.purpose || '', hasPurpose: !!p.purpose,
       cells: vis.map((c) => cellOf(p, c[0])),
     }));
     const filterGroups = FACETS.map((c) => {
