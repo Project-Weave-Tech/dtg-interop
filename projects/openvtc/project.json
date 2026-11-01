@@ -26,13 +26,13 @@
     }
   ],
   "stack": {
-    "didMethods": "did:webvh for personas, trust agents and rooms; did:key for members and apps",
+    "didMethods": "did:webvh, did:key",
     "credentials": "DTG Core Credentials (VC 2.0): VMC, VRC, VIC, VEC, VWC, VAC, VDC; digest SHA-256 over JCS",
     "transport": "TSP 1.0 (also DIDComm v2, REST); Affinidi and own mediators",
     "trustTasks": "Trust Tasks framework as the operation layer; trust-tasks-rs",
     "groups": "Verifiable Trust Communities (VTC) on a trust agent with policies; VMC/VEC issuance; trust registry",
     "sharedState": "Data Rooms on MLS (RFC 9420): host holds ciphertext, owner advances the epoch; tiers open/attributed built, private pending",
-    "devices": "keys in the Verifiable Trust Agent (VTA), one identity per persona"
+    "devices": "keys in the Verifiable Trust Agent (VTA); did:webvh for personas, trust agents and rooms, did:key for members and apps"
   },
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
   "points": {

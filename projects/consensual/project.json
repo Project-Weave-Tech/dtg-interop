@@ -13,13 +13,13 @@
     }
   ],
   "stack": {
-    "didMethods": "did:peer:2 per device; a person is the set of devices with mutual same-person statements",
+    "didMethods": "did:peer:2",
     "credentials": "VRC (moving to eddsa-jcs-2022 and VCDM, announced)",
     "transport": "TSP; Nostr relays as rendezvous; WebRTC for people present",
     "trustTasks": "Trust Task documents on plain TSP agreed as the shared layer; MLS optional",
     "groups": "rooms on MLS (OpenMLS, 0x0001), any member may commit, lowest hash wins in a settle window, admins in policy",
     "sharedState": "MLS rooms; agreement ledger merged as a CRDT",
-    "devices": "one leaf per device, persona card binds devices"
+    "devices": "one did:peer:2 per device; a person is the set of devices with mutual same-person statements; one MLS leaf per device"
   },
   "requiredParty": "no central party; relays for rendezvous",
   "points": {

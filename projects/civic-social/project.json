@@ -7,13 +7,13 @@
     "https://github.com/Mosaic-Foundation/civic-social-docs"
   ],
   "stack": {
-    "didMethods": "did:key, did:web, did:webvh (set open)",
+    "didMethods": "did:key, did:web, did:webvh",
     "credentials": "VC 2.0 with SD-JWT VC required, Data Integrity eddsa-rdfc-2022 optional; OpenID4VCI/VP, SIOPv2",
     "transport": "HTTPS",
     "trustTasks": "none; ActivityStreams 2.0 profile with own JSON-LD context",
     "groups": "Civic Space, portable between engines",
     "sharedState": "Civic Personal Data Store: relationships, memberships, pointers",
-    "devices": "not stated"
+    "devices": "not stated; the set of methods is open in the spec"
   },
   "requiredParty": "an engine hosting the civic space",
   "points": {

@@ -16,13 +16,13 @@
     }
   ],
   "stack": {
-    "didMethods": "none in production; branch atproto-pds-experiment with did:plc identities",
+    "didMethods": "none (did:plc in an experiment)",
     "credentials": "none",
     "transport": "HTTPS, GraphQL",
     "trustTasks": "none",
     "groups": "groups and nested networks in a central Postgres database",
     "sharedState": "central database; Murmurations profiles",
-    "devices": "accounts"
+    "devices": "accounts; branch atproto-pds-experiment adds did:plc identities"
   },
   "requiredParty": "the Hylo server",
   "points": {

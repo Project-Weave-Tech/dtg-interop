@@ -42,7 +42,7 @@
     }
   ],
   "stack": {
-    "didMethods": "did:key only; one anchor per relationship; device keys derived under the person (Identity 0.55)",
+    "didMethods": "did:key",
     "credentials": "DTG RelationshipCredential (registry context v1, issuerScope pairwise, eddsa-jcs-2022); pairwise documents under a relationship MAC",
     "transport": "TSP 1.0 through the VTI mediator, routed with direct fallback; own mediator instance; the delivery port takes further carriers",
     "trustTasks": "Trust Tasks framework: type URI with /spec/, JSON schema, Data Integrity proof or pairwise MAC; reads trust-task-error 0.2 to 0.6",

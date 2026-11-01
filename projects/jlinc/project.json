@@ -9,13 +9,13 @@
     "https://github.com/jlinclabs/didserver"
   ],
   "stack": {
-    "didMethods": "did:jlinc; capabilityDelegation of type jlinc",
+    "didMethods": "did:jlinc",
     "credentials": "JWS EdDSA agreements with JCS and SHA-256",
     "transport": "HTTP POST",
     "trustTasks": "none; agreements and events with audit records",
     "groups": "none",
     "sharedState": "zero-knowledge audit records at archives",
-    "devices": "not stated"
+    "devices": "not stated; capabilityDelegation of type jlinc in the DID document"
   },
   "requiredParty": "an archive for audit records",
   "points": {

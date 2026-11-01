@@ -15,13 +15,13 @@
     }
   ],
   "stack": {
-    "didMethods": "did:peer / did:key on the device; did:webvh personas via a VTA",
+    "didMethods": "did:peer, did:key, did:webvh",
     "credentials": "DTG VRC and witness credentials; credentials held in the wallet",
     "transport": "DIDComm v1/v2 between wallets; TSP (Rev 3 / 1.0) on the VTI peer leg",
     "trustTasks": "@openvtc/trust-tasks 0.9.0 for VRC and witness tasks",
     "groups": "joins VTI communities; no group model of its own documented",
     "sharedState": "none documented",
-    "devices": "one wallet per device"
+    "devices": "one wallet per device; did:peer and did:key on the device, did:webvh personas via a VTA"
   },
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
   "points": {

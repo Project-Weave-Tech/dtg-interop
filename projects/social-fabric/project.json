@@ -5,7 +5,7 @@
   "docs": "https://social-fabric.us/developers",
   "repositories": [],
   "stack": {
-    "didMethods": "not stated publicly",
+    "didMethods": "not stated",
     "credentials": "badges / credential entitlements; Open Badges 3.0 per the one-pager",
     "transport": "mesh: LibreMesh, MeshCore, Meshtastic, sneaker-net; Lodge nodes replicate bundles",
     "trustTasks": "not stated",
