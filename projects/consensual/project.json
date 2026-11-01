@@ -1,14 +1,14 @@
 {
   "slug": "consensual",
   "name": "Consensual / Geb",
-  "website": "https://app.consenu.al",
-  "licence": "not stated; application code not public",
+  "website": "https://app.consensu.al",
+  "licence": "Alignment License (ALPS) 0.4.0, source open within a purpose (MPL 2.0 + People's Data); not OSI open source; before 2026-10-07 AGPL-3.0-only",
   "repositories": [],
   "apps": [
     {
       "kind": "web",
-      "label": "app.consenu.al",
-      "url": "https://app.consenu.al",
+      "label": "app.consensu.al",
+      "url": "https://app.consensu.al",
       "status": "prototype"
     }
   ],
@@ -49,8 +49,8 @@
       "status": "runs",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -74,8 +74,8 @@
       "status": "runs",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -86,8 +86,8 @@
       "status": "runs",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     }
@@ -100,8 +100,8 @@
       "note": "Rooms; any member may commit.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -112,8 +112,8 @@
       "note": "Agreement ledger merged as a CRDT.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     }
@@ -137,8 +137,8 @@
       "note": "did:peer:2, resolvable offline.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -167,8 +167,8 @@
       "note": "TSP; relay path to be agreed with the counterpart.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -177,8 +177,8 @@
       "note": "Direct messages are MLS rooms of two today.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -187,8 +187,8 @@
       "note": "Device set with persona card.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -197,8 +197,8 @@
       "note": "did:peer:2 and MLS rooms work without a host; writes settle when peers meet.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -207,8 +207,8 @@
       "note": "MLS rooms with one leaf per device; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     },
@@ -217,8 +217,8 @@
       "note": "Trust Task documents on plain TSP agreed as the shared layer; committed, nothing running.",
       "evidence": [
         {
-          "label": "app.consenu.al",
-          "url": "https://app.consenu.al"
+          "label": "app.consensu.al",
+          "url": "https://app.consensu.al"
         }
       ]
     }
@@ -227,7 +227,8 @@
     "kind": "public",
     "date": "2026-10-30",
     "sources": [
-      "https://app.consenu.al"
+      "https://app.consensu.al",
+      "https://app.consensu.al/download/"
     ]
   },
   "updated": "2026-11-01",
