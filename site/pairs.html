@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>DTG Interop Board: Pairs</title>
+<meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
+<script src="dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>
+body{margin:0;background:#F6F6F3}
+.board{--bg:#F6F6F3;--surface:#FFFFFF;--ink:#17181A;--muted:#5B6067;--line:#E1E1DA;--soft:#EFEFEA;--accent:#2349BF;--accent-soft:#E7ECFA;--warn:#A24A06;--fail:#A11D1D;color-scheme:light}
+.board[data-theme="dark"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}}
+.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:64px}
+.board a{color:var(--accent);text-decoration:none}
+.board a:hover{text-decoration:underline}
+.board button{font:inherit;color:inherit}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px}
+.muted{color:var(--muted)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 32px}
+.hdr{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-top:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.board .tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent}
+.board .tabs a:hover{color:var(--ink);text-decoration:none}
+.board .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
+.bhead h2{margin:0;font-size:17px;font-weight:600}
+.bhead p{margin:0;color:var(--muted);font-size:13px;flex:1 1 220px}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
+.board a.btn{color:var(--ink)}
+.board a.btn:hover{text-decoration:none;border-color:var(--muted)}
+.board a.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:var(--soft);color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:4px 6px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);max-width:100%}
+.clip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stale{font-size:11px;color:var(--muted);font-style:italic}
+.pill{display:inline-flex;align-items:center;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;white-space:nowrap;border:1px solid transparent}
+.o-pass{background:var(--accent);color:var(--surface)}
+.o-partial{border-color:var(--warn);color:var(--warn)}
+.o-fail{background:var(--fail);color:var(--surface)}
+.st-proposed{border-color:var(--muted);color:var(--muted)}
+.st-running{border-color:var(--accent);color:var(--accent)}
+.st-passing{background:var(--accent);color:var(--surface)}
+.st-failing{background:var(--fail);color:var(--surface)}
+.pairs{display:flex;flex-wrap:wrap}
+.mx-box{overflow-x:auto;padding:18px 20px 20px;flex:1 1 620px;min-width:0}
+.mx-row{display:flex;gap:4px;margin-bottom:4px}
+.mx-label{width:170px;flex:none;font-size:13px;display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden}
+.mx-head{width:38px;height:26px;flex:none;display:flex;align-items:flex-end;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+.mx-cell{width:38px;height:38px;flex:none;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:0;font-size:14px;line-height:1}
+.mx-cell:hover{border-color:var(--accent)}
+.mx-empty::after{content:"";display:block;width:3px;height:3px;margin:auto;border-radius:50%;background:var(--line)}
+.mx-diag{background:var(--soft);border-color:transparent;cursor:default}
+.mx-pass{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.mx-partial{border:1.5px solid var(--warn);color:var(--warn)}
+.mx-fail{background:var(--fail);border-color:var(--fail);color:var(--surface)}
+.side{flex:1 1 300px;max-width:420px;padding:20px 24px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.side p{margin:0;font-size:13px}
+.cols4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 20px 22px}
+.colh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.card{border:1px solid var(--line);border-radius:9px;padding:14px;display:flex;flex-direction:column;gap:9px;background:var(--surface);margin-bottom:10px}
+.card h3{margin:0;font-size:14px;font-weight:600;line-height:1.35}
+.card p{margin:0;font-size:12.5px}
+.wait{background:var(--soft);border-radius:6px;padding:6px 9px}
+.emptycol{font-size:12.5px;color:var(--muted);border:1px dashed var(--line);border-radius:9px;padding:14px}
+.scrim{position:fixed;inset:0;background:rgba(10,12,16,.38);border:0;padding:0;cursor:pointer;z-index:20}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:21;overflow-y:auto;box-shadow:-12px 0 32px rgba(0,0,0,.12)}
+.sh-head{position:sticky;top:0;background:var(--surface);display:flex;gap:12px;align-items:flex-start;padding:20px 24px 14px;border-bottom:1px solid var(--line);z-index:1}
+.sh-head h3{margin:0;font-size:20px;font-weight:600;line-height:1.25}
+.x{margin-left:auto;width:44px;height:44px;flex:none;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sec{padding:16px 24px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h4{margin:0 0 10px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.dl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.dl li{font-size:13px}
+@media (max-width: 1100px){
+.side{max-width:none;border-left:0;border-top:1px solid var(--line)}
+.cols4{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 640px){
+.wrap{padding:0 16px}
+.cols4{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</helmet>
+<div class="board" data-theme="{{theme}}">
+
+<header class="hdr">
+<div class="wrap">
+<div class="hdr-in">
+<div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
+<h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
+<p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span class="mono muted">data {{head.generated}}</span>
+<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
+<a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
+<a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
+</div>
+</div>
+<nav class="tabs" aria-label="Board sections">
+<a href="./">Projects</a>
+<a href="pairs.html" aria-current="page">Pairs</a>
+<a href="map.html">Map</a>
+<a href="threads.html">Threads</a>
+</nav>
+</div>
+</header>
+
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><p class="muted">Reading data.json …</p></div>
+</sc-if>
+<sc-if value="{{hasError}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><div class="block" style="padding: 20px"><strong>data.json could not be read.</strong> <span class="muted">The board expects it beside this page. {{error}}</span></div></div>
+</sc-if>
+
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
+
+<section class="block" aria-labelledby="h-pairs">
+<div class="bhead"><h2 id="h-pairs">Pairs</h2><p>What runs between two projects. Only here is realised interop counted, and it fills during a meeting.</p></div>
+<div class="pairs">
+<div class="mx-box">
+<div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}">{{h.num}}</div></sc-for></div>
+<sc-for list="{{matrix.rows}}" as="r" hint-placeholder-count="11">
+<div class="mx-row"><div class="mx-label"><span class="num">{{r.num}}</span><span class="clip">{{r.short}}</span></div>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><button class="mx-cell {{c.cls}}" aria-label="{{c.label}}" title="{{c.label}}" disabled="{{c.diag}}" sc-camel-on-click="{{c.open}}">{{c.mark}}</button></sc-for>
+</div>
+</sc-for>
+</div>
+<div class="side">
+<a class="btn btn-primary" style="align-self: flex-start" href="{{runAny}}" target="_blank" rel="noopener">
+<svg width="14" height="14" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>Record a run</a>
+<p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
+<sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
+<p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
+<p class="muted" style="font-size: 12px">● pass &nbsp; ◐ partial &nbsp; ✕ fail</p>
+</div>
+</div>
+</section>
+
+<section class="block" aria-labelledby="h-scenarios">
+<div class="bhead"><h2 id="h-scenarios">Scenarios</h2><p>A test two or more implementations run against each other.</p><a class="btn" href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></div>
+<div class="cols4">
+<sc-for list="{{columns}}" as="col" hint-placeholder-count="4">
+<div style="min-width: 0">
+<div class="colh"><span class="pill st-{{col.title}}">{{col.title}}</span></div>
+<sc-for list="{{col.cards}}" as="s" hint-placeholder-count="2">
+<article class="card">
+<h3>{{s.title}}</h3>
+<p>{{s.summary}}</p>
+<div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><span class="chip">{{pt}}</span></sc-for></div>
+<p class="muted">With {{s.parts}}<sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
+<sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
+<sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
+<sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><p><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p></sc-for>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; padding-top: 6px; border-top: 1px solid var(--line)">
+<a href="{{s.run}}" target="_blank" rel="noopener">Record a run</a>
+<sc-if value="{{s.hasIssue}}" hint-placeholder-val="{{ false }}"><a href="{{s.issueUrl}}" target="_blank" rel="noopener">Tracking issue</a></sc-if>
+<a href="{{s.editUrl}}" target="_blank" rel="noopener">Correct this</a>
+<sc-if value="{{s.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{s.updated}}</span></sc-if>
+</div>
+</article>
+</sc-for>
+<sc-if value="{{col.empty}}" hint-placeholder-val="{{ false }}"><div class="emptycol">None.</div></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+</sc-if>
+
+<sc-if value="{{pair.show}}" hint-placeholder-val="{{ false }}">
+<button class="scrim" aria-label="Close pair" sc-camel-on-click="{{close}}"></button>
+<aside class="sheet" aria-label="Pair details">
+<div class="sh-head">
+<h3>{{pair.a}} × {{pair.b}}</h3>
+<button class="x" aria-label="Close" sc-camel-on-click="{{close}}"><svg width="16" height="16" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
+</div>
+<div class="sec">
+<h4>Ran together</h4>
+<ul class="dl">
+<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span></li></sc-for>
+<sc-if value="{{pair.noRuns}}" hint-placeholder-val="{{ true }}"><li class="muted">Not tested together yet.</li></sc-if>
+</ul>
+<div style="margin-top: 14px"><a class="btn btn-primary" href="{{pair.run}}" target="_blank" rel="noopener">Record a run for this pair</a></div>
+</div>
+<div class="sec">
+<h4>Scenarios either side is in</h4>
+<ul class="dl">
+<sc-for list="{{pair.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <strong style="font-weight: 500">{{s.title}}</strong><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div><a style="font-size: 12.5px" href="{{s.run}}" target="_blank" rel="noopener">Record a run of this scenario</a></li></sc-for>
+<sc-if value="{{pair.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">Neither project is in a scenario yet.</li></sc-if>
+</ul>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1500}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
+    this.state = { data: null, err: '', pair: null , theme: savedTheme };
+  }
+  componentDidMount() {
+    fetch('./data.json')
+      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then((data) => this.setState({ data }))
+      .catch((e) => this.setState({ err: String((e && e.message) || e) }));
+  }
+  fmt(d) {
+    if (!d) return '';
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p = String(d).slice(0, 10).split('-');
+    return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
+  }
+  renderVals() {
+    const theme = this.state.theme || 'auto';
+    const themeLabel = 'Theme: ' + theme;
+    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    const d = this.state.data;
+    const close = () => this.setState({ pair: null });
+    const base = { theme, themeLabel, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    if (!d) return { ...base, head: {}, matrix: { head: [], rows: [], none: false }, columns: [], pair: { show: false }, runAny: '' };
+
+    const repo = d.repo;
+    const P = d.projects || [];
+    const pts = (d.map && d.map.points) || [];
+    const scenarios = d.scenarios || [];
+    const ptById = {}; pts.forEach((p) => { ptById[p.id] = p; });
+    const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
+    const short = (p) => p.name.split(' / ')[0].split(' (')[0];
+    const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
+    const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
+    const pairOf = (a, b) => ((d.pairs || {})[a + '|' + b]) || ((d.pairs || {})[b + '|' + a]) || [];
+    const runUrl = (s, a, b) => {
+      const title = 'Run: ' + (s ? s.title : '<scenario>');
+      const body = 'Scenario: ' + (s ? s.slug : '') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
+      return repo + '/issues/new?labels=run&title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+    };
+
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newScenario: repo + '/tree/main/scenarios' };
+
+    const glyph = { pass: '●', partial: '◐', fail: '✕' };
+    let anyRun = false;
+    const matrix = {
+      head: P.map((p, i) => ({ num: i + 1, name: short(p) })),
+      rows: P.map((a, i) => ({
+        num: i + 1, short: short(a),
+        cells: P.map((b, j) => {
+          if (i === j) return { diag: true, cls: 'mx-diag', mark: '', label: short(a), open: null };
+          const runs = pairOf(a.slug, b.slug);
+          if (runs.length) anyRun = true;
+          const last = runs.length ? runs[runs.length - 1].outcome : '';
+          return {
+            diag: false, cls: runs.length ? 'mx-' + last : 'mx-empty', mark: glyph[last] || '',
+            label: short(a) + ' and ' + short(b) + ': ' + (runs.length ? runs.map((r) => r.title + ', ' + r.outcome).join('; ') : 'not tested together yet'),
+            open: () => this.setState({ pair: { a: a.slug, b: b.slug } }),
+          };
+        }),
+      })),
+    };
+    matrix.none = !anyRun;
+
+    const cards = scenarios.map((s) => {
+      const parts = s.participants || [];
+      return {
+        title: s.title, summary: s.summary, status: s.status,
+        points: (s.points || []).map((id) => (ptById[id] ? ptById[id].title : id)),
+        parts: parts.map(nameOf).join(', ') || 'nobody yet', lonely: parts.length < 2,
+        waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
+        vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
+        results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × ') })),
+        run: runUrl(s, parts[0], parts[1]), hasIssue: !!s.issue, issueUrl: s.issue ? repo + '/issues/' + s.issue : '',
+        editUrl: s.editUrl || repo, stale: stale(s.updated), updated: this.fmt(s.updated),
+      };
+    });
+    const columns = ['proposed', 'running', 'passing', 'failing'].map((t) => { const c = cards.filter((x) => x.status === t); return { title: t, cards: c, empty: c.length === 0 }; });
+
+    let pair = { show: false };
+    const sel = this.state.pair;
+    if (sel) {
+      const a = sel.a, b = sel.b;
+      const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date) }));
+      const scn = scenarios.filter((s) => (s.participants || []).indexOf(a) >= 0 || (s.participants || []).indexOf(b) >= 0)
+        .map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', run: runUrl(s, a, b) }));
+      pair = { show: true, a: nameOf(a), b: nameOf(b), runs, noRuns: runs.length === 0, run: runUrl(null, a, b), scenarios: scn, noScenarios: scn.length === 0 };
+    }
+
+    return { ...base, head, matrix, columns, pair, runAny: runUrl(null, '', '') };
+  }
+}
+</script>
+
+
+</body></html>

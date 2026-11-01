@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>DTG Interop Board: Map</title>
+<meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
+<script src="dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>
+body{margin:0;background:#F6F6F3}
+.board{--bg:#F6F6F3;--surface:#FFFFFF;--ink:#17181A;--muted:#5B6067;--line:#E1E1DA;--soft:#EFEFEA;--accent:#2349BF;--accent-soft:#E7ECFA;--warn:#A24A06;--fail:#A11D1D;color-scheme:light}
+.board[data-theme="dark"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}}
+.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:64px}
+.board a{color:var(--accent);text-decoration:none}
+.board a:hover{text-decoration:underline}
+.board button{font:inherit;color:inherit}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px}
+.muted{color:var(--muted)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 32px}
+.hdr{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-top:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.board .tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent}
+.board .tabs a:hover{color:var(--ink);text-decoration:none}
+.board .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0;overflow:hidden}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
+.bhead h2{margin:0;font-size:17px;font-weight:600}
+.bhead p{margin:0;color:var(--muted);font-size:13px;flex:1 1 220px}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
+.board a.btn{color:var(--ink)}
+.board a.btn:hover{text-decoration:none;border-color:var(--muted)}
+.pill{display:inline-flex;align-items:center;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;white-space:nowrap;border:1px solid transparent}
+.s-runs{background:var(--ink);color:var(--surface)}
+.s-vectors{border-color:var(--ink)}
+.s-spec{border:1px dashed var(--ink)}
+.s-open{border-color:var(--warn);color:var(--warn)}
+.s-na{color:var(--muted)}
+.s-potential{color:var(--muted);font-style:italic;border:1px dotted var(--muted)}
+.st-proposed,.st-open{border-color:var(--muted);color:var(--muted)}
+.st-running,.st-decided{border-color:var(--accent);color:var(--accent)}
+.st-passing,.st-implemented{background:var(--accent);color:var(--surface)}
+.st-failing{background:var(--fail);color:var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.li{display:inline-flex;gap:6px;align-items:center}
+.map-box{overflow-x:auto}
+.map{min-width:1180px}
+.map-row{display:grid;border-bottom:1px solid var(--line)}
+.map-headrow{background:var(--surface)}
+.map-pt{position:sticky;left:0;z-index:1;background:var(--surface);border:0;border-right:1px solid var(--line);text-align:left;padding:7px 14px 7px 20px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;min-height:40px;font-size:13px}
+.map-pt:hover .pt-title{text-decoration:underline}
+.map-corner{cursor:default;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.map-col{font-size:11.5px;font-weight:500;padding:10px 6px;text-align:center;display:flex;align-items:flex-end;justify-content:center;line-height:1.25}
+.col-on{color:var(--accent);background:var(--accent-soft)}
+.col-off{color:var(--muted)}
+.map-cell{display:flex;align-items:center;justify-content:center;padding:4px}
+.cell-on{background:var(--accent-soft)}
+.row-sel .map-pt{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--warn);border:1px dashed var(--warn);border-radius:4px;padding:0 5px}
+.map-layer{background:var(--soft);border-bottom:1px solid var(--line)}
+.map-layer-in{position:sticky;left:0;display:inline-flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;padding:8px 20px;max-width:calc(100vw - 80px)}
+.map-layer-in strong{font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.map-layer-in span{font-size:12.5px;color:var(--muted)}
+.detail{border-bottom:1px solid var(--line);background:var(--bg)}
+.detail-in{position:sticky;left:0;max-width:min(1100px,calc(100vw - 80px));padding:16px 20px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.detail h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.dl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.dl li{font-size:13px}
+@media (max-width: 640px){
+.wrap{padding:0 16px}
+}
+</style>
+</helmet>
+<div class="board" data-theme="{{theme}}">
+
+<header class="hdr">
+<div class="wrap">
+<div class="hdr-in">
+<div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
+<h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
+<p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span class="mono muted">data {{head.generated}}</span>
+<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
+<a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
+<a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
+</div>
+</div>
+<nav class="tabs" aria-label="Board sections">
+<a href="./">Projects</a>
+<a href="pairs.html">Pairs</a>
+<a href="map.html" aria-current="page">Map</a>
+<a href="threads.html">Threads</a>
+</nav>
+</div>
+</header>
+
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><p class="muted">Reading data.json …</p></div>
+</sc-if>
+<sc-if value="{{hasError}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><div class="block" style="padding: 20px"><strong>data.json could not be read.</strong> <span class="muted">The board expects it beside this page. {{error}}</span></div></div>
+</sc-if>
+
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div class="wrap">
+<section class="block" aria-labelledby="h-map">
+<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, by layer. Select a point to see who touches it and which scenarios test it.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<div class="legend">
+<sc-for list="{{legend}}" as="l" hint-placeholder-count="6"><span class="li" title="{{l.v}}"><span class="pill s-{{l.cls}}">{{l.k}}</span>{{l.short}}</span></sc-for>
+<span class="li"><span class="tag">proposed</span>point not yet accepted</span>
+</div>
+<div class="map-box">
+<div class="map">
+<div class="map-row map-headrow" style="grid-template-columns: {{grid}}"><div class="map-pt map-corner">Point</div>
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="11"><div class="map-col {{c.cls}}">{{c.short}}</div></sc-for>
+</div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+<div class="map-layer"><div class="map-layer-in"><strong>{{g.title}}</strong><span>{{g.asks}}</span></div></div>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="2">
+<div class="map-row {{r.cls}}" style="grid-template-columns: {{r.grid}}">
+<button class="map-pt" sc-camel-on-click="{{r.pick}}" aria-expanded="{{r.selected}}"><span class="pt-title">{{r.title}}</span><sc-if value="{{r.proposed}}" hint-placeholder-val="{{ false }}"><span class="tag">proposed by {{r.proposedBy}}</span></sc-if></button>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><div class="map-cell {{c.on}}" title="{{c.note}}"><sc-if value="{{c.has}}" hint-placeholder-val="{{ false }}"><span class="pill s-{{c.cls}}">{{c.status}}</span></sc-if></div></sc-for>
+</div>
+<sc-if value="{{r.selected}}" hint-placeholder-val="{{ false }}">
+<div class="detail"><div class="detail-in">
+<div>
+<h4>The point</h4>
+<p style="margin: 0 0 8px">{{r.d.asks}}</p>
+<p class="muted" style="margin: 0; font-size: 12.5px">Origin: {{r.d.origin}}<br>{{r.d.statusLine}}</p>
+</div>
+<div>
+<h4>Who touches it</h4>
+<ul class="dl">
+<sc-for list="{{r.d.projects}}" as="x" hint-placeholder-count="3"><li><span class="pill s-{{x.cls}}">{{x.status}}</span> <a href="./">{{x.short}}</a><span class="muted"> {{x.note}}</span></li></sc-for>
+<sc-if value="{{r.d.noProjects}}" hint-placeholder-val="{{ false }}"><li class="muted">No project has stated anything here yet.</li></sc-if>
+</ul>
+</div>
+<div>
+<h4>Tested by</h4>
+<ul class="dl">
+<sc-for list="{{r.d.scenarios}}" as="s" hint-placeholder-count="1"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a></li></sc-for>
+<sc-if value="{{r.d.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">No scenario yet.</li></sc-if>
+</ul>
+<h4 style="margin-top: 14px">Threads</h4>
+<ul class="dl">
+<sc-for list="{{r.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for>
+<sc-if value="{{r.d.noThreads}}" hint-placeholder-val="{{ false }}"><li class="muted">No thread.</li></sc-if>
+</ul>
+</div>
+</div></div>
+</sc-if>
+</sc-for>
+</sc-for>
+</div>
+</div>
+</section>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2100}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
+    this.state = { data: null, err: '', point: null , theme: savedTheme };
+  }
+  componentDidMount() {
+    fetch('./data.json')
+      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then((data) => this.setState({ data }))
+      .catch((e) => this.setState({ err: String((e && e.message) || e) }));
+  }
+  fmt(d) {
+    if (!d) return '';
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p = String(d).slice(0, 10).split('-');
+    return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
+  }
+  renderVals() {
+    const theme = this.state.theme || 'auto';
+    const themeLabel = 'Theme: ' + theme;
+    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    const d = this.state.data;
+    const base = { theme, themeLabel, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    if (!d) return { ...base, head: {}, legend: [], grid: '', cols: [], groups: [] };
+
+    const repo = d.repo;
+    const P = d.projects || [];
+    const pts = (d.map && d.map.points) || [];
+    const words = (d.map && d.map.statusWords) || {};
+    const scenarios = d.scenarios || [];
+    const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
+    const short = (p) => p.name.split(' / ')[0].split(' (')[0];
+    const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
+    const scls = (s) => (s === 'n/a' ? 'na' : s);
+
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newPoint: repo + '/edit/main/points.json' };
+
+    const shortWord = { potential: 'from public sources', runs: 'others can exercise it', vectors: 'test vectors published', spec: 'written down', open: 'known gap', 'n/a': 'not aimed at' };
+    const legend = Object.keys(words).map((k) => ({ k, cls: scls(k), v: words[k], short: shortWord[k] || '' }));
+
+    const sel = this.state.point;
+    const touches = sel ? P.filter((p) => p.points && p.points[sel]).map((p) => p.slug) : null;
+    const grid = 'minmax(240px, 300px) repeat(' + P.length + ', minmax(84px, 1fr))';
+    const cols = P.map((p) => ({ short: short(p), cls: !touches ? '' : (touches.indexOf(p.slug) >= 0 ? 'col-on' : 'col-off') }));
+    const groups = ((d.map && d.map.layers) || []).map((l) => ({
+      title: l.title, asks: l.asks,
+      rows: pts.filter((pt) => pt.layer === l.id).map((pt) => {
+        const selected = sel === pt.id;
+        const touching = P.filter((p) => p.points && p.points[pt.id]);
+        const scn = selected ? scenarios.filter((s) => (s.points || []).indexOf(pt.id) >= 0).map((s) => ({ title: s.title, status: s.status })) : [];
+        const thr = selected ? (d.threads || []).filter((t) => (t.points || []).indexOf(pt.id) >= 0).map((t) => ({ title: t.title, url: t.url, state: t.state })) : [];
+        return {
+          grid, title: pt.title, selected, cls: selected ? 'row-sel' : '',
+          proposed: pt.status === 'proposed', proposedBy: pt.proposedBy ? nameOf(pt.proposedBy) : '',
+          pick: () => this.setState({ point: selected ? null : pt.id }),
+          cells: P.map((p) => {
+            const c = p.points && p.points[pt.id];
+            return c ? { has: true, on: selected ? 'cell-on' : '', status: c.status, cls: scls(c.status), note: c.status + (words[c.status] ? ': ' + words[c.status] : '') + (c.note ? '. ' + c.note : '') } : { has: false, on: '', status: '', cls: '', note: '' };
+          }),
+          d: {
+            asks: pt.asks, origin: pt.origin,
+            statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy ? nameOf(pt.proposedBy) : 'a project') + ', not yet accepted' : 'Accepted point',
+            projects: selected ? touching.map((p) => { const c = p.points[pt.id]; return { short: short(p), status: c.status, cls: scls(c.status), note: c.note || '' }; }) : [],
+            noProjects: touching.length === 0,
+            scenarios: scn, noScenarios: scn.length === 0, threads: thr, noThreads: thr.length === 0,
+          },
+        };
+      }),
+    })).filter((g) => g.rows.length);
+
+    return { ...base, head, legend, grid, cols, groups };
+  }
+}
+</script>
+
+
+</body></html>

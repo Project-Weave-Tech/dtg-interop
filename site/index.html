@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>DTG Interop Board</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DTG Interop Board: Projects</title>
 <meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
 <script src="dc-runtime.js"></script>
-<meta name="hz:slide-selector" content=":not(x-dc)&gt;[data-canvas-width]"><meta name="hz:canvas-width" content="1440"><meta name="hz:canvas-height" content="3000"></head>
+</head>
 <body>
 <x-dc>
 <helmet>
@@ -17,14 +16,19 @@ body{margin:0;background:#F6F6F3}
 .board{--bg:#F6F6F3;--surface:#FFFFFF;--ink:#17181A;--muted:#5B6067;--line:#E1E1DA;--soft:#EFEFEA;--accent:#2349BF;--accent-soft:#E7ECFA;--warn:#A24A06;--fail:#A11D1D;color-scheme:light}
 .board[data-theme="dark"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}
 @media (prefers-color-scheme: dark){.board[data-theme="auto"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}}
-.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh}
+.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:64px}
 .board a{color:var(--accent);text-decoration:none}
 .board a:hover{text-decoration:underline}
 .board button{font:inherit;color:inherit}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px}
 .muted{color:var(--muted)}
 .wrap{max-width:1400px;margin:0 auto;padding:0 32px}
-.top{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.hdr{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-top:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.board .tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent}
+.board .tabs a:hover{color:var(--ink);text-decoration:none}
+.board .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
 .block{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
 .bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
 .bhead h2{margin:0;font-size:17px;font-weight:600}
@@ -32,35 +36,18 @@ body{margin:0;background:#F6F6F3}
 .btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
 .board a.btn{color:var(--ink)}
 .board a.btn:hover{text-decoration:none;border-color:var(--muted)}
-.board a.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.prow{display:grid;grid-template-columns:minmax(150px,1.05fr) minmax(130px,.8fr) minmax(0,1.7fr) minmax(0,1.25fr);gap:14px;align-items:center;padding:9px 20px;border-bottom:1px solid var(--line)}
-.prow:last-child{border-bottom:0}
-.prow-h{padding-top:8px;padding-bottom:8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.pname{background:none;border:0;padding:4px 0;text-align:left;cursor:pointer;font-weight:600;font-size:14px;min-height:36px;display:flex;align-items:center;gap:10px}
-.pname:hover .pn{text-decoration:underline}
 .num{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:var(--soft);color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500}
 .prov{font-size:12px;display:inline-flex;align-items:center;gap:6px}
 .prov::before{content:"";width:8px;height:8px;border-radius:50%;flex:none}
 .prov-project::before{background:var(--ink)}
 .prov-public::before{border:1.5px solid var(--muted)}
 .prov-public{color:var(--muted)}
-.clip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chips{display:flex;flex-wrap:wrap;gap:4px 6px}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);max-width:100%}
 .chip .st{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.clip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .stale{font-size:11px;color:var(--muted);font-style:italic}
-.mx-box{overflow-x:auto;padding:14px 20px 18px}
-.mx-row{display:flex;gap:3px;margin-bottom:3px}
-.mx-label{width:138px;flex:none;font-size:12.5px;display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden}
-.mx-head{width:30px;height:24px;flex:none;display:flex;align-items:flex-end;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
-.mx-cell{width:30px;height:30px;flex:none;border-radius:5px;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:0;font-size:13px;line-height:1}
-.mx-cell:hover{border-color:var(--accent)}
-.mx-empty::after{content:"";display:block;width:3px;height:3px;margin:auto;border-radius:50%;background:var(--line)}
-.mx-diag{background:var(--soft);border-color:transparent;cursor:default}
-.mx-pass{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.mx-partial{border:1.5px solid var(--warn);color:var(--warn)}
-.mx-fail{background:var(--fail);border-color:var(--fail);color:var(--surface)}
-.mx-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 20px 16px;border-top:1px solid var(--line)}
 .pill{display:inline-flex;align-items:center;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;white-space:nowrap;border:1px solid transparent}
 .s-runs{background:var(--ink);color:var(--surface)}
 .s-vectors{border-color:var(--ink)}
@@ -71,89 +58,66 @@ body{margin:0;background:#F6F6F3}
 .o-pass{background:var(--accent);color:var(--surface)}
 .o-partial{border-color:var(--warn);color:var(--warn)}
 .o-fail{background:var(--fail);color:var(--surface)}
-.st-proposed,.st-open{border-color:var(--muted);color:var(--muted)}
-.st-running,.st-decided{border-color:var(--accent);color:var(--accent)}
-.st-passing,.st-implemented{background:var(--accent);color:var(--surface)}
+.st-proposed{border-color:var(--muted);color:var(--muted)}
+.st-running{border-color:var(--accent);color:var(--accent)}
+.st-passing{background:var(--accent);color:var(--surface)}
 .st-failing{background:var(--fail);color:var(--surface)}
-.legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
-.legend span.li{display:inline-flex;gap:6px;align-items:center}
-.map-box{overflow-x:auto}
-.map{min-width:1180px}
-.map-row{display:grid;border-bottom:1px solid var(--line)}
-.map-headrow{position:sticky;top:0;background:var(--surface);z-index:2}
-.map-pt{position:sticky;left:0;z-index:1;background:var(--surface);border:0;border-right:1px solid var(--line);text-align:left;padding:7px 14px 7px 20px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;min-height:38px;font-size:13px}
-.map-pt:hover .pt-title{text-decoration:underline}
-.map-corner{cursor:default;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.map-col{font-size:11.5px;font-weight:500;padding:8px 6px;text-align:center;display:flex;align-items:flex-end;justify-content:center;line-height:1.25}
-.col-on{color:var(--accent);background:var(--accent-soft)}
-.col-off{color:var(--muted)}
-.map-cell{display:flex;align-items:center;justify-content:center;padding:4px}
-.cell-on{background:var(--accent-soft)}
-.row-sel .map-pt{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
-.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--warn);border:1px dashed var(--warn);border-radius:4px;padding:0 5px}
-.map-layer{background:var(--soft);border-bottom:1px solid var(--line)}
-.map-layer-in{position:sticky;left:0;display:inline-flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;padding:7px 20px;max-width:calc(100vw - 80px)}
-.map-layer-in strong{font-size:12px;letter-spacing:.05em;text-transform:uppercase}
-.map-layer-in span{font-size:12.5px;color:var(--muted)}
-.detail{border-bottom:1px solid var(--line);background:var(--bg)}
-.detail-in{position:sticky;left:0;max-width:min(1100px,calc(100vw - 80px));padding:16px 20px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.detail h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.dl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
-.dl li{font-size:13px}
-.linkbtn{background:none;border:0;padding:0;cursor:pointer;color:var(--accent);font-weight:500;text-align:left}
-.linkbtn:hover{text-decoration:underline}
-.trow{display:grid;grid-template-columns:92px minmax(0,1fr) 150px;gap:16px;padding:12px 20px;border-bottom:1px solid var(--line);align-items:start}
-.trow:last-child{border-bottom:0}
-.ttitle{font-weight:500}
+.prow{display:grid;grid-template-columns:minmax(150px,1fr) minmax(130px,.8fr) minmax(0,1.1fr) minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.1fr);gap:16px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+.prow:last-child{border-bottom:0}
+.prow-h{padding-top:9px;padding-bottom:9px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pname{background:none;border:0;padding:4px 0;text-align:left;cursor:pointer;font-weight:600;font-size:14px;min-height:40px;display:flex;align-items:center;gap:10px}
+.pname:hover .pn{text-decoration:underline}
+.lbl{display:none;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .scrim{position:fixed;inset:0;background:rgba(10,12,16,.38);border:0;padding:0;cursor:pointer;z-index:20}
 .sheet{position:fixed;top:0;right:0;bottom:0;width:min(620px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:21;overflow-y:auto;box-shadow:-12px 0 32px rgba(0,0,0,.12)}
-.sheet-wide{width:min(1180px,100%)}
 .sh-head{position:sticky;top:0;background:var(--surface);display:flex;gap:12px;align-items:flex-start;padding:20px 24px 14px;border-bottom:1px solid var(--line);z-index:1}
 .sh-head h3{margin:0;font-size:20px;font-weight:600;line-height:1.25}
-.x{margin-left:auto;width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.x{margin-left:auto;width:44px;height:44px;flex:none;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .sec{padding:16px 24px;border-bottom:1px solid var(--line)}
 .sec:last-child{border-bottom:0}
 .sec h4{margin:0 0 10px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 14px;font-size:13px}
+.dl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.dl li{font-size:13px}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 14px;font-size:13px;margin:0}
 .kv dt{color:var(--muted)}
 .kv dd{margin:0}
 .ptl{display:flex;flex-direction:column;gap:10px}
 .pti{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;font-size:13px}
-.cols4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 24px 24px}
-.colh{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.card{border:1px solid var(--line);border-radius:9px;padding:14px;display:flex;flex-direction:column;gap:9px;background:var(--surface);margin-bottom:10px}
-.card h5{margin:0;font-size:14px;font-weight:600;line-height:1.35}
-.card p{margin:0;font-size:12.5px}
-.wait{font-size:12.5px;border-left:0;background:var(--soft);border-radius:6px;padding:6px 9px}
-.emptycol{font-size:12.5px;color:var(--muted);border:1px dashed var(--line);border-radius:9px;padding:14px}
 @media (max-width: 1000px){
-.prow{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+.prow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
 .prow-h{display:none}
-.p-stack,.p-try{grid-column:1 / -1}
-.cols4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wide{grid-column:1 / -1}
+.lbl{display:block}
 }
 @media (max-width: 640px){
 .wrap{padding:0 16px}
-.trow{grid-template-columns:minmax(0,1fr)}
-.cols4{grid-template-columns:minmax(0,1fr)}
 .kv{grid-template-columns:minmax(0,1fr)}
 .kv dt{margin-top:6px}
 }
 </style>
 </helmet>
-<div class="board" data-theme="{{theme}}" style="padding-bottom: 64px" data-canvas-width="1440" data-canvas-height="3000">
+<div class="board" data-theme="{{theme}}">
 
-<header style="border-bottom: 1px solid var(--line); background: var(--surface); margin-bottom: 28px">
-<div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-top: 18px; padding-bottom: 18px">
+<header class="hdr">
+<div class="wrap">
+<div class="hdr-in">
 <div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
 <h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
 <p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <span class="mono muted">data {{head.generated}}</span>
+<button class="btn" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="Switch light and dark">{{themeLabel}}</button>
 <a class="btn" href="{{head.repo}}" target="_blank" rel="noopener">Repository</a>
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
+</div>
+<nav class="tabs" aria-label="Board sections">
+<a href="./" aria-current="page">Projects</a>
+<a href="pairs.html">Pairs</a>
+<a href="map.html">Map</a>
+<a href="threads.html">Threads</a>
+</nav>
 </div>
 </header>
 
@@ -165,116 +129,24 @@ body{margin:0;background:#F6F6F3}
 </sc-if>
 
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
-<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
-
-<div class="top">
-<section class="block" style="flex: 1.5 1 640px" aria-labelledby="h-projects">
-<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its stack, interop points and runs.</p></div>
-<div class="prow prow-h"><span>Project</span><span>Source</span><span>Transport · DID methods</span><span>Try it</span></div>
+<div class="wrap">
+<section class="block" aria-labelledby="h-projects">
+<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p></div>
+<div class="prow prow-h"><span>Project</span><span>Source</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span></div>
 <sc-for list="{{projects}}" as="p" hint-placeholder-count="11">
 <div class="prow">
 <button class="pname" sc-camel-on-click="{{p.open}}"><span class="num">{{p.num}}</span><span class="pn">{{p.short}}</span></button>
 <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span class="prov {{p.provCls}}">{{p.prov}}</span><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
-<div class="p-stack" style="min-width: 0; font-size: 12.5px"><div class="clip" title="{{p.transport}}">{{p.transport}}</div><div class="clip muted mono" title="{{p.did}}">{{p.did}}</div></div>
-<div class="p-try chips">
-<sc-for list="{{p.apps}}" as="a" hint-placeholder-count="1"><a class="chip" href="{{a.url}}" target="_blank" rel="noopener"><span class="clip" style="max-width: 150px">{{a.label}}</span><span class="st">{{a.status}}</span></a></sc-for>
+<div class="wide" style="min-width: 0"><span class="lbl">DID methods</span><div class="clamp mono" title="{{p.did}}">{{p.did}}</div></div>
+<div class="wide" style="min-width: 0"><span class="lbl">Transport</span><div class="clamp" title="{{p.transport}}">{{p.transport}}</div></div>
+<div class="wide" style="min-width: 0"><span class="lbl">Groups</span><div class="clamp" title="{{p.groups}}">{{p.groups}}</div></div>
+<div class="wide chips">
+<sc-for list="{{p.apps}}" as="a" hint-placeholder-count="1"><a class="chip" href="{{a.url}}" target="_blank" rel="noopener"><span class="clip" style="max-width: 140px">{{a.label}}</span><span class="st">{{a.status}}</span></a></sc-for>
 <sc-if value="{{p.noApps}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">nothing public to try</span></sc-if>
 </div>
 </div>
 </sc-for>
 </section>
-
-<section class="block" style="flex: 1 1 440px" aria-labelledby="h-pairs">
-<div class="bhead"><h2 id="h-pairs">Pairs</h2><p>Scenarios two projects ran together. This fills during a meeting.</p></div>
-<div class="mx-box">
-<div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}">{{h.num}}</div></sc-for></div>
-<sc-for list="{{matrix.rows}}" as="r" hint-placeholder-count="11">
-<div class="mx-row"><div class="mx-label"><span class="num">{{r.num}}</span><span class="clip">{{r.short}}</span></div>
-<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><button class="mx-cell {{c.cls}}" aria-label="{{c.label}}" title="{{c.label}}" disabled="{{c.diag}}" sc-camel-on-click="{{c.open}}">{{c.mark}}</button></sc-for>
-</div>
-</sc-for>
-<sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p class="muted" style="margin: 12px 0 0; font-size: 12.5px">No two projects have run a scenario together yet. Every empty cell reads: not tested together yet.</p></sc-if>
-</div>
-<div class="mx-foot">
-<a class="btn btn-primary" href="{{runAny}}" target="_blank" rel="noopener">
-<svg width="14" height="14" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>Record a run</a>
-<button class="btn" sc-camel-on-click="{{openScenarios}}">Scenarios</button>
-<span class="muted" style="font-size: 12px">● pass ◐ partial ✕ fail</span>
-</div>
-</section>
-</div>
-
-<section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, by layer. Select a point to see who touches it and which scenarios test it.</p></div>
-<div class="legend">
-<sc-for list="{{legend}}" as="l" hint-placeholder-count="6"><span class="li" title="{{l.v}}"><span class="pill s-{{l.cls}}">{{l.k}}</span>{{l.short}}</span></sc-for>
-<span class="li"><span class="tag">proposed</span>point not yet accepted</span>
-</div>
-<div class="map-box">
-<div class="map">
-<div class="map-row map-headrow" style="grid-template-columns: {{map.grid}}"><div class="map-pt map-corner">Point</div>
-<sc-for list="{{map.cols}}" as="c" hint-placeholder-count="11"><div class="map-col {{c.cls}}">{{c.short}}</div></sc-for>
-</div>
-<sc-for list="{{map.groups}}" as="g" hint-placeholder-count="4">
-<div class="map-layer"><div class="map-layer-in"><strong>{{g.title}}</strong><span>{{g.asks}}</span></div></div>
-<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="2">
-<div class="map-row {{r.cls}}" style="grid-template-columns: {{r.grid}}">
-<button class="map-pt" sc-camel-on-click="{{r.pick}}" aria-expanded="{{r.selected}}"><span class="pt-title">{{r.title}}</span><sc-if value="{{r.proposed}}" hint-placeholder-val="{{ false }}"><span class="tag">proposed by {{r.proposedBy}}</span></sc-if></button>
-<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><div class="map-cell {{c.on}}" title="{{c.note}}"><sc-if value="{{c.has}}" hint-placeholder-val="{{ false }}"><span class="pill s-{{c.cls}}">{{c.status}}</span></sc-if></div></sc-for>
-</div>
-<sc-if value="{{r.selected}}" hint-placeholder-val="{{ false }}">
-<div class="detail"><div class="detail-in">
-<div>
-<h4>The point</h4>
-<p style="margin: 0 0 8px">{{r.d.asks}}</p>
-<p class="muted" style="margin: 0; font-size: 12.5px">Origin: {{r.d.origin}}<br>{{r.d.statusLine}}</p>
-</div>
-<div>
-<h4>Who touches it</h4>
-<ul class="dl">
-<sc-for list="{{r.d.projects}}" as="x" hint-placeholder-count="3"><li><span class="pill s-{{x.cls}}">{{x.status}}</span> <button class="linkbtn" sc-camel-on-click="{{x.open}}">{{x.short}}</button><span class="muted"> {{x.note}}</span></li></sc-for>
-<sc-if value="{{r.d.noProjects}}" hint-placeholder-val="{{ false }}"><li class="muted">No project has stated anything here yet.</li></sc-if>
-</ul>
-</div>
-<div>
-<h4>Tested by</h4>
-<ul class="dl">
-<sc-for list="{{r.d.scenarios}}" as="s" hint-placeholder-count="1"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <button class="linkbtn" sc-camel-on-click="{{s.open}}">{{s.title}}</button></li></sc-for>
-<sc-if value="{{r.d.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">No scenario yet.</li></sc-if>
-</ul>
-<h4 style="margin-top: 14px">Threads</h4>
-<ul class="dl">
-<sc-for list="{{r.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for>
-<sc-if value="{{r.d.noThreads}}" hint-placeholder-val="{{ false }}"><li class="muted">No open thread.</li></sc-if>
-</ul>
-</div>
-</div></div>
-</sc-if>
-</sc-for>
-</sc-for>
-</div>
-</div>
-</section>
-
-<section class="block" aria-labelledby="h-threads">
-<div class="bhead"><h2 id="h-threads">Open threads</h2><p>Where the conversations about interop happen. Answer there, not here.</p><a class="btn" href="{{head.newThread}}" target="_blank" rel="noopener">Add a thread</a></div>
-<sc-for list="{{threads}}" as="t" hint-placeholder-count="8">
-<div class="trow">
-<div><span class="pill st-{{t.state}}">{{t.state}}</span></div>
-<div style="min-width: 0; display: flex; flex-direction: column; gap: 3px">
-<a class="ttitle" href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a>
-<span style="font-size: 13px">{{t.context}}</span>
-<span class="muted" style="font-size: 12px">{{t.points}}</span>
-</div>
-<div style="display: flex; flex-direction: column; gap: 2px; text-align: right">
-<span class="mono muted">{{t.host}}</span>
-<span class="mono muted">{{t.updated}}</span>
-<sc-if value="{{t.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{t.updated}}</span></sc-if>
-</div>
-</div>
-</sc-for>
-</section>
-
 </div>
 </sc-if>
 
@@ -325,6 +197,7 @@ body{margin:0;background:#F6F6F3}
 </sc-for>
 <sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No interop point stated yet.</p></sc-if>
 </div>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="map.html">All points on the map</a></p>
 </div>
 <div class="sec">
 <h4>Realised interop</h4>
@@ -335,7 +208,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{pp.hasScenarios}}" hint-placeholder-val="{{ true }}">
 <h4 style="margin-top: 16px">In scenarios</h4>
 <ul class="dl">
-<sc-for list="{{pp.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <button class="linkbtn" sc-camel-on-click="{{s.open}}">{{s.title}}</button><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div></li></sc-for>
+<sc-for list="{{pp.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div></li></sc-for>
 </ul>
 </sc-if>
 <p class="muted" style="margin: 14px 0 0; font-size: 12px">Updated {{pp.updated}}. People are listed in the project's README.</p>
@@ -343,348 +216,14 @@ body{margin:0;background:#F6F6F3}
 </aside>
 </sc-if>
 
-<sc-if value="{{pair.show}}" hint-placeholder-val="{{ false }}">
-<button class="scrim" aria-label="Close pair" sc-camel-on-click="{{close}}"></button>
-<aside class="sheet" aria-label="Pair details">
-<div class="sh-head">
-<h3>{{pair.a}} × {{pair.b}}</h3>
-<button class="x" aria-label="Close" sc-camel-on-click="{{close}}"><svg width="16" height="16" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
 </div>
-<div class="sec">
-<h4>Ran together</h4>
-<ul class="dl">
-<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span></li></sc-for>
-<sc-if value="{{pair.noRuns}}" hint-placeholder-val="{{ true }}"><li class="muted">Not tested together yet.</li></sc-if>
-</ul>
-<div style="margin-top: 14px"><a class="btn btn-primary" href="{{pair.run}}" target="_blank" rel="noopener">Record a run for this pair</a></div>
-</div>
-<div class="sec">
-<h4>Scenarios either side is in</h4>
-<ul class="dl">
-<sc-for list="{{pair.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <strong style="font-weight: 500">{{s.title}}</strong><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div><a style="font-size: 12.5px" href="{{s.run}}" target="_blank" rel="noopener">Record a run of this scenario</a></li></sc-for>
-<sc-if value="{{pair.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">Neither project is in a scenario yet.</li></sc-if>
-</ul>
-<div style="margin-top: 14px"><button class="btn" sc-camel-on-click="{{openScenarios}}">All scenarios</button></div>
-</div>
-</aside>
-</sc-if>
-
-<sc-if value="{{sc.show}}" hint-placeholder-val="{{ false }}">
-<button class="scrim" aria-label="Close scenarios" sc-camel-on-click="{{close}}"></button>
-<aside class="sheet sheet-wide" aria-label="Scenarios">
-<div class="sh-head">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<h3>Scenarios</h3>
-<span class="muted" style="font-size: 13px">A test two or more implementations run against each other.</span>
-</div>
-<a class="btn btn-primary" style="margin-left: auto" href="{{runAny}}" target="_blank" rel="noopener">Record a run</a>
-<button class="x" style="margin-left: 0" aria-label="Close" sc-camel-on-click="{{close}}"><svg width="16" height="16" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
-</div>
-<div class="cols4">
-<sc-for list="{{sc.columns}}" as="col" hint-placeholder-count="4">
-<div style="min-width: 0">
-<div class="colh"><span class="pill st-{{col.title}}">{{col.title}}</span></div>
-<sc-for list="{{col.cards}}" as="s" hint-placeholder-count="2">
-<article class="card">
-<h5>{{s.title}}</h5>
-<p>{{s.summary}}</p>
-<div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><span class="chip">{{pt}}</span></sc-for></div>
-<p class="muted">With {{s.parts}}<sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
-<sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
-<sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
-<sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><p><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p></sc-for>
-<div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; padding-top: 4px; border-top: 1px solid var(--line)">
-<a href="{{s.run}}" target="_blank" rel="noopener">Record a run</a>
-<sc-if value="{{s.hasIssue}}" hint-placeholder-val="{{ false }}"><a href="{{s.issueUrl}}" target="_blank" rel="noopener">Tracking issue</a></sc-if>
-<a href="{{s.editUrl}}" target="_blank" rel="noopener">Correct this</a>
-<sc-if value="{{s.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{s.updated}}</span></sc-if>
-</div>
-</article>
-</sc-for>
-<sc-if value="{{col.empty}}" hint-placeholder-val="{{ false }}"><div class="emptycol">None.</div></sc-if>
-</div>
-</sc-for>
-</div>
-</aside>
-</sc-if>
-
-</div>
-<sc-if data-dc-static="" value="{{ false }}"><style>x-dc>*{display:none!important}x-dc>[data-dc-static]{display:block!important}</style>
-
-<div class="board" data-theme="auto" style="padding-bottom: 64px" data-canvas-width="1440" data-canvas-height="3000" data-document-role="page" data-label="Board">
-
-<header style="border-bottom: 1px solid var(--line); background: var(--surface); margin-bottom: 28px">
-<div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-top: 18px; padding-bottom: 18px">
-<div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
-<h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
-<p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
-</div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
-<span class="mono muted">data {{head.generated}}</span>
-<a class="btn" target="_blank" rel="noopener">Repository</a>
-<a class="btn" target="_blank" rel="noopener">Add a project</a>
-</div>
-</div>
-</header>
-
-
-<div class="wrap"><p class="muted">Reading data.json …</p></div>
-
-
-<div class="wrap"><div class="block" style="padding: 20px"><strong>data.json could not be read.</strong> <span class="muted">The board expects it beside this page. {{error}}</span></div></div>
-
-
-
-<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
-
-<div class="top">
-<section class="block" style="flex: 1.5 1 640px" aria-labelledby="h-projects">
-<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its stack, interop points and runs.</p></div>
-<div class="prow prow-h"><span>Project</span><span>Source</span><span>Transport · DID methods</span><span>Try it</span></div>
-
-<div class="prow">
-<button class="pname"><span class="num">{{p.num}}</span><span class="pn">{{p.short}}</span></button>
-<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span class="prov ">{{p.prov}}</span><span class="stale">last updated {{p.updated}}</span></div>
-<div class="p-stack" style="min-width: 0; font-size: 12.5px"><div class="clip">{{p.transport}}</div><div class="clip muted mono">{{p.did}}</div></div>
-<div class="p-try chips">
-<a class="chip" target="_blank" rel="noopener"><span class="clip" style="max-width: 150px">{{a.label}}</span><span class="st">{{a.status}}</span></a>
-<span class="muted" style="font-size: 12px">nothing public to try</span>
-</div>
-</div>
-
-</section>
-
-<section class="block" style="flex: 1 1 440px" aria-labelledby="h-pairs">
-<div class="bhead"><h2 id="h-pairs">Pairs</h2><p>Scenarios two projects ran together. This fills during a meeting.</p></div>
-<div class="mx-box">
-<div class="mx-row" aria-hidden="true"><div class="mx-label"></div><div class="mx-head">{{h.num}}</div></div>
-
-<div class="mx-row"><div class="mx-label"><span class="num">{{r.num}}</span><span class="clip">{{r.short}}</span></div>
-<button class="mx-cell ">{{c.mark}}</button>
-</div>
-
-<p class="muted" style="margin: 12px 0 0; font-size: 12.5px">No two projects have run a scenario together yet. Every empty cell reads: not tested together yet.</p>
-</div>
-<div class="mx-foot">
-<a class="btn btn-primary" target="_blank" rel="noopener">
-<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>Record a run</a>
-<button class="btn">Scenarios</button>
-<span class="muted" style="font-size: 12px">● pass ◐ partial ✕ fail</span>
-</div>
-</section>
-</div>
-
-<section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, by layer. Select a point to see who touches it and which scenarios test it.</p></div>
-<div class="legend">
-<span class="li"><span class="pill s-">{{l.k}}</span>{{l.short}}</span>
-<span class="li"><span class="tag">proposed</span>point not yet accepted</span>
-</div>
-<div class="map-box">
-<div class="map">
-<div class="map-row map-headrow" style="grid-template-columns: "><div class="map-pt map-corner">Point</div>
-<div class="map-col ">{{c.short}}</div>
-</div>
-
-<div class="map-layer"><div class="map-layer-in"><strong>{{g.title}}</strong><span>{{g.asks}}</span></div></div>
-
-<div class="map-row " style="grid-template-columns: ">
-<button class="map-pt"><span class="pt-title">{{r.title}}</span><span class="tag">proposed by {{r.proposedBy}}</span></button>
-<div class="map-cell "><span class="pill s-">{{c.status}}</span></div>
-</div>
-
-<div class="detail"><div class="detail-in">
-<div>
-<h4>The point</h4>
-<p style="margin: 0 0 8px">{{r.d.asks}}</p>
-<p class="muted" style="margin: 0; font-size: 12.5px">Origin: {{r.d.origin}}<br>{{r.d.statusLine}}</p>
-</div>
-<div>
-<h4>Who touches it</h4>
-<ul class="dl">
-<li><span class="pill s-">{{x.status}}</span> <button class="linkbtn">{{x.short}}</button><span class="muted"> {{x.note}}</span></li>
-<li class="muted">No project has stated anything here yet.</li>
-</ul>
-</div>
-<div>
-<h4>Tested by</h4>
-<ul class="dl">
-<li><span class="pill st-">{{s.status}}</span> <button class="linkbtn">{{s.title}}</button></li>
-<li class="muted">No scenario yet.</li>
-</ul>
-<h4 style="margin-top: 14px">Threads</h4>
-<ul class="dl">
-<li><span class="pill st-">{{t.state}}</span> <a target="_blank" rel="noopener">{{t.title}}</a></li>
-<li class="muted">No open thread.</li>
-</ul>
-</div>
-</div></div>
-
-
-
-</div>
-</div>
-</section>
-
-<section class="block" aria-labelledby="h-threads">
-<div class="bhead"><h2 id="h-threads">Open threads</h2><p>Where the conversations about interop happen. Answer there, not here.</p><a class="btn" target="_blank" rel="noopener">Add a thread</a></div>
-
-<div class="trow">
-<div><span class="pill st-">{{t.state}}</span></div>
-<div style="min-width: 0; display: flex; flex-direction: column; gap: 3px">
-<a class="ttitle" target="_blank" rel="noopener">{{t.title}}</a>
-<span style="font-size: 13px">{{t.context}}</span>
-<span class="muted" style="font-size: 12px">{{t.points}}</span>
-</div>
-<div style="display: flex; flex-direction: column; gap: 2px; text-align: right">
-<span class="mono muted">{{t.host}}</span>
-<span class="mono muted">{{t.updated}}</span>
-<span class="stale">last updated {{t.updated}}</span>
-</div>
-</div>
-
-</section>
-
-</div>
-
-
-
-<button class="scrim" aria-label="Close project"></button>
-<aside class="sheet" aria-label="Project details">
-<div class="sh-head">
-<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
-<h3>{{pp.name}}</h3>
-<span class="prov ">{{pp.prov}}</span>
-</div>
-<button class="x" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
-</div>
-<div class="sec" style="display: flex; flex-wrap: wrap; gap: 8px">
-<a class="btn" target="_blank" rel="noopener">Website</a>
-<a class="btn" target="_blank" rel="noopener">Docs</a>
-<a class="btn" target="_blank" rel="noopener">Correct this</a>
-</div>
-<div class="sec">
-<h4>Try it</h4>
-<ul class="dl">
-<li><span class="pill">{{a.status}}</span> <a target="_blank" rel="noopener">{{a.label}}</a> <span class="muted mono">{{a.kind}}</span></li>
-<li class="muted">Nothing public to try yet.</li>
-</ul>
-</div>
-<div class="sec">
-<h4>Repositories</h4>
-<ul class="dl">
-<li><a class="mono" target="_blank" rel="noopener">{{r.name}}</a> <span class="muted" style="font-size: 12px">{{r.licence}} · {{r.pushed}}</span></li>
-<li class="muted">No public repository.</li>
-</ul>
-<p class="muted" style="margin: 10px 0 0; font-size: 12.5px">Licence: {{pp.licence}}</p>
-</div>
-<div class="sec">
-<h4>Stack</h4>
-<dl class="kv">
-<dt>{{s.k}}</dt><dd>{{s.v}}</dd>
-<dt>Needs</dt><dd>{{pp.required}}</dd>
-</dl>
-</div>
-<div class="sec">
-<h4>Interop points</h4>
-<div class="ptl">
-
-<div class="pti"><div><span class="pill s-">{{x.status}}</span></div>
-<div><strong style="font-weight: 500">{{x.title}}</strong><div class="muted" style="font-size: 12.5px">{{x.note}}</div>
-<div class="chips" style="margin-top: 4px"><a class="chip" target="_blank" rel="noopener">{{e.label}}</a></div></div></div>
-
-<p class="muted" style="margin: 0">No interop point stated yet.</p>
-</div>
-</div>
-<div class="sec">
-<h4>Realised interop</h4>
-<ul class="dl">
-<li><span class="pill ">{{x.outcome}}</span> {{x.title}} <span class="muted">with {{x.other}}, {{x.date}}</span></li>
-<li class="muted">No run with another project yet.</li>
-</ul>
-
-<h4 style="margin-top: 16px">In scenarios</h4>
-<ul class="dl">
-<li><span class="pill st-">{{s.status}}</span> <button class="linkbtn">{{s.title}}</button><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div></li>
-</ul>
-
-<p class="muted" style="margin: 14px 0 0; font-size: 12px">Updated {{pp.updated}}. People are listed in the project's README.</p>
-</div>
-</aside>
-
-
-
-<button class="scrim" aria-label="Close pair"></button>
-<aside class="sheet" aria-label="Pair details">
-<div class="sh-head">
-<h3>{{pair.a}} × {{pair.b}}</h3>
-<button class="x" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
-</div>
-<div class="sec">
-<h4>Ran together</h4>
-<ul class="dl">
-<li><span class="pill ">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span></li>
-<li class="muted">Not tested together yet.</li>
-</ul>
-<div style="margin-top: 14px"><a class="btn btn-primary" target="_blank" rel="noopener">Record a run for this pair</a></div>
-</div>
-<div class="sec">
-<h4>Scenarios either side is in</h4>
-<ul class="dl">
-<li><span class="pill st-">{{s.status}}</span> <strong style="font-weight: 500">{{s.title}}</strong><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div><a style="font-size: 12.5px" target="_blank" rel="noopener">Record a run of this scenario</a></li>
-<li class="muted">Neither project is in a scenario yet.</li>
-</ul>
-<div style="margin-top: 14px"><button class="btn">All scenarios</button></div>
-</div>
-</aside>
-
-
-
-<button class="scrim" aria-label="Close scenarios"></button>
-<aside class="sheet sheet-wide" aria-label="Scenarios">
-<div class="sh-head">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<h3>Scenarios</h3>
-<span class="muted" style="font-size: 13px">A test two or more implementations run against each other.</span>
-</div>
-<a class="btn btn-primary" style="margin-left: auto" target="_blank" rel="noopener">Record a run</a>
-<button class="x" style="margin-left: 0" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
-</div>
-<div class="cols4">
-
-<div style="min-width: 0">
-<div class="colh"><span class="pill st-">{{col.title}}</span></div>
-
-<article class="card">
-<h5>{{s.title}}</h5>
-<p>{{s.summary}}</p>
-<div class="chips"><span class="chip">{{pt}}</span></div>
-<p class="muted">With {{s.parts}} · waiting for a counterpart</p>
-<p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p>
-<div style="display: flex; flex-direction: column; gap: 3px"><a style="font-size: 12.5px" target="_blank" rel="noopener">{{v.label}}</a></div>
-<p><span class="pill ">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p>
-<div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; padding-top: 4px; border-top: 1px solid var(--line)">
-<a target="_blank" rel="noopener">Record a run</a>
-<a target="_blank" rel="noopener">Tracking issue</a>
-<a target="_blank" rel="noopener">Correct this</a>
-<span class="stale">last updated {{s.updated}}</span>
-</div>
-</article>
-
-<div class="emptycol">None.</div>
-</div>
-
-</div>
-</aside>
-
-
-</div>
-</sc-if></x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:3000}}">
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { data: null, err: '', panel: null, point: null };
+    let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
+    this.state = { data: null, err: '', open: null , theme: savedTheme };
   }
   componentDidMount() {
     fetch('./data.json')
@@ -699,117 +238,42 @@ class Component extends DCLogic {
     return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
   }
   renderVals() {
-    const theme = this.props.theme ?? 'auto';
+    const theme = this.state.theme || 'auto';
+    const themeLabel = 'Theme: ' + theme;
+    const toggleTheme = () => { const next = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
-    const close = () => this.setState({ panel: null });
-    const empty = { show: false };
-    const base = { theme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, projects: [], matrix: { head: [], rows: [], none: false }, legend: [], map: { grid: '', cols: [], groups: [] }, threads: [], pp: empty, pair: empty, sc: empty, runAny: '', openScenarios: null };
+    const close = () => this.setState({ open: null });
+    const base = { theme, themeLabel, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    if (!d) return { ...base, head: {}, projects: [], pp: { show: false } };
 
     const repo = d.repo;
     const P = d.projects || [];
     const pts = (d.map && d.map.points) || [];
-    const words = (d.map && d.map.statusWords) || {};
     const scenarios = d.scenarios || [];
-    const ptById = {}; pts.forEach((p) => { ptById[p.id] = p; });
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => p.name.split(' / ')[0].split(' (')[0];
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const scls = (s) => (s === 'n/a' ? 'na' : s);
-    const panel = this.state.panel;
-    const open = (p) => () => this.setState({ panel: p });
-    const openScenarios = open({ kind: 'scenarios' });
-    const pairOf = (a, b) => ((d.pairs || {})[a + '|' + b]) || ((d.pairs || {})[b + '|' + a]) || [];
-    const runUrl = (s, a, b) => {
-      const title = 'Run: ' + (s ? s.title : '<scenario>');
-      const body = 'Scenario: ' + (s ? s.slug : '') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
-      return repo + '/issues/new?labels=run&title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
-    };
+    const isPub = (p) => !p.provenance || p.provenance.kind !== 'project';
 
-    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newThread: repo + '/issues/new?labels=thread' };
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
 
     const projects = P.map((p, i) => {
-      const pub = !p.provenance || p.provenance.kind !== 'project';
+      const st = p.stack || {};
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status }));
       return {
-        num: i + 1, short: short(p), open: open({ kind: 'project', slug: p.slug }),
-        prov: pub ? 'Public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
-        provCls: pub ? 'prov-public' : 'prov-project',
-        transport: (p.stack && p.stack.transport) || 'not stated',
-        did: (p.stack && p.stack.didMethods) || 'not stated',
+        num: i + 1, short: short(p), open: () => this.setState({ open: p.slug }),
+        prov: isPub(p) ? 'Public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
+        provCls: isPub(p) ? 'prov-public' : 'prov-project',
+        did: st.didMethods || 'not stated', transport: st.transport || 'not stated', groups: st.groups || 'not stated',
         apps, noApps: apps.length === 0, stale: stale(p.updated), updated: this.fmt(p.updated),
       };
     });
 
-    const glyph = { pass: '●', partial: '◐', fail: '✕' };
-    let anyRun = false;
-    const matrix = {
-      head: P.map((p, i) => ({ num: i + 1, name: short(p) })),
-      rows: P.map((a, i) => ({
-        num: i + 1, short: short(a),
-        cells: P.map((b, j) => {
-          if (i === j) return { diag: true, cls: 'mx-diag', mark: '', label: short(a), open: null };
-          const runs = pairOf(a.slug, b.slug);
-          if (runs.length) anyRun = true;
-          const last = runs.length ? runs[runs.length - 1].outcome : '';
-          return {
-            diag: false, cls: runs.length ? 'mx-' + last : 'mx-empty', mark: glyph[last] || '',
-            label: short(a) + ' and ' + short(b) + ': ' + (runs.length ? runs.map((r) => r.title + ', ' + r.outcome).join('; ') : 'not tested together yet'),
-            open: open({ kind: 'pair', a: a.slug, b: b.slug }),
-          };
-        }),
-      })),
-    };
-    matrix.none = !anyRun;
-
-    const shortWord = { potential: 'from public sources', runs: 'others can exercise it', vectors: 'test vectors published', spec: 'written down', open: 'known gap', 'n/a': 'not aimed at' };
-    const legend = Object.keys(words).map((k) => ({ k, cls: scls(k), v: words[k], short: shortWord[k] || '' }));
-
-    const sel = this.state.point;
-    const touches = sel ? P.filter((p) => p.points && p.points[sel]).map((p) => p.slug) : null;
-    const grid = 'minmax(240px, 300px) repeat(' + P.length + ', minmax(84px, 1fr))';
-    const map = {
-      grid,
-      cols: P.map((p) => ({ short: short(p), cls: !touches ? '' : (touches.indexOf(p.slug) >= 0 ? 'col-on' : 'col-off') })),
-      groups: ((d.map && d.map.layers) || []).map((l) => ({
-        title: l.title, asks: l.asks,
-        rows: pts.filter((pt) => pt.layer === l.id).map((pt) => {
-          const selected = sel === pt.id;
-          const touching = P.filter((p) => p.points && p.points[pt.id]);
-          return {
-            grid, title: pt.title, selected, cls: selected ? 'row-sel' : '',
-            proposed: pt.status === 'proposed', proposedBy: pt.proposedBy ? nameOf(pt.proposedBy) : '',
-            pick: () => this.setState({ point: selected ? null : pt.id }),
-            cells: P.map((p) => {
-              const c = p.points && p.points[pt.id];
-              const on = selected && c ? 'cell-on' : '';
-              return c ? { has: true, on, status: c.status, cls: scls(c.status), note: c.status + (words[c.status] ? ': ' + words[c.status] : '') + (c.note ? '. ' + c.note : '') } : { has: false, on: '', status: '', cls: '', note: '' };
-            }),
-            d: !selected ? { projects: [], scenarios: [], threads: [] } : {
-              asks: pt.asks, origin: pt.origin,
-              statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy ? nameOf(pt.proposedBy) : 'a project') + ', not yet accepted' : 'Accepted point',
-              projects: touching.map((p) => { const c = p.points[pt.id]; return { short: short(p), status: c.status, cls: scls(c.status), note: c.note || '', open: open({ kind: 'project', slug: p.slug }) }; }),
-              noProjects: touching.length === 0,
-              scenarios: scenarios.filter((s) => (s.points || []).indexOf(pt.id) >= 0).map((s) => ({ title: s.title, status: s.status, open: openScenarios })),
-              threads: (d.threads || []).filter((t) => (t.points || []).indexOf(pt.id) >= 0).map((t) => ({ title: t.title, url: t.url, state: t.state })),
-            },
-          };
-        }),
-      })).filter((g) => g.rows.length),
-    };
-    map.groups.forEach((g) => g.rows.forEach((r) => { if (r.selected) { r.d.noScenarios = r.d.scenarios.length === 0; r.d.noThreads = r.d.threads.length === 0; } }));
-
-    const threads = (d.threads || []).slice().sort((a, b) => String(b.updated).localeCompare(String(a.updated))).map((t) => ({
-      title: t.title, url: t.url, host: t.host, context: t.context, state: t.state,
-      points: (t.points || []).map((id) => (ptById[id] ? ptById[id].title : id)).join(' · '),
-      updated: this.fmt(t.updated), stale: stale(t.updated),
-    }));
-
-    let pp = empty;
-    if (panel && panel.kind === 'project' && prjById[panel.slug]) {
-      const p = prjById[panel.slug];
-      const pub = !p.provenance || p.provenance.kind !== 'project';
+    let pp = { show: false };
+    const p = this.state.open && prjById[this.state.open];
+    if (p) {
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status, kind: a.kind }));
       const repos = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; return { name: r.name || u.replace(/^https?:\/\//, ''), url: u, licence: r.licence || 'licence not reported', pushed: r.pushedAt ? 'pushed ' + this.fmt(r.pushedAt) : 'last push not reported' }; });
       const st = p.stack || {};
@@ -819,10 +283,11 @@ class Component extends DCLogic {
         const sides = (r.sides || []).map((x) => x.project);
         if (sides.indexOf(p.slug) >= 0 && sides.length > 1) realised.push({ title: s.title, outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), other: sides.filter((x) => x !== p.slug).map(nameOf).join(', ') });
       }));
-      const inScn = scenarios.filter((s) => (s.participants || []).indexOf(p.slug) >= 0).map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', open: openScenarios }));
+      const inScn = scenarios.filter((s) => (s.participants || []).indexOf(p.slug) >= 0).map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated' }));
       pp = {
-        show: true, name: p.name, prov: pub ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
-        provCls: pub ? 'prov-public' : 'prov-project',
+        show: true, name: p.name,
+        prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
+        provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
         stack: [['DID methods', st.didMethods], ['Credentials', st.credentials], ['Transport', st.transport], ['Trust Tasks', st.trustTasks], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]].map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
@@ -832,34 +297,7 @@ class Component extends DCLogic {
       };
     }
 
-    let pair = empty;
-    if (panel && panel.kind === 'pair') {
-      const a = panel.a, b = panel.b;
-      const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date) }));
-      const scn = scenarios.filter((s) => (s.participants || []).indexOf(a) >= 0 || (s.participants || []).indexOf(b) >= 0)
-        .map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', run: runUrl(s, a, b) }));
-      pair = { show: true, a: nameOf(a), b: nameOf(b), runs, noRuns: runs.length === 0, run: runUrl(null, a, b), scenarios: scn, noScenarios: scn.length === 0 };
-    }
-
-    let sc = empty;
-    if (panel && panel.kind === 'scenarios') {
-      const cards = scenarios.map((s) => {
-        const parts = s.participants || [];
-        return {
-          title: s.title, summary: s.summary, status: s.status,
-          points: (s.points || []).map((id) => (ptById[id] ? ptById[id].title : id)),
-          parts: parts.map(nameOf).join(', ') || 'nobody yet', lonely: parts.length < 2,
-          waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
-          vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
-          results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × ') })),
-          run: runUrl(s, parts[0], parts[1]), hasIssue: !!s.issue, issueUrl: s.issue ? repo + '/issues/' + s.issue : '',
-          editUrl: s.editUrl || repo, stale: stale(s.updated), updated: this.fmt(s.updated),
-        };
-      });
-      sc = { show: true, columns: ['proposed', 'running', 'passing', 'failing'].map((t) => { const c = cards.filter((x) => x.status === t); return { title: t, cards: c, empty: c.length === 0 }; }) };
-    }
-
-    return { ...base, head, projects, matrix, legend, map, threads, pp, pair, sc, runAny: runUrl(null, '', ''), openScenarios };
+    return { ...base, head, projects, pp };
   }
 }
 </script>
