@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { join, extname } from 'node:path'
 
 const dist = new URL('../site/dist/', import.meta.url).pathname
-const types = { '.html': 'text/html; charset=utf-8', '.json': 'application/json', '.css': 'text/css', '.js': 'text/javascript' }
+const types = { '.html': 'text/html; charset=utf-8', '.json': 'application/json', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png' }
 createServer((req, res) => {
   const path = req.url === '/' ? '/index.html' : req.url.split('?')[0]
   const file = join(dist, path)
