@@ -179,7 +179,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says. A dashed face is derived from the Credentials, Messaging, Replication or Trust Tasks pages.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says. A dashed face is a status derived from the Credentials, Messaging, Replication or Trust Tasks data.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
 <div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
 <div class="cols">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
@@ -262,14 +262,8 @@ class Component extends DCLogic {
       face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     });
 
-    // Points that a detail page answers: who has it running there, derived from structured data (shown as derived, not as a statement on the map)
-    const live = (s) => s === 'runs' || s === 'building';
-    const DERIVE = {
-      'vrc-exchange': { from: 'Credentials', test: (p) => (p.credentials || []).some((e) => live(e.status) && e.model === 'W3C VC 2.0' && (e.profiles || []).indexOf('VRC') >= 0 && (e.proof || []).indexOf('eddsa-jcs-2022') >= 0) },
-      'same-carrier': { from: 'Messaging', test: (p) => (p.messaging || []).some((e) => live(e.status) && /^TSP/.test(e.protocol) && e.via === 'mediator') },
-      'shared-room': { from: 'Replication', test: (p) => (p.replication || []).some((e) => live(e.status) && e.protocol === 'MLS') },
-      'document-framework': { from: 'Trust Tasks', test: (p) => !!(p.trustTaskUse && live(p.trustTaskUse.status)) },
-    };
+    // A status the build derived from the detail data (points[].derivedFrom) is shown dashed, with where it came from
+    const FROM = { credentials: 'Credentials', messaging: 'Messaging', replication: 'Replication', trustTaskUse: 'Trust Tasks' };
     const raw = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
     const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'potential' ? 'guess' : null);
     const order = { runs: 0, vectors: 1, paper: 2, guess: 3 };
@@ -280,16 +274,16 @@ class Component extends DCLogic {
     const sel = this.state.point;
 
     const cards = d.map.points.map((pt) => {
-      const dv = DERIVE[pt.id];
       const faces = []; const said = []; let guesses = 0;
       P.forEach((p) => {
-        let c = lvl(raw(p, pt.id)); let der = false;
-        if (dv && c !== 'runs' && c !== 'vectors' && dv.test(p)) { c = 'runs'; der = true; }
+        const c = lvl(raw(p, pt.id));
         if (!c) return;
-        const note = der ? 'Running per the ' + dv.from + ' page (derived).' : (p.points[pt.id].note || '');
-        said.push({ name: face[p.slug].name, href: face[p.slug].href, cls: c, status: der ? 'runs (derived)' : raw(p, pt.id), note });
+        const e = p.points[pt.id]; const dv = e.derived;
+        const word = dv ? 'runs (derived from ' + (FROM[dv.from] || dv.from) + (dv.said ? '; the row said ' + dv.said : '') + ')' : raw(p, pt.id);
+        const note = e.note || '';
+        said.push({ name: face[p.slug].name, href: face[p.slug].href, cls: c, status: word, note });
         if (c === 'guess') { guesses++; return; }
-        faces.push({ ...face[p.slug], cls: c, der: der ? 'der' : '', title: face[p.slug].name + ': ' + (der ? 'running per the ' + dv.from + ' page (derived)' : raw(p, pt.id) + (note ? ' · ' + note : '')) });
+        faces.push({ ...face[p.slug], cls: c, der: dv ? 'der' : '', title: face[p.slug].name + ': ' + word + (note ? ' · ' + note : '') });
       });
       faces.sort((a, b) => order[a.cls] - order[b.cls]);
       said.sort((a, b) => order[a.cls] - order[b.cls]);
