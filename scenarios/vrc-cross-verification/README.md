@@ -24,4 +24,5 @@ Issuing a credential about the other side's person, wallet storage, presentation
 
 ## Results
 
-None yet.
+- **2026-10-11, pass, RLTP × Consensual.** Vectors both ways: Consensual's independent DI-EDDSA verifier confirmed RLTP's encounter credentials (8 Oct); RLTP's reader `conformance/dtg-vrc.mjs` verified 12 of 12 Consensual dyad VRCs under did:peer:2 after six form fixes on their side (11 Oct). The run surfaced a key-purpose check, fixed in [trust-protocol #74](https://github.com/real-life-org/trust-protocol/pull/74). Consensual's vectors are not public yet.
+
