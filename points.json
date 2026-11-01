@@ -1,5 +1,5 @@
 {
-  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin. Points marked proposed were suggested by one project and become accepted when a maintainer merges the change.",
+  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point is its own account of how far it meets the requirements; whether the point was shown between two projects follows only from a passing scenario result. Points marked proposed were suggested by one project and become accepted when a maintainer merges the change; a candidate line is an open question about the point itself.",
   "layers": [
     {
       "id": "identity",
@@ -73,16 +73,12 @@
       "layer": "identity",
       "title": "Identifier resolution across apps",
       "asks": "Each side resolves the other's DID method and finds its keys.",
+      "requires": [
+        "Both sides: an identifier under a DID method, and signatures with a key the DID resolves to",
+        "Each side: resolves the other side's DID method"
+      ],
+      "done": "Each side verifies a signature the other side made under its DID, using keys from its own resolution of that DID.",
       "origin": "Weave deck, Level 0 question",
-      "weaveLevel": "0",
-      "status": "accepted"
-    },
-    {
-      "id": "offline-write",
-      "layer": "identity",
-      "title": "Writes without web access",
-      "asks": "What a write is when no host is reachable, and whether it counts afterwards.",
-      "origin": "Weave deck, Level 0 question: is web access necessary and sufficient",
       "weaveLevel": "0",
       "status": "accepted"
     },
@@ -91,6 +87,11 @@
       "layer": "credentials",
       "title": "Relationship credential exchange",
       "asks": "A relationship credential issued in one app is verified in another.",
+      "requires": [
+        "Each side: issues a DTG RelationshipCredential with a proof from the credentials vocabulary",
+        "Each side: resolves the other side's DID method (did-resolution)"
+      ],
+      "done": "Each side verifies proof, context and issuer scope of a relationship credential the other side issued.",
       "origin": "Weave deck, Level 0a",
       "weaveLevel": "0a",
       "status": "accepted"
@@ -100,6 +101,11 @@
       "layer": "credentials",
       "title": "App change with credentials",
       "asks": "A person moves to another app and keeps relationship and membership credentials.",
+      "requires": [
+        "Leaving app: exports the person's relationship and membership credentials together with the keys, or a key the person controls",
+        "Receiving app: imports them and verifies each one (vrc-exchange, membership-statement)"
+      ],
+      "done": "Credentials exported from one app are imported into another, verify there, and the person sees their contacts and memberships.",
       "origin": "Weave deck, Level 0b",
       "weaveLevel": "0b",
       "status": "accepted"
@@ -109,6 +115,11 @@
       "layer": "ceremony",
       "title": "Contact ceremony between apps",
       "asks": "Two people on different apps connect through one QR-code ceremony and both end with a credential the other app reads.",
+      "requires": [
+        "Both apps: the same ceremony, one as the displaying side and one as the scanning side",
+        "Both apps: issue and verify the credential the ceremony ends with (vrc-exchange)"
+      ],
+      "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
       "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp",
       "status": "accepted"
     },
@@ -117,6 +128,10 @@
       "layer": "ceremony",
       "title": "Shared ceremony definitions",
       "asks": "Ceremonies are defined once in the DTGWG format and implemented by several apps.",
+      "requires": [
+        "Each app: runs a ceremony from a definition file in the DTGWG format, not from hand-written steps"
+      ],
+      "done": "Two apps run the same ceremony definition file and reach the same end state.",
       "origin": "DTGWG Trust Ceremonies task force",
       "status": "accepted"
     },
@@ -124,7 +139,12 @@
       "id": "same-carrier",
       "layer": "wire",
       "title": "Delivery through one carrier",
-      "asks": "Two apps reach each other through the same mediator or relay over TSP.",
+      "asks": "Two apps reach each other through the same mediator or relay.",
+      "requires": [
+        "Both apps: speak the carrier's wire protocol (TSP for the VTI mediator) and have a relationship or an account at the same carrier",
+        "Both apps: seal and open messages for the other side's identifier"
+      ],
+      "done": "A sealed message from one app arrives at the other through one carrier and opens, in both directions.",
       "origin": "tsp-conformance, VTI",
       "status": "accepted"
     },
@@ -133,6 +153,11 @@
       "layer": "wire",
       "title": "Delivery across carriers",
       "asks": "Two parties at different mediators or relays still reach each other.",
+      "requires": [
+        "Each app: reachable at a carrier of its own",
+        "The carriers: forward to one another, or one app reaches both"
+      ],
+      "done": "A sealed message from one app at one carrier arrives at the other app at another carrier and opens, in both directions.",
       "origin": "rltp (VTI gap)",
       "status": "proposed",
       "proposedBy": "rltp"
@@ -142,6 +167,11 @@
       "layer": "documents",
       "title": "Common document framework",
       "asks": "Wire artifacts are Trust Task documents with type URI, schema and proof the other side can check.",
+      "requires": [
+        "Each side: emits its wire artifacts as Trust Task documents with a type URI, a schema and a proof",
+        "Each side: parses foreign Trust Task documents, with a shared library or its own"
+      ],
+      "done": "A document emitted by one app parses in the other as a Trust Task document and its proof verifies, even where the receiver does not know the type.",
       "origin": "DTGWG Trust Tasks framework",
       "status": "accepted"
     },
@@ -150,6 +180,11 @@
       "layer": "documents",
       "title": "Error and status answers",
       "asks": "A receiver that cannot process a document answers in a form the sender reads.",
+      "requires": [
+        "Receiving side: answers a document it cannot process with trust-task-error",
+        "Sending side: reads trust-task-error and shows it or acts on it"
+      ],
+      "done": "One app sends a document the other cannot process; the answer is a trust-task-error the sender reads, and the sender's state afterwards matches the error.",
       "origin": "Trust Tasks framework, trust-task-error",
       "status": "accepted"
     },
@@ -158,6 +193,12 @@
       "layer": "messaging",
       "title": "Direct message between apps",
       "asks": "Two connected people on two different apps exchange a message each way, as a document both read.",
+      "requires": [
+        "Both apps: a relationship between the two people (contact-ceremony, or any ceremony both apps accept)",
+        "Both apps: the same message document type",
+        "Both apps: a path between them (same-carrier or cross-carrier)"
+      ],
+      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, and the reply arrives the same way.",
       "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp",
       "status": "accepted"
     },
@@ -165,16 +206,26 @@
       "id": "message-privacy",
       "layer": "messaging",
       "title": "Deniable messages",
-      "asks": "A message between two people carries no proof a third party can verify.",
+      "asks": "A message both apps read carries no proof a third party can verify.",
+      "requires": [
+        "Both apps: the shared message type with a pairwise proof (a MAC or an equivalent construction) instead of a transferable signature"
+      ],
+      "done": "A message carrying only a pairwise proof is shown by the other app, and a third party holding the envelope cannot show who wrote it.",
       "origin": "rltp",
       "status": "proposed",
-      "proposedBy": "rltp"
+      "proposedBy": "rltp",
+      "candidate": "Merge into direct-message as a property of the shared message type; a separate run adds nothing the message-over-tsp pass criterion does not already check."
     },
     {
       "id": "membership-statement",
       "layer": "membership",
       "title": "Membership statement another app reads",
       "asks": "A community states who belongs in a form a wallet or another app holds and verifies.",
+      "requires": [
+        "Community side: issues a statement of who belongs (a VMC or an equivalent document) under the community's identifier",
+        "Other app: verifies the statement and the issuer's authority over the community"
+      ],
+      "done": "A membership statement issued in one app verifies in another, naming the person and the community.",
       "origin": "Weave deck, Level 1a",
       "weaveLevel": "1a",
       "status": "accepted"
@@ -183,7 +234,12 @@
       "id": "multi-app-access",
       "layer": "membership",
       "title": "One membership, several apps",
-      "asks": "One membership opens several apps.",
+      "asks": "One membership statement is accepted as access by two different apps.",
+      "requires": [
+        "Community: one membership statement per member (membership-statement)",
+        "Two apps: grant access on that statement rather than on accounts of their own"
+      ],
+      "done": "One membership statement from one community opens two different apps for the same person.",
       "origin": "Weave deck, Level 1b",
       "weaveLevel": "1b",
       "status": "accepted"
@@ -192,7 +248,12 @@
       "id": "subgroups",
       "layer": "membership",
       "title": "Sub-groups with their own credentials",
-      "asks": "A sub-group issues credentials of its own.",
+      "asks": "A sub-group issues credentials of its own, and another app verifies them through the parent group.",
+      "requires": [
+        "Community side: a sub-group with an identifier of its own, and a statement from the parent group that the sub-group belongs to it",
+        "Other app: verifies a sub-group credential together with the parent's statement"
+      ],
+      "done": "Another app verifies a credential issued by a sub-group and that the parent group backs that sub-group.",
       "origin": "Weave deck, Level 1c",
       "weaveLevel": "1c",
       "status": "accepted"
@@ -201,16 +262,27 @@
       "id": "authority-model",
       "layer": "membership",
       "title": "Who decides what the group is",
-      "asks": "Owner, committer race, steward or signed log: each model named as a profile so that groups of different models can still recognise each other.",
+      "asks": "A membership statement names which authority model produced it (owner, committer race, steward, signed log), and another app reads that.",
+      "requires": [
+        "Community side: states its authority model in a named profile the membership statement refers to",
+        "Other app: reads the profile and shows or applies it"
+      ],
+      "done": "Another app reads from a membership statement which authority model produced it and shows or applies that.",
       "origin": "Weave one-pager (how groups hold their own truth across apps, outliving founders); rltp",
       "status": "proposed",
-      "proposedBy": "rltp"
+      "proposedBy": "rltp",
+      "candidate": "Already a facet (groupAuthority). Keep only if the profile becomes part of the membership statement; otherwise drop."
     },
     {
       "id": "shared-room",
       "layer": "shared-state",
       "title": "Same group in two apps",
       "asks": "Several apps read and write the same encrypted shared state of one community.",
+      "requires": [
+        "Host side: a group whose shared state is encrypted and joinable by welcome or invitation",
+        "Joining side: a client of its own implementation that joins, reads and writes"
+      ],
+      "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back.",
       "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps)",
       "weaveLevel": "2a",
       "status": "accepted"
@@ -220,24 +292,53 @@
       "layer": "shared-state",
       "title": "History for newcomers",
       "asks": "A member admitted later reads what the group wrote before, as far as the group allows.",
+      "requires": [
+        "Both sides: shared-room",
+        "Host side: keeps earlier epochs or keys for newcomers, as far as the group allows"
+      ],
+      "done": "A member admitted later from the other app reads what the group wrote before the admission, within what the group allows, and nothing beyond.",
       "origin": "rltp (KV4), OpenVTC epoch chain",
       "status": "proposed",
       "proposedBy": "rltp"
+    },
+    {
+      "id": "offline-write",
+      "layer": "shared-state",
+      "title": "Writes without a host",
+      "asks": "A write made while no host is reachable is accepted by the other app when it arrives later.",
+      "requires": [
+        "Writing side: writes while no host is reachable and delivers the write later",
+        "Receiving side: validates a write by its issuer and content, not by when it arrived"
+      ],
+      "done": "A write made in one app with no host reachable is delivered later and accepted by the other app as of its issue time.",
+      "origin": "Weave deck, Level 0 question: is web access necessary and sufficient",
+      "weaveLevel": "0",
+      "status": "accepted"
     },
     {
       "id": "key-agreement",
       "layer": "keys",
       "title": "Group key agreement at the boundary",
       "asks": "Implementations with different internal key worlds share group keys through one agreement (MLS) where they meet.",
+      "requires": [
+        "Both sides: the same group key agreement at the boundary (MLS 1.0, ciphersuite 0x0001), whatever runs inside"
+      ],
+      "done": "Two implementations hold the same group key after a join and each decrypts a message the other encrypted under it, with no data room semantics involved.",
       "origin": "rltp (E13), Consensual, OpenVTC Data Rooms",
       "status": "proposed",
-      "proposedBy": "rltp"
+      "proposedBy": "rltp",
+      "candidate": "Merge into shared-room: whoever passes shared-room on MLS has shown this. Keep only for an MLS-only run without a data room."
     },
     {
       "id": "captured-device",
       "layer": "keys",
       "title": "Recovery after a captured device",
       "asks": "Removing a device ends its access to future group content on every app.",
+      "requires": [
+        "Both sides: shared-room or key-agreement",
+        "Removing side: removes a device from the group and rotates the group key"
+      ],
+      "done": "After one app removes a device, content written afterwards in either app does not open on that device.",
       "origin": "rltp test bench (PCS)",
       "status": "proposed",
       "proposedBy": "rltp"
@@ -247,6 +348,11 @@
       "layer": "devices",
       "title": "Several devices, one person",
       "asks": "A person's devices act for the same person toward other apps, and a lost or restored device does not break the relationship.",
+      "requires": [
+        "Person side: several devices under one person, each with a key of its own",
+        "Counterpart app: a relationship with the person, not with one device"
+      ],
+      "done": "The counterpart app treats a person's second device as the same relationship, and a restored device continues it without a new ceremony.",
       "origin": "rltp (E15), Consensual persona",
       "status": "proposed",
       "proposedBy": "rltp"
@@ -256,6 +362,11 @@
       "layer": "networks",
       "title": "Registry lookup",
       "asks": "Two communities recognise each other through a registry.",
+      "requires": [
+        "Registry side: a registry that answers whether a community is recognised, as a Trust Task or an equivalent",
+        "Querying side: asks the registry before trusting a statement from a community it does not know"
+      ],
+      "done": "One community accepts a statement from another it does not know because a registry both read recognises it.",
       "origin": "Weave deck, Level 3a",
       "weaveLevel": "3a",
       "status": "accepted"
@@ -264,7 +375,12 @@
       "id": "trust-network",
       "layer": "networks",
       "title": "Networks of communities",
-      "asks": "Three or more communities in a trust network.",
+      "asks": "A community recognises a member of a community it does not know, through a third community both know.",
+      "requires": [
+        "Three communities: a statement of recognition from the third to each of the other two (registry-lookup or membership-statement)",
+        "Accepting side: follows the chain of recognition"
+      ],
+      "done": "A community accepts a membership statement of a community it has no direct relation with, through one it has.",
       "origin": "Weave deck, Level 3b",
       "weaveLevel": "3b",
       "status": "accepted"
@@ -274,6 +390,11 @@
       "layer": "networks",
       "title": "Interop with traditional tools",
       "asks": "A group governed in the trust substrate is used by a conventional tool (calendar, forum, folder) that only asks who belongs.",
+      "requires": [
+        "Group side: a membership statement or an authorization view that answers who belongs",
+        "Tool side: a conventional tool that grants access on that answer"
+      ],
+      "done": "A conventional tool grants access to a group governed in the trust substrate, asking only who belongs.",
       "origin": "Weave one-pager (how decentralized tools interoperate with traditional ones)",
       "status": "accepted"
     },
@@ -282,6 +403,10 @@
       "layer": "conformance",
       "title": "Wire conformance",
       "asks": "The TSP implementation passes the shared conformance suite.",
+      "requires": [
+        "The implementation: a driver for the tsp-conformance protocol"
+      ],
+      "done": "The driver passes the shared conformance suite in a published run.",
       "origin": "OpenVTC tsp-conformance",
       "status": "accepted"
     },
@@ -290,6 +415,11 @@
       "layer": "conformance",
       "title": "Document conformance",
       "asks": "Document types are exercised by shared byte-exact vectors and a shared runner.",
+      "requires": [
+        "The implementation: byte-exact vectors for its document types in the shared format",
+        "A shared runner that re-derives them"
+      ],
+      "done": "The shared runner re-derives another implementation's vectors byte-exact and finds the negatives.",
       "origin": "Trust Tasks task force; Weave one-pager (online test and compliance harness)",
       "status": "accepted"
     },
@@ -297,25 +427,36 @@
       "id": "ui-consistency",
       "layer": "collaboration",
       "title": "Consistent user interfaces",
-      "asks": "The same ceremony or relationship class is shown with the same words and warnings across apps.",
+      "asks": "The same relationship class or ceremony warning is shown with the same words across apps.",
+      "requires": [
+        "Both apps: adopt a published shared vocabulary for relationship classes and ceremony warnings"
+      ],
+      "done": "Both apps show the same relationship class and the same warning for the same situation, by a shared vocabulary each one cites.",
       "origin": "Weave one-pager (consistency across different user interfaces)",
-      "status": "accepted"
+      "status": "accepted",
+      "candidate": "No run between two implementations; shown by comparing screens against the vocabulary. Keep as a point or move to a shared document."
     },
     {
       "id": "agent-collaboration",
       "layer": "collaboration",
       "title": "Agents across codebases",
-      "asks": "Coding agents of different teams exchange findings and vectors through an end-to-end encrypted channel.",
+      "asks": "A coding agent of one team contributes a correction or a vector to another team's repository.",
+      "requires": [
+        "Each team: a repository with written rules an agent can follow (an AGENTS.md or equivalent) and a way to accept changes from outside"
+      ],
+      "done": "An agent of one project files a change or a vector in another project's repository and it is accepted.",
       "origin": "Weave one-pager (agent-assisted collaboration)",
-      "status": "accepted"
+      "status": "accepted",
+      "candidate": "The one-pager asks for an end-to-end encrypted channel between agents; this board and its AGENTS.md are the channel in use. Keep as reformulated or drop."
     }
   ],
   "statusWords": {
-    "potential": "compiled from public sources: the project appears to work on this point; not confirmed by the project",
-    "runs": "code or a live service another project can exercise today",
+    "potential": "compiled from public sources: the project appears to meet the requirements; not confirmed by the project",
+    "runs": "the project meets the requirements in code or a live service another project can exercise today; not yet a run between two projects",
     "vectors": "byte-exact test vectors published, not yet exercised against another implementation",
-    "spec": "written down, not yet exercised",
+    "spec": "written down, not yet built",
     "open": "the project knows the gap and says so",
     "n/a": "the project does not aim at this point, with a reason"
-  }
+  },
+  "shown": "A point counts as shown between two projects only through a passing result in a scenario that covers the point (or a partial result naming it). Project statuses never add up to shown."
 }

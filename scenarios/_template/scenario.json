@@ -4,7 +4,7 @@
   "points": [
     "vrc-exchange"
   ],
-  "summary": "One or two sentences: what is exchanged, in which direction, what counts as pass.",
+  "summary": "One or two sentences: what is exchanged, in which direction, what counts as pass (the done sentences of the points listed).",
   "participants": [
     "your-slug"
   ],

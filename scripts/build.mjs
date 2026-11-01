@@ -56,10 +56,18 @@ githubFetched = issuesOk && reposOk
 // the snapshot only ever takes successful fetches
 if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
 
-const pairs = {}
+// Pairs: every result between two projects. shown: the points a pair has shown,
+// derived only from a pass (all points of the scenario) or a partial (its named
+// points); project statuses never add up to shown.
+const pairs = {}, shown = {}
 for (const s of scenarios) for (const r of s.results ?? []) {
   const slugs = [...new Set(r.sides.map((x) => x.project))].sort()
-  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) (pairs[`${slugs[i]}|${slugs[j]}`] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome })
+  const points = r.outcome === 'pass' ? s.points : r.outcome === 'partial' ? r.points ?? [] : []
+  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
+    const key = `${slugs[i]}|${slugs[j]}`
+    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points })
+    for (const id of points) ((shown[key] ??= {})[id] ??= []).push({ scenario: s.slug, date: r.date })
+  }
 }
 // Trust Tasks: every project's types resolved (inline or from trust-tasks.json),
 // then for each type who uses it, and for each pair of projects what they share.
@@ -100,7 +108,7 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))

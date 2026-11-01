@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/real-life-org/dtg-interop/schema/points.schema.json",
+  "title": "DTG interop map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["layers", "points", "statusWords"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "layers": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "title", "asks"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" },
+          "title": { "type": "string", "maxLength": 60 },
+          "asks": { "type": "string", "maxLength": 200, "description": "The question the layer asks, one sentence." }
+        }
+      }
+    },
+    "points": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "layer", "title", "asks", "requires", "done", "origin", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" },
+          "layer": { "type": "string", "description": "A layer id." },
+          "title": { "type": "string", "maxLength": 60 },
+          "asks": { "type": "string", "maxLength": 300, "description": "What the point is about, one sentence." },
+          "requires": {
+            "type": "array", "minItems": 1, "maxItems": 6,
+            "items": { "type": "string", "maxLength": 240 },
+            "description": "What a project brings to take part, one line each. Name the side (\"Both apps:\", \"Issuing side:\") when the sides differ. A project's status at the point says how far it meets these."
+          },
+          "done": { "type": "string", "maxLength": 400, "description": "What has to happen between two projects for the point to count as shown. A scenario is a recipe for exactly this; a passing result is the proof." },
+          "origin": { "type": "string", "maxLength": 200, "description": "Where the point comes from: a deck, a one-pager, a task force, a project." },
+          "weaveLevel": { "type": "string", "maxLength": 4, "description": "The level in the Project Weave deck, if the point comes from there." },
+          "status": { "enum": ["accepted", "proposed"] },
+          "proposedBy": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,40}$", "description": "Project slug; required when proposed." },
+          "candidate": { "type": "string", "maxLength": 240, "description": "An open question about the point itself: a proposal to merge it into another point or to drop it, with the reason. Removed when decided." }
+        }
+      }
+    },
+    "statusWords": {
+      "type": "object", "additionalProperties": false,
+      "required": ["potential", "runs", "vectors", "spec", "open", "n/a"],
+      "properties": {
+        "potential": { "type": "string" }, "runs": { "type": "string" }, "vectors": { "type": "string" },
+        "spec": { "type": "string" }, "open": { "type": "string" }, "n/a": { "type": "string" }
+      }
+    },
+    "shown": { "type": "string", "description": "One sentence on how the board derives that a point is shown between two projects." }
+  }
+}

@@ -16,7 +16,7 @@ This board records how the implementations of the decentralized trust graph fit 
 | `projects/<slug>/project.json` | One project's row. Your file. |
 | `projects/<slug>/README.md` | One paragraph: what it is, who works on it, what others can try against it today. |
 | `projects/<slug>/trust-tasks.json` | Optional: a long list of Trust Task types, extracted from the source. |
-| `points.json` | The interop points of the map (ids, layers, what each asks). Shared. |
+| `points.json` | The interop points of the map: id, layer, what each asks, what a project brings to take part (`requires`) and what has to happen between two projects for the point to count (`done`). Shared. |
 | `credential-profiles.json` | The credential profiles (VRC, VMC, …) and their families. Shared. |
 | `scenarios/<slug>/scenario.json` | A scenario two or more projects run together, with its `results`. |
 | `threads.json` | Links to discussions elsewhere that matter for interop. Shared. |
@@ -44,7 +44,8 @@ Required: `slug` (the folder name), `name`, `repositories`, `stack`, `points`, `
 ## Rules for values
 
 - **Status** in `credentials`, `messaging`, `replication`, `trustTaskUse` and facet values: `runs` (in running code) | `building` (code exists, not complete) | `committed` (announced or agreed, nothing running yet). `trustTaskUse` also has `none`.
-- **Status at a point** (`points.<id>.status`): `runs` | `vectors` (test vectors exist) | `spec` (specified, not built) | `open` (known gap or open question) | `potential` (compiled from public sources, not confirmed) | `n/a` (does not apply). Use `potential` only when you did not confirm it.
+- **Status at a point** (`points.<id>.status`) says how far you meet the point's `requires`: `runs` (in code another project can exercise today) | `vectors` (test vectors exist) | `spec` (specified, not built) | `open` (known gap or open question) | `potential` (compiled from public sources, not confirmed) | `n/a` (does not apply). Use `potential` only when you did not confirm it. `runs` does not mean the point was shown with another project; that is a scenario result.
+- **Shown between two projects**: a point's `done` is met only through a scenario result. A `pass` shows every point the scenario lists; a `partial` shows the points named in `results[].points`. The board derives the pairs from this and from nothing else.
 - **Evidence**: every `runs` (and `vectors` at a point) needs `evidence: [{ "label", "url" }]`, pointing at code, a release or a test. The validation rejects it otherwise.
 - **Closed vocabularies**: `credentials.model`, `credentials.proof`, `messaging.protocol`, `replication.protocol`, `via`, `trustTaskUse.documentProof` accept only the values in `schema/project.schema.json`. Credential profiles must be keys of `credential-profiles.json`. If your value is missing, add it to the schema in the same commit and say why in the commit message.
 - **Facets**: a value is a short string, or `{ "value", "status", "note"?, "evidence"? }` when it is not simply in use (an experiment branch is `building`). Brackets describe, they never carry a status.
@@ -85,7 +86,7 @@ Without write access (new to the board, or no access to the repository yet): for
 }
 ```
 
-Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"` and `proposedBy`, in its own commit.
+Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"`, `proposedBy`, `requires` and `done`, in its own commit. A point without a `done` a scenario could test does not belong on the map.
 
 **2. Record a run between two projects.** In `scenarios/<slug>/scenario.json`, append to `results`:
 
@@ -101,6 +102,6 @@ Only ids from `points.json`. To propose a new point, add it to `points.json` wit
 }
 ```
 
-`outcome` is `pass`, `fail` or `partial`. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`.
+`outcome` is `pass`, `fail` or `partial`; a `partial` also names the points it did show in `points`. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`. A scenario lists only the points whose `done` the run exercises; its README states the pass criterion in terms of those `done` sentences.
 
 **3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then push (or open a pull request if you have no write access yet).

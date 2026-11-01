@@ -15,11 +15,13 @@ const scenarioSchema = ajv.compile(read('schema/scenario.schema.json'))
 const threadSchema = ajv.compile(read('schema/thread.schema.json'))
 const trustTasksSchema = ajv.compile(read('schema/trust-tasks.schema.json'))
 const profilesSchema = ajv.compile(read('schema/credential-profiles.schema.json'))
+const pointsSchema = ajv.compile(read('schema/points.schema.json'))
 const catalogue = read('credential-profiles.json')
 const map = read('points.json')
 const layerIds = new Set(map.layers.map((l) => l.id))
 const pointIds = new Set(map.points.map((p) => p.id))
 const errors = []
+if (!pointsSchema(map)) errors.push(`points.json: ${ajv.errorsText(pointsSchema.errors, { separator: '\n  ' })}`)
 if (!profilesSchema(catalogue)) errors.push(`credential-profiles.json: ${ajv.errorsText(profilesSchema.errors, { separator: '\n  ' })}`)
 for (const [id, pr] of Object.entries(catalogue.profiles)) if (!catalogue.families[pr.family]) errors.push(`credential-profiles.json: profile "${id}" names unknown family "${pr.family}"`)
 for (const p of map.points) {
@@ -61,7 +63,11 @@ for (const slug of folders('scenarios')) {
   for (const id of s.points ?? []) if (!pointIds.has(id)) errors.push(`${file}: unknown point "${id}"`)
   for (const p of s.participants ?? []) if (!projects.has(p)) errors.push(`${file}: participant "${p}" has no projects/${p}/`)
   if (['running', 'passing', 'failing'].includes(s.status) && !(s.results?.length)) errors.push(`${file}: status "${s.status}" without a result`)
-  for (const r of s.results ?? []) for (const side of r.sides) if (!projects.has(side.project)) errors.push(`${file}: result names unknown project "${side.project}"`)
+  for (const [i, r] of (s.results ?? []).entries()) {
+    for (const side of r.sides) if (!projects.has(side.project)) errors.push(`${file}: result names unknown project "${side.project}"`)
+    if (r.outcome === 'partial' && !(r.points?.length)) errors.push(`${file}: results[${i}] is "partial" without the points it shows`)
+    for (const id of r.points ?? []) if (!(s.points ?? []).includes(id)) errors.push(`${file}: results[${i}] names point "${id}" the scenario does not cover`)
+  }
   if (!existsSync(join(root, `scenarios/${slug}/README.md`))) errors.push(`scenarios/${slug}/README.md: missing`)
 }
 const threads = read('threads.json')

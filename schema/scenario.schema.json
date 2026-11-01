@@ -26,6 +26,7 @@
           "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
           "sides": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["project", "version"], "properties": { "project": { "type": "string" }, "version": { "type": "string" } } } },
           "outcome": { "enum": ["pass", "fail", "partial"] },
+          "points": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" }, "description": "The points of the scenario this result shows. Omit when a pass shows all of them; required for a partial." },
           "note": { "type": "string", "maxLength": 600 },
           "protocol": { "type": "string", "format": "uri" }
         }
