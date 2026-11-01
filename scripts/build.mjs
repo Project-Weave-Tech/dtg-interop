@@ -51,5 +51,5 @@ for (const s of scenarios) for (const r of s.results ?? []) {
 const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
-if (existsSync(join(root, 'site/index.html'))) cpSync(join(root, 'site/index.html'), join(out, 'index.html'))
+for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
 console.log(`built site/dist: ${projects.length} project(s), ${scenarios.length} scenario(s), ${map.points.length} point(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)
