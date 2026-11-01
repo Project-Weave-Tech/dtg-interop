@@ -14,6 +14,34 @@
     "sharedState": "none documented",
     "devices": "Node only"
   },
+  "facets": {
+    "didMethods": [
+      "did:scid:vh",
+      "did:peer:4"
+    ],
+    "keys": [
+      "device"
+    ],
+    "credentials": [
+      "VRC (in progress)"
+    ],
+    "transport": [
+      "TSP"
+    ],
+    "relay": [
+      "none (libp2p, direct)"
+    ],
+    "trustTasks": [
+      "own namespace task:p2pts"
+    ],
+    "groupAuthority": [
+      "admins"
+    ],
+    "groupKeys": [],
+    "language": [
+      "TypeScript"
+    ]
+  },
   "requiredParty": "none at runtime (direct libp2p); community admins",
   "points": {
     "did-resolution": {

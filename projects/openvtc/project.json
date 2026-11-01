@@ -34,6 +34,50 @@
     "sharedState": "Data Rooms on MLS (RFC 9420): host holds ciphertext, owner advances the epoch; tiers open/attributed built, private pending",
     "devices": "keys in the Verifiable Trust Agent (VTA); did:webvh for personas, trust agents and rooms, did:key for members and apps"
   },
+  "facets": {
+    "didMethods": [
+      "did:webvh",
+      "did:key"
+    ],
+    "keys": [
+      "agent (VTA)"
+    ],
+    "credentials": [
+      "W3C VC 2.0 (DTG)"
+    ],
+    "proof": [
+      "eddsa-jcs-2022"
+    ],
+    "transport": [
+      "TSP 1.0",
+      "DIDComm v2"
+    ],
+    "relay": [
+      "VTI mediator"
+    ],
+    "trustTasks": [
+      "trust-task-error",
+      "trust-task-discovery",
+      "rooms/*",
+      "vtc/directory/*",
+      "provision/vta/*",
+      "messaging/*",
+      "sync/event"
+    ],
+    "groupAuthority": [
+      "owner / host"
+    ],
+    "groupKeys": [
+      "MLS"
+    ],
+    "offline": [
+      "no"
+    ],
+    "language": [
+      "Rust",
+      "TypeScript"
+    ]
+  },
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
   "points": {
     "did-resolution": {

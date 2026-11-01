@@ -21,6 +21,35 @@
     "sharedState": "MLS rooms; agreement ledger merged as a CRDT",
     "devices": "one did:peer:2 per device; a person is the set of devices with mutual same-person statements; one MLS leaf per device"
   },
+  "facets": {
+    "didMethods": [
+      "did:peer:2"
+    ],
+    "keys": [
+      "device"
+    ],
+    "credentials": [
+      "VRC (in transition)"
+    ],
+    "proof": [
+      "eddsa-jcs-2022 (announced)"
+    ],
+    "transport": [
+      "TSP"
+    ],
+    "relay": [
+      "Nostr relays"
+    ],
+    "groupAuthority": [
+      "committer race, admins"
+    ],
+    "groupKeys": [
+      "MLS"
+    ],
+    "offline": [
+      "yes"
+    ]
+  },
   "requiredParty": "no central party; relays for rendezvous",
   "points": {
     "did-resolution": {

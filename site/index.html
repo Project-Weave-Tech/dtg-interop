@@ -91,6 +91,29 @@ body{margin:0;background:#F6F6F3}
 .kv dd{margin:0}
 .ptl{display:flex;flex-direction:column;gap:10px}
 .pti{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;font-size:13px}
+.tools{display:flex;gap:8px;margin-left:auto}
+.btn.on{border-color:var(--accent);color:var(--accent)}
+.panel{padding:12px 20px;border-bottom:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.frow{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;align-items:baseline}
+.plbl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.fchip{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:12px}
+.fchip:hover{border-color:var(--muted)}
+.fchip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.fchip.off{color:var(--muted);text-decoration:line-through}
+.fchip .cnt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.activebar{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+.linkbtn{background:none;border:0;padding:0 4px;cursor:pointer;color:var(--accent);font-size:12.5px}
+.linkbtn:hover{text-decoration:underline}
+.tbl-box{overflow-x:auto}
+.trw{display:grid;gap:12px;align-items:start;padding:8px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+.thead{position:sticky;top:0;z-index:2;background:var(--surface);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px;align-items:end}
+.c0{position:sticky;left:0;z-index:1;background:var(--surface);padding-right:8px}
+.thead .c0{z-index:3}
+.cell{display:flex;flex-direction:column;gap:2px;min-width:0}
+.val{overflow-wrap:anywhere}
+.vlink{font-size:12px;overflow-wrap:anywhere}
+.unk{color:var(--warn);font-family:"IBM Plex Mono",monospace;font-size:12px}
+@media (max-width: 640px){.frow{grid-template-columns:minmax(0,1fr)}.trw{padding:8px 16px}}
 @media (max-width: 1000px){
 .prow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
 .prow-h{display:none}
@@ -139,23 +162,27 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-projects">
-<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p></div>
-<div class="prow prow-h"><span>Project</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span><span>Repositories</span></div>
-<sc-for list="{{projects}}" as="p" hint-placeholder-count="11">
-<div class="prow">
-<button class="pname" sc-camel-on-click="{{p.open}}"><span class="dot {{p.provCls}}" title="{{p.prov}}" aria-label="{{p.prov}}"></span><span class="pn">{{p.short}}</span></button>
-
-<div class="wide" style="min-width: 0"><span class="lbl">DID methods</span><div class="clamp mono" title="{{p.did}}">{{p.did}}</div></div>
-<div class="wide" style="min-width: 0"><span class="lbl">Transport</span><div class="clamp" title="{{p.transport}}">{{p.transport}}</div></div>
-<div class="wide" style="min-width: 0"><span class="lbl">Groups</span><div class="clamp" title="{{p.groups}}">{{p.groups}}</div></div>
-<div class="wide chips">
-<sc-for list="{{p.apps}}" as="a" hint-placeholder-count="1"><a class="chip" href="{{a.url}}" target="_blank" rel="noopener"><span class="clip" style="max-width: 140px">{{a.label}}</span><span class="st">{{a.status}}</span></a></sc-for>
-<sc-if value="{{p.noApps}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">nothing public to try</span></sc-if>
-</div>
-<div class="repos wide" style="min-width: 0"><span class="lbl">Repositories</span><sc-for list="{{p.repos}}" as="r" hint-placeholder-count="2"><a class="repo mono" href="{{r.url}}" target="_blank" rel="noopener" title="{{r.title}}">{{r.name}}</a></sc-for><sc-if value="{{p.moreRepos}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" sc-camel-on-click="{{p.open}}">+{{p.more}}</button></sc-if><sc-if value="{{p.noRepos}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">no public repository</span></sc-if><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
+<div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p>
+<div class="tools"><button class="btn {{filterBtnCls}}" type="button" aria-expanded="{{showFilters}}" sc-camel-on-click="{{toggleFilters}}">Filter{{filterCount}}</button><button class="btn {{colBtnCls}}" type="button" aria-expanded="{{showColumns}}" sc-camel-on-click="{{toggleColumns}}">Columns{{hiddenCount}}</button></div></div>
+<sc-if value="{{showColumns}}" hint-placeholder-val="{{ false }}"><div class="panel"><div class="frow"><span class="plbl">Show</span><div class="chips"><sc-for list="{{colToggles}}" as="c" hint-placeholder-count="12"><button class="fchip {{c.cls}}" type="button" aria-pressed="{{c.on}}" sc-camel-on-click="{{c.toggle}}">{{c.label}}</button></sc-for></div></div><div class="frow"><span class="plbl"></span><div class="chips"><button class="linkbtn" type="button" sc-camel-on-click="{{showAllCols}}">show all</button></div></div></div></sc-if>
+<sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}"><div class="panel"><sc-for list="{{filterGroups}}" as="g" hint-placeholder-count="11"><div class="frow"><span class="plbl">{{g.label}}</span><div class="chips"><sc-for list="{{g.values}}" as="v" hint-placeholder-count="3"><button class="fchip {{v.cls}}" type="button" aria-pressed="{{v.on}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}<span class="cnt">{{v.count}}</span></button></sc-for></div></div></sc-for></div></sc-if>
+<sc-if value="{{hasActive}}" hint-placeholder-val="{{ false }}"><div class="activebar"><span class="muted">{{shownLine}}</span><sc-for list="{{active}}" as="f" hint-placeholder-count="1"><button class="fchip on" type="button" sc-camel-on-click="{{f.remove}}" aria-label="Remove filter {{f.label}}">{{f.label}} ×</button></sc-for><button class="linkbtn" type="button" sc-camel-on-click="{{clearFilters}}">clear all</button></div></sc-if>
+<div class="tbl-box"><div class="tbl" style="min-width: {{minW}}">
+<div class="trw thead" style="grid-template-columns: {{grid}}"><span class="c0">Project</span><sc-for list="{{heads}}" as="h" hint-placeholder-count="12"><span>{{h}}</span></sc-for></div>
+<sc-for list="{{rows}}" as="p" hint-placeholder-count="11">
+<div class="trw" style="grid-template-columns: {{grid}}">
+<button class="pname c0" type="button" sc-camel-on-click="{{p.open}}"><span class="dot {{p.provCls}}" title="{{p.prov}}" aria-label="{{p.prov}}"></span><span class="pn">{{p.short}}</span></button>
+<sc-for list="{{p.cells}}" as="c" hint-placeholder-count="12"><div class="cell">
+<sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
+<sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
+<sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}">{{v.label}}</a></sc-if><sc-if value="{{v.plain}}" hint-placeholder-val="{{ true }}"><span class="val">{{v.label}}</span></sc-if></sc-for>
+<sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
+</div></sc-for>
 </div>
 </sc-for>
-<p class="plegend"><span class="dot prov-project"></span>confirmed by the project <span class="dot prov-public"></span>compiled from public sources, not yet confirmed</p>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><p class="muted" style="padding: 16px 20px; margin: 0">No project matches these filters.</p></sc-if>
+</div></div>
+<p class="plegend"><span class="dot prov-project"></span>confirmed by the project <span class="dot prov-public"></span>compiled from public sources, not yet confirmed <span class="unk">?</span> not known <span class="muted">–</span> none</p>
 </section>
 </div>
 </sc-if>
@@ -233,7 +260,8 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
-    this.state = { data: null, err: '', open: null , theme: savedTheme };
+    let savedHidden = []; try { savedHidden = JSON.parse(localStorage.getItem('dtg-interop-hidden') || '[]'); } catch (e) {}
+    this.state = { data: null, err: '', open: null , theme: savedTheme, hidden: Array.isArray(savedHidden) ? savedHidden : [], filters: {}, panel: null };
   }
   componentDidMount() {
     fetch('./data.json')
@@ -254,7 +282,7 @@ class Component extends DCLogic {
     const d = this.state.data;
     const close = () => this.setState({ open: null });
     const base = { theme, themeLabel, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, projects: [], pp: { show: false } };
+    if (!d) return { ...base, head: {}, heads: [], rows: [], grid: '', minW: '0', colToggles: [], filterGroups: [], active: [], pp: { show: false } };
 
     const repo = d.repo;
     const P = d.projects || [];
@@ -269,19 +297,66 @@ class Component extends DCLogic {
 
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
 
-    const projects = P.map((p, i) => {
-      const st = p.stack || {};
-      const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status }));
-      const repoList = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; const name = r.name || u.replace(/^https?:\/\/(www\.)?(github\.com\/)?/, ''); return { url: u, name, title: name + (r.licence ? ' · ' + r.licence : '') + (r.pushedAt ? ' · pushed ' + this.fmt(r.pushedAt) : '') }; });
-      return {
-        num: i + 1, short: short(p), open: () => this.setState({ open: p.slug }),
-        prov: isPub(p) ? 'Public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
-        provCls: isPub(p) ? 'prov-public' : 'prov-project',
-        did: st.didMethods || '—', transport: st.transport || 'not stated', groups: st.groups || 'not stated',
-        apps, noApps: apps.length === 0, stale: stale(p.updated), updated: this.fmt(p.updated),
-        repos: repoList.slice(0, 3), more: repoList.length - 3, moreRepos: repoList.length > 3, noRepos: repoList.length === 0,
-      };
-    });
+    const COLS = [
+      ['didMethods', 'DID methods'], ['keys', 'Keys held by'], ['credentials', 'Credential format'], ['proof', 'Proof'],
+      ['transport', 'Transport'], ['relay', 'Relay / mediator'], ['trustTasks', 'Trust Tasks'], ['groupAuthority', 'Group authority'],
+      ['groupKeys', 'Group keys'], ['offline', 'Offline'], ['language', 'Language'], ['apps', 'Try it'], ['repos', 'Repositories'],
+    ];
+    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos');
+    const hidden = this.state.hidden || [];
+    const filters = this.state.filters || {};
+    const saveHidden = (h) => { try { localStorage.setItem('dtg-interop-hidden', JSON.stringify(h)); } catch (e) {} this.setState({ hidden: h }); };
+    const vis = COLS.filter((c) => hidden.indexOf(c[0]) < 0);
+    const fv = (p, k) => (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k] : null;
+    const setFilter = (k, v) => () => {
+      const cur = (filters[k] || []).slice(); const i = cur.indexOf(v);
+      if (i >= 0) cur.splice(i, 1); else cur.push(v);
+      const next = { ...filters }; if (cur.length) next[k] = cur; else delete next[k];
+      this.setState({ filters: next });
+    };
+    const passes = (p) => Object.keys(filters).every((k) => { const vals = fv(p, k) || []; return filters[k].some((x) => vals.indexOf(x) >= 0); });
+    const shown = P.filter(passes);
+    const repoItems = (p) => (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; const name = r.name || u.replace(/^https?:\/\/(www\.)?(github\.com\/)?/, ''); return { label: name, url: u, link: true, plain: false, cls: 'mono', title: name + (r.licence ? ' · ' + r.licence : '') + (r.pushedAt ? ' · pushed ' + this.fmt(r.pushedAt) : '') }; });
+    const appItems = (p) => (p.apps || []).map((a) => ({ label: a.label, url: a.url, link: true, plain: false, cls: '', title: a.kind + (a.status ? ', ' + a.status : '') }));
+    const cellOf = (p, k) => {
+      if (k === 'repos' || k === 'apps') {
+        const all = k === 'repos' ? repoItems(p) : appItems(p);
+        return { unknown: false, none: all.length === 0, items: all.slice(0, 3), more: all.length > 3, moreN: all.length - 3 };
+      }
+      const v = fv(p, k);
+      if (v === null) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
+      return { unknown: false, none: v.length === 0, items: v.map((x) => ({ label: x, link: false, plain: true })), more: false, moreN: 0 };
+    };
+    const widths = { didMethods: 150, keys: 120, credentials: 150, proof: 140, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 70, language: 110, apps: 170, repos: 220 };
+    const grid = 'minmax(150px, 180px) ' + vis.map((c) => 'minmax(' + widths[c[0]] + 'px, 1fr)').join(' ');
+    const minW = (180 + vis.reduce((n, c) => n + widths[c[0]] + 12, 0) + 40) + 'px';
+    const rows = shown.map((p) => ({
+      short: short(p), open: () => this.setState({ open: p.slug }),
+      prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
+      provCls: isPub(p) ? 'prov-public' : 'prov-project',
+      cells: vis.map((c) => cellOf(p, c[0])),
+    }));
+    const filterGroups = FACETS.map((c) => {
+      const counts = {};
+      P.forEach((p) => (fv(p, c[0]) || []).forEach((x) => { counts[x] = (counts[x] || 0) + 1; }));
+      const vals = Object.keys(counts).sort((x, y) => counts[y] - counts[x] || x.localeCompare(y));
+      return { label: c[1], values: vals.map((x) => { const on = (filters[c[0]] || []).indexOf(x) >= 0; return { label: x, count: counts[x], on, cls: on ? 'on' : '', toggle: setFilter(c[0], x) }; }) };
+    }).filter((g) => g.values.length);
+    const active = [];
+    Object.keys(filters).forEach((k) => filters[k].forEach((x) => { const col = COLS.find((c) => c[0] === k); active.push({ label: (col ? col[1] : k) + ': ' + x, remove: setFilter(k, x) }); }));
+    const nf = active.length;
+    const table = {
+      heads: vis.map((c) => c[1]), rows, grid, minW, noRows: rows.length === 0,
+      showFilters: this.state.panel === 'filters', showColumns: this.state.panel === 'columns',
+      toggleFilters: () => this.setState({ panel: this.state.panel === 'filters' ? null : 'filters' }),
+      toggleColumns: () => this.setState({ panel: this.state.panel === 'columns' ? null : 'columns' }),
+      filterBtnCls: nf ? 'on' : '', filterCount: nf ? ' (' + nf + ')' : '',
+      colBtnCls: hidden.length ? 'on' : '', hiddenCount: hidden.length ? ' (' + hidden.length + ' hidden)' : '',
+      colToggles: COLS.map((c) => { const on = hidden.indexOf(c[0]) < 0; return { label: c[1], on, cls: on ? 'on' : 'off', toggle: () => saveHidden(on ? hidden.concat([c[0]]) : hidden.filter((x) => x !== c[0])) }; }),
+      showAllCols: () => saveHidden([]),
+      filterGroups, active, hasActive: nf > 0, clearFilters: () => this.setState({ filters: {} }),
+      shownLine: shown.length + ' of ' + P.length + ' projects',
+    };
 
     let pp = { show: false };
     const p = this.state.open && prjById[this.state.open];
@@ -302,14 +377,14 @@ class Component extends DCLogic {
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
-        stack: [['DID methods', st.didMethods], ['Credentials', st.credentials], ['Transport', st.transport], ['Trust Tasks', st.trustTasks], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]].map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
+        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['Trust Tasks used', (p.facets && p.facets.trustTasks) ? p.facets.trustTasks.join(', ') || 'none' : '']].filter((x) => x[1]).concat([['Credentials', st.credentials], ['Transport', st.transport], ['Trust Tasks', st.trustTasks], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
         scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
       };
     }
 
-    return { ...base, head, projects, pp };
+    return { ...base, head, ...table, pp };
   }
 }
 </script>

@@ -24,6 +24,34 @@
     "sharedState": "central database; Murmurations profiles",
     "devices": "accounts; did:plc only in the branch atproto-pds-experiment"
   },
+  "facets": {
+    "didMethods": [
+      "did:plc (experiment)"
+    ],
+    "keys": [
+      "server account"
+    ],
+    "credentials": [],
+    "proof": [],
+    "transport": [
+      "HTTPS"
+    ],
+    "relay": [
+      "server"
+    ],
+    "trustTasks": [],
+    "groupAuthority": [
+      "server"
+    ],
+    "groupKeys": [],
+    "offline": [
+      "no"
+    ],
+    "language": [
+      "JavaScript",
+      "TypeScript"
+    ]
+  },
   "requiredParty": "the Hylo server",
   "points": {
     "did-resolution": {

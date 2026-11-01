@@ -50,6 +50,49 @@
     "sharedState": "replication contract over a key-blind carrier; key agreement behind a port (BeeKEM reference, MLS shown through the same port)",
     "devices": "keys per device derived under the person, allocation of one-time keys by the person, no seed on any device (experiment E15)"
   },
+  "facets": {
+    "didMethods": [
+      "did:key"
+    ],
+    "keys": [
+      "device"
+    ],
+    "credentials": [
+      "W3C VC 2.0 (DTG)"
+    ],
+    "proof": [
+      "eddsa-jcs-2022",
+      "pairwise MAC"
+    ],
+    "transport": [
+      "TSP 1.0"
+    ],
+    "relay": [
+      "VTI mediator"
+    ],
+    "trustTasks": [
+      "trust-task-error",
+      "rltp: encounter",
+      "rltp: membership",
+      "rltp: access",
+      "rltp: delivery",
+      "rltp: message"
+    ],
+    "groupAuthority": [
+      "signed log, no admin"
+    ],
+    "groupKeys": [
+      "BeeKEM",
+      "MLS"
+    ],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
   "requiredParty": "the other person",
   "points": {
     "vrc-exchange": {

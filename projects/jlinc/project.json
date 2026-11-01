@@ -17,6 +17,33 @@
     "sharedState": "zero-knowledge audit records at archives",
     "devices": "not stated; capabilityDelegation of type jlinc in the DID document"
   },
+  "facets": {
+    "didMethods": [
+      "did:jlinc"
+    ],
+    "credentials": [
+      "JWS agreements"
+    ],
+    "proof": [
+      "JWS EdDSA"
+    ],
+    "transport": [
+      "HTTPS"
+    ],
+    "relay": [
+      "archive"
+    ],
+    "trustTasks": [],
+    "groupAuthority": [],
+    "groupKeys": [],
+    "offline": [
+      "no"
+    ],
+    "language": [
+      "JavaScript",
+      "Go"
+    ]
+  },
   "requiredParty": "an archive for audit records",
   "points": {
     "vrc-exchange": {

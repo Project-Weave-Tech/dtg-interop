@@ -23,6 +23,44 @@
     "sharedState": "none documented",
     "devices": "one wallet per device; did:peer and did:key on the device, did:webvh personas via a VTA"
   },
+  "facets": {
+    "didMethods": [
+      "did:peer",
+      "did:key",
+      "did:webvh"
+    ],
+    "keys": [
+      "device",
+      "agent (VTA)"
+    ],
+    "credentials": [
+      "W3C VC 2.0 (DTG)"
+    ],
+    "transport": [
+      "DIDComm v2",
+      "TSP 1.0"
+    ],
+    "relay": [
+      "VTI mediator"
+    ],
+    "trustTasks": [
+      "trust-task-error",
+      "trust-task-discovery",
+      "vrc/relationships/*",
+      "witness/*",
+      "vetting/*",
+      "credential-exchange/*",
+      "provision/vta/*"
+    ],
+    "groupAuthority": [
+      "community joins"
+    ],
+    "groupKeys": [],
+    "language": [
+      "TypeScript",
+      "JavaScript"
+    ]
+  },
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
   "points": {
     "did-resolution": {

@@ -13,6 +13,27 @@
     "sharedState": "bundles replicated between lodge nodes",
     "devices": "not stated"
   },
+  "facets": {
+    "credentials": [
+      "Open Badges 3.0"
+    ],
+    "transport": [
+      "mesh"
+    ],
+    "relay": [
+      "lodge nodes"
+    ],
+    "groupAuthority": [
+      "delegated rights"
+    ],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      "Rust",
+      "TypeScript"
+    ]
+  },
   "requiredParty": "not stated publicly",
   "points": {
     "vrc-exchange": {

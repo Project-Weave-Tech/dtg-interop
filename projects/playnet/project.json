@@ -16,6 +16,32 @@
     "sharedState": "own event log per participant",
     "devices": "KERI identifiers (AIDs) with an own key event log per participant; no DID method"
   },
+  "facets": {
+    "didMethods": [],
+    "keys": [
+      "device"
+    ],
+    "credentials": [
+      "ACDC"
+    ],
+    "proof": [
+      "KERI"
+    ],
+    "transport": [
+      "Reticulum"
+    ],
+    "relay": [
+      "mesh"
+    ],
+    "trustTasks": [],
+    "groupKeys": [],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      "Guile Scheme"
+    ]
+  },
   "requiredParty": "not stated publicly",
   "points": {
     "did-resolution": {

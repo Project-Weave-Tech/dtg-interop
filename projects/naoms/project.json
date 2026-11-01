@@ -17,6 +17,42 @@
     "sharedState": "signed hash chain per space, encrypted storage",
     "devices": "FROST threshold signing across the devices of a person; did:key as root"
   },
+  "facets": {
+    "didMethods": [
+      "did:key",
+      "did:naoms",
+      "did:webvh"
+    ],
+    "keys": [
+      "device",
+      "threshold (FROST)"
+    ],
+    "credentials": [
+      "W3C VC"
+    ],
+    "transport": [
+      "DIDComm v2"
+    ],
+    "relay": [
+      "none (iroh, direct)"
+    ],
+    "trustTasks": [
+      "registry proposals: social-recovery"
+    ],
+    "groupAuthority": [
+      "steward, quorum chain"
+    ],
+    "groupKeys": [
+      "own chain"
+    ],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      "Rust",
+      "TypeScript"
+    ]
+  },
   "requiredParty": "a steward, per the public material",
   "points": {
     "did-resolution": {

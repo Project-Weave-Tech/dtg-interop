@@ -15,6 +15,35 @@
     "sharedState": "Civic Personal Data Store: relationships, memberships, pointers",
     "devices": "not stated; the set of methods is open in the spec"
   },
+  "facets": {
+    "didMethods": [
+      "did:key",
+      "did:web",
+      "did:webvh"
+    ],
+    "credentials": [
+      "SD-JWT VC"
+    ],
+    "proof": [
+      "SD-JWT",
+      "eddsa-rdfc-2022"
+    ],
+    "transport": [
+      "HTTPS"
+    ],
+    "relay": [
+      "server"
+    ],
+    "trustTasks": [],
+    "groupAuthority": [
+      "engine"
+    ],
+    "groupKeys": [],
+    "offline": [
+      "no"
+    ],
+    "language": []
+  },
   "requiredParty": "an engine hosting the civic space",
   "points": {
     "vrc-exchange": {
