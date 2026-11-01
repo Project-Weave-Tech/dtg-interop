@@ -4,7 +4,7 @@
 
 ## Why this scenario exists
 
-The DTG document catalogue has no type for a message from one person to another (October 2026). `chat/message` is agent-to-platform with an evidentiary hash chain; `messaging/*` administers a mediator. Every implementation fills the gap on its own, so no two of them can exchange a message. This scenario is the test for a shared type; the type itself is proposed in the Discussion linked from the dashboard.
+The DTG document catalogue has no type for a message from one person to another (October 2026). `chat/message` is agent-to-platform with an evidentiary hash chain; `messaging/*` administers a mediator. Every implementation fills the gap on its own, so no two of them can exchange a message. This scenario is the test for a shared type; the type itself is still to be proposed in the Trust Tasks task force.
 
 ## What is exchanged
 

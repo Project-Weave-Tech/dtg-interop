@@ -22,17 +22,6 @@
     "updated": "2026-10-28"
   },
   {
-    "id": "tt-conformance-roadmap",
-    "title": "A roadmap to Trust Task conformance: layers, profiles and optional modules",
-    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/914",
-    "context": "How a shared document-level conformance suite could be layered.",
-    "points": [
-      "document-framework"
-    ],
-    "state": "open",
-    "updated": "2026-10-30"
-  },
-  {
     "id": "tt-rulings",
     "title": "Rulings requested: blocked, verdict versus refusal, already-in-state, defaulted quorum, proof bytes, freshness, indeterminate",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-spec/issues/31",
@@ -49,17 +38,6 @@
     "title": "Pin and generate tasks from third-party sources beside the registry",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/934",
     "context": "Lets any project publish its own document types so that others can pin and generate them.",
-    "points": [
-      "document-framework"
-    ],
-    "state": "implemented",
-    "updated": "2026-10-26"
-  },
-  {
-    "id": "tt-extends",
-    "title": "A version may declare it extends an earlier one, and every library reads the newer version as the older",
-    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/922",
-    "context": "Version compatibility rule for shared document types.",
     "points": [
       "document-framework"
     ],
@@ -88,38 +66,5 @@
     ],
     "state": "open",
     "updated": "2026-10-30"
-  },
-  {
-    "id": "multi-device-p-commit",
-    "title": "K2 ledger: P-Commit flags issuance by a sister M device",
-    "url": "https://github.com/real-life-org/port-experimente/issues/85",
-    "context": "One of three open findings from the multi-device experiment E15: how several devices of one person act toward another app.",
-    "points": [
-      "multi-device"
-    ],
-    "state": "open",
-    "updated": "2026-10-25"
-  },
-  {
-    "id": "multi-device-effect-authorship",
-    "title": "K2 fold: effect authorship depends on fold order",
-    "url": "https://github.com/real-life-org/port-experimente/issues/86",
-    "context": "Multi-device experiment E15, second finding: order-free effect identity across devices.",
-    "points": [
-      "multi-device"
-    ],
-    "state": "open",
-    "updated": "2026-10-25"
-  },
-  {
-    "id": "multi-device-foreign-pool",
-    "title": "K2 fold: a foreign pool is accepted outside the enrolment ceremony",
-    "url": "https://github.com/real-life-org/port-experimente/issues/87",
-    "context": "Multi-device experiment E15, third finding: which device may provision one-time keys.",
-    "points": [
-      "multi-device"
-    ],
-    "state": "open",
-    "updated": "2026-10-25"
   }
 ]
