@@ -2,7 +2,7 @@
   "slug": "consensual",
   "name": "Consensual / Geb",
   "website": "https://app.consensu.al",
-  "licence": "Alignment License (ALPS) 0.4.0, source open within a purpose (MPL 2.0 + People's Data); not OSI open source; before 2026-10-07 AGPL-3.0-only",
+  "licence": "ALPS 0.4.0 (Alignment License: MPL 2.0 plus purpose terms; not OSI open source)",
   "repositories": [],
   "apps": [
     {
