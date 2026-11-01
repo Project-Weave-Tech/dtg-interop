@@ -5,8 +5,7 @@
     "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86",
     "context": "Defines the QR and link form two apps need to share for a contact ceremony between apps.",
     "points": [
-      "contact-ceremony",
-      "ceremony-definitions"
+      "contact-ceremony"
     ],
     "state": "open",
     "updated": "2026-10-31"
