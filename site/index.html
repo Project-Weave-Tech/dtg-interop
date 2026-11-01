@@ -107,9 +107,6 @@ body{margin:0;background:#F6F6F3}
 .linkbtn:hover{text-decoration:underline}
 .tbl-box{overflow-x:auto}
 .trw{display:grid;gap:12px;align-items:start;padding:8px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
-.ghead{border-bottom:0;padding-top:12px;padding-bottom:0;align-items:end}
-.gcell{font-size:11.5px;font-weight:600;padding-bottom:5px;border-bottom:2px solid currentColor;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.g-core{color:var(--blue-t)}.g-groups{color:var(--olive-t)}.g-build{color:var(--slate-t)}
 .thead{position:sticky;top:0;z-index:2;background:var(--surface);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px;align-items:end}
 .c0{position:sticky;left:0;z-index:1;background:var(--surface);padding-right:8px;align-self:stretch;align-items:flex-start}
 .thead .c0{z-index:3}
@@ -124,8 +121,8 @@ body{margin:0;background:#F6F6F3}
 .ico{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
 .act{display:inline-flex;align-items:center;gap:8px;font-size:12px}
 .fdot{width:8px;height:8px;border-radius:50%;flex:none;background:currentColor !important}
-.tbl .trw:not(.thead):not(.ghead){transition:background .15s}
-.tbl .trw:not(.thead):not(.ghead):hover,.tbl .trw:not(.thead):not(.ghead):hover .c0{background:var(--soft)}
+.tbl .trw:not(.thead){transition:background .15s}
+.tbl .trw:not(.thead):hover,.tbl .trw:not(.thead):hover .c0{background:var(--soft)}
 .val{overflow-wrap:anywhere}
 .vlink{font-size:12px;overflow-wrap:anywhere;flex-basis:100%}
 .unk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--muted);color:var(--muted);font-size:11px;font-weight:600;box-sizing:border-box}
@@ -250,7 +247,6 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}"><div class="panel"><sc-for list="{{filterGroups}}" as="g" hint-placeholder-count="11"><div class="frow"><span class="plbl">{{g.label}}</span><div class="chips"><sc-for list="{{g.values}}" as="v" hint-placeholder-count="3"><button class="fchip {{v.cls}}" type="button" aria-pressed="{{v.on}}" sc-camel-on-click="{{v.toggle}}"><span class="fdot {{v.hue}}" aria-hidden="true"></span>{{v.label}}<span class="cnt">{{v.count}}</span></button></sc-for></div></div></sc-for></div></sc-if>
 <sc-if value="{{hasActive}}" hint-placeholder-val="{{ false }}"><div class="activebar"><span class="muted">{{shownLine}}</span><sc-for list="{{active}}" as="f" hint-placeholder-count="1"><button class="fchip on" type="button" sc-camel-on-click="{{f.remove}}" aria-label="Remove filter {{f.label}}">{{f.label}} ×</button></sc-for><button class="linkbtn" type="button" sc-camel-on-click="{{clearFilters}}">clear all</button></div></sc-if>
 <div class="tbl-box"><div class="tbl" style="min-width: {{minW}}">
-<div class="trw ghead" style="grid-template-columns: {{grid}}"><span class="c0"></span><sc-for list="{{colGroups}}" as="g" hint-placeholder-count="3"><span class="gcell {{g.cls}}" style="grid-column: span {{g.span}}">{{g.label}}</span></sc-for></div>
 <div class="trw thead" style="grid-template-columns: {{grid}}"><span class="c0">Project</span><sc-for list="{{heads}}" as="h" hint-placeholder-count="12"><span>{{h}}</span></sc-for></div>
 <sc-for list="{{rows}}" as="p" hint-placeholder-count="11">
 <div class="trw" style="grid-template-columns: {{grid}}">
@@ -440,11 +436,10 @@ class Component extends DCLogic {
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
 
     const COLS = [
-      ['didMethods', 'DID methods', 'core'], ['credentials', 'Credentials', 'core'], ['trustTasks', 'Trust Tasks', 'core'], ['transport', 'Transport', 'core'], ['relay', 'Relay / mediator', 'core'],
-      ['groupAuthority', 'Group authority', 'groups'], ['groupKeys', 'Group keys', 'groups'], ['keys', 'Keys held by', 'groups'], ['offline', 'Offline', 'groups'],
-      ['activity', 'Activity', 'build'], ['apps', 'Try it', 'build'], ['language', 'Language', 'build'], ['licence', 'Licence', 'build'], ['repos', 'Repositories', 'build'],
+      ['didMethods', 'DID methods'], ['credentials', 'Credentials'], ['trustTasks', 'Trust Tasks'], ['transport', 'Transport'], ['relay', 'Relay / mediator'],
+      ['groupAuthority', 'Group authority'], ['groupKeys', 'Group keys'], ['keys', 'Keys held by'], ['offline', 'Offline'],
+      ['activity', 'Activity'], ['apps', 'Try it'], ['language', 'Language'], ['licence', 'Licence'], ['repos', 'Repositories'],
     ];
-    const GROUPS = { core: 'Interop', groups: 'Groups and keys', build: 'Building with it' };
     const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos' && c[0] !== 'activity').concat([['credFamily', 'Credential profiles'], ['credProof', 'Proof']]);
     const FAMILY = {
       didMethods: [[/^did:key/, 'h-blue'], [/^did:peer/, 'h-teal'], [/^did:web/, 'h-violet']],
@@ -566,7 +561,6 @@ class Component extends DCLogic {
     const nf = active.length;
     const table = {
       heads: vis.map((c) => c[1]), rows, grid, minW, noRows: rows.length === 0,
-      colGroups: vis.reduce((acc, c) => { const last = acc[acc.length - 1]; if (last && last.key === c[2]) last.span++; else acc.push({ key: c[2], label: GROUPS[c[2]] || '', cls: 'g-' + c[2], span: 1 }); return acc; }, []),
       showFilters: this.state.panel === 'filters', showColumns: this.state.panel === 'columns',
       toggleFilters: () => this.setState({ panel: this.state.panel === 'filters' ? null : 'filters' }),
       toggleColumns: () => this.setState({ panel: this.state.panel === 'columns' ? null : 'columns' }),
