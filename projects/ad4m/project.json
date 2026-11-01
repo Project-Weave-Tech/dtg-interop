@@ -4,7 +4,7 @@
   "website": "https://ad4m.dev",
   "docs": "https://docs.ad4m.dev/",
   "logo": "https://github.com/coasys.png?size=96",
-  "licence": "CAL-1.0 (ad4m)",
+  "licence": "CAL-1.0 (ad4m); flux without a stated licence",
   "repositories": [
     "https://github.com/coasys/ad4m",
     "https://github.com/coasys/flux"
