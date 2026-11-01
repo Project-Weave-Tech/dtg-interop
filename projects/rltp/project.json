@@ -265,8 +265,8 @@
       "note": "A sub-group is a group with its own log and policy; no special mechanism. Not exercised across apps."
     },
     "shared-room": {
-      "status": "open",
-      "note": "Spike: a browser tab joined an OpenVTC Data Room, read records and wrote one that pnm read back, but with OpenVTC's own WASM client, not a client of ours. Our replication contract treats a data room as a key-blind carrier; key agreement at the boundary is MLS (OpenMLS 0.9.1, 0x0001) through the same port as BeeKEM in experiment E13. No RLTP client joins yet.",
+      "status": "spec",
+      "note": "We have no groups in running code. Membership and replication are specifications with a test bench; the replication contract describes joining a foreign data room as a key-blind carrier. A spike that joined an OpenVTC Data Room used OpenVTC's own client and shows nothing about RLTP.",
       "evidence": [
         {
           "label": "Replication Contract 0.26",
