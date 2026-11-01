@@ -33,7 +33,6 @@
     "transport": "TSP 1.0 (also DIDComm v2, REST); Affinidi and own mediators",
     "trustTasks": "Trust Tasks framework as the operation layer; trust-tasks-rs",
     "groups": "Verifiable Trust Communities (VTC) on a trust agent with policies; VMC/VEC issuance; trust registry",
-    "sharedState": "Data Rooms on MLS (RFC 9420): host holds ciphertext, owner advances the epoch; tiers open/attributed built, private pending",
     "devices": "keys in the Verifiable Trust Agent (VTA); did:webvh for personas, trust agents and rooms, did:key for members and apps"
   },
   "facets": {
@@ -43,13 +42,6 @@
     ],
     "keys": [
       "agent (VTA)"
-    ],
-    "transport": [
-      "TSP 1.0",
-      "DIDComm v2"
-    ],
-    "relay": [
-      "VTI mediator"
     ],
     "trustTasks": [
       "trust-task-error",
@@ -112,6 +104,47 @@
       "model": "SD-JWT VC",
       "status": "runs",
       "note": "dc+sd-jwt issuance and presentation in vta-sdk.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP 1.0",
+      "via": "mediator",
+      "viaName": "VTI mediator (Affinidi or own)",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    {
+      "protocol": "DIDComm v2",
+      "via": "mediator",
+      "viaName": "VTI mediator",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "MLS",
+      "via": "host",
+      "viaName": "VTC host",
+      "status": "runs",
+      "note": "Data Rooms (RFC 9420): the host holds ciphertext, the owner advances the epoch; private tier pending.",
       "evidence": [
         {
           "label": "verifiable-trust-infrastructure",

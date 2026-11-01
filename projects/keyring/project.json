@@ -22,7 +22,6 @@
     "transport": "DIDComm v1/v2 between wallets; TSP (Rev 3 / 1.0) on the VTI peer leg",
     "trustTasks": "@openvtc/trust-tasks ^0.27.8; about 100 registry types (vtc, vta, vetting, acl, auth, vault, credential-exchange, witness, vrc)",
     "groups": "joins VTI communities; no group model of its own documented",
-    "sharedState": "none documented",
     "devices": "one wallet per device; did:peer and did:key on the device, did:webvh personas via a VTA"
   },
   "facets": {
@@ -34,13 +33,6 @@
     "keys": [
       "device",
       "agent (VTA)"
-    ],
-    "transport": [
-      "DIDComm v2",
-      "TSP 1.0"
-    ],
-    "relay": [
-      "VTI mediator"
     ],
     "trustTasks": [
       "trust-task-error",
@@ -89,6 +81,49 @@
         },
         {
           "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP 1.0",
+      "via": "mediator",
+      "viaName": "VTI mediator",
+      "status": "runs",
+      "note": "Peer leg to the agent (VTA); TSP Rev 3 also in the code.",
+      "evidence": [
+        {
+          "label": "keyring-wallet README",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    },
+    {
+      "protocol": "DIDComm v2",
+      "via": "mediator",
+      "viaName": "DIDComm mediators",
+      "status": "runs",
+      "note": "Wallet to wallet; DIDComm v1 also in the code.",
+      "evidence": [
+        {
+          "label": "keyring-wallet README",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "MLS",
+      "via": "host",
+      "viaName": "VTC host, through the person's agent",
+      "status": "runs",
+      "note": "Community rooms: read, post, accept offers.",
+      "evidence": [
+        {
+          "label": "keyring-wallet README",
           "url": "https://github.com/berkmancenter/keyring-wallet"
         }
       ]

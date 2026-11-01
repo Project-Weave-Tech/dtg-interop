@@ -14,7 +14,6 @@
     "transport": "HTTPS",
     "trustTasks": "none; ActivityStreams 2.0 profile with own JSON-LD context",
     "groups": "Civic Space, portable between engines",
-    "sharedState": "Civic Personal Data Store: relationships, memberships, pointers",
     "devices": "not stated; the set of methods is open in the spec"
   },
   "facets": {
@@ -22,12 +21,6 @@
       "did:key",
       "did:web",
       "did:webvh"
-    ],
-    "transport": [
-      "HTTPS"
-    ],
-    "relay": [
-      "server"
     ],
     "trustTasks": [],
     "groupAuthority": [
@@ -58,6 +51,36 @@
       ],
       "status": "committed",
       "note": "Optional Data Integrity form.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "HTTPS",
+      "via": "app server",
+      "viaName": "engine hosting the civic space",
+      "status": "committed",
+      "note": "ActivityStreams 2.0 activities; specification, no code yet.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "HTTPS",
+      "via": "app server",
+      "viaName": "Civic Personal Data Store",
+      "status": "committed",
+      "note": "Relationships, memberships, pointers.",
       "evidence": [
         {
           "label": "civic-social-docs",

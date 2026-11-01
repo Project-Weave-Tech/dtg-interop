@@ -22,7 +22,6 @@
     "transport": "protocol and mediator or relay, e.g. TSP 1.0 via VTI mediator",
     "trustTasks": "Trust Tasks framework version and types, or which other document format",
     "groups": "how a group is formed and who may change it",
-    "sharedState": "how shared data is kept and encrypted",
     "devices": "what a person with several devices is"
   },
   "requiredParty": "the party without which your implementation does not work, or 'the other person'",
@@ -86,5 +85,20 @@
         "url": "https://github.com/your-org/your-repo"
       }
     ]
-  }
+  },
+  "messaging": [
+    {
+      "protocol": "TSP 1.0",
+      "via": "mediator",
+      "viaName": "VTI mediator",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "where it is in the code",
+          "url": "https://github.com/your-org/your-repo"
+        }
+      ]
+    }
+  ],
+  "replication": []
 }

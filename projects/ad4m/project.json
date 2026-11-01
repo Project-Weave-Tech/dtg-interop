@@ -24,7 +24,6 @@
     "transport": "Holochain DHT per Neighbourhood; optional self-hosted link-server over HTTP and WebSocket",
     "trustTasks": "none; pluggable Languages define how data is stored and shared",
     "groups": "Neighbourhoods: app-independent shared graphs joined by URL, with access control in the Neighbourhood Expression (details not documented)",
-    "sharedState": "Perspectives as semantic graphs; Perspective Diff Sync, a CRDT on Holochain; Social DNA in SHACL",
     "devices": "one executor per agent, on the device or a trusted host"
   },
   "facets": {
@@ -34,13 +33,6 @@
     "keys": [
       "device"
     ],
-    "transport": [
-      "Holochain"
-    ],
-    "relay": [
-      "none (Holochain DHT)",
-      "link-server (optional)"
-    ],
     "trustTasks": [],
     "language": [
       "Rust",
@@ -48,6 +40,34 @@
     ]
   },
   "credentials": [],
+  "messaging": [],
+  "replication": [
+    {
+      "protocol": "Perspective Diff Sync (Holochain)",
+      "via": "peers (DHT)",
+      "viaName": "Holochain DHT per Neighbourhood",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "ad4m",
+          "url": "https://github.com/coasys/ad4m"
+        }
+      ]
+    },
+    {
+      "protocol": "Perspective Diff Sync (Holochain)",
+      "via": "host",
+      "viaName": "link-server, optional and self-hosted",
+      "status": "runs",
+      "note": "Over HTTP and WebSocket.",
+      "evidence": [
+        {
+          "label": "ad4m",
+          "url": "https://github.com/coasys/ad4m"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "none",
     "note": "Pluggable Languages define how data is stored and shared."

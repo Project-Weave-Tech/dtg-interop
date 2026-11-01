@@ -15,19 +15,12 @@
     "transport": "Reticulum over Tor, LoRa, packet radio, TCP; Goblins actors over OCapN",
     "trustTasks": "none; ValueFlows vocabulary (needs, offers, processes, commitments, recipes)",
     "groups": "commons written in Guile Scheme",
-    "sharedState": "own event log per participant",
     "devices": "KERI identifiers (AIDs) with an own key event log per participant; no DID method"
   },
   "facets": {
     "didMethods": [],
     "keys": [
       "device"
-    ],
-    "transport": [
-      "Reticulum"
-    ],
-    "relay": [
-      "mesh"
     ],
     "trustTasks": [],
     "groupKeys": [],
@@ -46,6 +39,35 @@
       ],
       "status": "committed",
       "note": "Named on the project page; no public code checked.",
+      "evidence": [
+        {
+          "label": "playnet.earth",
+          "url": "https://playnet.earth/info"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "Reticulum",
+      "via": "mesh",
+      "viaName": "Tor, LoRa, packet radio, TCP",
+      "status": "committed",
+      "note": "Goblins actors over OCapN; code on Radicle, not checked.",
+      "evidence": [
+        {
+          "label": "playnet.earth",
+          "url": "https://playnet.earth/info"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "event log",
+      "via": "mesh",
+      "status": "committed",
+      "note": "Own event log per participant.",
       "evidence": [
         {
           "label": "playnet.earth",

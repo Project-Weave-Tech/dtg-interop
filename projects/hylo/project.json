@@ -23,7 +23,6 @@
     "transport": "HTTPS, GraphQL",
     "trustTasks": "none",
     "groups": "groups and nested networks in a central Postgres database",
-    "sharedState": "central database; Murmurations profiles",
     "devices": "accounts; did:plc only in the branch atproto-pds-experiment"
   },
   "facets": {
@@ -43,12 +42,6 @@
     "keys": [
       "server account"
     ],
-    "transport": [
-      "HTTPS"
-    ],
-    "relay": [
-      "server"
-    ],
     "trustTasks": [],
     "groupAuthority": [
       "server"
@@ -63,6 +56,35 @@
     ]
   },
   "credentials": [],
+  "messaging": [
+    {
+      "protocol": "HTTPS",
+      "via": "app server",
+      "viaName": "Hylo server",
+      "status": "runs",
+      "note": "GraphQL.",
+      "evidence": [
+        {
+          "label": "hylo",
+          "url": "https://github.com/Hylozoic/hylo"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "HTTPS",
+      "via": "app server",
+      "viaName": "central database",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "hylo",
+          "url": "https://github.com/Hylozoic/hylo"
+        }
+      ]
+    }
+  ],
   "trustTaskUse": {
     "status": "none"
   },

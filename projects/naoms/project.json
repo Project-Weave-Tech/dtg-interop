@@ -15,7 +15,6 @@
     "transport": "iroh/QUIC, mDNS, DIDComm v2; MLS for calls",
     "trustTasks": "own task library (~507 specs, not public); registry PRs closed unmerged",
     "groups": "Hives as signed hash chains with a quorum from current membership; steward role",
-    "sharedState": "signed hash chain per space, encrypted storage",
     "devices": "FROST threshold signing across the devices of a person; did:key as root"
   },
   "facets": {
@@ -27,12 +26,6 @@
     "keys": [
       "device",
       "threshold (FROST)"
-    ],
-    "transport": [
-      "DIDComm v2"
-    ],
-    "relay": [
-      "none (iroh, direct)"
     ],
     "trustTasks": [
       "own library (~507)",
@@ -60,6 +53,36 @@
       ],
       "status": "building",
       "note": "VRCs after the First Person Project; code not public.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "DIDComm v2",
+      "via": "direct",
+      "viaName": "iroh/QUIC, mDNS",
+      "status": "building",
+      "note": "Code not public.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "signed hash chain",
+      "via": "direct",
+      "viaName": "synced between the person's devices",
+      "status": "building",
+      "note": "One chain per space; code not public.",
       "evidence": [
         {
           "label": "naoms.dev",

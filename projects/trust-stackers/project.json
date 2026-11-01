@@ -13,7 +13,6 @@
     "transport": "TSP directly over libp2p, NAT traversal; no mediator",
     "trustTasks": "own task namespace task:p2pts:",
     "groups": "communities in SQL with admins",
-    "sharedState": "none documented",
     "devices": "Node only"
   },
   "facets": {
@@ -23,12 +22,6 @@
     ],
     "keys": [
       "device"
-    ],
-    "transport": [
-      "TSP"
-    ],
-    "relay": [
-      "none (libp2p, direct)"
     ],
     "trustTasks": [
       "own namespace task:p2pts",
@@ -64,6 +57,21 @@
       ],
       "status": "runs",
       "note": "VRC, VMC and VIC are minted by ceremonies in the code.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP (version not stated)",
+      "via": "direct",
+      "viaName": "libp2p with NAT traversal",
+      "status": "runs",
+      "note": "Wire tag TSP_VERSION_0_2, libp2p protocol /tsp/1.0.0; no mediator.",
       "evidence": [
         {
           "label": "p2p-trust-stack",

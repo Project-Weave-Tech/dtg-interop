@@ -18,7 +18,6 @@
     "transport": "TSP; Nostr relays as rendezvous; WebRTC for people present",
     "trustTasks": "Trust Task documents on plain TSP agreed as the shared layer; MLS optional",
     "groups": "rooms on MLS (OpenMLS, 0x0001), any member may commit, lowest hash wins in a settle window, admins in policy",
-    "sharedState": "MLS rooms; agreement ledger merged as a CRDT",
     "devices": "one did:peer:2 per device; a person is the set of devices with mutual same-person statements; one MLS leaf per device"
   },
   "facets": {
@@ -27,12 +26,6 @@
     ],
     "keys": [
       "device"
-    ],
-    "transport": [
-      "TSP"
-    ],
-    "relay": [
-      "Nostr relays"
     ],
     "groupAuthority": [
       "committer race, admins"
@@ -71,6 +64,58 @@
       ],
       "status": "committed",
       "note": "Announced move to VCDM and eddsa-jcs-2022."
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP (version not stated)",
+      "via": "direct",
+      "viaName": "Nostr relays for rendezvous only",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
+    },
+    {
+      "protocol": "WebRTC",
+      "via": "direct",
+      "viaName": "people present",
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "MLS",
+      "via": "direct",
+      "status": "runs",
+      "note": "Rooms; any member may commit.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
+    },
+    {
+      "protocol": "CRDT ledger",
+      "via": "direct",
+      "status": "runs",
+      "note": "Agreement ledger merged as a CRDT.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     }
   ],
   "trustTaskUse": {

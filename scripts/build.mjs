@@ -96,9 +96,11 @@ const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared, share
 // Credentials: the profile catalogue and the closed vocabularies, so the board builds its filters from data
 const credSchema = read('schema/project.schema.json').properties.credentials.items.properties
 const credentialProfiles = read('credential-profiles.json')
+const lane = (k) => read('schema/project.schema.json').properties[k].items.properties
+const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, credentialProfiles, credentialVocabulary, threads: [...threads, ...issues], repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))

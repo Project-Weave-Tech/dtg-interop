@@ -16,18 +16,11 @@
     "transport": "HTTP POST",
     "trustTasks": "none; agreements and events with audit records",
     "groups": "none",
-    "sharedState": "zero-knowledge audit records at archives",
     "devices": "not stated; capabilityDelegation of type jlinc in the DID document"
   },
   "facets": {
     "didMethods": [
       "did:jlinc"
-    ],
-    "transport": [
-      "HTTPS"
-    ],
-    "relay": [
-      "archive"
     ],
     "trustTasks": [],
     "groupAuthority": [],
@@ -48,6 +41,20 @@
       ],
       "status": "runs",
       "note": "Signed agreements with JCS and SHA-256, not credentials in the VC sense.",
+      "evidence": [
+        {
+          "label": "jlinc-node",
+          "url": "https://github.com/jlinclabs/jlinc-node"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "HTTPS",
+      "via": "direct",
+      "status": "runs",
+      "note": "HTTP POST between the parties; audit records go to an archive.",
       "evidence": [
         {
           "label": "jlinc-node",

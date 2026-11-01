@@ -12,16 +12,9 @@
     "transport": "mesh: LibreMesh, MeshCore, Meshtastic, sneaker-net; Lodge nodes replicate bundles",
     "trustTasks": "not stated",
     "groups": "TrustZones with delegated rights",
-    "sharedState": "bundles replicated between lodge nodes",
     "devices": "not stated"
   },
   "facets": {
-    "transport": [
-      "mesh"
-    ],
-    "relay": [
-      "lodge nodes"
-    ],
     "groupAuthority": [
       "delegated rights"
     ],
@@ -45,6 +38,21 @@
         {
           "label": "developers",
           "url": "https://social-fabric.us/developers"
+        }
+      ]
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "bundle replication",
+      "via": "mesh",
+      "viaName": "lodge nodes",
+      "status": "committed",
+      "note": "LibreMesh, MeshCore, Meshtastic, sneaker-net; code not public.",
+      "evidence": [
+        {
+          "label": "social-fabric.us",
+          "url": "https://social-fabric.us/support-areas/infrastructure"
         }
       ]
     }

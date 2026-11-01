@@ -112,9 +112,6 @@
         "groups": {
           "type": "string"
         },
-        "sharedState": {
-          "type": "string"
-        },
         "devices": {
           "type": "string"
         }
@@ -269,120 +266,6 @@
           "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
         },
         "keys": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "type": "string",
-                "maxLength": 60
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "value",
-                  "status"
-                ],
-                "properties": {
-                  "value": {
-                    "type": "string",
-                    "maxLength": 60
-                  },
-                  "status": {
-                    "enum": [
-                      "runs",
-                      "building",
-                      "committed"
-                    ]
-                  },
-                  "note": {
-                    "type": "string",
-                    "maxLength": 200
-                  },
-                  "evidence": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "url"
-                      ],
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "url": {
-                          "type": "string",
-                          "format": "uri"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
-        },
-        "transport": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "type": "string",
-                "maxLength": 60
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "value",
-                  "status"
-                ],
-                "properties": {
-                  "value": {
-                    "type": "string",
-                    "maxLength": 60
-                  },
-                  "status": {
-                    "enum": [
-                      "runs",
-                      "building",
-                      "committed"
-                    ]
-                  },
-                  "note": {
-                    "type": "string",
-                    "maxLength": 200
-                  },
-                  "evidence": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "url"
-                      ],
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "url": {
-                          "type": "string",
-                          "format": "uri"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "description": "Short values; an empty list means none, a missing key means not known. A value with a status is an object { value, status }; a plain string has no status stated."
-        },
-        "relay": {
           "type": "array",
           "items": {
             "oneOf": [
@@ -779,6 +662,154 @@
               "committed"
             ],
             "description": "runs: in running code. building: code exists, not complete. committed: announced or agreed, nothing running yet."
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "url"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "messaging": {
+      "type": "array",
+      "description": "Messages between parties: one entry per protocol and carrier. An empty list means none; a missing key means not known.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protocol",
+          "via",
+          "status"
+        ],
+        "properties": {
+          "protocol": {
+            "enum": [
+              "TSP 1.0",
+              "TSP (version not stated)",
+              "DIDComm v2",
+              "HTTPS",
+              "WebRTC",
+              "Reticulum"
+            ]
+          },
+          "via": {
+            "enum": [
+              "direct",
+              "mediator",
+              "app server",
+              "host",
+              "peers (DHT)",
+              "mesh",
+              "key-blind carrier"
+            ],
+            "description": "Kind of carrier."
+          },
+          "viaName": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "The concrete carrier, e.g. VTI mediator."
+          },
+          "status": {
+            "enum": [
+              "runs",
+              "building",
+              "committed"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "url"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "replication": {
+      "type": "array",
+      "description": "Shared state between parties or devices: one entry per mechanism and carrier. An empty list means none; a missing key means not known.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protocol",
+          "via",
+          "status"
+        ],
+        "properties": {
+          "protocol": {
+            "enum": [
+              "MLS",
+              "Perspective Diff Sync (Holochain)",
+              "RLTP replication",
+              "HTTPS",
+              "CRDT ledger",
+              "signed hash chain",
+              "event log",
+              "bundle replication"
+            ]
+          },
+          "via": {
+            "enum": [
+              "direct",
+              "mediator",
+              "app server",
+              "host",
+              "peers (DHT)",
+              "mesh",
+              "key-blind carrier"
+            ],
+            "description": "Kind of carrier."
+          },
+          "viaName": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "The concrete carrier, e.g. VTI mediator."
+          },
+          "status": {
+            "enum": [
+              "runs",
+              "building",
+              "committed"
+            ]
           },
           "note": {
             "type": "string",
