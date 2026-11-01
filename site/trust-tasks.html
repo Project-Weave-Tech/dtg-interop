@@ -83,6 +83,10 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.sdot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none;box-sizing:border-box;margin-right:2px}
+.sd-runs{background:var(--green-t)}
+.sd-building{background:linear-gradient(90deg,var(--blue-t) 50%,transparent 50%);border:1.5px solid var(--blue-t)}
+.sd-committed{border:2px solid var(--amber-t)}
 .tchip{display:inline-flex;align-items:center;border-radius:999px;padding:2px 9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:18px;white-space:nowrap}
 .tt-runs{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .tt-building{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
@@ -90,7 +94,7 @@ body{margin:0;background:#F6F6F3}
 .tt-none{color:var(--muted);border-color:var(--line)}
 .unk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--muted);color:var(--muted);font-size:11px;font-weight:600;box-sizing:border-box}
 .tbl-box{overflow-x:auto}
-.urow{display:grid;grid-template-columns:minmax(210px,1.2fr) 120px minmax(200px,1.3fr) minmax(220px,1.5fr) 100px;gap:14px;align-items:center;padding:9px 20px;border-bottom:1px solid var(--line);font-size:13px}
+.urow{display:grid;grid-template-columns:minmax(210px,1.2fr) minmax(220px,1.4fr) minmax(220px,1.5fr) 100px;gap:14px;align-items:center;padding:9px 20px;border-bottom:1px solid var(--line);font-size:13px}
 .urow:last-child{border-bottom:0}
 .uhead{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px}
 .board a.who{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-weight:600}
@@ -155,17 +159,17 @@ body{margin:0;background:#F6F6F3}
 <section class="block" aria-labelledby="h-tt">
 <div class="bhead"><h2 id="h-tt">Trust Tasks</h2><p>Which Trust Task types each implementation uses, where they come from, and which it shares. Most projects define their types in a namespace of their own.</p><a class="btn" href="{{registry}}" target="_blank" rel="noopener">Registry</a></div>
 <div class="tbl-box"><div style="min-width: 900px">
-<div class="urow uhead"><span>Project</span><span>Status</span><span>Types from</span><span>Shared with</span><span>Only here</span></div>
+<div class="urow uhead"><span>Project</span><span>Types from</span><span>Shared with</span><span>Only here</span></div>
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
 <div class="urow">
 <a class="who" href="{{r.href}}"><span class="av {{r.hue}} {{r.prov}}" aria-hidden="true" style="{{r.logoStyle}}">{{r.mono}}</span><span>{{r.name}}</span></a>
-<div><sc-if value="{{r.known}}" hint-placeholder-val="{{ true }}"><span class="pill tt-{{r.status}}">{{r.status}}</span></sc-if><sc-if value="{{r.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known">?</span></sc-if></div>
-<div class="chips"><sc-for list="{{r.parts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for><sc-if value="{{r.noParts}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if></div>
+<div class="chips" style="align-items: center"><sc-if value="{{r.hasDot}}" hint-placeholder-val="{{ true }}"><span class="sdot sd-{{r.status}}" role="img" title="{{r.status}}" aria-label="{{r.status}}"></span></sc-if><sc-if value="{{r.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known">?</span></sc-if><sc-for list="{{r.parts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for><sc-if value="{{r.noParts}}" hint-placeholder-val="{{ false }}"><span class="muted">{{r.noPartsText}}</span></sc-if></div>
 <div><sc-for list="{{r.shares}}" as="s" hint-placeholder-count="1"><span class="share" title="{{s.title}}"><span class="av av-sm {{s.hue}}" aria-hidden="true" style="{{s.logoStyle}}">{{s.mono}}</span>{{s.n}}</span></sc-for><sc-for list="{{r.sharesVia}}" as="s" hint-placeholder-count="0"><span class="share via" title="{{s.title}}"><span class="av av-sm {{s.hue}}" aria-hidden="true" style="{{s.logoStyle}}">{{s.mono}}</span>{{s.n}}</span></sc-for><sc-if value="{{r.noShares}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if></div>
 <div class="mono">{{r.alone}}</div>
 </div>
 </sc-for>
 </div></div>
+<p class="legend"><span class="sdot sd-runs"></span> runs &#160; <span class="sdot sd-building"></span> building &#160; <span class="sdot sd-committed"></span> committed, nothing running yet</p>
 </section>
 
 <section class="block" aria-labelledby="h-shared">
@@ -258,8 +262,8 @@ class Component extends DCLogic {
       const listed = u && u.types ? u.types.length : 0;
       return {
         name: f.name, href: f.href, hue: f.hue, mono: f.mono, prov: f.prov, logoStyle: f.logoStyle,
-        known: !!u, unknown: !u, status: u ? u.status : '',
-        parts, noParts: parts.length === 0, shares, sharesVia, noShares: shares.length === 0 && sharesVia.length === 0,
+        known: !!u, unknown: !u, status: u ? u.status : '', hasDot: !!u && u.status !== 'none',
+        parts, noParts: !!u && parts.length === 0, noPartsText: u && u.status === 'committed' ? 'committed, no types yet' : '–', shares, sharesVia, noShares: shares.length === 0 && sharesVia.length === 0,
         alone: !u || (!listed && !cnt) ? '–' : cnt ? '~' + cnt : String(alone[p.slug] || 0),
       };
     });
