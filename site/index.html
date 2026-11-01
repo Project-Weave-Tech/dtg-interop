@@ -172,6 +172,7 @@ body{margin:0;background:#F6F6F3}
 .st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.agenttext{width:100%;min-height:96px;box-sizing:border-box;margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.45;resize:vertical}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
 .ttcell{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .ttcell:hover .tchip{box-shadow:0 2px 6px rgba(0,0,0,.12)}
@@ -290,6 +291,8 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{pp.hasWeb}}" hint-placeholder-val="{{ true }}"><a class="btn" href="{{pp.website}}" target="_blank" rel="noopener">Website</a></sc-if>
 <sc-if value="{{pp.hasDocs}}" hint-placeholder-val="{{ true }}"><a class="btn" href="{{pp.docs}}" target="_blank" rel="noopener">Docs</a></sc-if>
 <a class="btn" href="{{pp.editUrl}}" target="_blank" rel="noopener">Correct this</a>
+<button class="btn {{pp.agentCls}}" type="button" title="Copies a task for your coding agent to update and confirm this row" sc-camel-on-click="{{pp.copyAgent}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>{{pp.agentLabel}}</button>
+<sc-if value="{{pp.hasAgentText}}" hint-placeholder-val="{{ false }}"><textarea class="agenttext" readonly="" aria-label="Task for your agent" value="{{pp.agentText}}"></textarea></sc-if>
 </div>
 <div class="sec">
 <h4>Try it</h4>
@@ -409,6 +412,11 @@ class Component extends DCLogic {
     if (el) { el.scrollIntoView({ block: 'start' }); this.setState({ scrollTT: false }); }
   }
   componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  copyText(text) {
+    const legacy = () => { try { const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta); return ok; } catch (e) { return false; } };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(() => true).catch(() => legacy()); } catch (e) {}
+    return Promise.resolve(legacy());
+  }
   fmt(d) {
     if (!d) return '';
     const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -691,6 +699,13 @@ class Component extends DCLogic {
             emptyText: !Array.isArray(p[l]) ? 'Not known.' : 'None.',
             list: (Array.isArray(p[l]) ? p[l] : []).map((e) => ({ status: e.status, protocol: e.protocol, pHue: hueFor(l, e.protocol), via: e.via, vHue: hueFor('laneVia', e.via), viaName: e.viaName || '', note: e.note || '', hasNote: !!e.note, evidence: e.evidence || [] })),
           })),
+        },
+        agentLabel: this.state.agentCopied === p.slug ? 'Copied: paste it into your agent' : 'Update with your agent',
+        agentCls: this.state.agentCopied === p.slug ? 'on' : '',
+        hasAgentText: !!(this.state.agentText && this.state.agentText.slug === p.slug), agentText: this.state.agentText && this.state.agentText.slug === p.slug ? this.state.agentText.text : '',
+        copyAgent: () => {
+          const task = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. Update projects/' + p.slug + '/project.json to match our project as of today, confirm it (provenance.kind: project), run npm run validate and open a pull request titled "' + p.slug + ': <what changed>".';
+          this.copyText(task).then((ok) => { if (ok) { this.setState({ agentCopied: p.slug, agentText: null }); setTimeout(() => this.setState({ agentCopied: null }), 4000); } else this.setState({ agentText: { slug: p.slug, text: task } }); });
         },
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
         prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',

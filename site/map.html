@@ -90,44 +90,52 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
-.sdot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none;box-sizing:border-box}
+.lfilter{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:center}
+.lchip{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font:inherit;font-size:12px;color:inherit}
+.lchip:hover{border-color:var(--muted)}
+.lchip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.lchip .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 20px 22px;align-items:start}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.colh{display:flex;flex-direction:column;gap:2px;padding:0 2px 6px;border-bottom:2px solid var(--line)}
+.colh strong{font-size:13.5px;display:flex;align-items:center;gap:8px}
+.colh span{font-size:12px;color:var(--muted)}
+.colh .cnum{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);font-weight:400}
+.c-ready .colh{border-color:var(--green-t)}
+.c-one .colh{border-color:var(--blue-t)}
+.c-paper .colh{border-color:var(--violet-t)}
+.c-open .colh{border-color:var(--line)}
+.card{border:1px solid var(--line);border-radius:11px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.c-ready .card{border-color:color-mix(in srgb,var(--green-t) 45%,var(--line))}
+.card .rl{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.card h3{margin:0;font-size:14px;font-weight:600;line-height:1.3}
+.faces{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.f{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500}
+.f .av{width:22px;height:22px;border-radius:6px;font-size:9.5px}
+.f.der .av{outline:1.5px dashed var(--muted);outline-offset:2px}
+.sdot{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box}
 .sd-runs{background:var(--green-t)}
 .sd-vectors{background:var(--blue-t)}
 .sd-paper{border:2px solid var(--violet-t)}
 .sd-guess{width:7px;height:7px;background:var(--line)}
-.ready{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:18px 20px 20px}
-.rcard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
-.rcard h3{margin:0;font-size:15px;font-weight:600;line-height:1.3}
-.rlayer{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.rasks{margin:0;font-size:12.5px;color:var(--muted)}
-.faces{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.face{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500}
-.face.derived{opacity:.8}
-.face.derived .av{outline:1.5px dashed var(--muted);outline-offset:2px}
-.flabel{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;width:100%}
-.rfoot{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding-top:10px;font-size:12.5px}
-.lrow{display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(0,2fr) 90px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;font:inherit;color:inherit}
-.lrow:hover{background:var(--soft)}
-.lrow strong{font-size:13.5px}
-.lrow .muted{font-size:12.5px}
-.car{display:inline-block;width:14px;color:var(--muted);transition:transform .15s}
-.car.open{transform:rotate(90deg)}
-.cnt{font-size:12px;color:var(--muted);text-align:right}
-.lpts{background:var(--bg);border-bottom:1px solid var(--line);padding:6px 20px 12px 54px}
-.prow{display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(0,2fr);gap:14px;align-items:center;padding:8px 0;border:0;border-bottom:1px dashed var(--line);font:inherit;font-size:13px;color:inherit;background:none;width:100%;text-align:left;cursor:pointer}
-.prow:hover .ptitle{text-decoration:underline}
-.prow.sel .ptitle{font-weight:600}
-.prow:last-child{border-bottom:0}
-.pmarks{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.pm{display:inline-flex;align-items:center;gap:5px;font-size:12px}
-.pm .av{width:22px;height:22px;border-radius:6px;font-size:9.5px}
-.guesses{font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
-.pdet{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:4px 0 10px;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.pdet h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.pdet ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
-.pdet li{font-size:12.5px}
-.board a.who{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500}
-.wword{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+.guess{font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+.cfoot{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;border-top:1px dashed var(--line);padding-top:8px}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--warn);border:1px dashed var(--warn);border-radius:4px;padding:0 5px}
+@media (max-width: 1100px){.cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width: 640px){.cols{grid-template-columns:minmax(0,1fr)}}
+.khead{display:flex;flex-direction:column;gap:4px;background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.khead:hover h3{text-decoration:underline}
+.card.sel{box-shadow:0 0 0 2px var(--accent)}
+.kdet{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:10px}
+.kdet h4{margin:0 0 4px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.kdet ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.kdet li{font-size:12px}
+.board a.who{display:inline-flex;align-items:center;gap:5px;color:var(--ink);font-weight:500}
+.wword{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.agenttext{width:100%;min-height:96px;box-sizing:border-box;margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.45;resize:vertical}
+.agent{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;font-size:12px;font-weight:500;color:var(--ink);align-self:flex-start}
+.agent:hover{border-color:var(--muted)}
+.agent.done{border-color:var(--green-t);color:var(--green-t)}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -165,65 +173,59 @@ body{margin:0;background:#F6F6F3}
 </sc-if>
 
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
-<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
-
-<section class="block" aria-labelledby="h-ready">
-<div class="bhead"><h2 id="h-ready">Ready to try together</h2><p>Points where two or more projects already have something running or test vectors: the best candidates for a pair.</p></div>
-<div class="ready">
-<sc-for list="{{readyCards}}" as="r" hint-placeholder-count="4">
-<article class="rcard">
-<span class="rlayer">{{r.layer}}</span>
-<h3>{{r.title}}</h3>
-<p class="rasks">{{r.asks}}</p>
-<div class="faces"><span class="flabel">Has it running</span><sc-for list="{{r.ready}}" as="f" hint-placeholder-count="2"><a class="face who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for></div>
-<sc-if value="{{r.hasDerived}}" hint-placeholder-val="{{ true }}"><div class="faces"><span class="flabel">Could join, derived from {{r.derivedFrom}}</span><sc-for list="{{r.derived}}" as="f" hint-placeholder-count="2"><a class="face who derived" href="{{f.href}}" title="{{f.title}}"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for></div></sc-if>
-<div class="rfoot"><sc-for list="{{r.scenarios}}" as="s" hint-placeholder-count="1"><span class="pill st-{{s.status}}">{{s.status}}</span><a href="pairs.html">{{s.title}}</a></sc-for><sc-if value="{{r.noScenario}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></sc-if></div>
+<div class="wrap">
+<section class="block" aria-labelledby="h-map">
+<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says. A dashed face is derived from the Credentials, Messaging, Replication or Trust Tasks pages.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
+<div class="cols">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
+<div class="col {{c.cls}}">
+<div class="colh"><strong>{{c.title}} <span class="cnum">{{c.n}}</span></strong><span>{{c.sub}}</span></div>
+<sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
+<article class="card {{k.selCls}}">
+<button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}<sc-if value="{{k.proposed}}" hint-placeholder-val="{{ false }}"> <span class="tag">proposed</span></sc-if></h3></button>
+<div class="faces">
+<sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who {{f.der}}" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
+<sc-if value="{{k.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guess"><span class="sdot sd-guess" aria-hidden="true"></span>{{k.guessText}}</span></sc-if>
+<sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="guess">nobody yet</span></sc-if>
+</div>
+<sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="pill st-{{s.status}}">{{s.status}}</span><a href="pairs.html">{{s.title}}</a></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></sc-if></div></sc-if>
+<sc-if value="{{k.selected}}" hint-placeholder-val="{{ false }}"><div class="kdet">
+<div><h4>The point</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p><p class="muted" style="margin: 4px 0 0; font-size: 11.5px">Origin: {{k.d.origin}}</p></div>
+<div><h4>What each project says</h4><ul><sc-for list="{{k.d.projects}}" as="x" hint-placeholder-count="2"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul><sc-if value="{{k.d.noProjects}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12px">No project has said anything here yet.</p></sc-if></div>
+<sc-if value="{{k.d.hasThreads}}" hint-placeholder-val="{{ false }}"><div><h4>Threads</h4><ul><sc-for list="{{k.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for></ul></div></sc-if>
+<button class="agent {{k.d.copiedCls}}" type="button" title="Copies a task for your coding agent to set your project's status at this point" sc-camel-on-click="{{k.d.copy}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>{{k.d.copyLabel}}</button>
+<sc-if value="{{k.d.hasText}}" hint-placeholder-val="{{ false }}"><textarea class="agenttext" readonly="" aria-label="Task for your agent" value="{{k.d.text}}"></textarea></sc-if>
+</div></sc-if>
 </article>
 </sc-for>
-<sc-if value="{{noReady}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No point has two projects with something running yet.</p></sc-if>
 </div>
-</section>
-
-<section class="block" aria-labelledby="h-layers">
-<div class="bhead"><h2 id="h-layers">All points, by layer</h2><p>Open a layer for its points, a point for what each project says about it. Guesses from public sources stay quiet.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
-<sc-for list="{{layers}}" as="l" hint-placeholder-count="13">
-<button class="lrow" type="button" aria-expanded="{{l.open}}" sc-camel-on-click="{{l.toggle}}">
-<span><span class="car {{l.car}}" aria-hidden="true">›</span><strong>{{l.title}}</strong><span class="muted" style="display: block; padding-left: 18px">{{l.asks}}</span></span>
-<span class="faces"><sc-for list="{{l.faces}}" as="f" hint-placeholder-count="2"><span class="pm" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span></span></sc-for><sc-if value="{{l.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guesses"><span class="sdot sd-guess" aria-hidden="true"></span>{{l.guessText}}</span></sc-if></span>
-<span class="cnt">{{l.n}}</span>
-</button>
-<sc-if value="{{l.open}}" hint-placeholder-val="{{ false }}"><div class="lpts">
-<sc-for list="{{l.points}}" as="p" hint-placeholder-count="2">
-<button class="prow {{p.cls}}" type="button" aria-expanded="{{p.selected}}" sc-camel-on-click="{{p.pick}}"><span><span class="ptitle">{{p.title}}</span><sc-if value="{{p.proposed}}" hint-placeholder-val="{{ false }}"> <span class="tag">proposed by {{p.proposedBy}}</span></sc-if></span><span class="pmarks"><sc-for list="{{p.marks}}" as="m" hint-placeholder-count="2"><span class="pm" title="{{m.title}}"><span class="sdot sd-{{m.cls}}" aria-hidden="true"></span><span class="av {{m.hue}}" aria-hidden="true" style="{{m.logoStyle}}">{{m.mono}}</span></span></sc-for><sc-if value="{{p.hasGuess}}" hint-placeholder-val="{{ false }}"><span class="guesses"><span class="sdot sd-guess" aria-hidden="true"></span>{{p.guessText}}</span></sc-if></span></button>
-<sc-if value="{{p.selected}}" hint-placeholder-val="{{ false }}"><div class="pdet">
-<div><h4>The point</h4><p style="margin: 0 0 8px; font-size: 13px">{{p.d.asks}}</p><p class="muted" style="margin: 0; font-size: 12px">Origin: {{p.d.origin}}<br>{{p.d.statusLine}}</p></div>
-<div><h4>What each project says</h4><ul><sc-for list="{{p.d.projects}}" as="x" hint-placeholder-count="3"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul><sc-if value="{{p.d.noProjects}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No project has said anything here yet.</p></sc-if></div>
-<div><h4>Tested by</h4><ul><sc-for list="{{p.d.scenarios}}" as="s" hint-placeholder-count="1"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a></li></sc-for></ul><sc-if value="{{p.d.noScenarios}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No scenario yet.</p></sc-if>
-<h4 style="margin-top: 12px">Threads</h4><ul><sc-for list="{{p.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for></ul><sc-if value="{{p.d.noThreads}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No thread.</p></sc-if></div>
-</div></sc-if>
 </sc-for>
-</div></sc-if>
-</sc-for>
+</div>
 <p class="legend" style="border-top: 1px solid var(--line); border-bottom: 0"><span class="li"><span class="sdot sd-runs"></span> runs</span><span class="li"><span class="sdot sd-vectors"></span> test vectors</span><span class="li"><span class="sdot sd-paper"></span> on paper (spec, known gap)</span><span class="li"><span class="sdot sd-guess"></span> guessed from public sources</span><span class="li"><span class="tag">proposed</span> point not yet accepted</span></p>
 </section>
-
 </div>
 </sc-if>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1500}}">
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1800}}">
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
-    this.state = { data: null, err: '', theme: savedTheme, open: {}, point: null };
+    this.state = { data: null, err: '', theme: savedTheme, layers: [], point: null, copied: null };
   }
   componentDidMount() {
     fetch('./data.json')
       .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then((data) => this.setState({ data }))
       .catch((e) => this.setState({ err: String((e && e.message) || e) }));
+  }
+  copyText(text) {
+    const legacy = () => { try { const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta); return ok; } catch (e) { return false; } };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(() => true).catch(() => legacy()); } catch (e) {}
+    return Promise.resolve(legacy());
   }
   fmt(d) {
     if (!d) return '';
@@ -239,7 +241,7 @@ class Component extends DCLogic {
     const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
     const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, readyCards: [], noReady: false, layers: [] };
+    if (!d) return { ...base, head: {}, layerChips: [], hasLayerFilter: false, clearLayers: null, cols: [] };
 
     const repo = d.repo;
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newPoint: repo + '/edit/main/points.json', newScenario: repo + '/tree/main/scenarios' };
@@ -250,14 +252,8 @@ class Component extends DCLogic {
       const n = (p.shortName || p.name.split(' / ')[0].split(' (')[0]); const w = n.split(/[\s.]+/).filter(Boolean);
       face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     });
-    const cls = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'potential' ? 'guess' : '');
-    const pts = d.map.points;
-    const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
-    const scn = {}; (d.scenarios || []).forEach((s) => (s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
-    const thr = {}; (d.threads || []).forEach((t) => (t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
-    const statusOf = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
 
-    // Points that a detail page answers: who could join, derived from structured data (shown as derived, never as a statement on the map)
+    // Points that a detail page answers: who has it running there, derived from structured data (shown as derived, not as a statement on the map)
     const live = (s) => s === 'runs' || s === 'building';
     const DERIVE = {
       'vrc-exchange': { from: 'Credentials', test: (p) => (p.credentials || []).some((e) => live(e.status) && e.model === 'W3C VC 2.0' && (e.profiles || []).indexOf('VRC') >= 0 && (e.proof || []).indexOf('eddsa-jcs-2022') >= 0) },
@@ -265,58 +261,60 @@ class Component extends DCLogic {
       'shared-room': { from: 'Replication', test: (p) => (p.replication || []).some((e) => live(e.status) && e.protocol === 'MLS') },
       'document-framework': { from: 'Trust Tasks', test: (p) => !!(p.trustTaskUse && live(p.trustTaskUse.status)) },
     };
-
-    const readyCards = pts.map((pt) => {
-      const ready = P.filter((p) => ['runs', 'vectors'].indexOf(statusOf(p, pt.id)) >= 0);
-      if (ready.length < 2) return null;
-      const dv = DERIVE[pt.id];
-      const derived = dv ? P.filter((p) => ready.indexOf(p) < 0 && dv.test(p)) : [];
-      const sc = scn[pt.id] || [];
-      return {
-        layer: layerTitle[pt.layer], title: pt.title, asks: pt.asks,
-        ready: ready.map((p) => ({ ...face[p.slug], cls: cls(statusOf(p, pt.id)), title: face[p.slug].name + ': ' + statusOf(p, pt.id) + (p.points[pt.id].note ? ' · ' + p.points[pt.id].note : '') })),
-        derived: derived.map((p) => ({ ...face[p.slug], title: face[p.slug].name + ': derived from the ' + dv.from + ' page, not stated on the map' })),
-        hasDerived: derived.length > 0, derivedFrom: dv ? dv.from : '',
-        scenarios: sc.map((s) => ({ title: s.title, status: s.status })), noScenario: sc.length === 0,
-      };
-    }).filter(Boolean);
-
-    const open = this.state.open || {};
+    const raw = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
+    const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'potential' ? 'guess' : null);
+    const order = { runs: 0, vectors: 1, paper: 2, guess: 3 };
+    const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
+    const scn = {}; (d.scenarios || []).forEach((s) => (s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
+    const thr = {}; (d.threads || []).forEach((t) => (t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
+    const picked = this.state.layers || [];
     const sel = this.state.point;
-    const rank = { runs: 0, vectors: 1, paper: 2 };
-    const layers = d.map.layers.map((l) => {
-      const lp = pts.filter((p) => p.layer === l.id);
-      const best = {}; let guesses = 0;
-      lp.forEach((pt) => P.forEach((p) => { const c = cls(statusOf(p, pt.id)); if (c === 'guess') guesses++; else if (c && (best[p.slug] === undefined || rank[c] < rank[best[p.slug]])) best[p.slug] = c; }));
-      const isOpen = !!open[l.id];
+
+    const cards = d.map.points.map((pt) => {
+      const dv = DERIVE[pt.id];
+      const faces = []; const said = []; let guesses = 0;
+      P.forEach((p) => {
+        let c = lvl(raw(p, pt.id)); let der = false;
+        if (dv && c !== 'runs' && c !== 'vectors' && dv.test(p)) { c = 'runs'; der = true; }
+        if (!c) return;
+        const note = der ? 'Running per the ' + dv.from + ' page (derived).' : (p.points[pt.id].note || '');
+        said.push({ name: face[p.slug].name, href: face[p.slug].href, cls: c, status: der ? 'runs (derived)' : raw(p, pt.id), note });
+        if (c === 'guess') { guesses++; return; }
+        faces.push({ ...face[p.slug], cls: c, der: der ? 'der' : '', title: face[p.slug].name + ': ' + (der ? 'running per the ' + dv.from + ' page (derived)' : raw(p, pt.id) + (note ? ' · ' + note : '')) });
+      });
+      faces.sort((a, b) => order[a.cls] - order[b.cls]);
+      said.sort((a, b) => order[a.cls] - order[b.cls]);
+      const running = faces.filter((f) => f.cls === 'runs' || f.cls === 'vectors').length;
+      const paper = faces.filter((f) => f.cls === 'paper').length;
+      const col = running >= 2 ? 'ready' : running === 1 ? 'one' : paper ? 'paper' : 'open';
+      const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
+      const selected = sel === pt.id; const copied = this.state.copied === pt.id;
+      const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate and open a pull request.';
       return {
-        title: l.title, asks: l.asks, n: lp.length + (lp.length === 1 ? ' point' : ' points'), open: isOpen, car: isOpen ? 'open' : '',
-        toggle: () => this.setState({ open: { ...open, [l.id]: !isOpen } }),
-        faces: Object.keys(best).sort((a, b) => rank[best[a]] - rank[best[b]]).map((s) => ({ ...face[s], cls: best[s], title: face[s].name })),
-        hasGuess: guesses > 0, guessText: guesses + (guesses === 1 ? ' guess' : ' guesses'),
-        points: lp.map((pt) => {
-          const selected = sel === pt.id;
-          const said = P.filter((p) => statusOf(p, pt.id));
-          const marks = said.filter((p) => cls(statusOf(p, pt.id)) !== 'guess').map((p) => ({ ...face[p.slug], cls: cls(statusOf(p, pt.id)), title: face[p.slug].name + ': ' + statusOf(p, pt.id) }));
-          const g = said.filter((p) => statusOf(p, pt.id) === 'potential').length;
-          const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
-          return {
-            title: pt.title, proposed: pt.status === 'proposed', proposedBy: pt.proposedBy ? (face[pt.proposedBy] ? face[pt.proposedBy].name : pt.proposedBy) : '',
-            marks, hasGuess: g > 0, guessText: g + (g === 1 ? ' guess' : ' guesses'),
-            selected, cls: selected ? 'sel' : '', pick: () => this.setState({ point: selected ? null : pt.id }),
-            d: !selected ? { projects: [], scenarios: [], threads: [] } : {
-              asks: pt.asks, origin: pt.origin,
-              statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy && face[pt.proposedBy] ? face[pt.proposedBy].name : 'a project') + ', not yet accepted' : 'Accepted point',
-              projects: said.sort((a, b) => (rank[cls(statusOf(a, pt.id))] ?? 3) - (rank[cls(statusOf(b, pt.id))] ?? 3)).map((p) => ({ name: face[p.slug].name, href: face[p.slug].href, cls: cls(statusOf(p, pt.id)), status: statusOf(p, pt.id), note: p.points[pt.id].note || '' })),
-              noProjects: said.length === 0,
-              scenarios: sc.map((s) => ({ title: s.title, status: s.status })), noScenarios: sc.length === 0,
-              threads: th.map((t) => ({ title: t.title, url: t.url, state: t.state })), noThreads: th.length === 0,
-            },
-          };
-        }),
+        id: pt.id, layerId: pt.layer, col, layer: layerTitle[pt.layer], title: pt.title, proposed: pt.status === 'proposed',
+        faces, hasGuess: guesses > 0, guessText: guesses + (guesses === 1 ? ' guess' : ' guesses'), nobody: !faces.length && !guesses,
+        scenarios: sc.map((s) => ({ title: s.title, status: s.status })), propose: !sc.length && (col === 'ready' || col === 'one'), hasFoot: sc.length > 0 || col === 'ready' || col === 'one',
+        weight: running * 10 + paper,
+        selected, selCls: selected ? 'sel' : '', pick: () => this.setState({ point: selected ? null : pt.id }),
+        d: !selected ? { projects: [], threads: [] } : {
+          asks: pt.asks, origin: pt.origin, projects: said, noProjects: said.length === 0,
+          threads: th.map((t) => ({ title: t.title, url: t.url, state: t.state })), hasThreads: th.length > 0,
+          copyLabel: copied ? 'Copied: paste it into your agent' : 'Update with your agent', copiedCls: copied ? 'done' : '',
+          copy: () => { this.copyText(prompt).then((ok) => { if (ok) { this.setState({ copied: pt.id, failed: null }); setTimeout(() => this.setState({ copied: null }), 4000); } else this.setState({ failed: pt.id }); }); },
+          hasText: this.state.failed === pt.id, text: prompt,
+        },
       };
     });
-    return { ...base, head, readyCards, noReady: readyCards.length === 0, layers };
+    const shown = cards.filter((k) => !picked.length || picked.indexOf(k.layerId) >= 0);
+    const COLS = [
+      { key: 'ready', title: 'Test now', sub: 'Two or more projects have it running or published test vectors.' },
+      { key: 'one', title: 'Needs a partner', sub: 'One project has it running; the other side is missing.' },
+      { key: 'paper', title: 'Needs building', sub: 'Specified or a known gap; nothing running yet.' },
+      { key: 'open', title: 'Open question', sub: 'Only guesses from public sources, or nobody.' },
+    ];
+    const cols = COLS.map((c) => { const list = shown.filter((k) => k.col === c.key).sort((a, b) => b.weight - a.weight); return { ...c, cls: 'c-' + c.key, n: list.length, cards: list }; });
+    const layerChips = d.map.layers.map((l) => { const on = picked.indexOf(l.id) >= 0; return { title: l.title, n: cards.filter((k) => k.layerId === l.id).length, on: on ? 'on' : '', pressed: on, toggle: () => this.setState({ layers: on ? picked.filter((x) => x !== l.id) : picked.concat([l.id]) }) }; });
+    return { ...base, head, layerChips, hasLayerFilter: picked.length > 0, clearLayers: () => this.setState({ layers: [] }), cols };
   }
 }
 </script>
