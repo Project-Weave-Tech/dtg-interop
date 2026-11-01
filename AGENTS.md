@@ -1,0 +1,98 @@
+# Working on this repository as an agent
+
+This board records how the implementations of the decentralized trust graph fit together: what each project runs, on what, and what has been shown to work between two of them. Most rows are kept by the projects themselves, often through their AI agents. This file is for those agents.
+
+## What belongs here
+
+- Facts about **your own project**, as of today. Do not edit another project's row; open an issue or tell that project instead.
+- No ratings, rankings or comparisons in prose. The board compares by putting the same fields side by side.
+- Nothing guessed as running. `runs` means it runs in code someone can look at, and it needs `evidence`.
+- Notes in your own words, one or two sentences, no marketing language.
+
+## Files
+
+| File | Holds |
+|---|---|
+| `projects/<slug>/project.json` | One project's row. Your file. |
+| `projects/<slug>/README.md` | One paragraph: what it is, who works on it, what others can try against it today. |
+| `projects/<slug>/trust-tasks.json` | Optional: a long list of Trust Task types, extracted from the source. |
+| `points.json` | The interop points of the map (ids, layers, what each asks). Shared. |
+| `credential-profiles.json` | The credential profiles (VRC, VMC, …) and their families. Shared. |
+| `scenarios/<slug>/scenario.json` | A scenario two or more projects run together, with its `results`. |
+| `threads.json` | Links to discussions elsewhere that matter for interop. Shared. |
+| `schema/*.schema.json` | The schemas. The closed vocabularies are the `enum` lists in `schema/project.schema.json`. |
+
+## Fields of `project.json`
+
+Required: `slug` (the folder name), `name`, `repositories`, `stack`, `points`, `provenance`, `updated`.
+
+| Field | Content |
+|---|---|
+| `name`, `shortName` | Full name; `shortName` only if the project itself uses a short form and the name is long (max 16). |
+| `purpose` | One sentence, from your own sources, on what the project sets out to do (max 160). |
+| `website`, `docs`, `logo`, `licence`, `repositories`, `apps` | Where to find it. `logo` is a URL you publish or a file `site/logo-<slug>.png`. |
+| `stack` | Short free text per topic (DID methods, credentials, transport, groups, devices …). |
+| `facets` | Short filterable values per topic (`didMethods`, `keys`, `groupAuthority`, `groupKeys`, `offline`, `language`, …). |
+| `credentials` | One entry per credential form: `model`, `profiles`, `proof`, `status`. |
+| `messaging` | Messages between parties: `protocol`, `via`, `viaName`, `status`. |
+| `replication` | Shared state between parties or devices: `protocol`, `via`, `viaName`, `status`. |
+| `trustTaskUse` | `status`, `namespaces`, `types` (or `typesFile`), `count`, `mapsTo`, `documentProof`. |
+| `requiredParty` | The party without which it does not work. |
+| `points` | Your status at each point of the map: `{ status, note, evidence }`. |
+| `provenance` | `kind`: `project` (written or confirmed by you) or `public` (compiled by someone else); `date`; `sources`. |
+
+## Rules for values
+
+- **Status** in `credentials`, `messaging`, `replication`, `trustTaskUse` and facet values: `runs` (in running code) | `building` (code exists, not complete) | `committed` (announced or agreed, nothing running yet). `trustTaskUse` also has `none`.
+- **Status at a point** (`points.<id>.status`): `runs` | `vectors` (test vectors exist) | `spec` (specified, not built) | `open` (known gap or open question) | `potential` (compiled from public sources, not confirmed) | `n/a` (does not apply). Use `potential` only when you did not confirm it.
+- **Evidence**: every `runs` (and `vectors` at a point) needs `evidence: [{ "label", "url" }]`, pointing at code, a release or a test. The validation rejects it otherwise.
+- **Closed vocabularies**: `credentials.model`, `credentials.proof`, `messaging.protocol`, `replication.protocol`, `via`, `trustTaskUse.documentProof` accept only the values in `schema/project.schema.json`. Credential profiles must be keys of `credential-profiles.json`. If your value is missing, add it in the same pull request and say why.
+- **Facets**: a value is a short string, or `{ "value", "status", "note"?, "evidence"? }` when it is not simply in use (an experiment branch is `building`). Brackets describe, they never carry a status.
+- **Empty and missing**: an empty array means "none"; a missing field means "not known". Do not write `[]` when you only do not know.
+- **Confirming**: when your project has checked its row, set `provenance.kind` to `project`, `provenance.date` and `updated` to today, and remove the line saying the row was compiled from public sources in your `README.md`.
+
+## Before the pull request
+
+```bash
+npm install
+npm run validate          # must print "valid: …"
+npm run build             # optional: builds site/dist to look at
+```
+
+Do not commit `site/github-snapshot.json` or `site/dist/`; the build changes them as a side effect.
+
+Pull request: one project per pull request, title `<slug>: <what changed>`.
+
+## Recipes
+
+**1. Set your status at a point of the map.** Find the point id in `points.json`. In your `project.json`:
+
+```json
+"points": {
+  "vrc-exchange": {
+    "status": "runs",
+    "note": "Issues and verifies VRCs with eddsa-jcs-2022.",
+    "evidence": [{ "label": "vrc module", "url": "https://github.com/your-org/your-repo/tree/main/src/vrc" }]
+  }
+}
+```
+
+Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"` and `proposedBy`, in its own pull request.
+
+**2. Record a run between two projects.** In `scenarios/<slug>/scenario.json`, append to `results`:
+
+```json
+{
+  "date": "2026-11-14",
+  "sides": [
+    { "project": "your-slug", "version": "1.4.0" },
+    { "project": "other-slug", "version": "0.9.2" }
+  ],
+  "outcome": "pass",
+  "note": "What was exchanged and what was checked."
+}
+```
+
+`outcome` is `pass`, `fail` or `partial`. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`.
+
+**3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then open the pull request.
