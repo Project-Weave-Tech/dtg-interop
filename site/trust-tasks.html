@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>DTG Interop Board: Trust Tasks</title>
+<meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
+<script src="dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>
+body{margin:0;background:#F6F6F3}
+.board{--bg:#F6F6F3;--surface:#FFFFFF;--ink:#17181A;--muted:#5B6067;--line:#E1E1DA;--soft:#EFEFEA;--accent:#2349BF;--accent-soft:#E7ECFA;--warn:#A24A06;--fail:#A11D1D;color-scheme:light}
+.board[data-theme="dark"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}}
+.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:64px}
+.board a{color:var(--accent);text-decoration:none}
+.board a:hover{text-decoration:underline}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px}
+.muted{color:var(--muted)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 32px}
+.hdr{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-top:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.board .tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent}
+.board .tabs a:hover{color:var(--ink);text-decoration:none}
+.board .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
+.bhead h2{margin:0;font-size:17px;font-weight:600}
+.bhead p{margin:0;color:var(--muted);font-size:13px;flex:1 1 220px}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
+.board a.btn{color:var(--ink)}
+.board a.btn:hover{text-decoration:none;border-color:var(--muted)}
+.pill{display:inline-flex;align-items:center;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;white-space:nowrap;border:1px solid transparent}
+.st-open{border-color:var(--muted);color:var(--muted)}
+.st-decided{border-color:var(--accent);color:var(--accent)}
+.st-implemented{background:var(--accent);color:var(--surface)}
+.chips{display:flex;flex-wrap:wrap;gap:4px 6px}
+.chip{display:inline-flex;align-items:center;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.stale{font-size:11px;color:var(--muted);font-style:italic}
+.grp{display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--soft);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:20px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:start}
+.ttitle{font-weight:500;font-size:14.5px}
+@media (max-width: 640px){
+.wrap{padding:0 16px}
+.trow{grid-template-columns:minmax(0,1fr);gap:6px}
+.meta{text-align:left !important}
+}
+.board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
+.board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}}
+.h-blue{background:var(--blue-b);color:var(--blue-t)}.h-teal{background:var(--teal-b);color:var(--teal-t)}.h-violet{background:var(--violet-b);color:var(--violet-t)}.h-amber{background:var(--amber-b);color:var(--amber-t)}.h-pink{background:var(--pink-b);color:var(--pink-t)}.h-green{background:var(--green-b);color:var(--green-t)}.h-red{background:var(--red-b);color:var(--red-t)}.h-slate{background:var(--slate-b);color:var(--slate-t)}.h-rust{background:var(--rust-b);color:var(--rust-t)}.h-sky{background:var(--sky-b);color:var(--sky-t)}.h-olive{background:var(--olive-b);color:var(--olive-t)}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;font-weight:600;font-size:12.5px;letter-spacing:.02em;flex:none;position:relative;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.av-sm{width:26px;height:26px;border-radius:7px;font-size:10.5px}
+.av.conf::after{content:"";position:absolute;right:-3px;bottom:-3px;width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.av.conf::after{background:var(--green-t);border:2px solid var(--surface)}
+.board a.av{text-decoration:none;transition:transform .12s ease}
+.board a.av:hover{transform:translateY(-2px)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--green-t);position:relative;flex:none;display:inline-block}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green-t);opacity:0;animation:dtgring 2s ease-out infinite}
+@keyframes dtgring{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse::after{animation:none}}
+.still{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.pill{border-width:1.5px;font-weight:500}
+.s-runs{background:var(--green-t);color:var(--surface);border-color:var(--green-t)}
+.s-vectors{background:var(--blue-b);color:var(--blue-t);border-color:var(--blue-t)}
+.s-spec{background:var(--violet-b);color:var(--violet-t);border:1.5px dashed var(--violet-t)}
+.s-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.s-na{color:var(--muted)}
+.s-potential{color:var(--muted);font-style:italic;border:1.5px dotted var(--muted)}
+.o-pass{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.o-partial{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.o-fail{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-proposed{background:var(--slate-b);color:var(--slate-t);border-color:transparent}
+.st-running{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-passing{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.st-failing{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.tchip{display:inline-flex;align-items:center;border-radius:999px;padding:2px 9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:18px;white-space:nowrap}
+.tt-runs{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.tt-building{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.tt-committed{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.tt-none{color:var(--muted);border-color:var(--line)}
+.unk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--muted);color:var(--muted);font-size:11px;font-weight:600;box-sizing:border-box}
+.tbl-box{overflow-x:auto}
+.urow{display:grid;grid-template-columns:minmax(210px,1.2fr) 120px minmax(200px,1.3fr) minmax(220px,1.5fr) 100px;gap:14px;align-items:center;padding:9px 20px;border-bottom:1px solid var(--line);font-size:13px}
+.urow:last-child{border-bottom:0}
+.uhead{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px}
+.board a.who{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-weight:600}
+.share{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-right:8px}
+.mrow{display:grid;align-items:center;border-bottom:1px solid var(--line)}
+.mhead{background:var(--surface)}
+.mlead{padding:8px 12px 8px 20px;font-size:13px;min-width:0;overflow-wrap:anywhere}
+.mhead .mlead{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mcol{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11.5px;font-weight:500;padding:10px 6px;text-align:center}
+.mcell{display:flex;justify-content:center;padding:6px}
+.mfam{background:var(--soft)}
+.famb{display:flex;align-items:center;gap:8px;background:none;border:0;cursor:pointer;text-align:left;min-height:40px;color:inherit;font:inherit}
+.famb:hover strong{text-decoration:underline}
+.car{display:inline-block;width:12px;transition:transform .15s ease;color:var(--muted)}
+.car.open{transform:rotate(90deg)}
+.mtype .mlead{padding-left:44px;font-size:12px}
+.mark{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 6px;border-radius:6px;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;box-sizing:border-box}
+.m-runs{background:var(--green-b);color:var(--green-t)}
+.m-building{background:var(--blue-b);color:var(--blue-t)}
+.m-via{color:var(--muted);border:1.5px dashed var(--muted)}
+.legend{margin:0;padding:12px 20px 14px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;border-top:1px solid var(--line)}
+</style>
+</helmet>
+<div class="board" data-theme="{{theme}}">
+
+<header class="hdr">
+<div class="wrap">
+<div class="hdr-in">
+<div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
+<h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
+<p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span class="mono muted">data {{head.generated}}</span>
+<button class="btn btn-icon" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<a class="btn btn-icon" href="{{head.repo}}" target="_blank" rel="noopener" aria-label="Repository on GitHub" title="Repository on GitHub"><svg width="18" height="18" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
+<a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
+</div>
+</div>
+<nav class="tabs" aria-label="Board sections">
+<a href="./">Projects</a>
+<a href="pairs.html">Pairs</a>
+<a href="map.html">Map</a>
+<a href="trust-tasks.html" aria-current="page">Trust Tasks</a>
+<a href="threads.html">Threads</a>
+</nav>
+</div>
+</header>
+
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><p class="muted">Reading data.json …</p></div>
+</sc-if>
+<sc-if value="{{hasError}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><div class="block" style="padding: 20px"><strong>data.json could not be read.</strong> <span class="muted">The board expects it beside this page. {{error}}</span></div></div>
+</sc-if>
+
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
+
+<section class="block" aria-labelledby="h-tt">
+<div class="bhead"><h2 id="h-tt">Trust Tasks</h2><p>Which Trust Task types each implementation uses, where they come from, and which it shares. Most projects define their types in a namespace of their own.</p><a class="btn" href="{{registry}}" target="_blank" rel="noopener">Registry</a></div>
+<div class="tbl-box"><div style="min-width: 900px">
+<div class="urow uhead"><span>Project</span><span>Status</span><span>Types from</span><span>Shared with</span><span>Only here</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+<div class="urow">
+<a class="who" href="{{r.href}}"><span class="av {{r.hue}} {{r.prov}}" aria-hidden="true" style="{{r.logoStyle}}">{{r.mono}}</span><span>{{r.name}}</span></a>
+<div><sc-if value="{{r.known}}" hint-placeholder-val="{{ true }}"><span class="pill tt-{{r.status}}">{{r.status}}</span></sc-if><sc-if value="{{r.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known">?</span></sc-if></div>
+<div class="chips"><sc-for list="{{r.parts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for><sc-if value="{{r.noParts}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if></div>
+<div><sc-for list="{{r.shares}}" as="s" hint-placeholder-count="1"><span class="share" title="{{s.title}}"><span class="av av-sm {{s.hue}}" aria-hidden="true" style="{{s.logoStyle}}">{{s.mono}}</span>{{s.n}}</span></sc-for><sc-if value="{{r.noShares}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if></div>
+<div class="mono">{{r.alone}}</div>
+</div>
+</sc-for>
+</div></div>
+</section>
+
+<section class="block" aria-labelledby="h-shared">
+<div class="bhead"><h2 id="h-shared">Shared types</h2><p>Types two or more projects use, by family. Open a family for its types. A dashed cell counts only through a mapping to the registry or a family wildcard.</p><button class="btn" type="button" sc-camel-on-click="{{toggleAll}}">{{allLabel}}</button></div>
+<div class="tbl-box"><div style="min-width: {{mxMin}}">
+<div class="mrow mhead" style="grid-template-columns: {{mxGrid}}"><span class="mlead">Family / type</span><sc-for list="{{cols}}" as="c" hint-placeholder-count="4"><span class="mcol"><span class="av av-sm {{c.hue}}" aria-hidden="true" style="{{c.logoStyle}}">{{c.mono}}</span>{{c.name}}</span></sc-for></div>
+<sc-for list="{{fams}}" as="f" hint-placeholder-count="8">
+<div class="mrow mfam" style="grid-template-columns: {{f.grid}}"><span class="mlead"><button class="famb" type="button" aria-expanded="{{f.open}}" sc-camel-on-click="{{f.toggle}}"><span class="car {{f.car}}" aria-hidden="true">›</span><strong>{{f.family}}</strong><span class="muted mono">{{f.n}}</span></button></span><sc-for list="{{f.cells}}" as="c" hint-placeholder-count="4"><span class="mcell"><sc-if value="{{c.has}}" hint-placeholder-val="{{ true }}"><span class="mark {{c.cls}}" title="{{c.title}}">{{c.label}}</span></sc-if></span></sc-for></div>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}"><sc-for list="{{f.types}}" as="y" hint-placeholder-count="3"><div class="mrow mtype" style="grid-template-columns: {{y.grid}}"><span class="mlead mono" title="{{y.full}}">{{y.short}}</span><sc-for list="{{y.cells}}" as="c" hint-placeholder-count="4"><span class="mcell"><sc-if value="{{c.has}}" hint-placeholder-val="{{ true }}"><span class="mark {{c.cls}}" title="{{c.title}}">{{c.label}}</span></sc-if></span></sc-for></div></sc-for></sc-if>
+</sc-for>
+</div></div>
+<p class="legend"><span class="mark m-runs">✓</span> runs &#160; <span class="mark m-building">✓</span> building &#160; <span class="mark m-via">≈</span> only through a mapping or a family wildcard &#160; numbers in a family row: how many of its types the project uses</p>
+</section>
+
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1400}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
+    this.state = { data: null, err: '', theme: savedTheme, open: {} };
+  }
+  componentDidMount() {
+    fetch('./data.json')
+      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then((data) => this.setState({ data }))
+      .catch((e) => this.setState({ err: String((e && e.message) || e) }));
+  }
+  fmt(d) {
+    if (!d) return '';
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p = String(d).slice(0, 10).split('-');
+    return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
+  }
+  renderVals() {
+    let sysDark = false; try { sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    const theme = this.state.theme === 'light' || this.state.theme === 'dark' ? this.state.theme : (sysDark ? 'dark' : 'light');
+    const isDark = theme === 'dark';
+    const themeAria = isDark ? 'Switch to light' : 'Switch to dark';
+    const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    const d = this.state.data;
+    const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    if (!d) return { ...base, head: {}, registry: '', rows: [], cols: [], fams: [], mxGrid: '', mxMin: '0', allLabel: '', toggleAll: null };
+
+    const repo = d.repo;
+    const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
+    const face = (p, i) => {
+      const n = p.name.split(' / ')[0].split(' (')[0];
+      const w = n.split(/[\s.]+/).filter(Boolean);
+      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
+    };
+    const P = d.projects || [];
+    const faces = P.map(face);
+    const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
+    const nameOf = (s) => (faceOf[s] ? faceOf[s].name : s);
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
+    const TT = d.trustTasks || { types: [], shared: {} };
+    const REG = TT.registry || 'https://trusttasks.org/spec/';
+    const types = TT.types || [];
+    const shared = TT.shared || {};
+
+    const ttParts = (u) => {
+      const s = u.summary || {}; const parts = [];
+      if (s.count || s.own) parts.push({ label: 'own · ' + (s.count ? '~' + s.count : s.own), hue: 'h-teal' });
+      if (s.registry) parts.push({ label: 'Registry · ' + s.registry, hue: 'h-blue' });
+      return parts;
+    };
+    const total = (u) => (u ? ((u.summary && u.summary.count) || ((u.summary && (u.summary.own || 0) + (u.summary.registry || 0)) || 0)) : 0);
+    const rank = { runs: 0, building: 1, committed: 2, none: 3 };
+    const alone = {}; types.forEach((x) => { if (x.users.length === 1 && !x.users[0].via) { const s = x.users[0].project; alone[s] = (alone[s] || 0) + 1; } });
+
+    const rows = P.slice().sort((a, b) => {
+      const ra = a.trustTaskUse ? rank[a.trustTaskUse.status] : 4, rb = b.trustTaskUse ? rank[b.trustTaskUse.status] : 4;
+      return ra - rb || total(b.trustTaskUse) - total(a.trustTaskUse) || a.name.localeCompare(b.name);
+    }).map((p) => {
+      const u = p.trustTaskUse; const f = faceOf[p.slug]; const parts = u ? ttParts(u) : [];
+      const shares = Object.keys(shared).filter((k) => k.split('|').indexOf(p.slug) >= 0).map((k) => {
+        const o = k.split('|').find((x) => x !== p.slug); const n = shared[k].length; const fo = faceOf[o] || { hue: 'h-slate', mono: '?', logoStyle: '' };
+        return { n, hue: fo.hue, mono: fo.mono, logoStyle: fo.logoStyle, title: n + (n === 1 ? ' type' : ' types') + ' shared with ' + nameOf(o) };
+      }).sort((a, b) => b.n - a.n);
+      const cnt = u && u.summary && u.summary.count;
+      const listed = u && u.types ? u.types.length : 0;
+      return {
+        name: f.name, href: f.href, hue: f.hue, mono: f.mono, prov: f.prov, logoStyle: f.logoStyle,
+        known: !!u, unknown: !u, status: u ? u.status : '',
+        parts, noParts: parts.length === 0, shares, noShares: shares.length === 0,
+        alone: !u || (!listed && !cnt) ? '–' : cnt ? '~' + cnt : String(alone[p.slug] || 0),
+      };
+    });
+
+    const sharedTypes = types.filter((x) => x.users.length >= 2);
+    const colSlugs = P.map((p) => p.slug).filter((s) => sharedTypes.some((x) => x.users.some((u) => u.project === s)));
+    const mxGrid = 'minmax(260px, 2fr) repeat(' + colSlugs.length + ', minmax(110px, 1fr))';
+    const mxMin = (300 + colSlugs.length * 120) + 'px';
+    const short = (x) => (x.indexOf(REG) === 0 ? x.slice(REG.length) : x);
+    const famOf = (x) => x.family || short(x.type).split(/[/:]/)[0] || 'other';
+    const byFam = {}; sharedTypes.forEach((x) => { (byFam[famOf(x)] = byFam[famOf(x)] || []).push(x); });
+    const famNames = Object.keys(byFam).sort((a, b) => byFam[b].length - byFam[a].length || a.localeCompare(b));
+    const open = this.state.open || {};
+    const allOpen = famNames.length > 0 && famNames.every((f) => open[f]);
+    const toggleAll = () => { const next = {}; if (!allOpen) famNames.forEach((f) => { next[f] = true; }); this.setState({ open: next }); };
+    const cols = colSlugs.map((s) => { const f = faceOf[s]; return { name: f.name, hue: f.hue, mono: f.mono, logoStyle: f.logoStyle }; });
+    const fams = famNames.map((fam) => {
+      const list = byFam[fam].slice().sort((a, b) => short(a.type).localeCompare(short(b.type)));
+      const isOpen = !!open[fam];
+      return {
+        family: fam, n: list.length, open: isOpen, car: isOpen ? 'open' : '', grid: mxGrid,
+        toggle: () => this.setState({ open: { ...open, [fam]: !isOpen } }),
+        cells: colSlugs.map((s) => {
+          const uses = list.map((x) => x.users.find((u) => u.project === s)).filter(Boolean);
+          if (!uses.length) return { has: false };
+          const via = uses.filter((u) => u.via).length;
+          const building = uses.some((u) => u.status === 'building');
+          return { has: true, label: String(uses.length), cls: via === uses.length ? 'm-via' : building ? 'm-building' : 'm-runs', title: nameOf(s) + ': ' + uses.length + ' of ' + list.length + (via ? ', ' + via + ' only through a mapping or wildcard' : '') };
+        }),
+        types: isOpen ? list.map((x) => ({
+          short: short(x.type), full: x.type, grid: mxGrid,
+          cells: colSlugs.map((s) => {
+            const u = x.users.find((q) => q.project === s);
+            if (!u) return { has: false };
+            return { has: true, label: u.via ? '≈' : '✓', cls: u.via ? 'm-via' : 'm-' + u.status, title: nameOf(s) + (u.via ? ' through ' + u.via : '') + ' · ' + u.status };
+          }),
+        })) : [],
+      };
+    });
+
+    return { ...base, head, registry: REG, rows, cols, fams, mxGrid, mxMin, allLabel: allOpen ? 'Close all' : 'Open all', toggleAll };
+  }
+}
+</script>
+
+
+</body></html>

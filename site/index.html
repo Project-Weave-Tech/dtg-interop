@@ -171,6 +171,18 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.ttcell{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.ttcell:hover .tchip{box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.tt-runs{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.tt-building{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.tt-committed{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.tt-none{color:var(--muted);border-color:var(--line)}
+#tt-sec{scroll-margin-top:96px}
+.ttg{margin-top:12px}
+.ttg-h{font-size:12px;font-weight:600;margin-bottom:5px;display:flex;gap:8px;align-items:baseline}
+.ttype{display:inline-flex;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;padding:1px 7px;border-radius:6px;background:var(--soft);color:var(--ink)}
+.ttype.shared{background:var(--green-b);color:var(--green-t);font-weight:500}
+.ttype.bld{border:1px dashed var(--muted)}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -193,6 +205,7 @@ body{margin:0;background:#F6F6F3}
 <a href="./" aria-current="page">Projects</a>
 <a href="pairs.html">Pairs</a>
 <a href="map.html">Map</a>
+<a href="trust-tasks.html">Trust Tasks</a>
 <a href="threads.html">Threads</a>
 </nav>
 </div>
@@ -221,6 +234,7 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{p.cells}}" as="c" hint-placeholder-count="12"><div class="cell">
 <sc-if value="{{c.unknown}}" hint-placeholder-val="{{ false }}"><span class="unk" title="not known; correct the row if you know">?</span></sc-if>
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
+<sc-if value="{{c.tt}}" hint-placeholder-val="{{ false }}"><button class="ttcell" type="button" title="{{c.ttTitle}}" sc-camel-on-click="{{c.openTT}}"><span class="pill tt-{{c.ttStatus}}">{{c.ttStatus}}</span><sc-for list="{{c.ttParts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></button></sc-if>
 <sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}">{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
 <sc-if value="{{c.activity}}" hint-placeholder-val="{{ false }}"><span class="act"><sc-if value="{{c.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{c.cold}}" hint-placeholder-val="{{ true }}"><span class="still" style="background: {{c.dot}}" aria-hidden="true"></span></sc-if>{{c.act}}</span></sc-if>
 <sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
@@ -271,6 +285,21 @@ body{margin:0;background:#F6F6F3}
 <dt>Needs</dt><dd>{{pp.required}}</dd>
 </dl>
 </div>
+<sc-if value="{{pp.tt.has}}" hint-placeholder-val="{{ false }}">
+<div class="sec" id="tt-sec">
+<h4>Trust Tasks</h4>
+<div class="chips" style="align-items: center; margin-bottom: 8px"><span class="pill tt-{{pp.tt.status}}">{{pp.tt.status}}</span><sc-for list="{{pp.tt.parts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></div>
+<p class="muted" style="margin: 0 0 10px; font-size: 12.5px">{{pp.tt.note}}</p>
+<ul class="dl"><sc-for list="{{pp.tt.namespaces}}" as="n" hint-placeholder-count="1"><li><span class="tchip {{n.hue}}">{{n.kindLabel}}</span> {{n.label}} <span class="mono muted">{{n.prefix}}</span></li></sc-for></ul>
+<sc-if value="{{pp.tt.hasMaps}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 4px; font-size: 12px">Mapped to the registry</p><ul class="dl"><sc-for list="{{pp.tt.maps}}" as="m" hint-placeholder-count="1"><li class="mono" style="font-size: 12px">{{m.from}} → {{m.to}}</li></sc-for></ul></sc-if>
+<sc-for list="{{pp.tt.groups}}" as="g" hint-placeholder-count="3"><div class="ttg"><div class="ttg-h">{{g.family}} <span class="muted mono">{{g.n}}</span></div><div class="chips"><sc-for list="{{g.items}}" as="x" hint-placeholder-count="4"><span class="ttype {{x.cls}}" title="{{x.title}}">{{x.label}}</span></sc-for></div></div></sc-for>
+<sc-if value="{{pp.tt.hasShared}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 12px 0 0; font-size: 12px"><span class="ttype shared">green</span> also used by another project on the board</p></sc-if>
+<sc-if value="{{pp.tt.hasMore}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 0; font-size: 12.5px">{{pp.tt.more}}</p></sc-if>
+<sc-if value="{{pp.tt.hasSource}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 0; font-size: 12px">{{pp.tt.sourceText}} <a href="{{pp.tt.sourceUrl}}" target="_blank" rel="noopener">Source</a></p></sc-if>
+<div class="chips" style="margin-top: 10px"><sc-for list="{{pp.tt.evidence}}" as="e" hint-placeholder-count="1"><a class="chip" href="{{e.url}}" target="_blank" rel="noopener">{{e.label}}</a></sc-for></div>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="trust-tasks.html">Who shares which types</a></p>
+</div>
+</sc-if>
 <div class="sec">
 <h4>Interop points</h4>
 <div class="ptl">
@@ -319,6 +348,11 @@ class Component extends DCLogic {
       .then((data) => this.setState({ data }))
       .catch((e) => this.setState({ err: String((e && e.message) || e) }));
   }
+  componentDidUpdate() {
+    if (!this.state.scrollTT) return;
+    const el = document.getElementById('tt-sec');
+    if (el) { el.scrollIntoView({ block: 'start' }); this.setState({ scrollTT: false }); }
+  }
   componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
   fmt(d) {
     if (!d) return '';
@@ -354,6 +388,12 @@ class Component extends DCLogic {
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const scls = (s) => (s === 'n/a' ? 'na' : s);
+    const ttParts = (u) => {
+      const s = u.summary || {}; const parts = [];
+      if (s.count || s.own) parts.push({ label: 'own · ' + (s.count ? '~' + s.count : s.own), hue: 'h-teal' });
+      if (s.registry) parts.push({ label: 'Registry · ' + s.registry, hue: 'h-blue' });
+      return parts;
+    };
     const isPub = (p) => !p.provenance || p.provenance.kind !== 'project';
 
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
@@ -406,6 +446,12 @@ class Component extends DCLogic {
         return { unknown: false, none: all.length === 0, items: all.slice(0, 3), more: all.length > 3, moreN: all.length - 3 };
       }
       if (k === 'activity') return activityOf(p);
+      if (k === 'trustTasks') {
+        const u = p.trustTaskUse;
+        if (!u) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
+        const parts = ttParts(u);
+        return { tt: true, items: [], more: false, moreN: 0, ttStatus: u.status, ttParts: parts, openTT: () => this.setState({ open: p.slug, scrollTT: true }), ttTitle: (u.note || u.status) + (parts.length ? ' · open the full list' : '') };
+      }
       const v = fv(p, k);
       if (v === null) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
       return {
@@ -463,12 +509,40 @@ class Component extends DCLogic {
       }));
       const inScn = scenarios.filter((s) => (s.participants || []).indexOf(p.slug) >= 0).map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated' }));
       pp = {
+        tt: (() => {
+          const tu = p.trustTaskUse;
+          if (!tu) return { has: false };
+          const REG = (d.trustTasks && d.trustTasks.registry) || 'https://trusttasks.org/spec/';
+          const info = {}; ((d.trustTasks && d.trustTasks.types) || []).forEach((x) => { info[x.type] = x; });
+          const prefixes = (tu.namespaces || []).map((n) => n.prefix).filter(Boolean).concat([REG]).sort((a, b) => b.length - a.length);
+          const shortT = (x) => { const pre = prefixes.find((q) => x.indexOf(q) === 0); return pre ? x.slice(pre.length) : x; };
+          const gm = {}; let shared = 0;
+          (tu.types || []).forEach((x) => {
+            const i = info[x.type]; const s = shortT(x.type);
+            const fam = (i && i.family) || s.split(/[/:]/)[0] || 'other';
+            const others = i ? i.users.filter((u) => u.project !== p.slug).map((u) => nameOf(u.project)) : [];
+            if (others.length) shared++;
+            (gm[fam] = gm[fam] || []).push({ label: s, cls: (others.length ? 'shared' : '') + (x.status === 'building' ? ' bld' : ''), title: x.type + (others.length ? ' · also used by ' + others.join(', ') : '') + (x.status && x.status !== 'runs' ? ' · ' + x.status : '') });
+          });
+          const groups = Object.keys(gm).sort((a, b) => gm[b].length - gm[a].length || a.localeCompare(b)).map((f) => ({ family: f, n: gm[f].length, items: gm[f] }));
+          const listed = (tu.types || []).length; const cnt = (tu.summary && tu.summary.count) || 0;
+          const src = tu.typesSource; const maps = tu.mapsTo || {};
+          return {
+            has: true, status: tu.status, parts: ttParts(tu), note: tu.note || '',
+            namespaces: (tu.namespaces || []).map((n) => ({ label: n.label, prefix: n.prefix || '', kindLabel: n.kind === 'registry' ? 'Registry' : 'own', hue: n.kind === 'registry' ? 'h-blue' : 'h-teal' })),
+            maps: Object.keys(maps).map((k) => ({ from: k, to: shortT(maps[k]) })), hasMaps: Object.keys(maps).length > 0,
+            groups, hasShared: shared > 0,
+            hasMore: cnt > listed, more: cnt > listed ? (listed ? listed + ' of about ' + cnt + ' types are public; the full list is not.' : 'About ' + cnt + ' types; the list is not public.') : '',
+            hasSource: !!src, sourceText: src ? 'List extracted ' + this.fmt(src.extracted) + ': ' + src.method + '.' : '', sourceUrl: src && src.sources ? src.sources[0] : '',
+            evidence: tu.evidence || [],
+          };
+        })(),
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
         prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
-        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['Trust Tasks used', (p.facets && p.facets.trustTasks) ? p.facets.trustTasks.join(', ') || 'none' : '']].filter((x) => x[1]).concat([['Credentials', st.credentials], ['Transport', st.transport], ['Trust Tasks', st.trustTasks], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
+        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Credentials', st.credentials], ['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
         scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
