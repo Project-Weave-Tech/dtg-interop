@@ -116,7 +116,6 @@ body{margin:0;background:#F6F6F3}
 .faces{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .f{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500}
 .f .av{width:22px;height:22px;border-radius:6px;font-size:9.5px}
-.f.der .av{outline:1.5px dashed var(--muted);outline-offset:2px}
 .sdot{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box}
 .sd-runs{background:var(--green-t)}
 .sd-vectors{background:var(--blue-t)}
@@ -179,7 +178,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says. A dashed face is a status derived from the Credentials, Messaging, Replication or Trust Tasks data.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
 <div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
 <div class="cols">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
@@ -190,7 +189,7 @@ body{margin:0;background:#F6F6F3}
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}<sc-if value="{{k.proposed}}" hint-placeholder-val="{{ false }}"> <span class="tag">proposed</span></sc-if></h3></button>
 <sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Shown: {{k.shown}}</span></sc-if>
 <div class="faces">
-<sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who {{f.der}}" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
+<sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guess"><span class="sdot sd-guess" aria-hidden="true"></span>{{k.guessText}}</span></sc-if>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="guess">nobody yet</span></sc-if>
 </div>
@@ -262,7 +261,7 @@ class Component extends DCLogic {
       face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     });
 
-    // A status the build derived from the detail data (points[].derivedFrom) is shown dashed, with where it came from
+    // A status the build derived from the detail data (points[].derivedFrom) counts like a stated one; the open card says where it came from
     const FROM = { credentials: 'Credentials', messaging: 'Messaging', replication: 'Replication', trustTaskUse: 'Trust Tasks' };
     const raw = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
     const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'potential' ? 'guess' : null);
@@ -279,11 +278,11 @@ class Component extends DCLogic {
         const c = lvl(raw(p, pt.id));
         if (!c) return;
         const e = p.points[pt.id]; const dv = e.derived;
-        const word = dv ? 'runs (derived from ' + (FROM[dv.from] || dv.from) + (dv.said ? '; the row said ' + dv.said : '') + ')' : raw(p, pt.id);
+        const word = dv ? 'runs, derived from ' + (FROM[dv.from] || dv.from) + (dv.said ? '; the row said ' + dv.said : '') : raw(p, pt.id);
         const note = e.note || '';
         said.push({ name: face[p.slug].name, href: face[p.slug].href, cls: c, status: word, note });
         if (c === 'guess') { guesses++; return; }
-        faces.push({ ...face[p.slug], cls: c, der: dv ? 'der' : '', title: face[p.slug].name + ': ' + word + (note ? ' · ' + note : '') });
+        faces.push({ ...face[p.slug], cls: c, title: face[p.slug].name + ': ' + word + (note ? ' · ' + note : '') });
       });
       faces.sort((a, b) => order[a.cls] - order[b.cls]);
       said.sort((a, b) => order[a.cls] - order[b.cls]);
