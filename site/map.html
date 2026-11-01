@@ -179,7 +179,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap">
 <section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, sorted by how close it is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Add a point</a></div>
 <div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
 <div class="cols">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
@@ -194,7 +194,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{k.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guess"><span class="sdot sd-guess" aria-hidden="true"></span>{{k.guessText}}</span></sc-if>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="guess">nobody yet</span></sc-if>
 </div>
-<sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="scn"><span class="muted">Scenario</span> <a href="pairs.html">{{s.title}}</a> <span class="wword">· {{s.status}}</span></span></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></sc-if></div></sc-if>
+<sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="scn"><span class="muted">Scenario</span> <a href="pairs.html">{{s.title}}</a> <span class="wword">· {{s.status}}</span></span></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Add a scenario</a></sc-if></div></sc-if>
 <sc-if value="{{k.selected}}" hint-placeholder-val="{{ false }}"><div class="kdet">
 <div><h4>The point</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p></div>
 <sc-if value="{{k.d.hasRequires}}" hint-placeholder-val="{{ true }}"><div><h4>Each side brings</h4><ul><sc-for list="{{k.d.requires}}" as="q" hint-placeholder-count="2"><li>{{q}}</li></sc-for></ul></div></sc-if>
