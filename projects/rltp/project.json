@@ -294,8 +294,16 @@
     },
     "offline-write": {
       "status": "runs",
-      "note": "A write is valid when issued, never because it arrived (Access §1.3); the simulators run with no network at all.",
+      "note": "In the app a write is valid when issued, never because it arrived (Access §1.3): an encounter is completed and the credential stored with no mediator reachable; delivery waits until a connection exists and the other side accepts the credential as of its issue time. The network simulator runs the same code with no network at all.",
       "evidence": [
+        {
+          "label": "Web of Trust app (web-of-trust.de, Play alpha 3.0.x)",
+          "url": "https://github.com/real-life-org/web-of-trust"
+        },
+        {
+          "label": "Access layer §1.3",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/access-layer.md"
+        },
         {
           "label": "Simulator: the app on three devices",
           "url": "https://trust-protocol.real-life.org/simulator/network.html"
