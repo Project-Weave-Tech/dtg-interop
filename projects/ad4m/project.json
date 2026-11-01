@@ -4,7 +4,7 @@
   "purpose": "One open layer for identity, data and a group's shared spaces, where every agent, human or AI, runs its own node.",
   "website": "https://ad4m.dev",
   "docs": "https://docs.ad4m.dev/",
-  "logo": "https://github.com/coasys.png?size=96",
+  "logo": "logo-ad4m.png",
   "licence": "CAL-1.0 (ad4m); flux without a stated licence",
   "repositories": [
     "https://github.com/coasys/ad4m",
