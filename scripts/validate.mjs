@@ -26,7 +26,6 @@ if (!profilesSchema(catalogue)) errors.push(`credential-profiles.json: ${ajv.err
 for (const [id, pr] of Object.entries(catalogue.profiles)) if (!catalogue.families[pr.family]) errors.push(`credential-profiles.json: profile "${id}" names unknown family "${pr.family}"`)
 for (const p of map.points) {
   if (!layerIds.has(p.layer)) errors.push(`points.json: point "${p.id}" names unknown layer "${p.layer}"`)
-  if (p.status === 'proposed' && !p.proposedBy) errors.push(`points.json: proposed point "${p.id}" without proposedBy`)
 }
 if (pointIds.size !== map.points.length) errors.push('points.json: duplicate point id')
 const folders = (dir) => readdirSync(join(root, dir), { withFileTypes: true }).filter((d) => d.isDirectory() && !d.name.startsWith('_')).map((d) => d.name)

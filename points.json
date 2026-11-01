@@ -1,5 +1,5 @@
 {
-  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point is its own account of how far it meets the requirements; whether the point was shown between two projects follows only from a passing scenario result. Points marked proposed were suggested by one project and become accepted when a maintainer merges the change; a candidate line is an open question about the point itself. Points with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than potential; the result is marked derived.",
+  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point is its own account of how far it meets the requirements; whether the point was shown between two projects follows only from a passing scenario result. Whoever adds a point decides that it belongs; its origin names where it comes from. A candidate line is an open question about the point itself. Points with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than potential; the result is marked derived.",
   "layers": [
     {
       "id": "identity",
@@ -74,8 +74,7 @@
       ],
       "done": "Each side verifies a signature the other side made under its DID, using keys from its own resolution of that DID.",
       "origin": "Weave deck, Level 0 question",
-      "weaveLevel": "0",
-      "status": "accepted"
+      "weaveLevel": "0"
     },
     {
       "id": "vrc-exchange",
@@ -105,8 +104,7 @@
         }
       },
       "origin": "Weave deck, Level 0a",
-      "weaveLevel": "0a",
-      "status": "accepted"
+      "weaveLevel": "0a"
     },
     {
       "id": "app-change",
@@ -119,8 +117,7 @@
       ],
       "done": "Credentials exported from one app are imported into another, verify there, and the person sees their contacts and memberships.",
       "origin": "Weave deck, Level 0b",
-      "weaveLevel": "0b",
-      "status": "accepted"
+      "weaveLevel": "0b"
     },
     {
       "id": "contact-ceremony",
@@ -132,8 +129,7 @@
         "Both apps: issue and verify the credential the ceremony ends with (vrc-exchange)"
       ],
       "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
-      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force",
-      "status": "accepted"
+      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force"
     },
     {
       "id": "same-carrier",
@@ -157,8 +153,7 @@
           ]
         }
       },
-      "origin": "tsp-conformance, VTI",
-      "status": "accepted"
+      "origin": "tsp-conformance, VTI"
     },
     {
       "id": "cross-carrier",
@@ -170,9 +165,7 @@
         "The carriers: forward to one another, or one app reaches both"
       ],
       "done": "A sealed message from one app at one carrier arrives at the other app at another carrier and opens, in both directions.",
-      "origin": "rltp (VTI gap)",
-      "status": "proposed",
-      "proposedBy": "rltp"
+      "origin": "rltp (VTI gap)"
     },
     {
       "id": "document-framework",
@@ -192,8 +185,7 @@
           ]
         }
       },
-      "origin": "DTGWG Trust Tasks framework",
-      "status": "accepted"
+      "origin": "DTGWG Trust Tasks framework"
     },
     {
       "id": "error-answers",
@@ -205,8 +197,7 @@
         "Sending side: reads trust-task-error and shows it or acts on it"
       ],
       "done": "One app sends a document the other cannot process; the answer is a trust-task-error the sender reads, and the sender's state afterwards matches the error.",
-      "origin": "Trust Tasks framework, trust-task-error",
-      "status": "accepted"
+      "origin": "Trust Tasks framework, trust-task-error"
     },
     {
       "id": "direct-message",
@@ -219,8 +210,7 @@
         "Both apps: a path between them (same-carrier or cross-carrier)"
       ],
       "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it.",
-      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp",
-      "status": "accepted"
+      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp"
     },
     {
       "id": "membership-statement",
@@ -233,8 +223,7 @@
       ],
       "done": "A membership statement issued in one app verifies in another, naming the person and the community.",
       "origin": "Weave deck, Level 1a",
-      "weaveLevel": "1a",
-      "status": "accepted"
+      "weaveLevel": "1a"
     },
     {
       "id": "multi-app-access",
@@ -247,8 +236,7 @@
       ],
       "done": "One membership statement from one community opens two different apps for the same person.",
       "origin": "Weave deck, Level 1b",
-      "weaveLevel": "1b",
-      "status": "accepted"
+      "weaveLevel": "1b"
     },
     {
       "id": "subgroups",
@@ -261,8 +249,7 @@
       ],
       "done": "Another app verifies a credential issued by a sub-group and that the parent group backs that sub-group.",
       "origin": "Weave deck, Level 1c",
-      "weaveLevel": "1c",
-      "status": "accepted"
+      "weaveLevel": "1c"
     },
     {
       "id": "shared-room",
@@ -283,8 +270,7 @@
         }
       },
       "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps); key agreement at the boundary from rltp (E13)",
-      "weaveLevel": "2a",
-      "status": "accepted"
+      "weaveLevel": "2a"
     },
     {
       "id": "newcomer-history",
@@ -296,9 +282,7 @@
         "Host side: keeps earlier epochs or keys for newcomers, as far as the group allows"
       ],
       "done": "A member admitted later from the other app reads what the group wrote before the admission, within what the group allows, and nothing beyond.",
-      "origin": "rltp (KV4), OpenVTC epoch chain",
-      "status": "proposed",
-      "proposedBy": "rltp"
+      "origin": "rltp (KV4), OpenVTC epoch chain"
     },
     {
       "id": "offline-write",
@@ -311,8 +295,7 @@
       ],
       "done": "A write made in one app with no host reachable is delivered later and accepted by the other app as of its issue time.",
       "origin": "Weave deck, Level 0 question: is web access necessary and sufficient",
-      "weaveLevel": "0",
-      "status": "accepted"
+      "weaveLevel": "0"
     },
     {
       "id": "captured-device",
@@ -324,9 +307,7 @@
         "Removing side: removes a device from the group and rotates the group key"
       ],
       "done": "After one app removes a device, content written afterwards in either app does not open on that device.",
-      "origin": "rltp test bench (PCS)",
-      "status": "proposed",
-      "proposedBy": "rltp"
+      "origin": "rltp test bench (PCS)"
     },
     {
       "id": "multi-device",
@@ -338,9 +319,7 @@
         "Counterpart app: a relationship with the person, not with one device"
       ],
       "done": "The counterpart app treats a person's second device as the same relationship, and a restored device continues it without a new ceremony.",
-      "origin": "rltp (E15), Consensual persona",
-      "status": "proposed",
-      "proposedBy": "rltp"
+      "origin": "rltp (E15), Consensual persona"
     },
     {
       "id": "registry-lookup",
@@ -353,8 +332,7 @@
       ],
       "done": "One community accepts a statement from another it does not know because a registry both read recognises it.",
       "origin": "Weave deck, Level 3a",
-      "weaveLevel": "3a",
-      "status": "accepted"
+      "weaveLevel": "3a"
     },
     {
       "id": "trust-network",
@@ -367,8 +345,7 @@
       ],
       "done": "A community accepts a membership statement of a community it has no direct relation with, through one it has.",
       "origin": "Weave deck, Level 3b",
-      "weaveLevel": "3b",
-      "status": "accepted"
+      "weaveLevel": "3b"
     },
     {
       "id": "traditional-tools",
@@ -380,8 +357,7 @@
         "Tool side: a conventional tool that grants access on that answer"
       ],
       "done": "A conventional tool grants access to a group governed in the trust substrate, asking only who belongs.",
-      "origin": "Weave one-pager (how decentralized tools interoperate with traditional ones)",
-      "status": "accepted"
+      "origin": "Weave one-pager (how decentralized tools interoperate with traditional ones)"
     },
     {
       "id": "wire-conformance",
@@ -392,8 +368,7 @@
         "The implementation: a driver for the tsp-conformance protocol"
       ],
       "done": "The driver passes the shared conformance suite in a published run.",
-      "origin": "OpenVTC tsp-conformance",
-      "status": "accepted"
+      "origin": "OpenVTC tsp-conformance"
     },
     {
       "id": "document-conformance",
@@ -405,8 +380,7 @@
         "A shared runner that re-derives them"
       ],
       "done": "The shared runner re-derives another implementation's vectors byte-exact and finds the negatives.",
-      "origin": "Trust Tasks task force; Weave one-pager (online test and compliance harness)",
-      "status": "accepted"
+      "origin": "Trust Tasks task force; Weave one-pager (online test and compliance harness)"
     }
   ],
   "statusWords": {

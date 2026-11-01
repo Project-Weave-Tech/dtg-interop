@@ -87,7 +87,7 @@ Without write access (new to the board, or no access to the repository yet): for
 }
 ```
 
-Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"`, `proposedBy`, `requires` and `done`, in its own commit. A point without a `done` a scenario could test does not belong on the map.
+Only ids from `points.json`. A missing point is added to `points.json` with `origin`, `requires` and `done`, in its own commit; whoever adds it decides that it belongs. A point without a `done` a scenario could test does not belong on the map.
 
 **2. Record a run between two projects.** In `scenarios/<slug>/scenario.json`, append to `results`:
 
