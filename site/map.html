@@ -289,7 +289,7 @@ class Component extends DCLogic {
       const col = running >= 2 ? 'ready' : running === 1 ? 'one' : paper ? 'paper' : 'open';
       const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
       const selected = sel === pt.id; const copied = this.state.copied === pt.id;
-      const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate and open a pull request.';
+      const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate, then git pull --rebase, and commit and push to main as "<our-project-slug>: <what changed>" (open a pull request instead if you have no write access).';
       return {
         id: pt.id, layerId: pt.layer, col, layer: layerTitle[pt.layer], title: pt.title, proposed: pt.status === 'proposed',
         faces, hasGuess: guesses > 0, guessText: guesses + (guesses === 1 ? ' guess' : ' guesses'), nobody: !faces.length && !guesses,
