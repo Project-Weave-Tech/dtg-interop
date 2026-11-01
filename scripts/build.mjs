@@ -25,7 +25,8 @@ const threads = read('threads.json').map((t) => ({ ...t, host: new URL(t.url).ho
 const snapshotFile = join(root, 'site/github-snapshot.json')
 const snapshot = existsSync(snapshotFile) ? read('site/github-snapshot.json') : { issues: [], repos: {} }
 let issues = snapshot.issues, repos = { ...snapshot.repos }, githubFetched = false
-let issuesOk = false, reposOk = false
+let issuesOk = false, reposOk = false, fetchedRepos = 0, failedRepos = 0
+const goodRepos = Object.fromEntries(Object.entries(snapshot.repos).filter(([, r]) => !r.error))
 try {
   issues = (await gh(`/repos/${owner}/${repo}/issues?state=all&per_page=100`)).filter((i) => !i.pull_request).map((i) => ({
     id: `issue-${i.number}`, number: i.number, title: i.title, url: i.html_url, host: `github.com/${owner}`, state: i.state === 'closed' ? 'decided' : 'open',
@@ -37,12 +38,23 @@ try {
   for (const p of projects) for (const url of p.repositories ?? []) {
     const m = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/#?]+)/)
     if (!m) continue
-    try { const r = await gh(`/repos/${m[1]}/${m[2]}`); repos[url] = { name: r.full_name, licence: r.license?.spdx_id ?? null, pushedAt: r.pushed_at?.slice(0, 10) ?? null } } catch (e) { repos[url] = { error: e.message } }
+    try {
+      const r = await gh(`/repos/${m[1]}/${m[2]}`)
+      repos[url] = goodRepos[url] = { name: r.full_name, licence: r.license?.spdx_id ?? null, pushedAt: r.pushed_at?.slice(0, 10) ?? null }
+      fetchedRepos++
+    } catch (e) {
+      // keep the last good entry, marked stale; an error never replaces it
+      const last = snapshot.repos[url]
+      repos[url] = last && !last.error ? { ...last, stale: true } : { error: e.message }
+      failedRepos++
+    }
   }
-  reposOk = true
+  reposOk = failedRepos === 0
 } catch (e) { console.warn(`repositories not fetched (${e.message}); using the snapshot`) }
+if (failedRepos) console.warn(`${failedRepos} repositor${failedRepos === 1 ? 'y' : 'ies'} not fetched; their last snapshot entries are kept as stale`)
 githubFetched = issuesOk && reposOk
-if (issuesOk || reposOk) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues, repos }, null, 2) + '\n')
+// the snapshot only ever takes successful fetches
+if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
 
 const pairs = {}
 for (const s of scenarios) for (const r of s.results ?? []) {
