@@ -480,7 +480,7 @@ class Component extends DCLogic {
       trustTasks: [[/^trust-task-/, 'h-blue'], [/^rltp:/, 'h-teal'], [/\//, 'h-violet']],
       groupAuthority: [[/./, 'h-olive']],
       groupKeys: [[/^MLS/, 'h-pink'], [/^BeeKEM/, 'h-amber']],
-      licence: [[/^(MIT|Apache)/, 'h-blue'], [/^(GPL|AGPL|LGPL|CAL)/, 'h-violet'], [/^CC-/, 'h-teal']],
+      licence: [[/^(MIT|Apache)/, 'h-blue'], [/^(GPL|AGPL|LGPL|CAL|MPL)/, 'h-violet'], [/^CC-/, 'h-teal'], [/^ALPS/, 'h-rust']],
       language: [[/^TypeScript/, 'h-blue'], [/^JavaScript/, 'h-amber'], [/^Rust/, 'h-rust'], [/^Go$/, 'h-sky'], [/Scheme/, 'h-violet']],
     };
     const hueFor = (k, v) => { const r = (FAMILY[k] || []).find((x) => x[0].test(v)); return r ? r[1] : (k === 'didMethods' ? 'h-amber' : k === 'messaging' ? 'h-rust' : 'h-slate'); };
@@ -500,8 +500,13 @@ class Component extends DCLogic {
       });
       return out;
     };
-    const LIC = [[/Apache[- ]2\.0/i, 'Apache-2.0'], [/\bMIT\b/, 'MIT'], [/AGPL-3\.0/i, 'AGPL-3.0'], [/(?<!A)GPL-3\.0(-only)?/i, 'GPL-3.0-only'], [/CC[- ]BY[- ]SA[- ]4\.0/i, 'CC-BY-SA-4.0'], [/CC[- ]BY[- ]4\.0/i, 'CC-BY-4.0'], [/CAL-1\.0/i, 'CAL-1.0'], [/UNLICENSED/, 'UNLICENSED'], [/commercial/i, 'commercial']];
-    const licVals = (p) => (typeof p.licence === 'string' && p.licence ? LIC.filter((x) => x[0].test(p.licence)).map((x) => x[1]) : null);
+    const LIC = [[/Apache[- ]2\.0/i, 'Apache-2.0'], [/\bMIT\b/, 'MIT'], [/AGPL-3\.0/i, 'AGPL-3.0'], [/(?<!A)GPL-3\.0(-only)?/i, 'GPL-3.0-only'], [/CC[- ]BY[- ]SA[- ]4\.0/i, 'CC-BY-SA-4.0'], [/CC[- ]BY[- ]4\.0/i, 'CC-BY-4.0'], [/CAL-1\.0/i, 'CAL-1.0'], [/\bALPS\b/, 'ALPS'], [/MPL[- ]2\.0/i, 'MPL-2.0'], [/UNLICENSED/, 'UNLICENSED'], [/commercial/i, 'commercial']];
+    // Codes in parentheses explain a licence ("ALPS 0.4.0 (… MPL 2.0 plus purpose terms)") and do not name another one
+    const licVals = (p) => {
+      if (typeof p.licence !== 'string' || !p.licence) return null;
+      const t = p.licence.replace(/\([^)]*\)/g, ' ');
+      return LIC.map((x) => { const m = x[0].exec(t); return m ? { i: m.index, v: x[1] } : null; }).filter(Boolean).sort((a, b) => a.i - b.i).map((x) => x.v);
+    };
     const fVal = (x) => (x && typeof x === 'object' ? x.value : x);
     const LANES = ['messaging', 'replication'];
     const laneVals = (p, k) => {
@@ -705,7 +710,7 @@ class Component extends DCLogic {
         agentCls: this.state.agentCopied === p.slug ? 'on' : '',
         hasAgentText: !!(this.state.agentText && this.state.agentText.slug === p.slug), agentText: this.state.agentText && this.state.agentText.slug === p.slug ? this.state.agentText.text : '',
         copyAgent: () => {
-          const task = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. Update projects/' + p.slug + '/project.json to match our project as of today, confirm it (provenance.kind: project), run npm run validate, commit only that file as "' + p.slug + ': <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
+          const task = 'In ' + repo.replace(/^https?:\/\//, '') + ', follow AGENTS.md. Update projects/' + p.slug + '/project.json to match our project as of today, confirm it (provenance.kind: project), run npm run validate, commit only that file as "' + p.slug + ': <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
           this.copyText(task).then((ok) => { if (ok) { this.setState({ agentCopied: p.slug, agentText: null }); setTimeout(() => this.setState({ agentCopied: null }), 4000); } else this.setState({ agentText: { slug: p.slug, text: task } }); });
         },
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,

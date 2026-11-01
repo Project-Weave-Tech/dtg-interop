@@ -296,7 +296,7 @@ class Component extends DCLogic {
       const reportedPairs = shownKeys.filter((k) => d.shown[k][pt.id].every((r) => r.reported)).map(pairName);
       const sayers = P.filter((p) => raw(p, pt.id)).length;
       const selected = sel === pt.id; const copied = this.state.copied === pt.id;
-      const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate, commit only that file as "<our-project-slug>: <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
+      const prompt = 'In ' + repo.replace(/^https?:\/\//, '') + ', follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate, commit only that file as "<our-project-slug>: <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
       return {
         id: pt.id, layerId: pt.layer, col, layer: layerTitle[pt.layer], title: pt.title,
         faces, nobody: !faces.length,
