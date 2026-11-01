@@ -105,6 +105,10 @@ body{margin:0;background:#F6F6F3}
 .c-one .colh{border-color:var(--blue-t)}
 .c-paper .colh{border-color:var(--violet-t)}
 .c-open .colh{border-color:var(--line)}
+.card.thin{background:transparent;border-style:dashed}
+.card.thin h3{font-weight:500;color:var(--muted)}
+.shownb{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green-t);background:var(--green-b);border-radius:999px;padding:2px 10px}
+.candq{margin:0;font-size:12px;color:var(--amber-t);background:var(--amber-b);border-radius:6px;padding:6px 9px}
 .card{border:1px solid var(--line);border-radius:11px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
 .c-ready .card{border-color:color-mix(in srgb,var(--green-t) 45%,var(--line))}
 .card .rl{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -182,8 +186,9 @@ body{margin:0;background:#F6F6F3}
 <div class="col {{c.cls}}">
 <div class="colh"><strong>{{c.title}} <span class="cnum">{{c.n}}</span></strong><span>{{c.sub}}</span></div>
 <sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
-<article class="card {{k.selCls}}">
+<article class="card {{k.selCls}} {{k.thin}}">
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}<sc-if value="{{k.proposed}}" hint-placeholder-val="{{ false }}"> <span class="tag">proposed</span></sc-if></h3></button>
+<sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Shown: {{k.shown}}</span></sc-if>
 <div class="faces">
 <sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who {{f.der}}" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guess"><span class="sdot sd-guess" aria-hidden="true"></span>{{k.guessText}}</span></sc-if>
@@ -191,7 +196,11 @@ body{margin:0;background:#F6F6F3}
 </div>
 <sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="pill st-{{s.status}}">{{s.status}}</span><a href="pairs.html">{{s.title}}</a></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></sc-if></div></sc-if>
 <sc-if value="{{k.selected}}" hint-placeholder-val="{{ false }}"><div class="kdet">
-<div><h4>The point</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p><p class="muted" style="margin: 4px 0 0; font-size: 11.5px">Origin: {{k.d.origin}}</p></div>
+<div><h4>The point</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p></div>
+<sc-if value="{{k.d.hasRequires}}" hint-placeholder-val="{{ true }}"><div><h4>Each side brings</h4><ul><sc-for list="{{k.d.requires}}" as="q" hint-placeholder-count="2"><li>{{q}}</li></sc-for></ul></div></sc-if>
+<sc-if value="{{k.d.hasDone}}" hint-placeholder-val="{{ true }}"><div><h4>Done when</h4><p style="margin: 0; font-size: 12.5px">{{k.d.done}}</p></div></sc-if>
+<sc-if value="{{k.d.hasCandidate}}" hint-placeholder-val="{{ false }}"><p class="candq"><strong>Open question about this point.</strong> {{k.d.candidate}}</p></sc-if>
+<p class="muted" style="margin: 0; font-size: 11.5px">Origin: {{k.d.origin}}</p>
 <div><h4>What each project says</h4><ul><sc-for list="{{k.d.projects}}" as="x" hint-placeholder-count="2"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul><sc-if value="{{k.d.noProjects}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12px">No project has said anything here yet.</p></sc-if></div>
 <sc-if value="{{k.d.hasThreads}}" hint-placeholder-val="{{ false }}"><div><h4>Threads</h4><ul><sc-for list="{{k.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for></ul></div></sc-if>
 <button class="agent {{k.d.copiedCls}}" type="button" title="Copies a task for your coding agent to set your project's status at this point" sc-camel-on-click="{{k.d.copy}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>{{k.d.copyLabel}}</button>
@@ -288,6 +297,8 @@ class Component extends DCLogic {
       const paper = faces.filter((f) => f.cls === 'paper').length;
       const col = running >= 2 ? 'ready' : running === 1 ? 'one' : paper ? 'paper' : 'open';
       const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
+      const shownPairs = Object.keys(d.shown || {}).filter((k) => (d.shown[k] || {})[pt.id]).map((k) => k.split('|').map((s) => (face[s] ? face[s].name : s)).join(' × '));
+      const sayers = P.filter((p) => raw(p, pt.id)).length;
       const selected = sel === pt.id; const copied = this.state.copied === pt.id;
       const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate, commit only that file as "<our-project-slug>: <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
       return {
@@ -295,9 +306,12 @@ class Component extends DCLogic {
         faces, hasGuess: guesses > 0, guessText: guesses + (guesses === 1 ? ' guess' : ' guesses'), nobody: !faces.length && !guesses,
         scenarios: sc.map((s) => ({ title: s.title, status: s.status })), propose: !sc.length && (col === 'ready' || col === 'one'), hasFoot: sc.length > 0 || col === 'ready' || col === 'one',
         weight: running * 10 + paper,
+        shown: shownPairs.join(', '), hasShown: shownPairs.length > 0, thin: sayers <= 1 ? 'thin' : '',
         selected, selCls: selected ? 'sel' : '', pick: () => this.setState({ point: selected ? null : pt.id }),
         d: !selected ? { projects: [], threads: [] } : {
           asks: pt.asks, origin: pt.origin, projects: said, noProjects: said.length === 0,
+          requires: pt.requires || [], hasRequires: (pt.requires || []).length > 0, done: pt.done || '', hasDone: !!pt.done,
+          candidate: typeof pt.candidate === 'string' ? pt.candidate : '', hasCandidate: typeof pt.candidate === 'string' && !!pt.candidate,
           threads: th.map((t) => ({ title: t.title, url: t.url, state: t.state })), hasThreads: th.length > 0,
           copyLabel: copied ? 'Copied: paste it into your agent' : 'Update with your agent', copiedCls: copied ? 'done' : '',
           copy: () => { this.copyText(prompt).then((ok) => { if (ok) { this.setState({ copied: pt.id, failed: null }); setTimeout(() => this.setState({ copied: null }), 4000); } else this.setState({ failed: pt.id }); }); },
