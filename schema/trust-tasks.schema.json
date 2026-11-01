@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/real-life-org/dtg-interop/schema/trust-tasks.schema.json",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/trust-tasks.schema.json",
   "title": "Trust Task types a project uses, extracted from its source",
   "type": "object",
   "additionalProperties": false,

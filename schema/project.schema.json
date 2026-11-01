@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/real-life-org/dtg-interop/schema/project.schema.json",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/project.schema.json",
   "title": "DTG interop project row",
   "type": "object",
   "additionalProperties": false,

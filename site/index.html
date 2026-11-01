@@ -327,6 +327,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{e.hasNote}}" hint-placeholder-val="{{ true }}"><p class="muted" style="margin: 8px 0 0; font-size: 12.5px">{{e.note}}</p></sc-if>
 <div class="chips" style="margin-top: 8px"><sc-for list="{{e.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div>
 </div></sc-for>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="credentials.html">Compare credentials</a></p>
 </div>
 </sc-if>
 <sc-if value="{{pp.lanes.has}}" hint-placeholder-val="{{ false }}">
@@ -355,7 +356,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{pp.tt.hasMore}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 0; font-size: 12.5px">{{pp.tt.more}}</p></sc-if>
 <sc-if value="{{pp.tt.hasSource}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 0; font-size: 12px">{{pp.tt.sourceText}} <a href="{{pp.tt.sourceUrl}}" target="_blank" rel="noopener">Source</a></p></sc-if>
 <div class="chips" style="margin-top: 10px"><sc-for list="{{pp.tt.evidence}}" as="e" hint-placeholder-count="1"><a class="chip" href="{{e.url}}" target="_blank" rel="noopener">{{e.label}}</a></sc-for></div>
-<p style="margin: 12px 0 0; font-size: 12.5px"><a href="trust-tasks.html">Who shares which types</a></p>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="trust-tasks.html">Who shares which Trust Tasks</a></p>
 </div>
 </sc-if>
 <div class="sec">

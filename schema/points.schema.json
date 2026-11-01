@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/real-life-org/dtg-interop/schema/points.schema.json",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/points.schema.json",
   "title": "DTG interop map",
   "type": "object",
   "additionalProperties": false,

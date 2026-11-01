@@ -10,7 +10,7 @@ import { join } from 'node:path'
 const root = new URL('../', import.meta.url).pathname
 const read = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'))
 const folders = (dir) => readdirSync(join(root, dir), { withFileTypes: true }).filter((d) => d.isDirectory() && !d.name.startsWith('_')).map((d) => d.name).sort()
-const repoUrl = process.env.REPO_URL ?? 'https://github.com/real-life-org/dtg-interop'
+const repoUrl = process.env.REPO_URL ?? 'https://github.com/Project-Weave-Tech/dtg-interop'
 const [owner, repo] = new URL(repoUrl).pathname.slice(1).split('/')
 const token = process.env.GITHUB_TOKEN
 const headers = { accept: 'application/vnd.github+json', 'user-agent': 'dtg-interop-build', ...(token ? { authorization: `Bearer ${token}` } : {}) }
