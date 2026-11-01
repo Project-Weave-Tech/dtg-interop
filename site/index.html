@@ -270,6 +270,7 @@ body{margin:0;background:#F6F6F3}
 <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
 <div style="display: flex; align-items: center; gap: 12px"><span class="av {{pp.hue}} {{pp.avCls}}" aria-hidden="true" style="{{pp.logoStyle}}">{{pp.mono}}</span><h3>{{pp.name}}</h3></div>
 <span class="prov {{pp.provCls}}">{{pp.prov}}</span>
+<sc-if value="{{pp.hasPurpose}}" hint-placeholder-val="{{ false }}"><p style="margin: 2px 0 0; font-size: 14px; line-height: 1.45; color: var(--ink)">{{pp.purpose}}</p></sc-if>
 </div>
 <button class="x" aria-label="Close" sc-camel-on-click="{{close}}"><svg width="16" height="16" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
 </div>
@@ -623,6 +624,7 @@ class Component extends DCLogic {
             }),
           };
         })(),
+        purpose: p.purpose || '', hasPurpose: !!p.purpose,
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
         prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
