@@ -192,7 +192,7 @@
   "points": {
     "vrc-exchange": {
       "status": "runs",
-      "note": "The app issues a DTG RelationshipCredential (eddsa-jcs-2022) at every encounter and verifies the other side's; a reader for foreign plain DTG VRCs under did:key and did:peer:2 runs with negatives. Issuers under did:webvh are not resolved yet. No run against another implementation's issuer so far.",
+      "note": "The app issues a DTG RelationshipCredential (eddsa-jcs-2022) at every encounter and verifies the other side's; a reader for foreign plain DTG VRCs under did:key and did:peer:2 runs with negatives. Issuers under did:webvh are not resolved yet.",
       "evidence": [
         {
           "label": "Web of Trust app",
@@ -266,7 +266,7 @@
     },
     "subgroups": {
       "status": "spec",
-      "note": "A sub-group is a group with its own log and policy; no special mechanism. Not exercised across apps."
+      "note": "A sub-group is a group with its own log and policy; no special mechanism."
     },
     "shared-room": {
       "status": "spec",
@@ -362,11 +362,11 @@
     },
     "newcomer-history": {
       "status": "spec",
-      "note": "History through the key chain; the retained set decides what a newcomer may open (Membership Tasks §1.3). Exercised in the test bench, not across apps."
+      "note": "History through the key chain; the retained set decides what a newcomer may open (Membership Tasks §1.3). Runs in the test bench, not in the app."
     },
     "captured-device": {
       "status": "spec",
-      "note": "Test bench K4: PCS after a captured device and concurrent removals run in the experiment code, not in the app, and there are no byte-exact vectors; not exercised across apps.",
+      "note": "Test bench K4: PCS after a captured device and concurrent removals run in the experiment code, not in the app, and there are no byte-exact vectors;",
       "evidence": [
         {
           "label": "rltp-beekem notes",
