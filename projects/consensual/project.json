@@ -161,6 +161,22 @@
     "multi-device": {
       "status": "potential",
       "note": "Device set with persona card."
+    },
+    "offline-write": {
+      "status": "potential",
+      "note": "did:peer:2 and MLS rooms work without a host; writes settle when peers meet."
+    },
+    "captured-device": {
+      "status": "potential",
+      "note": "MLS rooms with one leaf per device; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property."
+    },
+    "newcomer-history": {
+      "status": "potential",
+      "note": "MLS rooms; what a newcomer may read is not documented."
+    },
+    "error-answers": {
+      "status": "potential",
+      "note": "Trust Task documents on plain TSP agreed as the shared layer; trust-task-error not mentioned."
     }
   },
   "provenance": {

@@ -81,6 +81,10 @@
     "shared-room": {
       "status": "potential",
       "note": "Neighbourhoods are shared graphs synced by a link language."
+    },
+    "offline-write": {
+      "status": "potential",
+      "note": "Holochain source chains are written locally and gossiped later; the DHT is the host-less case by design."
     }
   },
   "provenance": {

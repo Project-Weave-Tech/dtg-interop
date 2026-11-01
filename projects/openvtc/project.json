@@ -262,6 +262,18 @@
           "url": "https://github.com/OpenVTC/tsp-conformance"
         }
       ]
+    },
+    "captured-device": {
+      "status": "potential",
+      "note": "Data Rooms on MLS; removing a member rotates the epoch (MLS PCS). Not stated as a cross-app property."
+    },
+    "error-answers": {
+      "status": "potential",
+      "note": "trust-task-error is a type of the Trust Tasks framework; the VTA answers with it."
+    },
+    "ceremony-definitions": {
+      "status": "potential",
+      "note": "Trust Ceremonies task force is hosted in the same working group; whether the stack runs ceremonies from definition files is not documented."
     }
   },
   "provenance": {

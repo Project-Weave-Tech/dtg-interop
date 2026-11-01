@@ -93,6 +93,10 @@
     "traditional-tools": {
       "status": "potential",
       "note": "ValueFlows as a shared content vocabulary for offers and needs."
+    },
+    "offline-write": {
+      "status": "potential",
+      "note": "Reticulum over LoRa and packet radio; KERI key event logs are appended locally."
     }
   },
   "provenance": {

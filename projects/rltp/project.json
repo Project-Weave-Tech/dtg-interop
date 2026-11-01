@@ -265,8 +265,8 @@
       "note": "A sub-group is a group with its own log and policy; no special mechanism. Not exercised across apps."
     },
     "shared-room": {
-      "status": "runs",
-      "note": "Spike: a browser tab without a trust agent joins an OpenVTC Data Room, reads records and writes one that pnm reads back. Our replication contract treats a data room as a key-blind carrier. Run protocol to be published. Key agreement at the boundary: MLS (OpenMLS 0.9.1, 0x0001) shown through the same port as BeeKEM in experiment E13.",
+      "status": "open",
+      "note": "Spike: a browser tab joined an OpenVTC Data Room, read records and wrote one that pnm read back, but with OpenVTC's own WASM client, not a client of ours. Our replication contract treats a data room as a key-blind carrier; key agreement at the boundary is MLS (OpenMLS 0.9.1, 0x0001) through the same port as BeeKEM in experiment E13. No RLTP client joins yet.",
       "evidence": [
         {
           "label": "Replication Contract 0.26",
@@ -283,8 +283,8 @@
       "note": "See 3a."
     },
     "did-resolution": {
-      "status": "runs",
-      "note": "did:key only, resolved locally without a network; one anchor per relationship.",
+      "status": "open",
+      "note": "did:key and did:peer:2 resolve locally without a network; did:webvh (OpenVTC, Keyring) and did:scid (Trust Stackers) are not resolved, so the requirement is not met toward those counterparts.",
       "evidence": [
         {
           "label": "identity-derivation.json",
@@ -359,8 +359,8 @@
       "note": "History through the key chain; the retained set decides what a newcomer may open (Membership Tasks §1.3). Exercised in the test bench, not across apps."
     },
     "captured-device": {
-      "status": "vectors",
-      "note": "Test bench K4: PCS after a captured device, concurrent removals; not exercised across apps.",
+      "status": "spec",
+      "note": "Test bench K4: PCS after a captured device and concurrent removals run in the experiment code, not in the app, and there are no byte-exact vectors; not exercised across apps.",
       "evidence": [
         {
           "label": "rltp-beekem notes",
@@ -369,8 +369,8 @@
       ]
     },
     "multi-device": {
-      "status": "vectors",
-      "note": "Experiment E15: keys per device, allocation by the person, 20 scenarios; core merged, restore lifecycle open.",
+      "status": "spec",
+      "note": "Experiment E15: keys per device, allocation by the person, 20 scenarios in the experiment code; core merged, restore lifecycle open; no vectors and not in the app.",
       "evidence": [
         {
           "label": "mehrgeraet-k2 notes",

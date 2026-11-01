@@ -143,6 +143,18 @@
     "multi-device": {
       "status": "potential",
       "note": "FROST across devices."
+    },
+    "offline-write": {
+      "status": "potential",
+      "note": "Hives are signed hash chains over iroh and mDNS; the project states offline operation."
+    },
+    "captured-device": {
+      "status": "potential",
+      "note": "FROST shares across devices; removing a device means a new threshold set, not documented as a cross-app property."
+    },
+    "error-answers": {
+      "status": "potential",
+      "note": "Own task library; no error type documented."
     }
   },
   "provenance": {

@@ -182,6 +182,14 @@
     "document-conformance": {
       "status": "potential",
       "note": "Conformance roadmap in the Trust Tasks TF discussions 905 and 914."
+    },
+    "error-answers": {
+      "status": "potential",
+      "note": "@openvtc/trust-tasks includes trust-task-error; whether the wallet shows it is not documented."
+    },
+    "multi-device": {
+      "status": "potential",
+      "note": "One wallet per device; did:webvh personas via a VTA could tie devices together, not documented as such."
     }
   },
   "provenance": {

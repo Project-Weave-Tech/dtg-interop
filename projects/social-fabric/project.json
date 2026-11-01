@@ -70,6 +70,10 @@
     "traditional-tools": {
       "status": "potential",
       "note": "Recipe manifests unlocked by badges."
+    },
+    "offline-write": {
+      "status": "potential",
+      "note": "Mesh transports and sneaker-net; Lodge nodes replicate bundles when they meet."
     }
   },
   "provenance": {
