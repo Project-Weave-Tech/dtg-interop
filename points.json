@@ -128,23 +128,11 @@
       "title": "Contact ceremony between apps",
       "asks": "Two people on different apps connect through one QR-code ceremony and both end with a credential the other app reads.",
       "requires": [
-        "Both apps: the same ceremony, one as the displaying side and one as the scanning side",
+        "Both apps: the same ceremony, run from one definition in the DTGWG ceremony format, one app as the displaying side and one as the scanning side",
         "Both apps: issue and verify the credential the ceremony ends with (vrc-exchange)"
       ],
       "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
-      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp",
-      "status": "accepted"
-    },
-    {
-      "id": "ceremony-definitions",
-      "layer": "ceremony",
-      "title": "Shared ceremony definitions",
-      "asks": "Ceremonies are defined once in the DTGWG format and implemented by several apps.",
-      "requires": [
-        "Each app: runs a ceremony from a definition file in the DTGWG format, not from hand-written steps"
-      ],
-      "done": "Two apps run the same ceremony definition file and reach the same end state.",
-      "origin": "DTGWG Trust Ceremonies task force",
+      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force",
       "status": "accepted"
     },
     {

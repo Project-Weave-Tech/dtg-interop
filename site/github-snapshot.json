@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-11-01T04:46:06.008Z",
+  "fetched": "2026-11-01T17:12:15.771Z",
   "issues": [],
   "repos": {
     "https://github.com/Mosaic-Foundation/civic-social-docs": {
@@ -75,12 +75,12 @@
     "https://github.com/real-life-org/trust-protocol": {
       "name": "real-life-org/trust-protocol",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "pushedAt": "2026-11-01"
     },
     "https://github.com/real-life-org/web-of-trust": {
       "name": "real-life-org/web-of-trust",
       "licence": "MIT",
-      "pushedAt": "2026-10-31"
+      "pushedAt": "2026-11-01"
     },
     "https://github.com/real-life-org/port-experimente": {
       "name": "real-life-org/port-experimente",
@@ -91,6 +91,16 @@
       "name": "TrustStackers/p2p-trust-stack",
       "licence": "GPL-3.0",
       "pushedAt": "2026-10-31"
+    },
+    "https://github.com/coasys/ad4m": {
+      "name": "coasys/ad4m",
+      "licence": "NOASSERTION",
+      "pushedAt": "2026-11-01"
+    },
+    "https://github.com/coasys/flux": {
+      "name": "coasys/flux",
+      "licence": null,
+      "pushedAt": "2026-08-20"
     }
   }
 }

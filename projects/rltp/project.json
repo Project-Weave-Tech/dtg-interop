@@ -310,16 +310,6 @@
         }
       ]
     },
-    "ceremony-definitions": {
-      "status": "vectors",
-      "note": "encounter-scan published in the DTGWG ceremony definition format; shared-connect to follow at v0.3.",
-      "evidence": [
-        {
-          "label": "encounter-scan.ceremony.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
-        }
-      ]
-    },
     "same-carrier": {
       "status": "runs",
       "note": "TSP 1.0 through the VTI mediator, routed with direct fallback; own instance at mediator.web-of-trust.de.",
