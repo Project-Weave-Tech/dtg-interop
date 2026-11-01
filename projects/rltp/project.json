@@ -191,9 +191,13 @@
   "requiredParty": "the other person",
   "points": {
     "vrc-exchange": {
-      "status": "vectors",
-      "note": "Our encounter credential is a DTG RelationshipCredential; a conformance reader for foreign plain DTG VRCs under did:peer:2 and did:key exists with negatives. No documented run against another implementation's issuer yet.",
+      "status": "runs",
+      "note": "The app issues a DTG RelationshipCredential (eddsa-jcs-2022) at every encounter and verifies the other side's; a reader for foreign plain DTG VRCs under did:key and did:peer:2 runs with negatives. Issuers under did:webvh are not resolved yet. No run against another implementation's issuer so far.",
       "evidence": [
+        {
+          "label": "Web of Trust app",
+          "url": "https://github.com/real-life-org/web-of-trust"
+        },
         {
           "label": "encounter-cards.json",
           "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/encounter-cards.json"
