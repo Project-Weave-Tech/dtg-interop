@@ -237,7 +237,7 @@ class Component extends DCLogic {
     const face = (p, i) => {
       const n = p.name.split(' / ')[0].split(' (')[0];
       const w = n.split(/[\s.]+/).filter(Boolean);
-      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: #fff url('" + p.logo + "') center / 74% no-repeat; color: transparent; box-shadow: inset 0 0 0 1px var(--line)" : '' };
+      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     };
     const faces = (d.projects || []).map(face);
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
