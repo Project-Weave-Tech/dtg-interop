@@ -133,54 +133,94 @@
   "requiredParty": "no central party; relays for rendezvous",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "did:peer:2, resolvable offline."
+      "status": "stated",
+      "note": "did:peer:2, resolvable offline.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "vrc-exchange": {
-      "status": "potential",
-      "note": "Joint ceremony vectors with RLTP exist; VRC format in transition."
+      "status": "stated",
+      "note": "Joint ceremony vectors with RLTP exist; VRC format in transition.",
+      "evidence": [
+        {
+          "label": "shared-connect binding vectors (joint)",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
+        }
+      ]
     },
     "contact-ceremony": {
-      "status": "potential",
+      "status": "stated",
       "note": "shared-connect ceremony on VTI trigger links, defined jointly with RLTP.",
       "evidence": [
         {
-          "label": "VTI spec issue 86",
-          "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86"
+          "label": "shared-connect binding vectors (joint)",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
         }
       ]
     },
     "same-carrier": {
-      "status": "potential",
-      "note": "TSP; relay path to be agreed with the counterpart."
+      "status": "stated",
+      "note": "TSP; relay path to be agreed with the counterpart.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "direct-message": {
-      "status": "potential",
-      "note": "Direct messages are MLS rooms of two today."
+      "status": "stated",
+      "note": "Direct messages are MLS rooms of two today.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "multi-device": {
-      "status": "potential",
-      "note": "Device set with persona card."
+      "status": "stated",
+      "note": "Device set with persona card.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "offline-write": {
-      "status": "potential",
-      "note": "did:peer:2 and MLS rooms work without a host; writes settle when peers meet."
+      "status": "stated",
+      "note": "did:peer:2 and MLS rooms work without a host; writes settle when peers meet.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "captured-device": {
-      "status": "potential",
-      "note": "MLS rooms with one leaf per device; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property."
-    },
-    "newcomer-history": {
-      "status": "potential",
-      "note": "MLS rooms; what a newcomer may read is not documented."
-    },
-    "error-answers": {
-      "status": "potential",
-      "note": "Trust Task documents on plain TSP agreed as the shared layer; trust-task-error not mentioned."
+      "status": "stated",
+      "note": "MLS rooms with one leaf per device; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     },
     "document-framework": {
-      "status": "potential",
-      "note": "Trust Task documents on plain TSP agreed as the shared layer; committed, nothing running."
+      "status": "stated",
+      "note": "Trust Task documents on plain TSP agreed as the shared layer; committed, nothing running.",
+      "evidence": [
+        {
+          "label": "app.consenu.al",
+          "url": "https://app.consenu.al"
+        }
+      ]
     }
   },
   "provenance": {

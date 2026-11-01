@@ -96,20 +96,44 @@
   "requiredParty": "an engine hosting the civic space",
   "points": {
     "vrc-exchange": {
-      "status": "potential",
-      "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite."
+      "status": "stated",
+      "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
     },
     "app-change": {
-      "status": "potential",
-      "note": "Civic Personal Data Store holds relationships and memberships for portability."
+      "status": "stated",
+      "note": "Civic Personal Data Store holds relationships and memberships for portability.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
     },
     "shared-room": {
-      "status": "potential",
-      "note": "Civic Space portable across engines."
+      "status": "stated",
+      "note": "Civic Space portable across engines.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
     },
     "did-resolution": {
-      "status": "potential",
-      "note": "did:key, did:web and did:webvh in the spec."
+      "status": "stated",
+      "note": "did:key, did:web and did:webvh in the spec.",
+      "evidence": [
+        {
+          "label": "civic-social-docs",
+          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
+        }
+      ]
     }
   },
   "provenance": {

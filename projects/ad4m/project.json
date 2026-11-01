@@ -75,16 +75,34 @@
   "requiredParty": "none by default (Holochain peers); an optional link-server",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "Agents are did:key."
+      "status": "stated",
+      "note": "Agents are did:key.",
+      "evidence": [
+        {
+          "label": "AD4M docs",
+          "url": "https://docs.ad4m.dev/"
+        }
+      ]
     },
     "shared-room": {
-      "status": "potential",
-      "note": "Neighbourhoods are shared graphs synced by a link language."
+      "status": "stated",
+      "note": "Neighbourhoods are shared graphs synced by a link language.",
+      "evidence": [
+        {
+          "label": "Neighbourhoods",
+          "url": "https://docs.ad4m.dev/neighbourhoods"
+        }
+      ]
     },
     "offline-write": {
-      "status": "potential",
-      "note": "Holochain source chains are written locally and gossiped later; the DHT is the host-less case by design."
+      "status": "stated",
+      "note": "Holochain source chains are written locally and gossiped later; the DHT is the host-less case by design.",
+      "evidence": [
+        {
+          "label": "AD4M docs",
+          "url": "https://docs.ad4m.dev/"
+        }
+      ]
     }
   },
   "provenance": {

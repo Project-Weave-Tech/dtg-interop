@@ -105,32 +105,44 @@
   "requiredParty": "none at runtime (direct libp2p); community admins",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "did:scid:vh and did:peer:4."
+      "status": "stated",
+      "note": "did:scid:vh and did:peer:4.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
     },
     "vrc-exchange": {
-      "status": "potential",
-      "note": "VRC in progress; DTG conformance to be checked."
-    },
-    "same-carrier": {
-      "status": "potential",
-      "note": "TSP over libp2p without a carrier; a tsp-conformance driver would be the quickest interop finding."
-    },
-    "cross-carrier": {
-      "status": "potential",
-      "note": "Direct connections with NAT traversal."
-    },
-    "error-answers": {
-      "status": "potential",
-      "note": "Own task namespace task:p2pts; an error type is not documented."
+      "status": "stated",
+      "note": "VRC in progress; DTG conformance to be checked.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
     },
     "membership-statement": {
-      "status": "potential",
-      "note": "VMC minted by community ceremonies in the code; verification by another app not shown."
+      "status": "stated",
+      "note": "VMC minted by community ceremonies in the code; verification by another app not shown.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
     },
     "contact-ceremony": {
-      "status": "potential",
-      "note": "Ceremonies in the code mint VRC, VMC and VIC; a QR ceremony between two apps is not documented."
+      "status": "stated",
+      "note": "Ceremonies in the code mint VRC, VMC and VIC; a QR ceremony between two apps is not documented.",
+      "evidence": [
+        {
+          "label": "p2p-trust-stack",
+          "url": "https://github.com/TrustStackers/p2p-trust-stack"
+        }
+      ]
     }
   },
   "provenance": {

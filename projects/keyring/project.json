@@ -150,11 +150,17 @@
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "did:peer and did:key on device; did:webvh via VTA."
+      "status": "stated",
+      "note": "did:peer and did:key on device; did:webvh via VTA.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "vrc-exchange": {
-      "status": "potential",
+      "status": "stated",
       "note": "DTG VRC exchange wallet to wallet; acceptance of foreign issuers to be checked.",
       "evidence": [
         {
@@ -163,49 +169,85 @@
         }
       ]
     },
-    "contact-ceremony": {
-      "status": "potential",
-      "note": "QR join to a VTI community; not a peer ceremony."
-    },
     "same-carrier": {
-      "status": "potential",
-      "note": "TSP only on the VTI peer leg; VRC path over DIDComm."
+      "status": "stated",
+      "note": "TSP only on the VTI peer leg; VRC path over DIDComm.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "document-framework": {
-      "status": "potential",
-      "note": "Trust Tasks 0.9.0 on the DIDComm path."
+      "status": "stated",
+      "note": "Trust Tasks 0.9.0 on the DIDComm path.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "membership-statement": {
-      "status": "potential",
-      "note": "Holds VMCs issued by communities."
+      "status": "stated",
+      "note": "Holds VMCs issued by communities.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "error-answers": {
-      "status": "potential",
-      "note": "@openvtc/trust-tasks includes trust-task-error; whether the wallet shows it is not documented."
-    },
-    "multi-device": {
-      "status": "potential",
-      "note": "One wallet per device; did:webvh personas via a VTA could tie devices together, not documented as such."
+      "status": "stated",
+      "note": "@openvtc/trust-tasks includes trust-task-error; whether the wallet shows it is not documented.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "direct-message": {
-      "status": "potential",
-      "note": "DIDComm v2 between wallets through mediators; whether a person-to-person message is a Trust Task document is not documented."
-    },
-    "app-change": {
-      "status": "potential",
-      "note": "A wallet holds the person's credentials on the device; export and import between wallets is not documented."
+      "status": "stated",
+      "note": "DIDComm v2 between wallets through mediators; whether a person-to-person message is a Trust Task document is not documented.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "registry-lookup": {
-      "status": "potential",
-      "note": "Joins communities through a VTA, which reads the VTC trust registry."
+      "status": "stated",
+      "note": "Joins communities through a VTA, which reads the VTC trust registry.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "newcomer-history": {
-      "status": "potential",
-      "note": "MLS data rooms via the VTA; what a newcomer may read follows the host's epoch chain."
+      "status": "stated",
+      "note": "MLS data rooms via the VTA; what a newcomer may read follows the host's epoch chain.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     },
     "captured-device": {
-      "status": "potential",
-      "note": "MLS data rooms via the VTA; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property."
+      "status": "stated",
+      "note": "MLS data rooms via the VTA; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
     }
   },
   "provenance": {

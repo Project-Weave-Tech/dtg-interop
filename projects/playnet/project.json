@@ -82,21 +82,15 @@
   },
   "requiredParty": "not stated publicly",
   "points": {
-    "did-resolution": {
-      "status": "potential",
-      "note": "KERI identifiers; bridge to DIDs needed."
-    },
-    "cross-carrier": {
-      "status": "potential",
-      "note": "Reticulum mesh; TSP over it is untried."
-    },
-    "traditional-tools": {
-      "status": "potential",
-      "note": "ValueFlows as a shared content vocabulary for offers and needs."
-    },
     "offline-write": {
-      "status": "potential",
-      "note": "Reticulum over LoRa and packet radio; KERI key event logs are appended locally."
+      "status": "stated",
+      "note": "Reticulum over LoRa and packet radio; KERI key event logs are appended locally.",
+      "evidence": [
+        {
+          "label": "playnet.earth",
+          "url": "https://playnet.earth/info"
+        }
+      ]
     }
   },
   "provenance": {

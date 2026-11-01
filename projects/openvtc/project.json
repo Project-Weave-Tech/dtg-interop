@@ -174,8 +174,14 @@
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "did:webvh and did:key; resolution needs the web for did:webvh."
+      "status": "stated",
+      "note": "did:webvh and did:key; resolution needs the web for did:webvh.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
     },
     "vrc-exchange": {
       "status": "runs",
@@ -188,12 +194,14 @@
       ]
     },
     "app-change": {
-      "status": "potential",
-      "note": "VRCs and VMCs live in the VTA/wallet."
-    },
-    "contact-ceremony": {
-      "status": "potential",
-      "note": "Keyring joins communities by QR; a person-to-person ceremony between apps is not documented."
+      "status": "stated",
+      "note": "VRCs and VMCs live in the VTA/wallet.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
     },
     "same-carrier": {
       "status": "runs",
@@ -208,10 +216,6 @@
           "url": "https://github.com/OpenVTC/tsp-conformance"
         }
       ]
-    },
-    "cross-carrier": {
-      "status": "potential",
-      "note": "Two parties at different mediators have no TSP relationship in VTI today."
     },
     "document-framework": {
       "status": "runs",
@@ -244,8 +248,14 @@
       ]
     },
     "newcomer-history": {
-      "status": "potential",
-      "note": "Epoch chain gives newcomers earlier epochs."
+      "status": "stated",
+      "note": "Epoch chain gives newcomers earlier epochs.",
+      "evidence": [
+        {
+          "label": "openvtc",
+          "url": "https://github.com/OpenVTC/openvtc"
+        }
+      ]
     },
     "registry-lookup": {
       "status": "runs",
@@ -258,20 +268,34 @@
       ]
     },
     "captured-device": {
-      "status": "potential",
-      "note": "Data Rooms on MLS; removing a member rotates the epoch (MLS PCS). Not stated as a cross-app property."
+      "status": "stated",
+      "note": "Data Rooms on MLS; removing a member rotates the epoch (MLS PCS). Not stated as a cross-app property.",
+      "evidence": [
+        {
+          "label": "openvtc",
+          "url": "https://github.com/OpenVTC/openvtc"
+        }
+      ]
     },
     "error-answers": {
-      "status": "potential",
-      "note": "trust-task-error is a type of the Trust Tasks framework; the VTA answers with it."
-    },
-    "direct-message": {
-      "status": "potential",
-      "note": "DIDComm v2 and TSP via the VTI mediator; the catalogue has no person-to-person message type (chat/message is agent-to-platform)."
+      "status": "stated",
+      "note": "trust-task-error is a type of the Trust Tasks framework; the VTA answers with it.",
+      "evidence": [
+        {
+          "label": "openvtc",
+          "url": "https://github.com/OpenVTC/openvtc"
+        }
+      ]
     },
     "multi-device": {
-      "status": "potential",
-      "note": "A persona under did:webvh on a trust agent, devices and apps under did:key; not described as a cross-app property."
+      "status": "stated",
+      "note": "A persona under did:webvh on a trust agent, devices and apps under did:key; not described as a cross-app property.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
     }
   },
   "provenance": {

@@ -59,29 +59,45 @@
   ],
   "requiredParty": "not stated publicly",
   "points": {
-    "vrc-exchange": {
-      "status": "potential",
-      "note": "OB 3.0 is VC 2.0; proof suite to be checked."
-    },
-    "cross-carrier": {
-      "status": "potential",
-      "note": "Mesh transports with small MTU; a candidate for an offline track."
-    },
     "traditional-tools": {
-      "status": "potential",
-      "note": "Recipe manifests unlocked by badges."
+      "status": "stated",
+      "note": "Recipe manifests unlocked by badges.",
+      "evidence": [
+        {
+          "label": "social-fabric.us/developers",
+          "url": "https://social-fabric.us/developers"
+        }
+      ]
     },
     "offline-write": {
-      "status": "potential",
-      "note": "Mesh transports and sneaker-net; Lodge nodes replicate bundles when they meet."
+      "status": "stated",
+      "note": "Mesh transports and sneaker-net; Lodge nodes replicate bundles when they meet.",
+      "evidence": [
+        {
+          "label": "social-fabric.us/developers",
+          "url": "https://social-fabric.us/developers"
+        }
+      ]
     },
     "membership-statement": {
-      "status": "potential",
-      "note": "Badges and credential entitlements as Open Badges 3.0; committed."
+      "status": "stated",
+      "note": "Badges and credential entitlements as Open Badges 3.0; committed.",
+      "evidence": [
+        {
+          "label": "social-fabric.us/developers",
+          "url": "https://social-fabric.us/developers"
+        }
+      ]
     },
     "shared-room": {
-      "status": "potential",
-      "note": "TrustZones with bundle replication between Lodge nodes; committed."
+      "status": "stated",
+      "note": "TrustZones with bundle replication between Lodge nodes; committed.",
+      "evidence": [
+        {
+          "label": "social-fabric.us/developers",
+          "url": "https://social-fabric.us/developers"
+        }
+      ]
     }
   },
   "provenance": {

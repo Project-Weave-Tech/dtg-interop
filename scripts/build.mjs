@@ -57,7 +57,7 @@ githubFetched = issuesOk && reposOk
 if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
 
 // Derived point statuses: where a point names derivedFrom and a project said no
-// more than potential there, a matching detail entry with status runs makes the
+// more than stated there, a matching detail entry with status runs makes the
 // point runs, marked derived, with the entry's evidence. Projects that said
 // spec, open, vectors or n/a themselves are left alone.
 const matches = (entry, match) => Object.entries(match).every(([k, accepted]) => {
@@ -69,7 +69,7 @@ for (const pt of map.points) {
   const { field, match } = pt.derivedFrom
   for (const p of projects) {
     const cell = p.points?.[pt.id]
-    if (cell && cell.status !== 'potential') continue
+    if (cell && cell.status !== 'stated') continue
     const entries = Array.isArray(p[field]) ? p[field] : p[field] ? [p[field]] : []
     const hit = entries.find((e) => e.status === 'runs' && matches(e, match))
     if (!hit) continue

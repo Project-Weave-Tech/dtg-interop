@@ -91,7 +91,7 @@
   "requiredParty": "the Hylo server",
   "points": {
     "did-resolution": {
-      "status": "potential",
+      "status": "stated",
       "note": "did:plc experiment (ATProto).",
       "evidence": [
         {
@@ -99,18 +99,6 @@
           "url": "https://github.com/Hylozoic/hylo/tree/atproto-pds-experiment"
         }
       ]
-    },
-    "app-change": {
-      "status": "potential",
-      "note": "ATProto identities would make a Hylo account portable."
-    },
-    "shared-room": {
-      "status": "potential",
-      "note": "ATProto Spaces as a possible group substrate; not in the code yet."
-    },
-    "traditional-tools": {
-      "status": "potential",
-      "note": "Existing community platform; a candidate consumer of membership statements."
     }
   },
   "provenance": {

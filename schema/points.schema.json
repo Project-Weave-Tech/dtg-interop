@@ -106,7 +106,7 @@
               "field",
               "match"
             ],
-            "description": "How the build fills a project's status at this point from its detail fields when the project has not said more than potential: an entry of `field` with status runs that matches every key in `match` makes the point runs (derived), with that entry's evidence.",
+            "description": "How the build fills a project's status at this point from its detail fields when the project has not said more than stated: an entry of `field` with status runs that matches every key in `match` makes the point runs (derived), with that entry's evidence.",
             "properties": {
               "field": {
                 "enum": [
@@ -142,7 +142,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "potential",
+        "stated",
         "runs",
         "vectors",
         "spec",
@@ -150,9 +150,6 @@
         "n/a"
       ],
       "properties": {
-        "potential": {
-          "type": "string"
-        },
         "runs": {
           "type": "string"
         },
@@ -166,6 +163,9 @@
           "type": "string"
         },
         "n/a": {
+          "type": "string"
+        },
+        "stated": {
           "type": "string"
         }
       }

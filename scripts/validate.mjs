@@ -38,7 +38,7 @@ for (const slug of folders('projects')) {
   if (row.slug !== slug) errors.push(`${file}: slug "${row.slug}" differs from folder "${slug}"`)
   for (const [id, cell] of Object.entries(row.points ?? {})) {
     if (!pointIds.has(id)) errors.push(`${file}: unknown point "${id}"`)
-    if (['runs', 'vectors'].includes(cell.status) && !(cell.evidence?.length)) errors.push(`${file}: point ${id} is "${cell.status}" without evidence`)
+    if (['runs', 'vectors', 'stated'].includes(cell.status) && !(cell.evidence?.length)) errors.push(`${file}: point ${id} is "${cell.status}" without evidence`)
   }
   if (!existsSync(join(root, `projects/${slug}/README.md`))) errors.push(`projects/${slug}/README.md: missing`)
   const tt = `projects/${slug}/trust-tasks.json`

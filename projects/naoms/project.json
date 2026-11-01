@@ -121,48 +121,84 @@
   "requiredParty": "a steward, per the public material",
   "points": {
     "did-resolution": {
-      "status": "potential",
-      "note": "did:key root; did:webvh and did:naoms."
+      "status": "stated",
+      "note": "did:key root; did:webvh and did:naoms.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     },
     "vrc-exchange": {
-      "status": "potential",
-      "note": "VRC vectors planned for cross-verification."
+      "status": "stated",
+      "note": "VRC vectors planned for cross-verification.",
+      "evidence": [
+        {
+          "label": "NAOMS blog",
+          "url": "https://blog.naoms.dev/"
+        }
+      ]
     },
     "contact-ceremony": {
-      "status": "potential",
-      "note": "Contacts by handshake; format not public."
-    },
-    "same-carrier": {
-      "status": "potential",
-      "note": "DIDComm v2 over iroh; no TSP documented."
+      "status": "stated",
+      "note": "Contacts by handshake; format not public.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     },
     "shared-room": {
-      "status": "potential",
-      "note": "Spaces as hash chains."
+      "status": "stated",
+      "note": "Spaces as hash chains.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     },
     "multi-device": {
-      "status": "potential",
-      "note": "FROST across devices."
+      "status": "stated",
+      "note": "FROST across devices.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     },
     "offline-write": {
-      "status": "potential",
-      "note": "Hives are signed hash chains over iroh and mDNS; the project states offline operation."
-    },
-    "captured-device": {
-      "status": "potential",
-      "note": "FROST shares across devices; removing a device means a new threshold set, not documented as a cross-app property."
-    },
-    "error-answers": {
-      "status": "potential",
-      "note": "Own task library; no error type documented."
+      "status": "stated",
+      "note": "Hives are signed hash chains over iroh and mDNS; the project states offline operation.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     },
     "document-framework": {
-      "status": "potential",
-      "note": "Own task library of about 507 specs, not public; registry PRs closed unmerged."
+      "status": "stated",
+      "note": "Own task library of about 507 specs, not public; registry PRs closed unmerged.",
+      "evidence": [
+        {
+          "label": "NAOMS blog",
+          "url": "https://blog.naoms.dev/"
+        }
+      ]
     },
     "direct-message": {
-      "status": "potential",
-      "note": "DIDComm v2 over iroh between people; message type not documented."
+      "status": "stated",
+      "note": "DIDComm v2 over iroh between people; message type not documented.",
+      "evidence": [
+        {
+          "label": "naoms.dev",
+          "url": "https://naoms.dev"
+        }
+      ]
     }
   },
   "provenance": {
