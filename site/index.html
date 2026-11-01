@@ -45,7 +45,7 @@ body{margin:0;background:#F6F6F3}
 .dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block;box-sizing:border-box}
 .dot.prov-project{background:var(--ink)}
 .dot.prov-public{border:1.5px solid var(--muted)}
-.repos{display:flex;flex-direction:column;gap:2px}
+.repos{display:flex;flex-direction:column;gap:2px;min-width:0}
 .repo{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .plegend{margin:0;padding:10px 20px 14px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
 .plegend .dot{margin-left:6px}
@@ -70,7 +70,7 @@ body{margin:0;background:#F6F6F3}
 .st-running{border-color:var(--accent);color:var(--accent)}
 .st-passing{background:var(--accent);color:var(--surface)}
 .st-failing{background:var(--fail);color:var(--surface)}
-.prow{display:grid;grid-template-columns:minmax(150px,1fr) minmax(130px,.8fr) minmax(0,1.1fr) minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.1fr);gap:16px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+.prow{display:grid;grid-template-columns:minmax(140px,1fr) minmax(0,.9fr) minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.1fr) minmax(130px,1fr);gap:16px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
 .prow:last-child{border-bottom:0}
 .prow-h{padding-top:9px;padding-bottom:9px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .pname{background:none;border:0;padding:4px 0;text-align:left;cursor:pointer;font-weight:600;font-size:14px;min-height:40px;display:flex;align-items:center;gap:10px}
@@ -140,11 +140,11 @@ body{margin:0;background:#F6F6F3}
 <div class="wrap">
 <section class="block" aria-labelledby="h-projects">
 <div class="bhead"><h2 id="h-projects">Projects</h2><p>Who builds what. Open a name for its repositories, full stack, interop points and runs.</p></div>
-<div class="prow prow-h"><span>Project</span><span>Repositories</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span></div>
+<div class="prow prow-h"><span>Project</span><span>DID methods</span><span>Transport</span><span>Groups</span><span>Try it</span><span>Repositories</span></div>
 <sc-for list="{{projects}}" as="p" hint-placeholder-count="11">
 <div class="prow">
 <button class="pname" sc-camel-on-click="{{p.open}}"><span class="dot {{p.provCls}}" title="{{p.prov}}" aria-label="{{p.prov}}"></span><span class="pn">{{p.short}}</span></button>
-<div class="repos" style="min-width: 0"><span class="lbl">Repositories</span><sc-for list="{{p.repos}}" as="r" hint-placeholder-count="2"><a class="repo mono" href="{{r.url}}" target="_blank" rel="noopener" title="{{r.title}}">{{r.name}}</a></sc-for><sc-if value="{{p.moreRepos}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" sc-camel-on-click="{{p.open}}">+{{p.more}}</button></sc-if><sc-if value="{{p.noRepos}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">no public repository</span></sc-if><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
+
 <div class="wide" style="min-width: 0"><span class="lbl">DID methods</span><div class="clamp mono" title="{{p.did}}">{{p.did}}</div></div>
 <div class="wide" style="min-width: 0"><span class="lbl">Transport</span><div class="clamp" title="{{p.transport}}">{{p.transport}}</div></div>
 <div class="wide" style="min-width: 0"><span class="lbl">Groups</span><div class="clamp" title="{{p.groups}}">{{p.groups}}</div></div>
@@ -152,6 +152,7 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{p.apps}}" as="a" hint-placeholder-count="1"><a class="chip" href="{{a.url}}" target="_blank" rel="noopener"><span class="clip" style="max-width: 140px">{{a.label}}</span><span class="st">{{a.status}}</span></a></sc-for>
 <sc-if value="{{p.noApps}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">nothing public to try</span></sc-if>
 </div>
+<div class="repos wide" style="min-width: 0"><span class="lbl">Repositories</span><sc-for list="{{p.repos}}" as="r" hint-placeholder-count="2"><a class="repo mono" href="{{r.url}}" target="_blank" rel="noopener" title="{{r.title}}">{{r.name}}</a></sc-for><sc-if value="{{p.moreRepos}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" sc-camel-on-click="{{p.open}}">+{{p.more}}</button></sc-if><sc-if value="{{p.noRepos}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px">no public repository</span></sc-if><sc-if value="{{p.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{p.updated}}</span></sc-if></div>
 </div>
 </sc-for>
 <p class="plegend"><span class="dot prov-project"></span>confirmed by the project <span class="dot prov-public"></span>compiled from public sources, not yet confirmed</p>
@@ -276,7 +277,7 @@ class Component extends DCLogic {
         num: i + 1, short: short(p), open: () => this.setState({ open: p.slug }),
         prov: isPub(p) ? 'Public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
-        did: st.didMethods || 'not stated', transport: st.transport || 'not stated', groups: st.groups || 'not stated',
+        did: st.didMethods || '—', transport: st.transport || 'not stated', groups: st.groups || 'not stated',
         apps, noApps: apps.length === 0, stale: stale(p.updated), updated: this.fmt(p.updated),
         repos: repoList.slice(0, 3), more: repoList.length - 3, moreRepos: repoList.length > 3, noRepos: repoList.length === 0,
       };

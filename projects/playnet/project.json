@@ -8,13 +8,13 @@
     "https://codeberg.org/valueflows/valueflows"
   ],
   "stack": {
-    "didMethods": "none; KERI identifiers (AIDs)",
+    "didMethods": "",
     "credentials": "ACDC / KERI",
     "transport": "Reticulum over Tor, LoRa, packet radio, TCP; Goblins actors over OCapN",
     "trustTasks": "none; ValueFlows vocabulary (needs, offers, processes, commitments, recipes)",
     "groups": "commons written in Guile Scheme",
     "sharedState": "own event log per participant",
-    "devices": "own KERI key event log per participant"
+    "devices": "KERI identifiers (AIDs) with an own key event log per participant; no DID method"
   },
   "requiredParty": "not stated publicly",
   "points": {
