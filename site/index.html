@@ -106,9 +106,9 @@ body{margin:0;background:#F6F6F3}
 .linkbtn{background:none;border:0;padding:0 4px;cursor:pointer;color:var(--accent);font-size:12.5px}
 .linkbtn:hover{text-decoration:underline}
 .tbl-box{overflow-x:auto}
-.trw{display:grid;gap:12px;align-items:start;padding:8px 20px;border-bottom:1px solid var(--line);font-size:12.5px}
+.trw{display:grid;gap:12px;align-items:start;padding:8px 20px 8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
 .thead{position:sticky;top:0;z-index:2;background:var(--surface);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:10px;padding-bottom:10px;align-items:end}
-.c0{position:sticky;left:0;z-index:1;background:var(--surface);padding-right:8px;align-self:stretch;align-items:flex-start}
+.c0{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:12px 0 0 var(--surface);padding-left:20px;padding-right:8px;margin-top:-8px;margin-bottom:-8px;padding-top:8px;padding-bottom:8px;align-self:stretch;align-items:flex-start}
 .thead .c0{z-index:3}
 .cell{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;min-width:0;align-items:flex-start}
 .tchip{display:inline-flex;align-items:center;border:0;border-radius:999px;padding:2px 9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:18px;cursor:pointer;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;transition:transform .12s ease,box-shadow .12s ease}
@@ -123,11 +123,12 @@ body{margin:0;background:#F6F6F3}
 .fdot{width:8px;height:8px;border-radius:50%;flex:none;background:currentColor !important}
 .tbl .trw:not(.thead){transition:background .15s}
 .tbl .trw:not(.thead):hover,.tbl .trw:not(.thead):hover .c0{background:var(--soft)}
+.tbl .trw:not(.thead):hover .c0{box-shadow:12px 0 0 var(--soft)}
 .val{overflow-wrap:anywhere}
 .vlink{font-size:12px;overflow-wrap:anywhere;flex-basis:100%;display:inline-flex;align-items:center;gap:7px}
 .vlink .pulse,.vlink .still{flex:none}
 .unk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--muted);color:var(--muted);font-size:11px;font-weight:600;box-sizing:border-box}
-@media (max-width: 640px){.frow{grid-template-columns:minmax(0,1fr)}.trw{padding:8px 16px}}
+@media (max-width: 640px){.frow{grid-template-columns:minmax(0,1fr)}.trw{padding:8px 16px 8px 0}.c0{padding-left:16px}}
 @media (max-width: 1000px){
 .prow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
 .prow-h{display:none}
@@ -183,13 +184,16 @@ body{margin:0;background:#F6F6F3}
 .sd-runs{background:var(--green-t)}
 .sd-building{background:linear-gradient(90deg,var(--blue-t) 50%,transparent 50%);border:1.5px solid var(--blue-t)}
 .sd-committed{border:2px solid var(--amber-t)}
-.tip{position:absolute;left:calc(100% + 10px);top:0;z-index:6;width:300px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 28px rgba(0,0,0,.18);font-weight:400;font-size:13px;line-height:1.45;color:var(--ink);text-align:left;white-space:normal;opacity:0;visibility:hidden;transform:translateX(-4px);transition:opacity .12s ease,transform .12s ease,visibility .12s;pointer-events:none}
-.pname:hover .tip,.pname:focus-visible .tip{opacity:1;visibility:visible;transform:none}
+.tip{position:absolute;left:calc(100% + 10px);top:0;z-index:6;width:300px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 28px rgba(0,0,0,.18);font-weight:400;font-size:13px;line-height:1.45;color:var(--ink);text-align:left;white-space:normal;display:none;pointer-events:none}
+.pname:hover .tip,.pname:focus-visible .tip{display:block;animation:dtgtip .12s ease}
+@keyframes dtgtip{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
+.tbl .trw:nth-last-child(-n+2) .tip{top:auto;bottom:0}
 .tbl .trw:hover .c0,.tbl .trw:focus-within .c0{z-index:4}
 .tip-m{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11.5px;color:var(--muted)}
 .tip-m::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
 .tip-m.prov-project::before{background:var(--green-t)}
 .tip-m.prov-public::before{border:1.5px solid var(--muted)}
+.vname{font-size:11.5px;color:var(--muted)}
 .creds{display:flex;flex-direction:column;gap:6px;width:100%}
 .cred{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .proofb{background:none;border:0;padding:0 2px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);cursor:pointer}
@@ -257,6 +261,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{c.none}}" hint-placeholder-val="{{ false }}"><span class="muted">–</span></sc-if>
 <sc-if value="{{c.tt}}" hint-placeholder-val="{{ false }}"><button class="ttcell" type="button" title="{{c.ttTitle}}" sc-camel-on-click="{{c.openTT}}"><span class="sdot sd-{{c.ttStatus}}" role="img" title="{{c.ttStatus}}" aria-label="{{c.ttStatus}}"></span><sc-for list="{{c.ttParts}}" as="x" hint-placeholder-count="1"><span class="tchip {{x.hue}}">{{x.label}}</span></sc-for></button></sc-if>
 <sc-if value="{{c.cred}}" hint-placeholder-val="{{ false }}"><div class="creds"><sc-for list="{{c.creds}}" as="e" hint-placeholder-count="1"><div class="cred" title="{{e.title}}"><span class="sdot sd-{{e.status}}" role="img" title="{{e.status}}" aria-label="{{e.status}}"></span><button class="tchip {{e.mHue}} {{e.mOn}}" type="button" aria-pressed="{{e.mPressed}}" sc-camel-on-click="{{e.mToggle}}">{{e.model}}</button><sc-for list="{{e.proofs}}" as="x" hint-placeholder-count="1"><button class="proofb {{x.on}}" type="button" title="Show only projects with this proof" aria-pressed="{{x.pressed}}" sc-camel-on-click="{{x.toggle}}">{{x.label}}</button></sc-for><sc-for list="{{e.fams}}" as="f" hint-placeholder-count="1"><button class="tchip {{f.hue}} {{f.on}}" type="button" title="{{f.title}}" aria-pressed="{{f.pressed}}" sc-camel-on-click="{{f.toggle}}">{{f.label}}</button></sc-for></div></sc-for></div></sc-if>
+<sc-if value="{{c.lane}}" hint-placeholder-val="{{ false }}"><div class="creds"><sc-for list="{{c.lanes}}" as="e" hint-placeholder-count="1"><div class="cred" title="{{e.title}}"><span class="sdot sd-{{e.status}}" role="img" aria-label="{{e.status}}"></span><button class="tchip {{e.pHue}} {{e.pOn}}" type="button" aria-pressed="{{e.pPressed}}" sc-camel-on-click="{{e.pToggle}}">{{e.protocol}}</button><span class="muted" aria-hidden="true">→</span><button class="tchip {{e.vHue}} {{e.vOn}}" type="button" aria-pressed="{{e.vPressed}}" sc-camel-on-click="{{e.vToggle}}">{{e.via}}</button><span class="vname">{{e.viaName}}</span></div></sc-for></div></sc-if>
 <sc-for list="{{c.items}}" as="v" hint-placeholder-count="1"><sc-if value="{{v.link}}" hint-placeholder-val="{{ false }}"><a class="vlink {{v.cls}}" href="{{v.url}}" target="_blank" rel="noopener" title="{{v.title}}"><sc-if value="{{v.hot}}" hint-placeholder-val="{{ false }}"><span class="pulse" aria-hidden="true"></span></sc-if><sc-if value="{{v.cold}}" hint-placeholder-val="{{ false }}"><span class="still" style="background: {{v.dot}}" aria-hidden="true"></span></sc-if>{{v.label}}</a></sc-if><sc-if value="{{v.chip}}" hint-placeholder-val="{{ true }}"><button class="tchip {{v.hue}} {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><sc-if value="{{v.hasStatus}}" hint-placeholder-val="{{ false }}"><span class="sdot sd-{{v.status}}" role="img" aria-label="{{v.status}}" style="margin-right: 6px"></span></sc-if>{{v.label}}</button></sc-if><sc-if value="{{v.ok}}" hint-placeholder-val="{{ false }}"><button class="offb ok {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-green"><svg width="13" height="13" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>yes</button></sc-if><sc-if value="{{v.bad}}" hint-placeholder-val="{{ false }}"><button class="offb bad {{v.on}}" type="button" title="{{v.title}}" aria-pressed="{{v.pressed}}" sc-camel-on-click="{{v.toggle}}"><span class="ico h-red"><svg width="12" height="12" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></span>no</button></sc-if></sc-for>
 <sc-if value="{{c.hasText}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 12px" title="{{c.textTitle}}">{{c.text}}</span></sc-if>
 <sc-if value="{{c.more}}" hint-placeholder-val="{{ false }}"><button class="linkbtn mono" type="button" sc-camel-on-click="{{p.open}}">+{{c.moreN}}</button></sc-if>
@@ -319,6 +324,19 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{e.hasNote}}" hint-placeholder-val="{{ true }}"><p class="muted" style="margin: 8px 0 0; font-size: 12.5px">{{e.note}}</p></sc-if>
 <div class="chips" style="margin-top: 8px"><sc-for list="{{e.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div>
 </div></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{pp.lanes.has}}" hint-placeholder-val="{{ false }}">
+<div class="sec">
+<h4>Messaging and replication</h4>
+<sc-for list="{{pp.lanes.groups}}" as="g" hint-placeholder-count="2"><p class="muted" style="margin: 10px 0 6px; font-size: 12px; font-weight: 600">{{g.title}}</p>
+<sc-if value="{{g.empty}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">{{g.emptyText}}</p></sc-if>
+<sc-for list="{{g.list}}" as="e" hint-placeholder-count="1"><div class="credcard">
+<div class="cred"><span class="sdot sd-{{e.status}}" role="img" aria-label="{{e.status}}"></span><span class="tchip {{e.pHue}}">{{e.protocol}}</span><span class="muted" aria-hidden="true">→</span><span class="tchip {{e.vHue}}">{{e.via}}</span><span class="vname">{{e.viaName}}</span></div>
+<sc-if value="{{e.hasNote}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 6px 0 0; font-size: 12.5px">{{e.note}}</p></sc-if>
+<div class="chips" style="margin-top: 6px"><sc-for list="{{e.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div>
+</div></sc-for>
+</sc-for>
 </div>
 </sc-if>
 <sc-if value="{{pp.tt.has}}" hint-placeholder-val="{{ false }}">
@@ -436,26 +454,27 @@ class Component extends DCLogic {
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects' };
 
     const COLS = [
-      ['didMethods', 'DID methods'], ['credentials', 'Credentials'], ['trustTasks', 'Trust Tasks'], ['transport', 'Transport'], ['relay', 'Relay / mediator'],
+      ['didMethods', 'DID methods'], ['credentials', 'Credentials'], ['trustTasks', 'Trust Tasks'], ['messaging', 'Messaging'], ['replication', 'Replication'],
       ['groupAuthority', 'Group authority'], ['groupKeys', 'Group keys'], ['keys', 'Keys held by'], ['offline', 'Offline'],
       ['apps', 'Try it'], ['language', 'Language'], ['licence', 'Licence'], ['repos', 'Repositories'],
     ];
-    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos').concat([['credFamily', 'Credential profiles'], ['credProof', 'Proof']]);
+    const FACETS = COLS.filter((c) => c[0] !== 'apps' && c[0] !== 'repos').concat([['credFamily', 'Credential profiles'], ['credProof', 'Proof'], ['laneVia', 'Via']]);
     const FAMILY = {
       didMethods: [[/^did:key/, 'h-blue'], [/^did:peer/, 'h-teal'], [/^did:web/, 'h-violet']],
       keys: [[/^device/, 'h-teal'], [/^agent/, 'h-violet'], [/^threshold/, 'h-amber']],
       credentials: [[/^W3C VC/, 'h-blue'], [/SD-JWT/, 'h-violet'], [/ACDC/, 'h-rust']],
       credFamily: [[/pre-core/, 'h-amber'], [/^DTG/, 'h-teal'], [/Open Badges/, 'h-violet']],
       proof: [[/^eddsa/, 'h-blue'], [/MAC/, 'h-teal'], [/JWS|SD-JWT/, 'h-violet'], [/KERI/, 'h-rust']],
-      transport: [[/^TSP/, 'h-teal'], [/^DIDComm/, 'h-blue'], [/^HTTPS/, 'h-slate']],
-      relay: [[/VTI mediator/, 'h-violet'], [/^none/, 'h-green'], [/Nostr/, 'h-pink'], [/mesh|lodge/, 'h-rust']],
+      messaging: [[/^TSP/, 'h-teal'], [/^DIDComm/, 'h-blue'], [/^HTTPS/, 'h-slate'], [/WebRTC/, 'h-sky'], [/Reticulum/, 'h-rust']],
+      replication: [[/^MLS/, 'h-pink'], [/Holochain/, 'h-violet'], [/^RLTP/, 'h-teal'], [/^HTTPS/, 'h-slate'], [/CRDT/, 'h-amber'], [/hash chain/, 'h-olive'], [/event log|bundle/, 'h-rust']],
+      laneVia: [[/^direct/, 'h-green'], [/^mediator/, 'h-violet'], [/^app server/, 'h-slate'], [/^host/, 'h-amber'], [/peers/, 'h-sky'], [/^mesh/, 'h-rust'], [/key-blind/, 'h-teal']],
       trustTasks: [[/^trust-task-/, 'h-blue'], [/^rltp:/, 'h-teal'], [/\//, 'h-violet']],
       groupAuthority: [[/./, 'h-olive']],
       groupKeys: [[/^MLS/, 'h-pink'], [/^BeeKEM/, 'h-amber']],
       licence: [[/^(MIT|Apache)/, 'h-blue'], [/^(GPL|AGPL|LGPL|CAL)/, 'h-violet'], [/^CC-/, 'h-teal']],
       language: [[/^TypeScript/, 'h-blue'], [/^JavaScript/, 'h-amber'], [/^Rust/, 'h-rust'], [/^Go$/, 'h-sky'], [/Scheme/, 'h-violet']],
     };
-    const hueFor = (k, v) => { const r = (FAMILY[k] || []).find((x) => x[0].test(v)); return r ? r[1] : (k === 'didMethods' ? 'h-amber' : k === 'transport' ? 'h-rust' : 'h-slate'); };
+    const hueFor = (k, v) => { const r = (FAMILY[k] || []).find((x) => x[0].test(v)); return r ? r[1] : (k === 'didMethods' ? 'h-amber' : k === 'messaging' ? 'h-rust' : 'h-slate'); };
     const now = Date.parse(d.generated);
     const hidden = this.state.hidden || [];
     const filters = this.state.filters || {};
@@ -475,8 +494,20 @@ class Component extends DCLogic {
     const LIC = [[/Apache[- ]2\.0/i, 'Apache-2.0'], [/\bMIT\b/, 'MIT'], [/AGPL-3\.0/i, 'AGPL-3.0'], [/(?<!A)GPL-3\.0(-only)?/i, 'GPL-3.0-only'], [/CC[- ]BY[- ]SA[- ]4\.0/i, 'CC-BY-SA-4.0'], [/CC[- ]BY[- ]4\.0/i, 'CC-BY-4.0'], [/CAL-1\.0/i, 'CAL-1.0'], [/UNLICENSED/, 'UNLICENSED'], [/commercial/i, 'commercial']];
     const licVals = (p) => (typeof p.licence === 'string' && p.licence ? LIC.filter((x) => x[0].test(p.licence)).map((x) => x[1]) : null);
     const fVal = (x) => (x && typeof x === 'object' ? x.value : x);
+    const LANES = ['messaging', 'replication'];
+    const laneVals = (p, k) => {
+      const out = []; const add = (v) => { if (v && out.indexOf(v) < 0) out.push(v); };
+      if (k === 'laneVia') {
+        if (!LANES.some((l) => Array.isArray(p[l]))) return null;
+        LANES.forEach((l) => (Array.isArray(p[l]) ? p[l] : []).forEach((e) => add(e.via)));
+        return out;
+      }
+      if (!Array.isArray(p[k])) return null;
+      p[k].forEach((e) => add(e.protocol));
+      return out;
+    };
     const fShow = (x) => (x && typeof x === 'object' ? x.value + (x.status ? ' (' + x.status + ')' : '') : x);
-    const fv = (p, k) => k === 'licence' ? licVals(p) : (k === 'credentials' || k === 'credFamily' || k === 'credProof') ? credVals(p, k) : (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k].map(fVal) : null;
+    const fv = (p, k) => k === 'licence' ? licVals(p) : (k === 'messaging' || k === 'replication' || k === 'laneVia') ? laneVals(p, k) : (k === 'credentials' || k === 'credFamily' || k === 'credProof') ? credVals(p, k) : (p.facets && Object.prototype.hasOwnProperty.call(p.facets, k)) ? p.facets[k].map(fVal) : null;
     const setFilter = (k, v) => () => {
       const cur = (filters[k] || []).slice(); const i = cur.indexOf(v);
       if (i >= 0) cur.splice(i, 1); else cur.push(v);
@@ -499,6 +530,20 @@ class Component extends DCLogic {
       if (k === 'repos' || k === 'apps') {
         const all = k === 'repos' ? repoItems(p) : appItems(p);
         return { unknown: false, none: all.length === 0, items: all.slice(0, 3), more: all.length > 3, moreN: all.length - 3 };
+      }
+      if (k === 'messaging' || k === 'replication') {
+        if (!Array.isArray(p[k])) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
+        return {
+          lane: true, none: p[k].length === 0, items: [], more: false, moreN: 0,
+          lanes: p[k].map((e) => {
+            const pOn = (filters[k] || []).indexOf(e.protocol) >= 0; const vOn = (filters.laneVia || []).indexOf(e.via) >= 0;
+            return {
+              status: e.status, protocol: e.protocol, pHue: hueFor(k, e.protocol), pOn: pOn ? 'on' : '', pPressed: pOn, pToggle: setFilter(k, e.protocol),
+              via: e.via, vHue: hueFor('laneVia', e.via), vOn: vOn ? 'on' : '', vPressed: vOn, vToggle: setFilter('laneVia', e.via),
+              viaName: e.viaName || '', title: [e.status, e.viaName, e.note].filter(Boolean).join(' · '),
+            };
+          }),
+        };
       }
       if (k === 'credentials') {
         if (!Array.isArray(p.credentials)) return { unknown: true, none: false, items: [], more: false, moreN: 0 };
@@ -544,9 +589,9 @@ class Component extends DCLogic {
         }),
       };
     };
-    const widths = { didMethods: 150, keys: 120, credentials: 300, transport: 130, relay: 140, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 80, language: 110, licence: 160, apps: 170, repos: 220 };
-    const grid = 'minmax(150px, 180px) ' + vis.map((c) => 'minmax(' + widths[c[0]] + 'px, 1fr)').join(' ');
-    const minW = (180 + vis.reduce((n, c) => n + widths[c[0]] + 12, 0) + 40) + 'px';
+    const widths = { didMethods: 150, keys: 120, credentials: 300, messaging: 300, replication: 300, trustTasks: 200, groupAuthority: 150, groupKeys: 100, offline: 80, language: 110, licence: 160, apps: 170, repos: 220 };
+    const grid = 'minmax(170px, 200px) ' + vis.map((c) => 'minmax(' + widths[c[0]] + 'px, 1fr)').join(' ');
+    const minW = (200 + vis.reduce((n, c) => n + widths[c[0]] + 12, 0) + 40) + 'px';
     const rows = shown.map((p) => ({
       short: short(p), open: () => this.setState({ open: p.slug }),
       prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
@@ -638,12 +683,21 @@ class Component extends DCLogic {
           };
         })(),
         purpose: p.purpose || '', hasPurpose: !!p.purpose,
+        lanes: {
+          has: LANES.some((l) => Array.isArray(p[l])),
+          groups: LANES.map((l) => ({
+            title: l === 'messaging' ? 'Messaging' : 'Replication',
+            empty: !Array.isArray(p[l]) || p[l].length === 0,
+            emptyText: !Array.isArray(p[l]) ? 'Not known.' : 'None.',
+            list: (Array.isArray(p[l]) ? p[l] : []).map((e) => ({ status: e.status, protocol: e.protocol, pHue: hueFor(l, e.protocol), via: e.via, vHue: hueFor('laneVia', e.via), viaName: e.viaName || '', note: e.note || '', hasNote: !!e.note, evidence: e.evidence || [] })),
+          })),
+        },
         show: true, name: p.name, hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, avCls: faceOf[p.slug].prov,
         prov: isPub(p) ? 'Compiled from public sources, ' + this.fmt(p.provenance && p.provenance.date) : 'Confirmed by the project',
         provCls: isPub(p) ? 'prov-public' : 'prov-project',
         website: p.website || '', hasWeb: !!p.website, docs: p.docs || '', hasDocs: !!p.docs, editUrl: p.editUrl,
         apps, noApps: apps.length === 0, repos, noRepos: repos.length === 0, licence: p.licence || 'not stated',
-        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.map(fShow).join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.map(fShow).join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Shared state', st.sharedState], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
+        stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.map(fShow).join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.map(fShow).join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
         scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
