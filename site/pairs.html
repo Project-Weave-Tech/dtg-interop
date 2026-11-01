@@ -277,7 +277,7 @@ class Component extends DCLogic {
     const repo = d.repo;
     const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
     const face = (p, i) => {
-      const n = p.name.split(' / ')[0].split(' (')[0];
+      const n = (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
       const w = n.split(/[\s.]+/).filter(Boolean);
       return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     };
@@ -288,7 +288,7 @@ class Component extends DCLogic {
     const scenarios = d.scenarios || [];
     const ptById = {}; pts.forEach((p) => { ptById[p.id] = p; });
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
-    const short = (p) => p.name.split(' / ')[0].split(' (')[0];
+    const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const pairOf = (a, b) => ((d.pairs || {})[a + '|' + b]) || ((d.pairs || {})[b + '|' + a]) || [];

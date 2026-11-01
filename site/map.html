@@ -49,29 +49,9 @@ body{margin:0;background:#F6F6F3}
 .st-failing{background:var(--fail);color:var(--surface)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
 .li{display:inline-flex;gap:6px;align-items:center}
-.map-box{overflow-x:auto}
 .map{min-width:1180px}
-.map-row{display:grid;border-bottom:1px solid var(--line)}
-.map-headrow{background:var(--surface)}
-.map-pt{position:sticky;left:0;z-index:1;background:var(--surface);border:0;border-right:1px solid var(--line);text-align:left;padding:7px 14px 7px 20px;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;min-height:40px;font-size:13px}
-.map-pt:hover .pt-title{text-decoration:underline}
-.map-corner{cursor:default;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.map-col{font-size:11.5px;font-weight:500;padding:10px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;line-height:1.25}
-.col-off .av{opacity:.45}
 .who{display:inline-flex;align-items:center;gap:6px;font-weight:500}
-.col-on{color:var(--accent);background:var(--accent-soft)}
-.col-off{color:var(--muted)}
-.map-cell{display:flex;align-items:center;justify-content:center;padding:4px}
-.cell-on{background:var(--accent-soft)}
-.row-sel .map-pt{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
 .tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--warn);border:1px dashed var(--warn);border-radius:4px;padding:0 5px}
-.map-layer{background:var(--soft);border-bottom:1px solid var(--line)}
-.map-layer-in{position:sticky;left:0;display:inline-flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;padding:8px 20px;max-width:calc(100vw - 80px)}
-.map-layer-in strong{font-size:12px;letter-spacing:.05em;text-transform:uppercase}
-.map-layer-in span{font-size:12.5px;color:var(--muted)}
-.detail{border-bottom:1px solid var(--line);background:var(--bg)}
-.detail-in{position:sticky;left:0;max-width:min(1100px,calc(100vw - 80px));padding:16px 20px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.detail h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .dl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
 .dl li{font-size:13px}
 @media (max-width: 640px){
@@ -110,6 +90,44 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.sdot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none;box-sizing:border-box}
+.sd-runs{background:var(--green-t)}
+.sd-vectors{background:var(--blue-t)}
+.sd-paper{border:2px solid var(--violet-t)}
+.sd-guess{width:7px;height:7px;background:var(--line)}
+.ready{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:18px 20px 20px}
+.rcard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.rcard h3{margin:0;font-size:15px;font-weight:600;line-height:1.3}
+.rlayer{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rasks{margin:0;font-size:12.5px;color:var(--muted)}
+.faces{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.face{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500}
+.face.derived{opacity:.8}
+.face.derived .av{outline:1.5px dashed var(--muted);outline-offset:2px}
+.flabel{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;width:100%}
+.rfoot{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding-top:10px;font-size:12.5px}
+.lrow{display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(0,2fr) 90px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;font:inherit;color:inherit}
+.lrow:hover{background:var(--soft)}
+.lrow strong{font-size:13.5px}
+.lrow .muted{font-size:12.5px}
+.car{display:inline-block;width:14px;color:var(--muted);transition:transform .15s}
+.car.open{transform:rotate(90deg)}
+.cnt{font-size:12px;color:var(--muted);text-align:right}
+.lpts{background:var(--bg);border-bottom:1px solid var(--line);padding:6px 20px 12px 54px}
+.prow{display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(0,2fr);gap:14px;align-items:center;padding:8px 0;border:0;border-bottom:1px dashed var(--line);font:inherit;font-size:13px;color:inherit;background:none;width:100%;text-align:left;cursor:pointer}
+.prow:hover .ptitle{text-decoration:underline}
+.prow.sel .ptitle{font-weight:600}
+.prow:last-child{border-bottom:0}
+.pmarks{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pm{display:inline-flex;align-items:center;gap:5px;font-size:12px}
+.pm .av{width:22px;height:22px;border-radius:6px;font-size:9.5px}
+.guesses{font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+.pdet{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:4px 0 10px;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.pdet h4{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.pdet ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.pdet li{font-size:12.5px}
+.board a.who{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500}
+.wword{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -147,69 +165,59 @@ body{margin:0;background:#F6F6F3}
 </sc-if>
 
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
-<div class="wrap">
-<section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Map of interop points</h2><p>Every place two implementations can meet, by layer. Select a point to see who touches it and which scenarios test it.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
-<div class="legend">
-<sc-for list="{{legend}}" as="l" hint-placeholder-count="6"><span class="li" title="{{l.v}}"><span class="pill s-{{l.cls}}">{{l.k}}</span>{{l.short}}</span></sc-for>
-<span class="li"><span class="tag">proposed</span>point not yet accepted</span>
-</div>
-<div class="map-box">
-<div class="map">
-<div class="map-row map-headrow" style="grid-template-columns: {{grid}}"><div class="map-pt map-corner">Point</div>
-<sc-for list="{{cols}}" as="c" hint-placeholder-count="11"><div class="map-col {{c.cls}}"><span class="av av-sm {{c.hue}} {{c.prov}}" aria-hidden="true" style="{{c.logoStyle}}">{{c.mono}}</span>{{c.short}}</div></sc-for>
-</div>
-<sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
-<div class="map-layer"><div class="map-layer-in"><strong>{{g.title}}</strong><span>{{g.asks}}</span></div></div>
-<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="2">
-<div class="map-row {{r.cls}}" style="grid-template-columns: {{r.grid}}">
-<button class="map-pt" sc-camel-on-click="{{r.pick}}" aria-expanded="{{r.selected}}"><span class="pt-title">{{r.title}}</span><sc-if value="{{r.proposed}}" hint-placeholder-val="{{ false }}"><span class="tag">proposed by {{r.proposedBy}}</span></sc-if></button>
-<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><div class="map-cell {{c.on}}" title="{{c.note}}"><sc-if value="{{c.has}}" hint-placeholder-val="{{ false }}"><span class="pill s-{{c.cls}}">{{c.status}}</span></sc-if></div></sc-for>
-</div>
-<sc-if value="{{r.selected}}" hint-placeholder-val="{{ false }}">
-<div class="detail"><div class="detail-in">
-<div>
-<h4>The point</h4>
-<p style="margin: 0 0 8px">{{r.d.asks}}</p>
-<p class="muted" style="margin: 0; font-size: 12.5px">Origin: {{r.d.origin}}<br>{{r.d.statusLine}}</p>
-</div>
-<div>
-<h4>Who touches it</h4>
-<ul class="dl">
-<sc-for list="{{r.d.projects}}" as="x" hint-placeholder-count="3"><li><span class="pill s-{{x.cls}}">{{x.status}}</span> <a class="who" href="{{x.href}}"><span class="av av-sm {{x.hue}}" aria-hidden="true" style="{{x.logoStyle}}">{{x.mono}}</span>{{x.short}}</a><span class="muted"> {{x.note}}</span></li></sc-for>
-<sc-if value="{{r.d.noProjects}}" hint-placeholder-val="{{ false }}"><li class="muted">No project has stated anything here yet.</li></sc-if>
-</ul>
-</div>
-<div>
-<h4>Tested by</h4>
-<ul class="dl">
-<sc-for list="{{r.d.scenarios}}" as="s" hint-placeholder-count="1"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a></li></sc-for>
-<sc-if value="{{r.d.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">No scenario yet.</li></sc-if>
-</ul>
-<h4 style="margin-top: 14px">Threads</h4>
-<ul class="dl">
-<sc-for list="{{r.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for>
-<sc-if value="{{r.d.noThreads}}" hint-placeholder-val="{{ false }}"><li class="muted">No thread.</li></sc-if>
-</ul>
-</div>
-</div></div>
-</sc-if>
+<div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
+
+<section class="block" aria-labelledby="h-ready">
+<div class="bhead"><h2 id="h-ready">Ready to try together</h2><p>Points where two or more projects already have something running or test vectors: the best candidates for a pair.</p></div>
+<div class="ready">
+<sc-for list="{{readyCards}}" as="r" hint-placeholder-count="4">
+<article class="rcard">
+<span class="rlayer">{{r.layer}}</span>
+<h3>{{r.title}}</h3>
+<p class="rasks">{{r.asks}}</p>
+<div class="faces"><span class="flabel">Has it running</span><sc-for list="{{r.ready}}" as="f" hint-placeholder-count="2"><a class="face who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for></div>
+<sc-if value="{{r.hasDerived}}" hint-placeholder-val="{{ true }}"><div class="faces"><span class="flabel">Could join, derived from {{r.derivedFrom}}</span><sc-for list="{{r.derived}}" as="f" hint-placeholder-count="2"><a class="face who derived" href="{{f.href}}" title="{{f.title}}"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for></div></sc-if>
+<div class="rfoot"><sc-for list="{{r.scenarios}}" as="s" hint-placeholder-count="1"><span class="pill st-{{s.status}}">{{s.status}}</span><a href="pairs.html">{{s.title}}</a></sc-for><sc-if value="{{r.noScenario}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Propose a scenario</a></sc-if></div>
+</article>
 </sc-for>
-</sc-for>
-</div>
+<sc-if value="{{noReady}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No point has two projects with something running yet.</p></sc-if>
 </div>
 </section>
+
+<section class="block" aria-labelledby="h-layers">
+<div class="bhead"><h2 id="h-layers">All points, by layer</h2><p>Open a layer for its points, a point for what each project says about it. Guesses from public sources stay quiet.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Propose a point</a></div>
+<sc-for list="{{layers}}" as="l" hint-placeholder-count="13">
+<button class="lrow" type="button" aria-expanded="{{l.open}}" sc-camel-on-click="{{l.toggle}}">
+<span><span class="car {{l.car}}" aria-hidden="true">›</span><strong>{{l.title}}</strong><span class="muted" style="display: block; padding-left: 18px">{{l.asks}}</span></span>
+<span class="faces"><sc-for list="{{l.faces}}" as="f" hint-placeholder-count="2"><span class="pm" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span></span></sc-for><sc-if value="{{l.hasGuess}}" hint-placeholder-val="{{ true }}"><span class="guesses"><span class="sdot sd-guess" aria-hidden="true"></span>{{l.guessText}}</span></sc-if></span>
+<span class="cnt">{{l.n}}</span>
+</button>
+<sc-if value="{{l.open}}" hint-placeholder-val="{{ false }}"><div class="lpts">
+<sc-for list="{{l.points}}" as="p" hint-placeholder-count="2">
+<button class="prow {{p.cls}}" type="button" aria-expanded="{{p.selected}}" sc-camel-on-click="{{p.pick}}"><span><span class="ptitle">{{p.title}}</span><sc-if value="{{p.proposed}}" hint-placeholder-val="{{ false }}"> <span class="tag">proposed by {{p.proposedBy}}</span></sc-if></span><span class="pmarks"><sc-for list="{{p.marks}}" as="m" hint-placeholder-count="2"><span class="pm" title="{{m.title}}"><span class="sdot sd-{{m.cls}}" aria-hidden="true"></span><span class="av {{m.hue}}" aria-hidden="true" style="{{m.logoStyle}}">{{m.mono}}</span></span></sc-for><sc-if value="{{p.hasGuess}}" hint-placeholder-val="{{ false }}"><span class="guesses"><span class="sdot sd-guess" aria-hidden="true"></span>{{p.guessText}}</span></sc-if></span></button>
+<sc-if value="{{p.selected}}" hint-placeholder-val="{{ false }}"><div class="pdet">
+<div><h4>The point</h4><p style="margin: 0 0 8px; font-size: 13px">{{p.d.asks}}</p><p class="muted" style="margin: 0; font-size: 12px">Origin: {{p.d.origin}}<br>{{p.d.statusLine}}</p></div>
+<div><h4>What each project says</h4><ul><sc-for list="{{p.d.projects}}" as="x" hint-placeholder-count="3"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul><sc-if value="{{p.d.noProjects}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No project has said anything here yet.</p></sc-if></div>
+<div><h4>Tested by</h4><ul><sc-for list="{{p.d.scenarios}}" as="s" hint-placeholder-count="1"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a></li></sc-for></ul><sc-if value="{{p.d.noScenarios}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No scenario yet.</p></sc-if>
+<h4 style="margin-top: 12px">Threads</h4><ul><sc-for list="{{p.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for></ul><sc-if value="{{p.d.noThreads}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12.5px">No thread.</p></sc-if></div>
+</div></sc-if>
+</sc-for>
+</div></sc-if>
+</sc-for>
+<p class="legend" style="border-top: 1px solid var(--line); border-bottom: 0"><span class="li"><span class="sdot sd-runs"></span> runs</span><span class="li"><span class="sdot sd-vectors"></span> test vectors</span><span class="li"><span class="sdot sd-paper"></span> on paper (spec, known gap)</span><span class="li"><span class="sdot sd-guess"></span> guessed from public sources</span><span class="li"><span class="tag">proposed</span> point not yet accepted</span></p>
+</section>
+
 </div>
 </sc-if>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2100}}">
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1500}}">
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
-    this.state = { data: null, err: '', point: null , theme: savedTheme };
+    this.state = { data: null, err: '', theme: savedTheme, open: {}, point: null };
   }
   componentDidMount() {
     fetch('./data.json')
@@ -231,62 +239,84 @@ class Component extends DCLogic {
     const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
     const d = this.state.data;
     const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, legend: [], grid: '', cols: [], groups: [] };
+    if (!d) return { ...base, head: {}, readyCards: [], noReady: false, layers: [] };
 
     const repo = d.repo;
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newPoint: repo + '/edit/main/points.json', newScenario: repo + '/tree/main/scenarios' };
     const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
-    const face = (p, i) => {
-      const n = p.name.split(' / ')[0].split(' (')[0];
-      const w = n.split(/[\s.]+/).filter(Boolean);
-      return { slug: p.slug, name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), prov: (p.provenance && p.provenance.kind === 'project') ? 'conf' : 'pub', href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
-    };
-    const faces = (d.projects || []).map(face);
-    const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
-    const pts = (d.map && d.map.points) || [];
-    const words = (d.map && d.map.statusWords) || {};
-    const scenarios = d.scenarios || [];
-    const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
-    const short = (p) => p.name.split(' / ')[0].split(' (')[0];
-    const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
-    const scls = (s) => (s === 'n/a' ? 'na' : s);
+    const face = {};
+    P.forEach((p, i) => {
+      const n = (p.shortName || p.name.split(' / ')[0].split(' (')[0]); const w = n.split(/[\s.]+/).filter(Boolean);
+      face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
+    });
+    const cls = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'potential' ? 'guess' : '');
+    const pts = d.map.points;
+    const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
+    const scn = {}; (d.scenarios || []).forEach((s) => (s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
+    const thr = {}; (d.threads || []).forEach((t) => (t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
+    const statusOf = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
 
-    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newPoint: repo + '/edit/main/points.json' };
+    // Points that a detail page answers: who could join, derived from structured data (shown as derived, never as a statement on the map)
+    const live = (s) => s === 'runs' || s === 'building';
+    const DERIVE = {
+      'vrc-exchange': { from: 'Credentials', test: (p) => (p.credentials || []).some((e) => live(e.status) && e.model === 'W3C VC 2.0' && (e.profiles || []).indexOf('VRC') >= 0 && (e.proof || []).indexOf('eddsa-jcs-2022') >= 0) },
+      'same-carrier': { from: 'Messaging', test: (p) => (p.messaging || []).some((e) => live(e.status) && /^TSP/.test(e.protocol) && e.via === 'mediator') },
+      'shared-room': { from: 'Replication', test: (p) => (p.replication || []).some((e) => live(e.status) && e.protocol === 'MLS') },
+      'document-framework': { from: 'Trust Tasks', test: (p) => !!(p.trustTaskUse && live(p.trustTaskUse.status)) },
+    };
 
-    const shortWord = { potential: 'from public sources', runs: 'others can exercise it', vectors: 'test vectors published', spec: 'written down', open: 'known gap', 'n/a': 'not aimed at' };
-    const legend = Object.keys(words).map((k) => ({ k, cls: scls(k), v: words[k], short: shortWord[k] || '' }));
+    const readyCards = pts.map((pt) => {
+      const ready = P.filter((p) => ['runs', 'vectors'].indexOf(statusOf(p, pt.id)) >= 0);
+      if (ready.length < 2) return null;
+      const dv = DERIVE[pt.id];
+      const derived = dv ? P.filter((p) => ready.indexOf(p) < 0 && dv.test(p)) : [];
+      const sc = scn[pt.id] || [];
+      return {
+        layer: layerTitle[pt.layer], title: pt.title, asks: pt.asks,
+        ready: ready.map((p) => ({ ...face[p.slug], cls: cls(statusOf(p, pt.id)), title: face[p.slug].name + ': ' + statusOf(p, pt.id) + (p.points[pt.id].note ? ' · ' + p.points[pt.id].note : '') })),
+        derived: derived.map((p) => ({ ...face[p.slug], title: face[p.slug].name + ': derived from the ' + dv.from + ' page, not stated on the map' })),
+        hasDerived: derived.length > 0, derivedFrom: dv ? dv.from : '',
+        scenarios: sc.map((s) => ({ title: s.title, status: s.status })), noScenario: sc.length === 0,
+      };
+    }).filter(Boolean);
 
+    const open = this.state.open || {};
     const sel = this.state.point;
-    const touches = sel ? P.filter((p) => p.points && p.points[sel]).map((p) => p.slug) : null;
-    const grid = 'minmax(240px, 300px) repeat(' + P.length + ', minmax(84px, 1fr))';
-    const cols = P.map((p) => ({ short: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, prov: faceOf[p.slug].prov, cls: !touches ? '' : (touches.indexOf(p.slug) >= 0 ? 'col-on' : 'col-off') }));
-    const groups = ((d.map && d.map.layers) || []).map((l) => ({
-      title: l.title, asks: l.asks,
-      rows: pts.filter((pt) => pt.layer === l.id).map((pt) => {
-        const selected = sel === pt.id;
-        const touching = P.filter((p) => p.points && p.points[pt.id]);
-        const scn = selected ? scenarios.filter((s) => (s.points || []).indexOf(pt.id) >= 0).map((s) => ({ title: s.title, status: s.status })) : [];
-        const thr = selected ? (d.threads || []).filter((t) => (t.points || []).indexOf(pt.id) >= 0).map((t) => ({ title: t.title, url: t.url, state: t.state })) : [];
-        return {
-          grid, title: pt.title, selected, cls: selected ? 'row-sel' : '',
-          proposed: pt.status === 'proposed', proposedBy: pt.proposedBy ? nameOf(pt.proposedBy) : '',
-          pick: () => this.setState({ point: selected ? null : pt.id }),
-          cells: P.map((p) => {
-            const c = p.points && p.points[pt.id];
-            return c ? { has: true, on: selected ? 'cell-on' : '', status: c.status, cls: scls(c.status), note: c.status + (words[c.status] ? ': ' + words[c.status] : '') + (c.note ? '. ' + c.note : '') } : { has: false, on: '', status: '', cls: '', note: '' };
-          }),
-          d: {
-            asks: pt.asks, origin: pt.origin,
-            statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy ? nameOf(pt.proposedBy) : 'a project') + ', not yet accepted' : 'Accepted point',
-            projects: selected ? touching.map((p) => { const c = p.points[pt.id]; return { short: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle, href: faceOf[p.slug].href, status: c.status, cls: scls(c.status), note: c.note || '' }; }) : [],
-            noProjects: touching.length === 0,
-            scenarios: scn, noScenarios: scn.length === 0, threads: thr, noThreads: thr.length === 0,
-          },
-        };
-      }),
-    })).filter((g) => g.rows.length);
-
-    return { ...base, head, legend, grid, cols, groups };
+    const rank = { runs: 0, vectors: 1, paper: 2 };
+    const layers = d.map.layers.map((l) => {
+      const lp = pts.filter((p) => p.layer === l.id);
+      const best = {}; let guesses = 0;
+      lp.forEach((pt) => P.forEach((p) => { const c = cls(statusOf(p, pt.id)); if (c === 'guess') guesses++; else if (c && (best[p.slug] === undefined || rank[c] < rank[best[p.slug]])) best[p.slug] = c; }));
+      const isOpen = !!open[l.id];
+      return {
+        title: l.title, asks: l.asks, n: lp.length + (lp.length === 1 ? ' point' : ' points'), open: isOpen, car: isOpen ? 'open' : '',
+        toggle: () => this.setState({ open: { ...open, [l.id]: !isOpen } }),
+        faces: Object.keys(best).sort((a, b) => rank[best[a]] - rank[best[b]]).map((s) => ({ ...face[s], cls: best[s], title: face[s].name })),
+        hasGuess: guesses > 0, guessText: guesses + (guesses === 1 ? ' guess' : ' guesses'),
+        points: lp.map((pt) => {
+          const selected = sel === pt.id;
+          const said = P.filter((p) => statusOf(p, pt.id));
+          const marks = said.filter((p) => cls(statusOf(p, pt.id)) !== 'guess').map((p) => ({ ...face[p.slug], cls: cls(statusOf(p, pt.id)), title: face[p.slug].name + ': ' + statusOf(p, pt.id) }));
+          const g = said.filter((p) => statusOf(p, pt.id) === 'potential').length;
+          const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
+          return {
+            title: pt.title, proposed: pt.status === 'proposed', proposedBy: pt.proposedBy ? (face[pt.proposedBy] ? face[pt.proposedBy].name : pt.proposedBy) : '',
+            marks, hasGuess: g > 0, guessText: g + (g === 1 ? ' guess' : ' guesses'),
+            selected, cls: selected ? 'sel' : '', pick: () => this.setState({ point: selected ? null : pt.id }),
+            d: !selected ? { projects: [], scenarios: [], threads: [] } : {
+              asks: pt.asks, origin: pt.origin,
+              statusLine: pt.status === 'proposed' ? 'Proposed by ' + (pt.proposedBy && face[pt.proposedBy] ? face[pt.proposedBy].name : 'a project') + ', not yet accepted' : 'Accepted point',
+              projects: said.sort((a, b) => (rank[cls(statusOf(a, pt.id))] ?? 3) - (rank[cls(statusOf(b, pt.id))] ?? 3)).map((p) => ({ name: face[p.slug].name, href: face[p.slug].href, cls: cls(statusOf(p, pt.id)), status: statusOf(p, pt.id), note: p.points[pt.id].note || '' })),
+              noProjects: said.length === 0,
+              scenarios: sc.map((s) => ({ title: s.title, status: s.status })), noScenarios: sc.length === 0,
+              threads: th.map((t) => ({ title: t.title, url: t.url, state: t.state })), noThreads: th.length === 0,
+            },
+          };
+        }),
+      };
+    });
+    return { ...base, head, readyCards, noReady: readyCards.length === 0, layers };
   }
 }
 </script>
