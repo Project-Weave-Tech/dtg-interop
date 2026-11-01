@@ -64,6 +64,10 @@ body{margin:0;background:#F6F6F3}
 .mx-pass{background:var(--green-b);border-color:var(--green-t);color:var(--green-t)}
 .mx-partial{background:var(--amber-b);border-color:var(--amber-t);color:var(--amber-t)}
 .mx-fail{background:var(--red-b);border-color:var(--red-t);color:var(--red-t)}
+.mx-cell.mx-rep{background:var(--surface);border-style:dashed}
+.rep{display:flex;flex-direction:column;gap:3px;margin:4px 0 0;padding:6px 10px;border-left:2px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.rep strong{font-weight:500;color:var(--ink)}
+.pill.o-rep{background:transparent;border:1.5px dashed currentColor}
 .side{flex:1 1 300px;max-width:420px;padding:20px 24px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
 .side p{margin:0;font-size:13px}
 .cols4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 20px 22px}
@@ -180,7 +184,7 @@ body{margin:0;background:#F6F6F3}
 <p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
 <sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
 <p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
-<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span></p>
+<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span></p>
 </div>
 </div>
 </section>
@@ -199,7 +203,7 @@ body{margin:0;background:#F6F6F3}
 <p class="muted faces">With <sc-for list="{{s.faces}}" as="f" hint-placeholder-count="1"><span class="faces"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</span></sc-for><sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
 <sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
 <sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
-<sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><p><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p></sc-for>
+<sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><div><p style="margin: 0"><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p><sc-if value="{{x.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><span><strong>Reported, not yet confirmed by either side.</strong> Entered by {{x.by}} from:</span><sc-for list="{{x.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></div></sc-for>
 <div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; padding-top: 6px; border-top: 1px solid var(--line)">
 <a href="{{s.run}}" target="_blank" rel="noopener">Record a run</a>
 <sc-if value="{{s.hasIssue}}" hint-placeholder-val="{{ false }}"><a href="{{s.issueUrl}}" target="_blank" rel="noopener">Tracking issue</a></sc-if>
@@ -227,7 +231,7 @@ body{margin:0;background:#F6F6F3}
 <div class="sec">
 <h4>Ran together</h4>
 <ul class="dl">
-<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span></li></sc-for>
+<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span><sc-if value="{{x.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><strong>Reported, not yet confirmed by either side.</strong><sc-for list="{{x.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></li></sc-for>
 <sc-if value="{{pair.noRuns}}" hint-placeholder-val="{{ true }}"><li class="muted">Not tested together yet.</li></sc-if>
 </ul>
 <div style="margin-top: 14px"><a class="btn btn-primary" href="{{pair.run}}" target="_blank" rel="noopener">Record a run for this pair</a></div>
@@ -312,8 +316,8 @@ class Component extends DCLogic {
           if (runs.length) anyRun = true;
           const last = runs.length ? runs[runs.length - 1].outcome : '';
           return {
-            diag: false, cls: runs.length ? 'mx-' + last : 'mx-empty', mark: glyph[last] || '',
-            label: short(a) + ' and ' + short(b) + ': ' + (runs.length ? runs.map((r) => r.title + ', ' + r.outcome).join('; ') : 'not tested together yet'),
+            diag: false, cls: runs.length ? 'mx-' + last + (runs.every((r) => r.reported) ? ' mx-rep' : '') : 'mx-empty', mark: glyph[last] || '',
+            label: short(a) + ' and ' + short(b) + ': ' + (runs.length ? runs.map((r) => r.title + ', ' + r.outcome + (r.reported ? ' (reported, not yet confirmed by either side)' : '')).join('; ') : 'not tested together yet'),
             open: () => this.setState({ pair: { a: a.slug, b: b.slug } }),
           };
         }),
@@ -329,7 +333,7 @@ class Component extends DCLogic {
         parts: parts.map(nameOf).join(', ') || 'nobody yet', faces: parts.map((x) => faceOf[x] || { hue: 'h-slate', mono: '?', name: x, logoStyle: '' }), lonely: parts.length < 2,
         waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
         vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
-        results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × ') })),
+        results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome + (r.reportedBy ? ' o-rep' : ''), date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × '), reported: !!r.reportedBy, by: r.reportedBy ? nameOf(r.reportedBy.project) : '', sources: (r.reportedBy && r.reportedBy.sources) || [] })),
         run: runUrl(s, parts[0], parts[1]), hasIssue: !!s.issue, issueUrl: s.issue ? repo + '/issues/' + s.issue : '',
         editUrl: s.editUrl || repo, stale: stale(s.updated), updated: this.fmt(s.updated),
       };
@@ -340,7 +344,8 @@ class Component extends DCLogic {
     const sel = this.state.pair;
     if (sel) {
       const a = sel.a, b = sel.b;
-      const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date) }));
+      const srcOf = (r) => { const sc = scenarios.find((x) => x.slug === r.scenario); const res = sc && (sc.results || []).find((x) => x.date === r.date && x.reportedBy); return (res && res.reportedBy.sources) || []; };
+      const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome + (r.reported ? ' o-rep' : ''), date: this.fmt(r.date), reported: !!r.reported, sources: r.reported ? srcOf(r) : [] }));
       const scn = scenarios.filter((s) => (s.participants || []).indexOf(a) >= 0 || (s.participants || []).indexOf(b) >= 0)
         .map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', run: runUrl(s, a, b) }));
       pair = { show: true, a: nameOf(a), b: nameOf(b), runs, noRuns: runs.length === 0, run: runUrl(null, a, b), scenarios: scn, noScenarios: scn.length === 0 };

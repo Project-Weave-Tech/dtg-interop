@@ -107,6 +107,7 @@ body{margin:0;background:#F6F6F3}
 .card.thin{background:transparent;border-style:dashed}
 .card.thin h3{font-weight:500;color:var(--muted)}
 .shownb{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green-t);background:var(--green-b);border-radius:999px;padding:2px 10px}
+.shownb.rep{font-weight:500;background:transparent;border:1.5px dashed var(--green-t);padding:1px 9px}
 .candq{margin:0;font-size:12px;color:var(--amber-t);background:var(--amber-b);border-radius:6px;padding:6px 9px}
 .card{border:1px solid var(--line);border-radius:11px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
 .c-ready .card{border-color:color-mix(in srgb,var(--green-t) 45%,var(--line))}
@@ -187,6 +188,7 @@ body{margin:0;background:#F6F6F3}
 <article class="card {{k.selCls}} {{k.thin}}" id="pt-{{k.id}}">
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}</h3></button>
 <sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Realized: {{k.shown}}</span></sc-if>
+<sc-if value="{{k.hasReported}}" hint-placeholder-val="{{ false }}"><span class="shownb rep" title="Reported, not yet confirmed by either side">✓ Realized (reported): {{k.reported}}</span></sc-if>
 <div class="faces">
 <sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="nobody">nobody yet</span></sc-if>
@@ -288,7 +290,10 @@ class Component extends DCLogic {
       const paper = faces.filter((f) => f.cls === 'paper').length;
       const col = running >= 2 ? 'ready' : running === 1 ? 'one' : 'paper';
       const sc = scn[pt.id] || []; const th = thr[pt.id] || [];
-      const shownPairs = Object.keys(d.shown || {}).filter((k) => (d.shown[k] || {})[pt.id]).map((k) => k.split('|').map((s) => (face[s] ? face[s].name : s)).join(' × '));
+      const pairName = (k) => k.split('|').map((s) => (face[s] ? face[s].name : s)).join(' × ');
+      const shownKeys = Object.keys(d.shown || {}).filter((k) => (d.shown[k] || {})[pt.id]);
+      const shownPairs = shownKeys.filter((k) => d.shown[k][pt.id].some((r) => !r.reported)).map(pairName);
+      const reportedPairs = shownKeys.filter((k) => d.shown[k][pt.id].every((r) => r.reported)).map(pairName);
       const sayers = P.filter((p) => raw(p, pt.id)).length;
       const selected = sel === pt.id; const copied = this.state.copied === pt.id;
       const prompt = 'In github.com/real-life-org/dtg-interop, follow AGENTS.md. For our project, update projects/<our-project-slug>/project.json at points["' + pt.id + '"] (' + pt.title + '): set the status from our own code or specification (runs only with evidence), add a short note and evidence links. Run npm run validate, commit only that file as "<our-project-slug>: <what changed>", then git pull --rebase and push to main (open a pull request instead if you have no write access).';
@@ -297,7 +302,7 @@ class Component extends DCLogic {
         faces, nobody: !faces.length,
         scenarios: sc.map((s) => ({ title: s.title, status: s.status })), propose: !sc.length && (col === 'ready' || col === 'one'), hasFoot: sc.length > 0 || col === 'ready' || col === 'one',
         weight: running * 10 + paper,
-        shown: shownPairs.join(', '), hasShown: shownPairs.length > 0, thin: sayers <= 1 ? 'thin' : '',
+        shown: shownPairs.join(', '), hasShown: shownPairs.length > 0, reported: reportedPairs.join(', '), hasReported: reportedPairs.length > 0, thin: sayers <= 1 ? 'thin' : '',
         selected, selCls: selected ? 'sel' : '', pick: () => this.setState({ point: selected ? null : pt.id }),
         d: !selected ? { projects: [], threads: [] } : {
           asks: pt.asks, origin: pt.origin, projects: said, noProjects: said.length === 0,
