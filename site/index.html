@@ -371,7 +371,7 @@ body{margin:0;background:#F6F6F3}
 <p style="margin: 12px 0 0; font-size: 12.5px"><a href="map.html">All points on Potential</a></p>
 </div>
 <div class="sec">
-<h4>Realised interop</h4>
+<h4>Realized interop</h4>
 <ul class="dl">
 <sc-for list="{{pp.realised}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted">with {{x.other}}, {{x.date}}</span></li></sc-for>
 <sc-if value="{{pp.noRealised}}" hint-placeholder-val="{{ true }}"><li class="muted">No run with another project yet.</li></sc-if>
