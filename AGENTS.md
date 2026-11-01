@@ -4,7 +4,7 @@ This board records how the implementations of the decentralized trust graph fit 
 
 ## What belongs here
 
-- Facts about **your own project**, as of today. Do not edit another project's row; open an issue or tell that project instead.
+- Facts about **your own project**, as of today. Change only `projects/<slug>/project.json` (and its README) of your own project; for another project's row, open an issue or tell that project. A scenario result is entered by one of the two sides.
 - No ratings, rankings or comparisons in prose. The board compares by putting the same fields side by side.
 - Nothing guessed as running. `runs` means it runs in code someone can look at, and it needs `evidence`.
 - Notes in your own words, one or two sentences, no marketing language.
@@ -46,22 +46,30 @@ Required: `slug` (the folder name), `name`, `repositories`, `stack`, `points`, `
 - **Status** in `credentials`, `messaging`, `replication`, `trustTaskUse` and facet values: `runs` (in running code) | `building` (code exists, not complete) | `committed` (announced or agreed, nothing running yet). `trustTaskUse` also has `none`.
 - **Status at a point** (`points.<id>.status`): `runs` | `vectors` (test vectors exist) | `spec` (specified, not built) | `open` (known gap or open question) | `potential` (compiled from public sources, not confirmed) | `n/a` (does not apply). Use `potential` only when you did not confirm it.
 - **Evidence**: every `runs` (and `vectors` at a point) needs `evidence: [{ "label", "url" }]`, pointing at code, a release or a test. The validation rejects it otherwise.
-- **Closed vocabularies**: `credentials.model`, `credentials.proof`, `messaging.protocol`, `replication.protocol`, `via`, `trustTaskUse.documentProof` accept only the values in `schema/project.schema.json`. Credential profiles must be keys of `credential-profiles.json`. If your value is missing, add it in the same pull request and say why.
+- **Closed vocabularies**: `credentials.model`, `credentials.proof`, `messaging.protocol`, `replication.protocol`, `via`, `trustTaskUse.documentProof` accept only the values in `schema/project.schema.json`. Credential profiles must be keys of `credential-profiles.json`. If your value is missing, add it to the schema in the same commit and say why in the commit message.
 - **Facets**: a value is a short string, or `{ "value", "status", "note"?, "evidence"? }` when it is not simply in use (an experiment branch is `building`). Brackets describe, they never carry a status.
 - **Empty and missing**: an empty array means "none"; a missing field means "not known". Do not write `[]` when you only do not know.
 - **Confirming**: when your project has checked its row, set `provenance.kind` to `project`, `provenance.date` and `updated` to today, and remove the line saying the row was compiled from public sources in your `README.md`.
 
-## Before the pull request
+## Publishing a change
+
+With write access, push straight to `main`:
 
 ```bash
 npm install
+# edit projects/<slug>/project.json
 npm run validate          # must print "valid: …"
 npm run build             # optional: builds site/dist to look at
+git pull --rebase
+git commit -m "<slug>: <what changed>"
+git push
 ```
 
-Do not commit `site/github-snapshot.json` or `site/dist/`; the build changes them as a side effect.
+One project per commit. Do not commit `site/github-snapshot.json` or `site/dist/`; the build changes them as a side effect.
 
-Pull request: one project per pull request, title `<slug>: <what changed>`.
+The deploy runs `npm run validate` before every publication. An invalid push is not published; the live board stays on the last good state. Whoever sees a failed run fixes it with a new commit.
+
+Without write access (new to the board, or no access to the repository yet): fork, make the same change and open a pull request with the same title.
 
 ## Recipes
 
@@ -77,7 +85,7 @@ Pull request: one project per pull request, title `<slug>: <what changed>`.
 }
 ```
 
-Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"` and `proposedBy`, in its own pull request.
+Only ids from `points.json`. To propose a new point, add it to `points.json` with `"status": "proposed"` and `proposedBy`, in its own commit.
 
 **2. Record a run between two projects.** In `scenarios/<slug>/scenario.json`, append to `results`:
 
@@ -95,4 +103,4 @@ Only ids from `points.json`. To propose a new point, add it to `points.json` wit
 
 `outcome` is `pass`, `fail` or `partial`. Both projects must exist under `projects/`. No matching scenario yet: copy `scenarios/_template/` (status `proposed`), or open an issue with the label `run`.
 
-**3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then open the pull request.
+**3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then push (or open a pull request if you have no write access yet).

@@ -4,9 +4,9 @@ A status board for interoperability between the implementations of the decentral
 
 Board: https://real-life.org/dtg-interop/ (data: [`site/dist/data.json`](site/) built from this repository and from GitHub).
 
-Most rows were compiled from public sources and say so. **Every project can correct its own row:** open [`projects/<slug>/project.json`](projects/) in the GitHub editor, change what is wrong, send the pull request. Statuses, apps, repositories, anything.
+Most rows were compiled from public sources and say so. **Every project can correct its own row:** change [`projects/<slug>/project.json`](projects/) and push to `main` (ask for write access), or send a pull request without it. Statuses, apps, repositories, anything. Every push is validated before it goes live.
 
-**Using an AI agent?** Point it at [`AGENTS.md`](AGENTS.md): files, fields, rules, the checks to run and recipes for the common changes.
+**Using an AI agent?** Point it at [`AGENTS.md`](AGENTS.md): files, fields, rules, the check before pushing and recipes for the common changes.
 
 **Record a run** between two projects: add a line to `results` in [`scenarios/<slug>/scenario.json`](scenarios/) (date, two sides with versions, outcome), or open an issue with the label `run` and someone will.
 
