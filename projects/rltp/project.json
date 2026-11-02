@@ -230,7 +230,7 @@
         }
       ]
     },
-    "app-change": {
+    "several-apps": {
       "status": "open",
       "note": "Relationships are documents and travel; membership is a fact in a replicated log, not a credential a wallet carries. An outward membership statement is designed, not built.",
       "evidence": [

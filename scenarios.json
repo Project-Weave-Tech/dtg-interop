@@ -59,16 +59,16 @@
       "origin": "rltp (E15), Consensual persona"
     },
     {
-      "id": "app-change",
+      "id": "several-apps",
       "layer": "person",
-      "title": "App change with credentials",
-      "asks": "A person moves to another app and keeps relationship and membership credentials.",
+      "title": "Use your credentials in several apps",
+      "asks": "A person uses the same relationship and membership credentials in two apps at once; moving from one app to another is the case where the first one is no longer used.",
       "requires": [
-        "Leaving app: exports the person's relationship and membership credentials together with the keys, or a key the person controls",
-        "Receiving app: imports them and verifies each one (vrc-verify, membership-statement)"
+        "First app: hands the person's credentials to the second app, together with access to a key of the person (shared, or a key of its own under the same person)",
+        "Second app: imports them, verifies each one (vrc-verify, membership-statement) and can act as their holder"
       ],
-      "done": "Credentials exported from one app are imported into another, verify there, and the person sees their contacts and memberships.",
-      "origin": "Weave deck, Level 0b",
+      "done": "Credentials from one app are usable in another: they verify there, the person sees their contacts and memberships in both apps, and both apps keep working.",
+      "origin": "Weave deck, Level 0b (app change with VRCs and VMCs), read as concurrent use",
       "weaveLevel": "0b"
     },
     {

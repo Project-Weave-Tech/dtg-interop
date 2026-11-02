@@ -193,7 +193,7 @@
         }
       ]
     },
-    "app-change": {
+    "several-apps": {
       "status": "stated",
       "note": "VRCs and VMCs live in the VTA/wallet.",
       "evidence": [
