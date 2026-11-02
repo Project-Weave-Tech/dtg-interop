@@ -69,7 +69,7 @@ if (token) {
     ... on Issue{state createdAt updatedAt comments(last:1){totalCount nodes{createdAt}}}
     ... on PullRequest{state createdAt updatedAt comments(last:1){totalCount nodes{createdAt}}}}}}`
   const DISC = `query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){discussion(number:$n){closed createdAt updatedAt
-    comments(last:50){totalCount nodes{createdAt replies(last:1){totalCount nodes{createdAt}}}}}}}`
+    comments(last:20){totalCount nodes{createdAt replies(last:1){totalCount nodes{createdAt}}}}}}}`
   const urls = [...threads.map((t) => t.url), ...issues.map((i) => i.url)]
   let failed = 0
   for (const url of urls) {
@@ -86,7 +86,7 @@ if (token) {
         const d = (await gql(ISSUE, { o, r, n: +n })).repository.issueOrPullRequest
         activity[url] = { comments: d.comments.totalCount, lastComment: d.comments.nodes[0]?.createdAt.slice(0, 10) ?? null, lastActivity: d.updatedAt.slice(0, 10), state: d.state.toLowerCase(), created: d.createdAt.slice(0, 10) }
       }
-    } catch (e) { failed++; if (activity[url]) activity[url].stale = true }
+    } catch (e) { failed++; console.warn(`activity not fetched for ${url}: ${String(e.message).slice(0, 200)}`); if (activity[url]) activity[url].stale = true }
   }
   activityOk = failed === 0
   if (failed) console.warn(`${failed} thread(s) without fresh activity; the last snapshot is kept`)
