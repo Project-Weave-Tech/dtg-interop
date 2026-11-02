@@ -54,7 +54,45 @@ try {
 if (failedRepos) console.warn(`${failedRepos} repositor${failedRepos === 1 ? 'y' : 'ies'} not fetched; their last snapshot entries are kept as stale`)
 githubFetched = issuesOk && reposOk
 // the snapshot only ever takes successful fetches
-if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
+// Thread activity: for every thread on GitHub (issue, pull request or
+// discussion), the number of comments, the date of the last comment and the
+// state, read through GraphQL (which needs a token; without one the last
+// snapshot is kept). Discussions count top-level comments plus their replies.
+const activity = { ...(snapshot.activity ?? {}) }
+let activityOk = false
+if (token) {
+  const gql = async (query, variables) => {
+    const r = await fetch('https://api.github.com/graphql', { method: 'POST', headers: { ...headers, 'content-type': 'application/json' }, body: JSON.stringify({ query, variables }) })
+    const j = await r.json(); if (!r.ok || j.errors) throw new Error(JSON.stringify(j.errors ?? r.status)); return j.data
+  }
+  const ISSUE = `query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){issueOrPullRequest(number:$n){
+    ... on Issue{state createdAt updatedAt comments(last:1){totalCount nodes{createdAt}}}
+    ... on PullRequest{state createdAt updatedAt comments(last:1){totalCount nodes{createdAt}}}}}}`
+  const DISC = `query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){discussion(number:$n){closed createdAt updatedAt
+    comments(last:50){totalCount nodes{createdAt replies(last:1){totalCount nodes{createdAt}}}}}}}`
+  const urls = [...threads.map((t) => t.url), ...issues.map((i) => i.url)]
+  let failed = 0
+  for (const url of urls) {
+    const m = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/(issues|pull|discussions)\/(\d+)/)
+    if (!m) continue
+    const [, o, r, kind, n] = m
+    try {
+      if (kind === 'discussions') {
+        const d = (await gql(DISC, { o, r, n: +n })).repository.discussion
+        const dates = d.comments.nodes.flatMap((c) => [c.createdAt, ...c.replies.nodes.map((x) => x.createdAt)])
+        const replies = d.comments.nodes.reduce((k, c) => k + c.replies.totalCount, 0)
+        activity[url] = { comments: d.comments.totalCount + replies, lastComment: dates.sort().at(-1)?.slice(0, 10) ?? null, lastActivity: d.updatedAt.slice(0, 10), state: d.closed ? 'closed' : 'open', created: d.createdAt.slice(0, 10) }
+      } else {
+        const d = (await gql(ISSUE, { o, r, n: +n })).repository.issueOrPullRequest
+        activity[url] = { comments: d.comments.totalCount, lastComment: d.comments.nodes[0]?.createdAt.slice(0, 10) ?? null, lastActivity: d.updatedAt.slice(0, 10), state: d.state.toLowerCase(), created: d.createdAt.slice(0, 10) }
+      }
+    } catch (e) { failed++; if (activity[url]) activity[url].stale = true }
+  }
+  activityOk = failed === 0
+  if (failed) console.warn(`${failed} thread(s) without fresh activity; the last snapshot is kept`)
+} else console.warn('no GITHUB_TOKEN: thread activity from the snapshot')
+if (issuesOk || fetchedRepos || activityOk) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos, activity }, null, 2) + '\n')
+
 
 // Derived scenario statuses: where a scenario names derivedFrom and a project said no
 // more than stated there, a matching detail entry with status runs makes the
@@ -150,7 +188,7 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
