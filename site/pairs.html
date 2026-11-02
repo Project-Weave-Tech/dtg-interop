@@ -65,14 +65,16 @@ body{margin:0;background:#F6F6F3}
 .mx-partial{background:var(--amber-b);border-color:var(--amber-t);color:var(--amber-t)}
 .mx-fail{background:var(--red-b);border-color:var(--red-t);color:var(--red-t)}
 .mx-cell.mx-rep{background:var(--surface);border-style:dashed}
-.mx-cell{min-width:38px;width:auto;padding:0 5px;display:inline-flex;align-items:center;justify-content:center;gap:3px}
-.mx-has{background:var(--surface)}
-.mk{font-weight:600;font-size:15px}
+.mx-cell{display:inline-flex;align-items:center;justify-content:center;gap:1px}
+.mx-old{opacity:.45}
+.mx-n2{font-size:12px}
+.mx-n3{font-size:10px;letter-spacing:-.04em}
+.mk{font-weight:600}
 .mk-pass{color:var(--green-t)}
 .mk-partial{color:var(--amber-t)}
 .mk-fail{color:var(--red-t)}
-.mk-old{opacity:.38}
-.mk-rep{text-decoration:underline dashed;text-underline-offset:3px}
+.mk-old{opacity:.45}
+.pill.o-old{opacity:.45}
 .rep{display:flex;flex-direction:column;gap:3px;margin:4px 0 0;padding:6px 10px;border-left:2px dashed var(--line);font-size:12.5px;color:var(--muted)}
 .rep strong{font-weight:500;color:var(--ink)}
 .pill.o-rep{background:transparent;border:1.5px dashed currentColor}
@@ -192,7 +194,7 @@ body{margin:0;background:#F6F6F3}
 <p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
 <sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
 <p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
-<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span><span class="pill" style="opacity:.45">✓ last run older than 30 days</span></p>
+<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span><span class="pill o-pass o-old">✓ last run older than 30 days</span></p>
 </div>
 </div>
 </section>
@@ -328,9 +330,12 @@ class Component extends DCLogic {
           const latest = {};
           runs.forEach((r) => { if (!latest[r.scenario] || r.date >= latest[r.scenario].date) latest[r.scenario] = r; });
           const per = Object.keys(latest).map((k) => latest[k]);
-          const marks = per.map((r) => ({ g: glyph[r.outcome] || '?', cls: 'mk mk-' + r.outcome + (isFresh(r) ? '' : ' mk-old') + (r.reported ? ' mk-rep' : '') }));
+          // The cell takes the colour of the freshest result; a single old mark fades the whole cell, several fade one by one
+          const allOld = per.length > 0 && per.every((r) => !isFresh(r));
+          const head = per.slice().sort((x, y) => (isFresh(y) - isFresh(x)) || String(y.date).localeCompare(String(x.date)))[0];
+          const marks = per.slice(0, 3).map((r) => ({ g: glyph[r.outcome] || '?', cls: 'mk mk-' + r.outcome + (!allOld && !isFresh(r) ? ' mk-old' : '') }));
           return {
-            diag: false, marks, cls: per.length ? 'mx-has' + (per.every((r) => !isFresh(r)) ? ' mx-old' : '') : 'mx-empty', mark: '',
+            diag: false, marks, cls: per.length ? 'mx-' + head.outcome + (per.every((r) => r.reported) ? ' mx-rep' : '') + (allOld ? ' mx-old' : '') + (per.length > 1 ? ' mx-n' + Math.min(per.length, 3) : '') : 'mx-empty', mark: '',
             label: short(a) + ' and ' + short(b) + ': ' + (per.length ? per.map((r) => r.title + ', ' + r.outcome + ' on ' + r.date + (r.source === 'ci' ? ' (CI)' : '') + (r.reported ? ' (reported, not yet confirmed by either side)' : '') + (isFresh(r) ? '' : ', older than 30 days')).join('; ') : 'not tested together yet'),
             open: () => this.setState({ pair: { a: a.slug, b: b.slug } }),
           };
