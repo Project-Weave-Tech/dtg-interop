@@ -69,6 +69,11 @@ body{margin:0;background:#F6F6F3}
 .tctx{margin:0;font-size:13px;color:var(--muted)}
 .tfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
 .tfoot .when{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.act{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.act strong{font-weight:600;color:var(--ink)}
+.act .d{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+.act.new strong,.act.new svg{color:var(--accent)}
+.act.none{font-style:italic}
 .board a.chip{color:var(--ink)}
 .board a.chip:hover{border-color:var(--muted);text-decoration:none}
 @media (max-width: 640px){
@@ -168,7 +173,8 @@ body{margin:0;background:#F6F6F3}
 <p class="tctx">{{t.context}}</p>
 <div class="tfoot">
 <sc-for list="{{t.points}}" as="p" hint-placeholder-count="1"><a class="chip" href="{{p.href}}">{{p.title}}</a></sc-for>
-<span class="when" title="last activity">{{t.updated}}</span>
+<sc-if value="{{t.hasState}}" hint-placeholder-val="{{ false }}"><span class="pill">{{t.ghState}}</span></sc-if>
+<span class="act {{t.actCls}}" title="{{t.actTitle}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><strong>{{t.answers}}</strong><span class="d">{{t.when}}</span></span>
 </div>
 <sc-if value="{{t.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">no activity for over 90 days</span></sc-if>
 </article>
@@ -219,7 +225,11 @@ class Component extends DCLogic {
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newThread: repo + '/edit/main/threads.json' };
 
     const kinds = { issues: 'Issue', discussions: 'Discussion', pull: 'PR' };
-    const all = (d.threads || []).slice().sort((a, b) => String(b.updated).localeCompare(String(a.updated))).map((t) => {
+    // Most recent first: the last answer, else the last activity of any kind, else the opening date
+    const recent = (t) => { const a = t.activity || {}; return a.lastComment || a.lastActivity || a.created || t.updated || ''; };
+    const days = (x) => (Date.parse(d.generated) - Date.parse(x)) / 864e5;
+    const all = (d.threads || []).slice().sort((a, b) => String(recent(b)).localeCompare(String(recent(a)))).map((t) => {
+      const a = t.activity || {}; const has = typeof a.comments === 'number'; const n = a.comments || 0;
       const m = String(t.url).match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)(?:\/(issues|discussions|pull)\/(\d+))?/);
       const owner = m ? m[1] : t.host; const repoName = m ? m[2] : '';
       return {
@@ -227,7 +237,12 @@ class Component extends DCLogic {
         owner, repoName, repo: m ? owner + '/' + repoName : t.host, repoUrl: m ? 'https://github.com/' + owner + '/' + repoName : t.url,
         kind: m && m[3] ? kinds[m[3]] + ' #' + m[4] : '',
         points: (t.scenarios || t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
-        updated: this.fmt(t.updated), stale: stale(t.updated),
+        updated: this.fmt(t.updated), stale: stale(recent(t)),
+        answers: !has ? '' : n ? n + (n === 1 ? ' answer' : ' answers') : 'No answers yet',
+        when: !has ? this.fmt(t.updated) : a.lastComment ? 'last ' + this.fmt(a.lastComment) : 'opened ' + this.fmt(a.created || a.lastActivity),
+        actCls: (!has || n ? '' : 'none') + (has && a.lastComment && days(a.lastComment) <= 7 ? ' new' : ''),
+        actTitle: !has ? 'last update' : (a.lastActivity ? 'last activity ' + this.fmt(a.lastActivity) : '') + (a.stale ? ' · from the last snapshot' : ''),
+        hasState: !!a.state && a.state !== 'open', ghState: a.state || '',
       };
     });
     const counts = {}; all.forEach((t) => { counts[t.repo] = (counts[t.repo] || 0) + 1; });
