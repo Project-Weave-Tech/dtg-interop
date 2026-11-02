@@ -301,8 +301,10 @@ class Component extends DCLogic {
     const faces = (d.projects || []).map(face);
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
-    const pts = (d.map && d.map.points) || [];
-    const scenarios = d.scenarios || [];
+    // The data move (points became scenarios, folders became procedures) is read in both shapes
+    const moved = !(d.map && d.map.points);
+    const pts = (moved ? d.scenarios : d.map.points) || [];
+    const scenarios = (moved ? d.procedures : d.scenarios) || [];
     const ptById = {}; pts.forEach((p) => { ptById[p.id] = p; });
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
@@ -311,7 +313,7 @@ class Component extends DCLogic {
     const pairOf = (a, b) => ((d.pairs || {})[a + '|' + b]) || ((d.pairs || {})[b + '|' + a]) || [];
     const runUrl = (s, a, b) => {
       const title = 'Run: ' + (s ? s.title : '<scenario>');
-      const body = 'Scenario: ' + (s ? s.slug : '') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
+      const body = 'Procedure: ' + (s ? s.slug : '') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
       return repo + '/issues/new?labels=run&title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
     };
 
@@ -351,7 +353,7 @@ class Component extends DCLogic {
       const parts = s.participants || [];
       return {
         title: s.title, summary: s.summary, status: s.status,
-        points: (s.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
+        points: (s.scenarios || s.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
         parts: parts.map(nameOf).join(', ') || 'nobody yet', faces: parts.map((x) => faceOf[x] || { hue: 'h-slate', mono: '?', name: x, logoStyle: '' }), lonely: parts.length < 2,
         waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
         vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
@@ -366,7 +368,7 @@ class Component extends DCLogic {
     const sel = this.state.pair;
     if (sel) {
       const a = sel.a, b = sel.b;
-      const srcOf = (r) => { const sc = scenarios.find((x) => x.slug === r.scenario); const res = sc && (sc.results || []).find((x) => x.date === r.date && x.reportedBy); return (res && res.reportedBy.sources) || []; };
+      const srcOf = (r) => { const sc = scenarios.find((x) => x.slug === (moved ? r.procedure : r.scenario)); const res = sc && (sc.results || []).find((x) => x.date === r.date && x.reportedBy); return (res && res.reportedBy.sources) || []; };
       const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome + (r.reported ? ' o-rep' : ''), date: this.fmt(r.date), reported: !!r.reported, sources: r.reported ? srcOf(r) : [] }));
       const scn = scenarios.filter((s) => (s.participants || []).indexOf(a) >= 0 || (s.participants || []).indexOf(b) >= 0)
         .map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', run: runUrl(s, a, b) }));

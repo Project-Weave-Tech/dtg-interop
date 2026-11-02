@@ -280,8 +280,8 @@ class Component extends DCLogic {
 
     // A status the build derived from the detail data (points[].derivedFrom) counts like a stated one; the open card says where it came from
     const FROM = { credentials: 'Credentials', messaging: 'Messaging', replication: 'Replication', trustTaskUse: 'Trust Tasks' };
-    // Scenarios: today they are map.points with their procedures in d.scenarios; after the data move d.scenarios carries
-    // requires/done itself, with procedure and runs inside, and projects keep their cells under scenarios instead of points
+    // Scenarios: before the data move they were map.points with the folders in d.scenarios; after it d.scenarios is the
+    // catalogue, the folders are d.procedures, and projects keep their cells under scenarios instead of points
     const moved = !(d.map && d.map.points && d.map.points.length);
     const cellsOf = (p) => (moved ? p.scenarios : p.points) || {};
     const cellKey = moved ? 'scenarios' : 'points';
@@ -290,26 +290,22 @@ class Component extends DCLogic {
     const runIdx = {}; const addRun = (id, r) => { (runIdx[id] = runIdx[id] || []).push(r); };
     const sidesOf = (sides) => [...new Set((sides || []).map((x) => x.project))].sort();
     const pairsOfSides = (sl) => { const o = []; for (let i = 0; i < sl.length; i++) for (let j = i + 1; j < sl.length; j++) o.push([sl[i], sl[j]]); return o; };
-    const procs = {};
-    if (moved) {
-      list.forEach((sc) => {
-        if (sc.procedure) procs[sc.id] = [{ title: sc.procedure.summary ? 'Procedure' : 'Procedure', status: (sc.runs || []).length ? 'has runs' : 'no run yet', slug: sc.id }];
-        (sc.runs || []).forEach((r) => pairsOfSides(sidesOf(r.sides)).forEach(([a, b]) => [sc.id].concat(r.scenarios || []).filter((x, i, arr) => arr.indexOf(x) === i).forEach((id) => addRun(id, { a, b, date: r.date, outcome: r.outcome, reported: !!r.reportedBy, slug: sc.id }))));
-      });
-    } else {
-      const procBySlug = {};
-      (d.scenarios || []).forEach((sc) => { procBySlug[sc.slug] = sc; (sc.points || []).forEach((x) => { (procs[x] = procs[x] || []).push({ title: sc.title, status: sc.status, slug: sc.slug }); }); });
-      Object.keys(d.pairs || {}).forEach((k) => { const [a, b] = k.split('|'); (d.pairs[k] || []).forEach((r) => {
-        const covers = r.outcome === 'fail' ? ((procBySlug[r.scenario] || {}).points || []) : (r.points || []);
-        covers.forEach((id) => addRun(id, { a, b, date: r.date, outcome: r.outcome, reported: !!r.reported, slug: r.scenario }));
-      }); });
-    }
-    const runUrl = (slug, a, b, title) => repo + '/issues/new?labels=run&title=' + encodeURIComponent('Run: ' + title) + '&body=' + encodeURIComponent('Scenario: ' + (slug || '') + '\nProject A: ' + a + '\nVersion A: \nProject B: ' + b + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ');
+    // Procedures: the folders that cover a scenario (after the move on the scenario itself, before it in d.scenarios).
+    // Runs per scenario come from d.pairs in both shapes; after the move each entry names its scenario, before it the folder
+    const procs = {}; const procBySlug = {};
+    const folders = moved ? (d.procedures || []) : (d.scenarios || []);
+    folders.forEach((f) => { procBySlug[f.slug] = f; (f.scenarios || f.points || []).forEach((x) => { (procs[x] = procs[x] || []).push({ title: f.title, status: f.status, slug: f.slug }); }); });
+    Object.keys(d.pairs || {}).forEach((k) => { const [a, b] = k.split('|'); (d.pairs[k] || []).forEach((r) => {
+      const slug = moved ? r.procedure : r.scenario;
+      const covers = moved ? [r.scenario] : r.outcome === 'fail' ? ((procBySlug[slug] || {}).points || []) : (r.points || []);
+      covers.forEach((id) => addRun(id, { a, b, date: r.date, outcome: r.outcome, reported: !!r.reported, slug }));
+    }); });
+    const runUrl = (slug, a, b, title, id) => repo + '/issues/new?labels=run&title=' + encodeURIComponent('Run: ' + title) + '&body=' + encodeURIComponent('Scenario: ' + (id || '') + '\nProcedure: ' + (slug || '') + '\nProject A: ' + a + '\nVersion A: \nProject B: ' + b + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ');
     const raw = (p, id) => (cellsOf(p)[id] ? cellsOf(p)[id].status : null);
     const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'stated' ? 'stated' : null);
     const order = { runs: 0, vectors: 1, paper: 2, stated: 3 };
     const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
-    const thr = {}; (d.threads || []).forEach((t) => (t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
+    const thr = {}; (d.threads || []).forEach((t) => (t.scenarios || t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
     const picked = this.state.layers || [];
     const sel = this.state.point;
 
@@ -333,9 +329,9 @@ class Component extends DCLogic {
       // Each pair's stage: its latest run decides (run, stale after 30 days, broken on fail); two bringers without a run are possible
       const latest = {}; (runIdx[pt.id] || []).forEach((r) => { const k = r.a + '|' + r.b; if (!latest[k] || r.date >= latest[k].date) latest[k] = r; });
       const LBL = { run: '✓ run', stale: '✓ run, over 30 days ago', broken: '✕ broken', possible: 'possible' };
-      const pairs = Object.keys(latest).map((k) => { const r = latest[k]; const stage = r.outcome === 'fail' ? 'broken' : isFresh(r) ? 'run' : 'stale'; return { a: nm(r.a), b: nm(r.b), stage, label: LBL[stage] + (r.reported ? ' (reported)' : ''), rep: r.reported ? 'rep' : '', date: this.fmt(r.date), canRecord: stage !== 'run', record: runUrl(r.slug, r.a, r.b, pt.title), reported: r.reported }; });
+      const pairs = Object.keys(latest).map((k) => { const r = latest[k]; const stage = r.outcome === 'fail' ? 'broken' : isFresh(r) ? 'run' : 'stale'; return { a: nm(r.a), b: nm(r.b), stage, label: LBL[stage] + (r.reported ? ' (reported)' : ''), rep: r.reported ? 'rep' : '', date: this.fmt(r.date), canRecord: stage !== 'run', record: runUrl(r.slug, r.a, r.b, pt.title, pt.id), reported: r.reported }; });
       const bs = built.map((f) => f.slug).sort();
-      pairsOfSides(bs).forEach(([a, b]) => { if (!latest[a + '|' + b]) pairs.push({ a: nm(a), b: nm(b), stage: 'possible', label: LBL.possible, rep: '', date: '', canRecord: true, record: runUrl(pr[0] ? pr[0].slug : '', a, b, pt.title) }); });
+      pairsOfSides(bs).forEach(([a, b]) => { if (!latest[a + '|' + b]) pairs.push({ a: nm(a), b: nm(b), stage: 'possible', label: LBL.possible, rep: '', date: '', canRecord: true, record: runUrl(pr[0] ? pr[0].slug : '', a, b, pt.title, pt.id) }); });
       const ran = pairs.filter((q) => q.stage !== 'possible');
       const nPossible = pairs.length - ran.length;
       const col = ran.length ? 'run' : built.length >= 2 ? 'possible' : built.length === 1 ? 'one' : 'nobody';

@@ -381,7 +381,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{pp.noRealised}}" hint-placeholder-val="{{ true }}"><li class="muted">No run with another project yet.</li></sc-if>
 </ul>
 <sc-if value="{{pp.hasScenarios}}" hint-placeholder-val="{{ true }}">
-<h4 style="margin-top: 16px">In scenarios</h4>
+<h4 style="margin-top: 16px">In procedures</h4>
 <ul class="dl">
 <sc-for list="{{pp.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div></li></sc-for>
 </ul>
@@ -448,8 +448,11 @@ class Component extends DCLogic {
     const faces = (d.projects || []).map(face);
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
-    const pts = (d.map && d.map.points) || [];
-    const scenarios = d.scenarios || [];
+    // The data move (points became scenarios, folders became procedures) is read in both shapes
+    const moved = !(d.map && d.map.points);
+    const pts = (moved ? d.scenarios : d.map.points) || [];
+    const scenarios = (moved ? d.procedures : d.scenarios) || [];
+    const cellsOf = (p) => (moved ? p.scenarios : p.points) || {};
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
@@ -645,7 +648,7 @@ class Component extends DCLogic {
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status, kind: a.kind }));
       const repos = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; return { name: r.name || u.replace(/^https?:\/\//, ''), url: u, licence: r.licence || 'licence not reported', pushed: r.pushedAt ? 'pushed ' + this.fmt(r.pushedAt) : 'last push not reported' }; });
       const st = p.stack || {};
-      const points = pts.filter((pt) => p.points && p.points[pt.id]).map((pt) => { const c = p.points[pt.id]; return { title: pt.title, href: 'scenarios.html#' + encodeURIComponent(pt.id), status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
+      const points = pts.filter((pt) => cellsOf(p)[pt.id]).map((pt) => { const c = cellsOf(p)[pt.id]; return { title: pt.title, href: 'scenarios.html#' + encodeURIComponent(pt.id), status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
       const realised = [];
       scenarios.forEach((s) => (s.results || []).forEach((r) => {
         const sides = (r.sides || []).map((x) => x.project);

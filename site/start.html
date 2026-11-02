@@ -234,7 +234,7 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="nobody">nobody yet</span></sc-if>
 </div>
-<sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="scn"><span class="muted">Scenario</span> <a href="pairs.html">{{s.title}}</a> <span class="wword">· {{s.status}}</span></span></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Add a scenario</a></sc-if></div></sc-if>
+<sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="scn"><span class="muted">Procedure</span> <a href="pairs.html">{{s.title}}</a> <span class="wword">· {{s.status}}</span></span></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Add a scenario</a></sc-if></div></sc-if>
 <sc-if value="{{k.selected}}" hint-placeholder-val="{{ false }}"><div class="kdet">
 <div><h4>The scenario</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p></div>
 <sc-if value="{{k.d.hasRequires}}" hint-placeholder-val="{{ true }}"><div><h4>Each side brings</h4><ul><sc-for list="{{k.d.requires}}" as="q" hint-placeholder-count="2"><li>{{q}}</li></sc-for></ul></div></sc-if>
@@ -313,21 +313,25 @@ class Component extends DCLogic {
 
     // A status the build derived from the detail data (points[].derivedFrom) counts like a stated one; the open card says where it came from
     const FROM = { credentials: 'Credentials', messaging: 'Messaging', replication: 'Replication', trustTaskUse: 'Trust Tasks' };
-    const raw = (p, id) => (p.points && p.points[id] ? p.points[id].status : null);
+    // The data move (points became scenarios, folders became procedures) is read in both shapes
+    const moved = !(d.map && d.map.points);
+    const cellsOf = (p) => (moved ? p.scenarios : p.points) || {};
+    const catalogue = (moved ? d.scenarios : d.map.points) || [];
+    const raw = (p, id) => (cellsOf(p)[id] ? cellsOf(p)[id].status : null);
     const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'stated' ? 'stated' : null);
     const order = { runs: 0, vectors: 1, paper: 2, stated: 3 };
     const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
-    const scn = {}; (d.scenarios || []).forEach((s) => (s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
-    const thr = {}; (d.threads || []).forEach((t) => (t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
+    const scn = {}; ((moved ? d.procedures : d.scenarios) || []).forEach((s) => (s.scenarios || s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
+    const thr = {}; (d.threads || []).forEach((t) => (t.scenarios || t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
     const picked = this.state.layers || [];
     const sel = this.state.point;
 
-    const cards = d.map.points.map((pt) => {
+    const cards = catalogue.map((pt) => {
       const faces = []; const said = [];
       P.forEach((p) => {
         const c = lvl(raw(p, pt.id));
         if (!c) return;
-        const e = p.points[pt.id]; const dv = e.derived;
+        const e = cellsOf(p)[pt.id]; const dv = e.derived;
         const word = dv ? 'runs, derived from ' + (FROM[dv.from] || dv.from) + (dv.said ? '; the row said ' + dv.said : '') : raw(p, pt.id);
         const note = e.note || '';
         said.push({ name: face[p.slug].name, href: face[p.slug].href, cls: c, status: word, note });
@@ -380,7 +384,7 @@ class Component extends DCLogic {
       return { a: f(a), b: f(b), title: last.title, date: this.fmt(last.date), sortDate: String(last.date), reported: rep, repCls: rep ? 'rep' : '' };
     }).sort((x, y) => y.sortDate.localeCompare(x.sortDate));
     const nRep = realized.filter((r) => r.reported).length;
-    const nums = { points: (d.map.points || []).length, shown: Object.keys(d.shown || {}).length, repNote: nRep ? ' (' + nRep + ' reported)' : '' };
+    const nums = { points: catalogue.length, shown: Object.keys(d.shown || {}).length, repNote: nRep ? ' (' + nRep + ' reported)' : '' };
     const tiles = P.map((p) => { const conf = p.provenance && p.provenance.kind === 'project'; return { ...face[p.slug], prov: conf ? 'conf' : '', provTitle: face[p.slug].name + (conf ? ': row entered by the project' : ': row compiled from public sources') }; });
     return { ...base, head, layerChips, hasLayerFilter: picked.length > 0, clearLayers: () => this.setState({ layers: [] }), cols, nums, realized, noRealized: realized.length === 0, tiles };
   }

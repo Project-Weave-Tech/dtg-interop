@@ -212,7 +212,9 @@ class Component extends DCLogic {
     if (!d) return { ...base, head: {}, groups: [], repoChips: [] };
 
     const repo = d.repo;
-    const ptById = {}; ((d.map && d.map.points) || []).forEach((p) => { ptById[p.id] = p; });
+    // The data move (points became scenarios, folders became procedures) is read in both shapes
+    const moved = !(d.map && d.map.points);
+    const ptById = {}; ((moved ? d.scenarios : d.map.points) || []).forEach((p) => { ptById[p.id] = p; });
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newThread: repo + '/edit/main/threads.json' };
 
@@ -224,7 +226,7 @@ class Component extends DCLogic {
         title: t.title, url: t.url, context: t.context, state: t.state,
         owner, repoName, repo: m ? owner + '/' + repoName : t.host, repoUrl: m ? 'https://github.com/' + owner + '/' + repoName : t.url,
         kind: m && m[3] ? kinds[m[3]] + ' #' + m[4] : '',
-        points: (t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
+        points: (t.scenarios || t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
         updated: this.fmt(t.updated), stale: stale(t.updated),
       };
     });
