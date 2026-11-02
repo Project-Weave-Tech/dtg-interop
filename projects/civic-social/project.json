@@ -95,7 +95,7 @@
   },
   "requiredParty": "an engine hosting the civic space",
   "scenarios": {
-    "vrc-exchange": {
+    "vrc-verify": {
       "status": "stated",
       "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite.",
       "evidence": [

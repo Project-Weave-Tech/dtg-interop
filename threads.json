@@ -50,7 +50,7 @@
     "url": "https://github.com/trustoverip/dtgwg-cred-spec/issues/72",
     "context": "How a relationship credential is read by a verifier that already knows one side; affects credential exchange between apps.",
     "scenarios": [
-      "vrc-exchange"
+      "vrc-verify"
     ],
     "state": "open",
     "updated": "2026-10-03"

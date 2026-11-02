@@ -159,7 +159,7 @@
         }
       ]
     },
-    "vrc-exchange": {
+    "vrc-verify": {
       "status": "stated",
       "note": "DTG VRC exchange wallet to wallet; acceptance of foreign issuers to be checked.",
       "evidence": [

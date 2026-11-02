@@ -1,6 +1,6 @@
 # Procedure title
 
-**Scenarios:** vrc-exchange · **Status:** proposed · **Participants:** your-slug
+**Scenarios:** vrc-verify · **Status:** proposed · **Participants:** your-slug
 
 ## What is exchanged
 

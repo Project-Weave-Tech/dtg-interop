@@ -146,7 +146,7 @@
         }
       ]
     },
-    "vrc-exchange": {
+    "vrc-verify": {
       "status": "stated",
       "note": "Joint ceremony vectors with RLTP exist; VRC format in transition.",
       "evidence": [

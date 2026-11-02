@@ -45,7 +45,7 @@ Required: `slug` (the folder name), `name`, `repositories`, `stack`, `scenarios`
 
 - **Status** in `credentials`, `messaging`, `replication`, `trustTaskUse` and facet values: `runs` (in running code) | `building` (code exists, not complete) | `committed` (announced or agreed, nothing running yet). `trustTaskUse` also has `none`.
 - **Status at a scenario** (`scenarios.<id>.status`) says how far you meet the scenario's `requires`: `runs` (in code another project can exercise today) | `vectors` (test vectors exist) | `spec` (specified, not built) | `open` (known gap or open question) | `stated` (said in the project's public texts, no code checked) | `n/a` (does not apply). `runs` does not mean the scenario was run with another project; that is a run.
-- **Derived statuses**: four scenarios (`vrc-exchange`, `same-carrier`, `shared-room`, `document-framework`) carry `derivedFrom` in `scenarios.json`. Where you said no more than `stated` there, the build fills in `runs` from a matching `credentials`, `messaging`, `replication` or `trustTaskUse` entry with status `runs`, marked derived and with that entry's evidence. Say `spec`, `open` or `n/a` yourself and the build leaves it alone.
+- **Derived statuses**: four scenarios (`vrc-verify`, `same-carrier`, `shared-room`, `document-framework`) carry `derivedFrom` in `scenarios.json`. Where you said no more than `stated` there, the build fills in `runs` from a matching `credentials`, `messaging`, `replication` or `trustTaskUse` entry with status `runs`, marked derived and with that entry's evidence. Say `spec`, `open` or `n/a` yourself and the build leaves it alone.
 - **Run between two projects**: a scenario's `done` is met only through a run. A `pass` runs every scenario the procedure lists; a `partial` runs the scenarios named in `results[].scenarios`; a `fail` fails all of them. The board derives the pairs from this and from nothing else.
 - **Evidence**: every `runs`, `vectors` and `stated` at a scenario (and every `runs` elsewhere) needs `evidence: [{ "label", "url" }]`, pointing at code, a release or a test. The validation rejects it otherwise.
 - **Closed vocabularies**: `credentials.model`, `credentials.proof`, `messaging.protocol`, `replication.protocol`, `via`, `trustTaskUse.documentProof` accept only the values in `schema/project.schema.json`. Credential profiles must be keys of `credential-profiles.json`. If your value is missing, add it to the schema in the same commit and say why in the commit message.
@@ -79,7 +79,7 @@ Without write access (new to the board, or no access to the repository yet): for
 
 ```json
 "scenarios": {
-  "vrc-exchange": {
+  "vrc-verify": {
     "status": "runs",
     "note": "Issues and verifies VRCs with eddsa-jcs-2022.",
     "evidence": [{ "label": "vrc module", "url": "https://github.com/your-org/your-repo/tree/main/src/vrc" }]

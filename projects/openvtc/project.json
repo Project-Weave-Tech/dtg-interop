@@ -183,7 +183,7 @@
         }
       ]
     },
-    "vrc-exchange": {
+    "vrc-verify": {
       "status": "runs",
       "note": "dtg-credentials (Rust) issues and verifies DTG RelationshipCredentials, WD 0.6.0.",
       "evidence": [

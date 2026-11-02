@@ -65,7 +65,7 @@
       "asks": "A person moves to another app and keeps relationship and membership credentials.",
       "requires": [
         "Leaving app: exports the person's relationship and membership credentials together with the keys, or a key the person controls",
-        "Receiving app: imports them and verifies each one (vrc-exchange, membership-statement)"
+        "Receiving app: imports them and verifies each one (vrc-verify, membership-statement)"
       ],
       "done": "Credentials exported from one app are imported into another, verify there, and the person sees their contacts and memberships.",
       "origin": "Weave deck, Level 0b",
@@ -78,16 +78,16 @@
       "asks": "Two people on different apps connect through one QR-code ceremony and both end with a credential the other app reads.",
       "requires": [
         "Both apps: the same ceremony, run from one definition in the DTGWG ceremony format, one app as the displaying side and one as the scanning side",
-        "Both apps: issue and verify the credential the ceremony ends with (vrc-exchange)"
+        "Both apps: issue and verify the credential the ceremony ends with (vrc-verify)"
       ],
       "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
       "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force"
     },
     {
-      "id": "vrc-exchange",
+      "id": "vrc-verify",
       "layer": "two-people",
-      "title": "Relationship credential exchange",
-      "asks": "A relationship credential issued in one app is verified in another.",
+      "title": "Verify another app's relationship credential",
+      "asks": "A relationship credential issued in one app verifies in another; no transport needed, a file is enough.",
       "requires": [
         "Each side: issues a DTG RelationshipCredential with a proof from the credentials vocabulary",
         "Each side: resolves the other side's DID method (did-resolution)"

@@ -2,7 +2,7 @@
   "slug": "vrc-cross-verification",
   "title": "A relationship credential issued in one app verifies in another",
   "scenarios": [
-    "vrc-exchange",
+    "vrc-verify",
     "did-resolution"
   ],
   "summary": "Each side hands the other a DTG RelationshipCredential it issued. The receiving side verifies the proof, the context and the issuer scope with its own library and states the result.",

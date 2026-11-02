@@ -130,7 +130,7 @@
         }
       ]
     },
-    "vrc-exchange": {
+    "vrc-verify": {
       "status": "stated",
       "note": "VRC vectors planned for cross-verification.",
       "evidence": [
