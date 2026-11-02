@@ -170,6 +170,13 @@
                 }
               }
             }
+          },
+          "source": {
+            "enum": [
+              "manual",
+              "ci"
+            ],
+            "description": "manual: entered by a person after a run; ci: written by an automated interop job. Missing means manual."
           }
         }
       }

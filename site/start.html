@@ -181,7 +181,7 @@ body{margin:0;background:#F6F6F3}
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="start.html" aria-current="page">Start</a>
 <a href="map.html">Potential</a>
-<a href="pairs.html">Realized</a>
+<a href="pairs.html">Runs</a>
 <span class="more">More: <a href="./">Projects</a>·<a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a>·<a href="threads.html">Threads</a></span>
 </nav>
 </div>
@@ -202,7 +202,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 
 <section class="block" aria-labelledby="h-real">
-<div class="bhead"><h2 id="h-real">Realized</h2><p>What two projects have shown together, newest first.</p><a class="btn" href="pairs.html">All runs and scenarios</a></div>
+<div class="bhead"><h2 id="h-real">Runs</h2><p>Scenarios two projects have run against each other, newest first.</p><a class="btn" href="pairs.html">All runs and scenarios</a></div>
 <ul class="real">
 <sc-for list="{{realized}}" as="r" hint-placeholder-count="2"><li>
 <span class="tick {{r.repCls}}" aria-hidden="true">✓</span>
@@ -225,8 +225,8 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
 <article class="card {{k.selCls}} {{k.thin}}" id="pt-{{k.id}}">
 <button class="khead" type="button" aria-expanded="{{k.selected}}" sc-camel-on-click="{{k.pick}}"><span class="rl">{{k.layer}}</span><h3>{{k.title}}</h3></button>
-<sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Realized: {{k.shown}}</span></sc-if>
-<sc-if value="{{k.hasReported}}" hint-placeholder-val="{{ false }}"><span class="shownb rep" title="Reported, not yet confirmed by either side">✓ Realized (reported): {{k.reported}}</span></sc-if>
+<sc-if value="{{k.hasShown}}" hint-placeholder-val="{{ false }}"><span class="shownb">✓ Run: {{k.shown}}</span></sc-if>
+<sc-if value="{{k.hasReported}}" hint-placeholder-val="{{ false }}"><span class="shownb rep" title="Reported, not yet confirmed by either side">✓ Run (reported): {{k.reported}}</span></sc-if>
 <div class="faces">
 <sc-for list="{{k.faces}}" as="f" hint-placeholder-count="2"><a class="f who" href="{{f.href}}" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</a></sc-for>
 <sc-if value="{{k.nobody}}" hint-placeholder-val="{{ false }}"><span class="nobody">nobody yet</span></sc-if>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>DTG Interop Board: Realized</title>
+<title>DTG Interop Board: Runs</title>
 <meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
 <script src="dc-runtime.js"></script>
 </head>
@@ -65,6 +65,14 @@ body{margin:0;background:#F6F6F3}
 .mx-partial{background:var(--amber-b);border-color:var(--amber-t);color:var(--amber-t)}
 .mx-fail{background:var(--red-b);border-color:var(--red-t);color:var(--red-t)}
 .mx-cell.mx-rep{background:var(--surface);border-style:dashed}
+.mx-cell{min-width:38px;width:auto;padding:0 5px;display:inline-flex;align-items:center;justify-content:center;gap:3px}
+.mx-has{background:var(--surface)}
+.mk{font-weight:600;font-size:15px}
+.mk-pass{color:var(--green-t)}
+.mk-partial{color:var(--amber-t)}
+.mk-fail{color:var(--red-t)}
+.mk-old{opacity:.38}
+.mk-rep{text-decoration:underline dashed;text-underline-offset:3px}
 .rep{display:flex;flex-direction:column;gap:3px;margin:4px 0 0;padding:6px 10px;border-left:2px dashed var(--line);font-size:12.5px;color:var(--muted)}
 .rep strong{font-weight:500;color:var(--ink)}
 .pill.o-rep{background:transparent;border:1.5px dashed currentColor}
@@ -151,7 +159,7 @@ body{margin:0;background:#F6F6F3}
 <a href="credentials.html">Credentials</a>
 <a href="trust-tasks.html">Trust Tasks</a>
 <a href="map.html">Potential</a>
-<a href="pairs.html" aria-current="page">Realized</a>
+<a href="pairs.html" aria-current="page">Runs</a>
 <a href="threads.html">Threads</a>
 </nav>
 </div>
@@ -168,13 +176,13 @@ body{margin:0;background:#F6F6F3}
 <div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
 
 <section class="block" aria-labelledby="h-pairs">
-<div class="bhead"><h2 id="h-pairs">Realized</h2><p>What two projects have shown together, with date and versions. It fills during a meeting.</p></div>
+<div class="bhead"><h2 id="h-pairs">Runs</h2><p>Scenarios two projects have run against each other: one mark per scenario, its latest result. A faded mark is older than 30 days.</p></div>
 <div class="pairs">
 <div class="mx-box">
 <div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}"><span class="av {{h.hue}}" style="{{h.logoStyle}}">{{h.mono}}</span></div></sc-for></div>
 <sc-for list="{{matrix.rows}}" as="r" hint-placeholder-count="11">
 <div class="mx-row"><div class="mx-label"><span class="av {{r.hue}} {{r.prov}}" aria-hidden="true" style="{{r.logoStyle}}">{{r.mono}}</span><span class="clip">{{r.short}}</span></div>
-<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><button class="mx-cell {{c.cls}}" aria-label="{{c.label}}" title="{{c.label}}" disabled="{{c.diag}}" sc-camel-on-click="{{c.open}}">{{c.mark}}</button></sc-for>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="11"><button class="mx-cell {{c.cls}}" aria-label="{{c.label}}" title="{{c.label}}" disabled="{{c.diag}}" sc-camel-on-click="{{c.open}}"><sc-for list="{{c.marks}}" as="m" hint-placeholder-count="1"><span class="{{m.cls}}">{{m.g}}</span></sc-for></button></sc-for>
 </div>
 </sc-for>
 </div>
@@ -184,7 +192,7 @@ body{margin:0;background:#F6F6F3}
 <p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
 <sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
 <p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
-<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span></p>
+<p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span><span class="pill" style="opacity:.45">✓ last run older than 30 days</span></p>
 </div>
 </div>
 </section>
@@ -305,19 +313,25 @@ class Component extends DCLogic {
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newScenario: repo + '/tree/main/scenarios' };
 
     const glyph = { pass: '✓', partial: '◐', fail: '✕' };
+    const isFresh = (r) => !!r.date && (Date.parse(d.generated) - Date.parse(r.date)) / 864e5 <= 30;
     let anyRun = false;
     const matrix = {
       head: P.map((p, i) => ({ num: i + 1, name: short(p), hue: faceOf[p.slug].hue, mono: faceOf[p.slug].mono, logoStyle: faceOf[p.slug].logoStyle })),
       rows: P.map((a, i) => ({
         num: i + 1, short: short(a), hue: faceOf[a.slug].hue, mono: faceOf[a.slug].mono, logoStyle: faceOf[a.slug].logoStyle, prov: faceOf[a.slug].prov,
         cells: P.map((b, j) => {
-          if (i === j) return { diag: true, cls: 'mx-diag', mark: '', label: short(a), open: null };
+          if (i === j) return { diag: true, cls: 'mx-diag', mark: '', marks: [], label: short(a), open: null };
           const runs = pairOf(a.slug, b.slug);
           if (runs.length) anyRun = true;
-          const last = runs.length ? runs[runs.length - 1].outcome : '';
+          // Latest run per scenario. Freshness is measured in days for now; once CI jobs report runs,
+          // isFresh can compare the run's versions with the latest release of both projects instead.
+          const latest = {};
+          runs.forEach((r) => { if (!latest[r.scenario] || r.date >= latest[r.scenario].date) latest[r.scenario] = r; });
+          const per = Object.keys(latest).map((k) => latest[k]);
+          const marks = per.map((r) => ({ g: glyph[r.outcome] || '?', cls: 'mk mk-' + r.outcome + (isFresh(r) ? '' : ' mk-old') + (r.reported ? ' mk-rep' : '') }));
           return {
-            diag: false, cls: runs.length ? 'mx-' + last + (runs.every((r) => r.reported) ? ' mx-rep' : '') : 'mx-empty', mark: glyph[last] || '',
-            label: short(a) + ' and ' + short(b) + ': ' + (runs.length ? runs.map((r) => r.title + ', ' + r.outcome + (r.reported ? ' (reported, not yet confirmed by either side)' : '')).join('; ') : 'not tested together yet'),
+            diag: false, marks, cls: per.length ? 'mx-has' + (per.every((r) => !isFresh(r)) ? ' mx-old' : '') : 'mx-empty', mark: '',
+            label: short(a) + ' and ' + short(b) + ': ' + (per.length ? per.map((r) => r.title + ', ' + r.outcome + ' on ' + r.date + (r.source === 'ci' ? ' (CI)' : '') + (r.reported ? ' (reported, not yet confirmed by either side)' : '') + (isFresh(r) ? '' : ', older than 30 days')).join('; ') : 'not tested together yet'),
             open: () => this.setState({ pair: { a: a.slug, b: b.slug } }),
           };
         }),

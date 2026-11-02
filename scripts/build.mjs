@@ -87,7 +87,7 @@ for (const s of scenarios) for (const r of s.results ?? []) {
   const points = r.outcome === 'pass' ? s.points : r.outcome === 'partial' ? r.points ?? [] : []
   for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
     const key = `${slugs[i]}|${slugs[j]}`
-    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points, ...(r.reportedBy ? { reported: true } : {}) })
+    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points, source: r.source || 'manual', ...(r.reportedBy ? { reported: true } : {}) })
     for (const id of points) ((shown[key] ??= {})[id] ??= []).push({ scenario: s.slug, date: r.date, ...(r.reportedBy ? { reported: true } : {}) })
   }
 }

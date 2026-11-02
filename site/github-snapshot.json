@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-11-01T17:12:15.771Z",
+  "fetched": "2026-11-02T12:35:07.717Z",
   "issues": [],
   "repos": {
     "https://github.com/Mosaic-Foundation/civic-social-docs": {
@@ -10,7 +10,7 @@
     "https://github.com/Hylozoic/hylo": {
       "name": "Hylozoic/hylo",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/jlinclabs/jlinc-node": {
       "name": "jlinclabs/jlinc-node",
@@ -30,12 +30,12 @@
     "https://github.com/berkmancenter/keyring-wallet": {
       "name": "berkmancenter/keyring-wallet",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-11-01"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/berkmancenter/keyring-bifold": {
       "name": "berkmancenter/keyring-bifold",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-10-31"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/javruben/naoms-flow-funding": {
       "name": "javruben/naoms-flow-funding",
@@ -50,12 +50,12 @@
     "https://github.com/OpenVTC/verifiable-trust-infrastructure": {
       "name": "OpenVTC/verifiable-trust-infrastructure",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-11-01"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/OpenVTC/openvtc": {
       "name": "OpenVTC/openvtc",
       "licence": "Apache-2.0",
-      "pushedAt": "2026-11-01"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/OpenVTC/dtg-credentials": {
       "name": "OpenVTC/dtg-credentials",
@@ -70,7 +70,7 @@
     "https://github.com/OpenVTC/vti-setup": {
       "name": "OpenVTC/vti-setup",
       "licence": null,
-      "pushedAt": "2026-10-23"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/real-life-org/trust-protocol": {
       "name": "real-life-org/trust-protocol",
@@ -80,7 +80,7 @@
     "https://github.com/real-life-org/web-of-trust": {
       "name": "real-life-org/web-of-trust",
       "licence": "MIT",
-      "pushedAt": "2026-11-01"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/real-life-org/port-experimente": {
       "name": "real-life-org/port-experimente",
@@ -95,7 +95,7 @@
     "https://github.com/coasys/ad4m": {
       "name": "coasys/ad4m",
       "licence": "NOASSERTION",
-      "pushedAt": "2026-11-01"
+      "pushedAt": "2026-11-02"
     },
     "https://github.com/coasys/flux": {
       "name": "coasys/flux",
