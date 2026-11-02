@@ -239,7 +239,7 @@ class Component extends DCLogic {
     super(props);
     let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
     // Renamed scenario ids keep their old links
-    const RENAMED = { 'vrc-exchange': 'vrc-verify' };
+    const RENAMED = { 'vrc-exchange': 'vrc-verify', 'app-change': 'several-apps' };
     let hashPoint = null; try { hashPoint = decodeURIComponent(location.hash.slice(1)) || null; } catch (e) {}
     if (hashPoint && RENAMED[hashPoint]) hashPoint = RENAMED[hashPoint];
     this.state = { data: null, err: '', theme: savedTheme, layers: [], point: hashPoint, copied: null };
