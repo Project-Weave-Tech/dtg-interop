@@ -138,6 +138,10 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.more{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-left:auto;font-size:13px;color:var(--muted)}
+.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center;border-bottom:0}
+.board .more a:hover{color:var(--ink)}
+.board .more a[aria-current="page"]{color:var(--ink);font-weight:600}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -156,13 +160,12 @@ body{margin:0;background:#F6F6F3}
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
-<nav class="tabs" aria-label="Board sections">
+<nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="credentials.html">Credentials</a>
-<a href="trust-tasks.html">Trust Tasks</a>
-<a href="map.html">Potential</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html" aria-current="page">Runs</a>
 <a href="threads.html">Threads</a>
+<span class="more">More: <a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a></span>
 </nav>
 </div>
 </header>
@@ -193,14 +196,14 @@ body{margin:0;background:#F6F6F3}
 <svg width="14" height="14" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>Record a run</a>
 <p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
 <sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
-<p class="muted">Select a cell to see what that pair ran and which scenarios either side is in.</p>
+<p class="muted">Select a cell to see what that pair ran and which procedures either side is in.</p>
 <p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span><span class="pill o-pass o-old">✓ last run older than 30 days</span></p>
 </div>
 </div>
 </section>
 
 <section class="block" aria-labelledby="h-scenarios">
-<div class="bhead"><h2 id="h-scenarios">Scenarios</h2><p>A test two or more implementations run against each other.</p><a class="btn" href="{{head.newScenario}}" target="_blank" rel="noopener">Add a scenario</a></div>
+<div class="bhead"><h2 id="h-scenarios">Procedures</h2><p>How two implementations run a scenario against each other: steps, vectors and results. The chips name the scenarios a procedure covers.</p><a class="btn" href="{{head.newScenario}}" target="_blank" rel="noopener">Add a procedure</a></div>
 <div class="cols4">
 <sc-for list="{{columns}}" as="col" hint-placeholder-count="4">
 <div style="min-width: 0">
@@ -209,7 +212,7 @@ body{margin:0;background:#F6F6F3}
 <article class="card">
 <h3>{{s.title}}</h3>
 <p>{{s.summary}}</p>
-<div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><span class="chip">{{pt}}</span></sc-for></div>
+<div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><a class="chip" href="{{pt.href}}">{{pt.title}}</a></sc-for></div>
 <p class="muted faces">With <sc-for list="{{s.faces}}" as="f" hint-placeholder-count="1"><span class="faces"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</span></sc-for><sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
 <sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
 <sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
@@ -247,10 +250,10 @@ body{margin:0;background:#F6F6F3}
 <div style="margin-top: 14px"><a class="btn btn-primary" href="{{pair.run}}" target="_blank" rel="noopener">Record a run for this pair</a></div>
 </div>
 <div class="sec">
-<h4>Scenarios either side is in</h4>
+<h4>Procedures either side is in</h4>
 <ul class="dl">
 <sc-for list="{{pair.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <strong style="font-weight: 500">{{s.title}}</strong><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div><a style="font-size: 12.5px" href="{{s.run}}" target="_blank" rel="noopener">Record a run of this scenario</a></li></sc-for>
-<sc-if value="{{pair.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">Neither project is in a scenario yet.</li></sc-if>
+<sc-if value="{{pair.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">Neither project is in a procedure yet.</li></sc-if>
 </ul>
 </div>
 </aside>
@@ -348,7 +351,7 @@ class Component extends DCLogic {
       const parts = s.participants || [];
       return {
         title: s.title, summary: s.summary, status: s.status,
-        points: (s.points || []).map((id) => (ptById[id] ? ptById[id].title : id)),
+        points: (s.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
         parts: parts.map(nameOf).join(', ') || 'nobody yet', faces: parts.map((x) => faceOf[x] || { hue: 'h-slate', mono: '?', name: x, logoStyle: '' }), lonely: parts.length < 2,
         waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
         vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,

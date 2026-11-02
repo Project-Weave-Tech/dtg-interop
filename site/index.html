@@ -208,6 +208,10 @@ body{margin:0;background:#F6F6F3}
 .ttype{display:inline-flex;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;padding:1px 7px;border-radius:6px;background:var(--soft);color:var(--ink)}
 .ttype.shared{background:var(--green-b);color:var(--green-t);font-weight:500}
 .ttype.bld{border:1px dashed var(--muted)}
+.more{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-left:auto;font-size:13px;color:var(--muted)}
+.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center;border-bottom:0}
+.board .more a:hover{color:var(--ink)}
+.board .more a[aria-current="page"]{color:var(--ink);font-weight:600}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -226,13 +230,12 @@ body{margin:0;background:#F6F6F3}
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
-<nav class="tabs" aria-label="Board sections">
+<nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./" aria-current="page">Projects</a>
-<a href="credentials.html">Credentials</a>
-<a href="trust-tasks.html">Trust Tasks</a>
-<a href="map.html">Potential</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
+<span class="more">More: <a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a></span>
 </nav>
 </div>
 </header>
@@ -360,16 +363,16 @@ body{margin:0;background:#F6F6F3}
 </div>
 </sc-if>
 <div class="sec">
-<h4>Interop points</h4>
+<h4>Scenarios</h4>
 <div class="ptl">
 <sc-for list="{{pp.points}}" as="x" hint-placeholder-count="5">
 <div class="pti"><div><span class="pill s-{{x.cls}}">{{x.status}}</span></div>
-<div><strong style="font-weight: 500">{{x.title}}</strong><div class="muted" style="font-size: 12.5px">{{x.note}}</div>
+<div><a href="{{x.href}}" style="font-weight: 500">{{x.title}}</a><div class="muted" style="font-size: 12.5px">{{x.note}}</div>
 <div class="chips" style="margin-top: 4px"><sc-for list="{{x.ev}}" as="e" hint-placeholder-count="1"><a class="chip" href="{{e.url}}" target="_blank" rel="noopener">{{e.label}}</a></sc-for></div></div></div>
 </sc-for>
-<sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No interop point stated yet.</p></sc-if>
+<sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No scenario stated yet.</p></sc-if>
 </div>
-<p style="margin: 12px 0 0; font-size: 12.5px"><a href="map.html">All points on Potential</a></p>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="scenarios.html">All scenarios</a></p>
 </div>
 <div class="sec">
 <h4>Runs with other projects</h4>
@@ -642,7 +645,7 @@ class Component extends DCLogic {
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status, kind: a.kind }));
       const repos = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; return { name: r.name || u.replace(/^https?:\/\//, ''), url: u, licence: r.licence || 'licence not reported', pushed: r.pushedAt ? 'pushed ' + this.fmt(r.pushedAt) : 'last push not reported' }; });
       const st = p.stack || {};
-      const points = pts.filter((pt) => p.points && p.points[pt.id]).map((pt) => { const c = p.points[pt.id]; return { title: pt.title, status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
+      const points = pts.filter((pt) => p.points && p.points[pt.id]).map((pt) => { const c = p.points[pt.id]; return { title: pt.title, href: 'scenarios.html#' + encodeURIComponent(pt.id), status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
       const realised = [];
       scenarios.forEach((s) => (s.results || []).forEach((r) => {
         const sides = (r.sides || []).map((x) => x.project);

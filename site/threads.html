@@ -111,6 +111,10 @@ body{margin:0;background:#F6F6F3}
 .st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
 .st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
 .btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+.more{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-left:auto;font-size:13px;color:var(--muted)}
+.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center;border-bottom:0}
+.board .more a:hover{color:var(--ink)}
+.board .more a[aria-current="page"]{color:var(--ink);font-weight:600}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -129,13 +133,12 @@ body{margin:0;background:#F6F6F3}
 <a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
 </div>
 </div>
-<nav class="tabs" aria-label="Board sections">
+<nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="credentials.html">Credentials</a>
-<a href="trust-tasks.html">Trust Tasks</a>
-<a href="map.html">Potential</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html" aria-current="page">Threads</a>
+<span class="more">More: <a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a></span>
 </nav>
 </div>
 </header>
@@ -221,7 +224,7 @@ class Component extends DCLogic {
         title: t.title, url: t.url, context: t.context, state: t.state,
         owner, repoName, repo: m ? owner + '/' + repoName : t.host, repoUrl: m ? 'https://github.com/' + owner + '/' + repoName : t.url,
         kind: m && m[3] ? kinds[m[3]] + ' #' + m[4] : '',
-        points: (t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'map.html#' + encodeURIComponent(id) })),
+        points: (t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
         updated: this.fmt(t.updated), stale: stale(t.updated),
       };
     });

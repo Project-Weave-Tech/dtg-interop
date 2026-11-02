@@ -67,8 +67,9 @@ body{margin:0;background:#F6F6F3}
 .gdot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green-t);margin-right:6px;vertical-align:-1px}
 .rowfoot{margin:0;padding:12px 20px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 .more{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-left:auto;font-size:13px;color:var(--muted)}
-.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center}
+.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center;border-bottom:0}
 .board .more a:hover{color:var(--ink)}
+.board .more a[aria-current="page"]{color:var(--ink);font-weight:600}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
 .li{display:inline-flex;gap:6px;align-items:center}
 .map{min-width:1180px}
@@ -180,9 +181,11 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="start.html" aria-current="page">Start</a>
-<a href="map.html">Potential</a>
+<a href="./">Projects</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
-<span class="more">More: <a href="./">Projects</a>·<a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a>·<a href="threads.html">Threads</a></span>
+<a href="threads.html">Threads</a>
+<span class="more">More: <a href="credentials.html">Credentials</a>·<a href="trust-tasks.html">Trust Tasks</a></span>
 </nav>
 </div>
 </header>
@@ -197,8 +200,8 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 22px">
 <div class="intro" style="margin: 0">
-<p>Projects building the Decentralized Trust Graph, the points where their implementations can meet, and what two of them have already shown together.</p>
-<div class="nums"><a href="#h-map"><strong>{{nums.points}}</strong>points where implementations can meet</a><a href="pairs.html"><strong>{{nums.shown}}</strong>shown between two projects{{nums.repNote}}</a></div>
+<p>Projects building the Decentralized Trust Graph, the scenarios where their implementations can meet, and what two of them have already shown together.</p>
+<div class="nums"><a href="#h-map"><strong>{{nums.points}}</strong>scenarios where implementations can meet</a><a href="pairs.html"><strong>{{nums.shown}}</strong>shown between two projects{{nums.repNote}}</a></div>
 </div>
 
 <section class="block" aria-labelledby="h-real">
@@ -216,7 +219,7 @@ body{margin:0;background:#F6F6F3}
 </section>
 
 <section class="block" aria-labelledby="h-map">
-<div class="bhead"><h2 id="h-map">Potential</h2><p>Where projects could meet, and who brings what, sorted by how close each point is to a test. Open a card for what each project says.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Add a point</a></div>
+<div class="bhead"><h2 id="h-map">Scenarios</h2><p>What two projects should manage together, sorted by how close each is to a run. All stages and pairs on <a href="scenarios.html">Scenarios</a>.</p><a class="btn" href="{{head.newPoint}}" target="_blank" rel="noopener">Add a scenario</a></div>
 <div class="lfilter"><span class="muted" style="font-size: 12px; margin-right: 4px">Layer</span><sc-for list="{{layerChips}}" as="l" hint-placeholder-count="13"><button class="lchip {{l.on}}" type="button" aria-pressed="{{l.pressed}}" sc-camel-on-click="{{l.toggle}}">{{l.title}}<span class="n">{{l.n}}</span></button></sc-for><sc-if value="{{hasLayerFilter}}" hint-placeholder-val="{{ false }}"><button class="lchip" type="button" sc-camel-on-click="{{clearLayers}}">all</button></sc-if></div>
 <div class="cols">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="3">
@@ -233,14 +236,14 @@ body{margin:0;background:#F6F6F3}
 </div>
 <sc-if value="{{k.hasFoot}}" hint-placeholder-val="{{ true }}"><div class="cfoot"><sc-for list="{{k.scenarios}}" as="s" hint-placeholder-count="1"><span class="scn"><span class="muted">Scenario</span> <a href="pairs.html">{{s.title}}</a> <span class="wword">· {{s.status}}</span></span></sc-for><sc-if value="{{k.propose}}" hint-placeholder-val="{{ false }}"><a href="{{head.newScenario}}" target="_blank" rel="noopener">Add a scenario</a></sc-if></div></sc-if>
 <sc-if value="{{k.selected}}" hint-placeholder-val="{{ false }}"><div class="kdet">
-<div><h4>The point</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p></div>
+<div><h4>The scenario</h4><p style="margin: 0; font-size: 12.5px">{{k.d.asks}}</p></div>
 <sc-if value="{{k.d.hasRequires}}" hint-placeholder-val="{{ true }}"><div><h4>Each side brings</h4><ul><sc-for list="{{k.d.requires}}" as="q" hint-placeholder-count="2"><li>{{q}}</li></sc-for></ul></div></sc-if>
 <sc-if value="{{k.d.hasDone}}" hint-placeholder-val="{{ true }}"><div><h4>Done when</h4><p style="margin: 0; font-size: 12.5px">{{k.d.done}}</p></div></sc-if>
-<sc-if value="{{k.d.hasCandidate}}" hint-placeholder-val="{{ false }}"><p class="candq"><strong>Open question about this point.</strong> {{k.d.candidate}}</p></sc-if>
+<sc-if value="{{k.d.hasCandidate}}" hint-placeholder-val="{{ false }}"><p class="candq"><strong>Open question.</strong> {{k.d.candidate}}</p></sc-if>
 <p class="muted" style="margin: 0; font-size: 11.5px">Origin: {{k.d.origin}}</p>
 <div><h4>What each project says</h4><ul><sc-for list="{{k.d.projects}}" as="x" hint-placeholder-count="2"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul><sc-if value="{{k.d.noProjects}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0; font-size: 12px">No project has said anything here yet.</p></sc-if></div>
 <sc-if value="{{k.d.hasThreads}}" hint-placeholder-val="{{ false }}"><div><h4>Threads</h4><ul><sc-for list="{{k.d.threads}}" as="t" hint-placeholder-count="1"><li><span class="pill st-{{t.state}}">{{t.state}}</span> <a href="{{t.url}}" target="_blank" rel="noopener">{{t.title}}</a></li></sc-for></ul></div></sc-if>
-<button class="agent {{k.d.copiedCls}}" type="button" title="Copies a task for your coding agent to set your project's status at this point" sc-camel-on-click="{{k.d.copy}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>{{k.d.copyLabel}}</button>
+<button class="agent {{k.d.copiedCls}}" type="button" title="Copies a task for your coding agent to set your project's status in this scenario" sc-camel-on-click="{{k.d.copy}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>{{k.d.copyLabel}}</button>
 <sc-if value="{{k.d.hasText}}" hint-placeholder-val="{{ false }}"><textarea class="agenttext" readonly="" aria-label="Task for your agent" value="{{k.d.text}}"></textarea></sc-if>
 </div></sc-if>
 </article>
