@@ -278,10 +278,6 @@
         }
       ]
     },
-    "subgroups": {
-      "status": "spec",
-      "note": "A sub-group is a group with its own log and policy; no special mechanism."
-    },
     "shared-room": {
       "status": "spec",
       "note": "We have no groups in running code. Membership and replication are specifications with a test bench; the replication contract describes joining a foreign data room as a key-blind carrier. A spike that joined an OpenVTC Data Room used OpenVTC's own client and shows nothing about RLTP.",

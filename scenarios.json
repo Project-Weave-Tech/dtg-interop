@@ -208,19 +208,6 @@
       "weaveLevel": "1a"
     },
     {
-      "id": "subgroups",
-      "layer": "membership",
-      "title": "Sub-groups with their own credentials",
-      "asks": "A sub-group issues credentials of its own, and another app verifies them through the parent group.",
-      "requires": [
-        "Community side: a sub-group with an identifier of its own, and a statement from the parent group that the sub-group belongs to it",
-        "Other app: verifies a sub-group credential together with the parent's statement"
-      ],
-      "done": "Another app verifies a credential issued by a sub-group and that the parent group backs that sub-group.",
-      "origin": "Weave deck, Level 1c",
-      "weaveLevel": "1c"
-    },
-    {
       "id": "traditional-tools",
       "layer": "membership",
       "title": "Interop with traditional tools",
