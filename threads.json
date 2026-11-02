@@ -34,28 +34,6 @@
     "updated": "2026-10-30"
   },
   {
-    "id": "tt-third-party-sources",
-    "title": "Pin and generate tasks from third-party sources beside the registry",
-    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/934",
-    "context": "Lets any project publish its own document types so that others can pin and generate them.",
-    "scenarios": [
-      "document-framework"
-    ],
-    "state": "implemented",
-    "updated": "2026-10-26"
-  },
-  {
-    "id": "vrc-verifier-relative-edges",
-    "title": "Verifier-relative edges: a VRC as an edge for a verifier that already knows its issuer",
-    "url": "https://github.com/trustoverip/dtgwg-cred-spec/issues/72",
-    "context": "How a relationship credential is read by a verifier that already knows one side; affects credential exchange between apps.",
-    "scenarios": [
-      "vrc-verify"
-    ],
-    "state": "open",
-    "updated": "2026-10-03"
-  },
-  {
     "id": "data-rooms-keyring-requests",
     "title": "Data rooms: a few requests from the Keyring wallet integration",
     "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure/issues/2294",
@@ -66,5 +44,41 @@
     ],
     "state": "open",
     "updated": "2026-10-30"
+  },
+  {
+    "id": "tt-conformance-roadmap",
+    "title": "A roadmap to Trust Task conformance: layers, profiles and optional modules",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/914",
+    "context": "How a shared conformance suite for Trust Task documents could be layered; the natural home for running procedures between projects (see issue 1 here).",
+    "scenarios": [
+      "document-framework",
+      "error-answers"
+    ],
+    "state": "open",
+    "updated": "2026-10-30"
+  },
+  {
+    "id": "tt-libp2p-binding",
+    "title": "Proposal: a libp2p transport binding for Trust Tasks",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/248",
+    "context": "Decides whether projects on libp2p without a mediator share a transport with projects on TSP mediators.",
+    "scenarios": [
+      "same-carrier",
+      "cross-carrier"
+    ],
+    "state": "open",
+    "updated": "2026-10-26"
+  },
+  {
+    "id": "vmc-nested-membership",
+    "title": "VMC: allow a VTN's members to be VTCs or VTNs, and keep nested membership per-hop",
+    "url": "https://github.com/trustoverip/dtgwg-cred-spec/pull/83",
+    "context": "Sets how a membership credential names a community that is itself a member of a trust network; affects what another app checks.",
+    "scenarios": [
+      "membership-statement",
+      "trust-network"
+    ],
+    "state": "open",
+    "updated": "2026-11-02"
   }
 ]
