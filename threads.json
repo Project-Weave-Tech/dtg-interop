@@ -104,5 +104,17 @@
     ],
     "state": "open",
     "updated": "2026-11-02"
+  },
+  {
+    "id": "vti-wake-endpoint",
+    "title": "A wake endpoint at the mediator: one URL, called when a message is stored for a client that is not connected",
+    "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/93",
+    "context": "How a mediator wakes a client that is not connected, without a push provider in the mediator; decides whether a message reaches a person whose app is closed.",
+    "scenarios": [
+      "same-carrier",
+      "direct-message"
+    ],
+    "state": "open",
+    "updated": "2026-11-02"
   }
 ]
