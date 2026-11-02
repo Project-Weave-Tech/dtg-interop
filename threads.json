@@ -80,5 +80,29 @@
     ],
     "state": "open",
     "updated": "2026-11-02"
+  },
+  {
+    "id": "vti-two-mediators",
+    "title": "Two parties at two different mediators: how do they reach each other?",
+    "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/92",
+    "context": "Two apps at different TSP mediators cannot reach each other today; decides whether people on different apps can write without agreeing on a mediator.",
+    "scenarios": [
+      "cross-carrier",
+      "same-carrier"
+    ],
+    "state": "open",
+    "updated": "2026-11-02"
+  },
+  {
+    "id": "tt-message-type",
+    "title": "A Trust Task type for a message from one person to another",
+    "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/1013",
+    "context": "No registry type exists for a message between two people; a shared type with no transferable proof would let two apps exchange messages.",
+    "scenarios": [
+      "direct-message",
+      "document-framework"
+    ],
+    "state": "open",
+    "updated": "2026-11-02"
   }
 ]
