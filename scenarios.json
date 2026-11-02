@@ -204,21 +204,8 @@
         "Other app: verifies the statement and the issuer's authority over the community"
       ],
       "done": "A membership statement issued in one app verifies in another, naming the person and the community.",
-      "origin": "Weave deck, Level 1a",
+      "origin": "Weave deck, Level 1a; also covers Weave Level 1b (one membership, several apps) once the statement verifies in two or more apps",
       "weaveLevel": "1a"
-    },
-    {
-      "id": "multi-app-access",
-      "layer": "membership",
-      "title": "One membership, several apps",
-      "asks": "One membership statement is accepted as access by two different apps.",
-      "requires": [
-        "Community: one membership statement per member (membership-statement)",
-        "Two apps: grant access on that statement rather than on accounts of their own"
-      ],
-      "done": "One membership statement from one community opens two different apps for the same person.",
-      "origin": "Weave deck, Level 1b",
-      "weaveLevel": "1b"
     },
     {
       "id": "subgroups",

@@ -278,10 +278,6 @@
         }
       ]
     },
-    "multi-app-access": {
-      "status": "open",
-      "note": "Not exercised. Would follow from the outward membership statement."
-    },
     "subgroups": {
       "status": "spec",
       "note": "A sub-group is a group with its own log and policy; no special mechanism."
