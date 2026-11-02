@@ -1,7 +1,7 @@
 {
   "slug": "vrc-cross-verification",
   "title": "A relationship credential issued in one app verifies in another",
-  "points": [
+  "scenarios": [
     "vrc-exchange",
     "did-resolution"
   ],

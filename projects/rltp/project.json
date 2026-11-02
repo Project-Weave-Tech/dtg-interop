@@ -189,7 +189,7 @@
     ]
   },
   "requiredParty": "the other person",
-  "points": {
+  "scenarios": {
     "vrc-exchange": {
       "status": "runs",
       "note": "The app issues a DTG RelationshipCredential (eddsa-jcs-2022) at every encounter and verifies the other side's; a reader for foreign plain DTG VRCs under did:key and did:peer:2 runs with negatives. Issuers under did:webvh are not resolved yet.",

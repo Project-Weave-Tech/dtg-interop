@@ -94,7 +94,7 @@
     "note": "ActivityStreams 2.0 profile with its own JSON-LD context."
   },
   "requiredParty": "an engine hosting the civic space",
-  "points": {
+  "scenarios": {
     "vrc-exchange": {
       "status": "stated",
       "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite.",

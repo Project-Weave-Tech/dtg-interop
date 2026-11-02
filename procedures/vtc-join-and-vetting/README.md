@@ -8,13 +8,13 @@ A wallet of one implementation joins a trust community (VTC) hosted by another. 
 
 ## Pass criterion
 
-- The wallet joins the community and receives a membership credential issued under the community's identifier (point `membership-statement`).
-- The vetting is recorded as a credential the host's tooling verifies (the community acts as the registry of who belongs: point `registry-lookup`).
+- The wallet joins the community and receives a membership credential issued under the community's identifier (scenario `membership-statement`).
+- The vetting is recorded as a credential the host's tooling verifies (the community acts as the registry of who belongs: scenario `registry-lookup`).
 - Appointment, vetting and issuance follow the community's stated policy, not a manual step on the host.
 
 ## Out of scope
 
-Relationship credentials between two members (scenario `vrc-cross-verification`), delivery over TSP between the wallet and the host (point `same-carrier`), data rooms.
+Relationship credentials between two members (procedure `vrc-cross-verification`), delivery over TSP between the wallet and the host (scenario `same-carrier`), data rooms.
 
 ## Results
 

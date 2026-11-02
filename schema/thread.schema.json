@@ -4,16 +4,53 @@
   "title": "DTG interop threads",
   "type": "array",
   "items": {
-    "type": "object", "additionalProperties": false,
-    "required": ["id", "title", "url", "context", "points", "state", "updated"],
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "id",
+      "title",
+      "url",
+      "context",
+      "scenarios",
+      "state",
+      "updated"
+    ],
     "properties": {
-      "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,60}$" },
-      "title": { "type": "string", "maxLength": 160 },
-      "url": { "type": "string", "format": "uri" },
-      "context": { "type": "string", "maxLength": 300, "description": "One line: why this thread matters for interop." },
-      "points": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,40}$" } },
-      "state": { "enum": ["open", "decided", "implemented"] },
-      "updated": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]{1,60}$"
+      },
+      "title": {
+        "type": "string",
+        "maxLength": 160
+      },
+      "url": {
+        "type": "string",
+        "format": "uri"
+      },
+      "context": {
+        "type": "string",
+        "maxLength": 300,
+        "description": "One line: why this thread matters for interop."
+      },
+      "scenarios": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{1,40}$"
+        }
+      },
+      "state": {
+        "enum": [
+          "open",
+          "decided",
+          "implemented"
+        ]
+      },
+      "updated": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      }
     }
   }
 }

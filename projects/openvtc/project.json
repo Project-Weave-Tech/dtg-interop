@@ -172,7 +172,7 @@
     ]
   },
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:webvh and did:key; resolution needs the web for did:webvh.",

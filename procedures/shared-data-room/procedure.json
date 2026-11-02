@@ -1,7 +1,7 @@
 {
   "slug": "shared-data-room",
   "title": "Two apps read and write the same encrypted data room",
-  "points": [
+  "scenarios": [
     "shared-room",
     "newcomer-history"
   ],

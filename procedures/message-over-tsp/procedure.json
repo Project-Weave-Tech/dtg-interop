@@ -1,7 +1,7 @@
 {
   "slug": "message-over-tsp",
   "title": "Two connected people on two different apps exchange a message each way",
-  "points": [
+  "scenarios": [
     "direct-message",
     "same-carrier",
     "document-framework"

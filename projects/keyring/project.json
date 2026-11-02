@@ -148,7 +148,7 @@
     ]
   },
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:peer and did:key on device; did:webvh via VTA.",

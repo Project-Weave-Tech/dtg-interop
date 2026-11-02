@@ -1,6 +1,6 @@
-// Builds site/dist/data.json for the board from points.json, threads.json,
+// Builds site/dist/data.json for the board from scenarios.json, threads.json,
 // projects/*/project.json (with trust-tasks.json), credential-profiles.json and
-// scenarios/*/scenario.json, plus what GitHub
+// procedures/*/procedure.json, plus what GitHub
 // reports: licence and last push of every project repository, and this
 // repository's own issues (shown among the threads). GitHub is the database;
 // data.json is a view. Without network access the committed snapshot is used.
@@ -16,10 +16,10 @@ const token = process.env.GITHUB_TOKEN
 const headers = { accept: 'application/vnd.github+json', 'user-agent': 'dtg-interop-build', ...(token ? { authorization: `Bearer ${token}` } : {}) }
 const gh = async (path) => { const r = await fetch(`https://api.github.com${path}`, { headers }); if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json() }
 
-const map = read('points.json')
+const catalogue = read('scenarios.json')
 const edit = (p) => `${repoUrl}/edit/main/${p}`
 const projects = folders('projects').map((slug) => ({ ...read(`projects/${slug}/project.json`), readme: `${repoUrl}/blob/main/projects/${slug}/README.md`, editUrl: edit(`projects/${slug}/project.json`) }))
-const scenarios = folders('scenarios').map((slug) => ({ ...read(`scenarios/${slug}/scenario.json`), readme: `${repoUrl}/blob/main/scenarios/${slug}/README.md`, editUrl: edit(`scenarios/${slug}/scenario.json`) }))
+const procedures = folders('procedures').map((slug) => ({ ...read(`procedures/${slug}/procedure.json`), readme: `${repoUrl}/blob/main/procedures/${slug}/README.md`, editUrl: edit(`procedures/${slug}/procedure.json`) }))
 const threads = read('threads.json').map((t) => ({ ...t, host: new URL(t.url).hostname + '/' + new URL(t.url).pathname.split('/')[1] }))
 
 const snapshotFile = join(root, 'site/github-snapshot.json')
@@ -31,7 +31,7 @@ try {
   issues = (await gh(`/repos/${owner}/${repo}/issues?state=all&per_page=100`)).filter((i) => !i.pull_request).map((i) => ({
     id: `issue-${i.number}`, number: i.number, title: i.title, url: i.html_url, host: `github.com/${owner}`, state: i.state === 'closed' ? 'decided' : 'open',
     context: (i.body ?? '').split('\n').find((l) => l.trim()) ?? '', labels: i.labels.map((l) => l.name),
-    points: i.labels.map((l) => l.name).filter((n) => n.startsWith('point:')).map((n) => n.slice(6)), updated: i.updated_at.slice(0, 10), comments: i.comments }))
+    scenarios: i.labels.map((l) => l.name).filter((n) => n.startsWith('scenario:') || n.startsWith('point:')).map((n) => n.slice(n.indexOf(':') + 1)), updated: i.updated_at.slice(0, 10), comments: i.comments }))
   issuesOk = true
 } catch (e) { console.warn(`issues not fetched (${e.message}); using the snapshot`) }
 try {
@@ -56,41 +56,61 @@ githubFetched = issuesOk && reposOk
 // the snapshot only ever takes successful fetches
 if (issuesOk || fetchedRepos) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos }, null, 2) + '\n')
 
-// Derived point statuses: where a point names derivedFrom and a project said no
+// Derived scenario statuses: where a scenario names derivedFrom and a project said no
 // more than stated there, a matching detail entry with status runs makes the
-// point runs, marked derived, with the entry's evidence. Projects that said
+// scenario runs, marked derived, with the entry's evidence. Projects that said
 // spec, open, vectors or n/a themselves are left alone.
 const matches = (entry, match) => Object.entries(match).every(([k, accepted]) => {
   const v = entry[k]
   return Array.isArray(v) ? v.some((x) => accepted.includes(x)) : accepted.includes(v)
 })
-for (const pt of map.points) {
+for (const pt of catalogue.scenarios) {
   if (!pt.derivedFrom) continue
   const { field, match } = pt.derivedFrom
   for (const p of projects) {
-    const cell = p.points?.[pt.id]
+    const cell = p.scenarios?.[pt.id]
     if (cell && cell.status !== 'stated') continue
     const entries = Array.isArray(p[field]) ? p[field] : p[field] ? [p[field]] : []
     const hit = entries.find((e) => e.status === 'runs' && matches(e, match))
     if (!hit) continue
-    ;(p.points ??= {})[pt.id] = { ...(cell ?? {}), status: 'runs', derived: { from: field, said: cell?.status ?? null }, evidence: hit.evidence ?? cell?.evidence ?? [] }
+    ;(p.scenarios ??= {})[pt.id] = { ...(cell ?? {}), status: 'runs', derived: { from: field, said: cell?.status ?? null }, evidence: hit.evidence ?? cell?.evidence ?? [] }
   }
 }
 
-// Pairs: every result between two projects. shown: the points a pair has shown,
-// derived only from a pass (all points of the scenario) or a partial (its named
-// points); project statuses never add up to shown. A result neither side
-// entered carries reportedBy and is flagged reported here.
+// Runs: every result of a procedure, attached to each scenario the procedure
+// covers. A pass runs every covered scenario; a partial runs the scenarios it
+// names (the others count as partial); a fail fails all of them. Pairs and
+// shown derive from these runs and from nothing else; project statuses never
+// add up to a run. A result neither side entered carries reportedBy and is
+// flagged reported.
+const outcomeFor = (r, id) => r.outcome === 'partial' ? ((r.scenarios ?? []).includes(id) ? 'pass' : 'partial') : r.outcome
+const runsOf = {}
 const pairs = {}, shown = {}
-for (const s of scenarios) for (const r of s.results ?? []) {
+for (const pr of procedures) for (const r of pr.results ?? []) {
   const slugs = [...new Set(r.sides.map((x) => x.project))].sort()
-  const points = r.outcome === 'pass' ? s.points : r.outcome === 'partial' ? r.points ?? [] : []
-  for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
-    const key = `${slugs[i]}|${slugs[j]}`
-    ;(pairs[key] ??= []).push({ scenario: s.slug, title: s.title, date: r.date, outcome: r.outcome, points, source: r.source || 'manual', ...(r.reportedBy ? { reported: true } : {}) })
-    for (const id of points) ((shown[key] ??= {})[id] ??= []).push({ scenario: s.slug, date: r.date, ...(r.reportedBy ? { reported: true } : {}) })
+  for (const id of pr.scenarios ?? []) {
+    const outcome = outcomeFor(r, id)
+    ;(runsOf[id] ??= []).push({ ...r, outcome, procedure: pr.slug, source: r.source || 'manual' })
+    const sc = catalogue.scenarios.find((x) => x.id === id)
+    for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
+      const key = `${slugs[i]}|${slugs[j]}`
+      ;(pairs[key] ??= []).push({ scenario: id, title: sc ? sc.title : id, procedure: pr.slug, date: r.date, outcome, source: r.source || 'manual', ...(r.reportedBy ? { reported: true } : {}) })
+      if (outcome === 'pass') ((shown[key] ??= {})[id] ??= []).push({ procedure: pr.slug, date: r.date, ...(r.reportedBy ? { reported: true } : {}) })
+    }
   }
 }
+// Scenarios in the shape the board reads: the catalogue entry, its procedure
+// (the first folder covering it; absent = no procedure yet) and its runs.
+const scenarios = catalogue.scenarios.map((sc) => {
+  const covering = procedures.filter((pr) => (pr.scenarios ?? []).includes(sc.id))
+  const pr = covering[0]
+  return {
+    ...sc,
+    ...(pr ? { procedure: { slug: pr.slug, title: pr.title, summary: pr.summary, status: pr.status, readme: pr.readme, editUrl: pr.editUrl, vectors: pr.vectors ?? [], participants: pr.participants ?? [], ...(pr.waitingOn ? { waitingOn: pr.waitingOn } : {}), ...(pr.issue ? { issue: pr.issue } : {}), ...(covering.length > 1 ? { also: covering.slice(1).map((x) => x.slug) } : {}) } } : {}),
+    runs: (runsOf[sc.id] ?? []).sort((x, y) => x.date.localeCompare(y.date)),
+  }
+})
+const map = { layers: catalogue.layers, statusWords: catalogue.statusWords, shown: catalogue.shown }
 // Trust Tasks: every project's types resolved (inline or from trust-tasks.json),
 // then for each type who uses it, and for each pair of projects what they share.
 // An own type mapped to a registry type counts for that registry type too (via).
@@ -130,8 +150,8 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues], repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
-console.log(`built site/dist: ${projects.length} project(s), ${scenarios.length} scenario(s), ${map.points.length} point(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)
+console.log(`built site/dist: ${projects.length} project(s), ${scenarios.length} scenario(s), ${procedures.length} procedure(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)

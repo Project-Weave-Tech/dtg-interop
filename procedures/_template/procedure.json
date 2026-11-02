@@ -1,10 +1,10 @@
 {
   "slug": "your-scenario",
   "title": "What is exercised, in one line",
-  "points": [
+  "scenarios": [
     "vrc-exchange"
   ],
-  "summary": "One or two sentences: what is exchanged, in which direction, what counts as pass (the done sentences of the points listed).",
+  "summary": "One or two sentences: what is exchanged, in which direction, what counts as pass (the done sentences of the scenarios listed).",
   "participants": [
     "your-slug"
   ],

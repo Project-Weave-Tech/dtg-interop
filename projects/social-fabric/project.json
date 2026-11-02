@@ -58,7 +58,7 @@
     }
   ],
   "requiredParty": "not stated publicly",
-  "points": {
+  "scenarios": {
     "traditional-tools": {
       "status": "stated",
       "note": "Recipe manifests unlocked by badges.",

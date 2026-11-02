@@ -1,6 +1,6 @@
-# Scenario title
+# Procedure title
 
-**Level:** 0a · **Status:** proposed · **Participants:** your-slug
+**Scenarios:** vrc-exchange · **Status:** proposed · **Participants:** your-slug
 
 ## What is exchanged
 
@@ -12,7 +12,7 @@ What the receiving side must be able to do or state afterwards. One sentence per
 
 ## Out of scope
 
-What this scenario deliberately does not test.
+What this procedure deliberately does not test.
 
 ## Vectors
 

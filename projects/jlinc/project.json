@@ -68,7 +68,7 @@
     "note": "Agreements and events with audit records."
   },
   "requiredParty": "an archive for audit records",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:jlinc with an own didserver; resolution by others not documented.",

@@ -1,5 +1,5 @@
 {
-  "$comment": "The map of interop points: every place where two implementations of the decentralized trust graph can meet. Not a ladder; points have no order. Each point names its origin, what a project brings to take part (requires) and what has to happen between two projects for the point to count (done). A project's status at a point says how far it meets the requirements and points at evidence; whether the row was written by the project or compiled from its public sources is provenance.kind; whether the point was shown between two projects follows only from a passing scenario result. Whoever adds a point decides that it belongs; its origin names where it comes from. A candidate line is an open question about the point itself. Points with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than stated; the result is marked derived.",
+  "$comment": "The map of interop scenarios: every place where two implementations of the decentralized trust graph can meet. Not a ladder; scenarios have no order. Each scenario names its origin, what a project brings to take part (requires) and what has to happen between two projects for the scenario to count (done). A project's status at a scenario says how far it meets the requirements and scenarios at evidence; whether the row was written by the project or compiled from its public sources is provenance.kind; whether the scenario was shown between two projects follows only from a passing scenario result. Whoever adds a scenario decides that it belongs; its origin names where it comes from. A candidate line is an open question about the scenario itself. Scenarios with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than stated; the result is marked derived.",
   "layers": [
     {
       "id": "person",
@@ -32,7 +32,7 @@
       "asks": "How do communities recognise one another?"
     }
   ],
-  "points": [
+  "scenarios": [
     {
       "id": "did-resolution",
       "layer": "person",
@@ -336,7 +336,7 @@
     "vectors": "byte-exact test vectors published, re-derivable by a shared runner, not yet exercised against another implementation",
     "spec": "written down, not yet built",
     "open": "the project knows the gap and says so",
-    "n/a": "the project does not aim at this point, with a reason"
+    "n/a": "the project does not aim at this scenario, with a reason"
   },
-  "shown": "A point counts as shown between two projects only through a passing result in a scenario that covers the point (or a partial result naming it). Project statuses never add up to shown."
+  "shown": "A scenario counts as run between two projects only through a passing run of a procedure that covers it (or a partial run naming it). Project statuses never add up to a run."
 }

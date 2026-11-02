@@ -103,7 +103,7 @@
     ]
   },
   "requiredParty": "none at runtime (direct libp2p); community admins",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:scid:vh and did:peer:4.",

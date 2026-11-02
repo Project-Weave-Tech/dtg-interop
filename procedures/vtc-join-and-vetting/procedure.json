@@ -1,7 +1,7 @@
 {
   "slug": "vtc-join-and-vetting",
   "title": "A wallet joins a verifiable trust community, is vetted and holds its credentials",
-  "points": [
+  "scenarios": [
     "membership-statement",
     "registry-lookup"
   ],

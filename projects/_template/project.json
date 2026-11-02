@@ -25,7 +25,7 @@
     "devices": "what a person with several devices is"
   },
   "requiredParty": "the party without which your implementation does not work, or 'the other person'",
-  "points": {
+  "scenarios": {
     "vrc-exchange": {
       "status": "open",
       "note": "one sentence",

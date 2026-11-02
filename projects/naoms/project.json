@@ -119,7 +119,7 @@
     ]
   },
   "requiredParty": "a steward, per the public material",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:key root; did:webvh and did:naoms.",

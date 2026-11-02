@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/scenario.schema.json",
-  "title": "DTG interop scenario",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/procedure.schema.json",
+  "title": "DTG interop procedure",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "slug",
     "title",
-    "points",
+    "scenarios",
     "participants",
     "status",
     "updated"
@@ -21,14 +21,14 @@
       "type": "string",
       "maxLength": 120
     },
-    "points": {
+    "scenarios": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "string",
         "pattern": "^[a-z][a-z0-9-]{1,40}$"
       },
-      "description": "Interop point ids from points.json this scenario exercises."
+      "description": "Interop scenario ids from scenarios.json this scenario exercises."
     },
     "summary": {
       "type": "string",
@@ -118,14 +118,14 @@
               "partial"
             ]
           },
-          "points": {
+          "scenarios": {
             "type": "array",
             "minItems": 1,
             "items": {
               "type": "string",
               "pattern": "^[a-z][a-z0-9-]{1,40}$"
             },
-            "description": "The points of the scenario this result shows. Omit when a pass shows all of them; required for a partial."
+            "description": "The scenarios of the procedure this result shows. Omit when a pass shows all of them; required for a partial."
           },
           "note": {
             "type": "string",

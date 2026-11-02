@@ -81,7 +81,7 @@
     "note": "ValueFlows vocabulary."
   },
   "requiredParty": "not stated publicly",
-  "points": {
+  "scenarios": {
     "offline-write": {
       "status": "stated",
       "note": "Reticulum over LoRa and packet radio; KERI key event logs are appended locally.",

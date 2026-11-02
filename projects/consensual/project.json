@@ -135,7 +135,7 @@
     ]
   },
   "requiredParty": "no central party; relays for rendezvous",
-  "points": {
+  "scenarios": {
     "did-resolution": {
       "status": "stated",
       "note": "did:peer:2, resolvable offline.",

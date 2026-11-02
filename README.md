@@ -8,7 +8,7 @@ Most rows were compiled from public sources and say so. **Every project can corr
 
 **Using an AI agent?** Point it at [`AGENTS.md`](AGENTS.md): files, fields, rules, the check before pushing and recipes for the common changes.
 
-**Record a run** between two projects: add a line to `results` in [`scenarios/<slug>/scenario.json`](scenarios/) (date, two sides with versions, outcome), or open an issue with the label `run` and someone will.
+**Record a run** between two projects: add a line to `results` in [`procedures/<slug>/procedure.json`](procedures/) (date, two sides with versions, outcome), or open an issue with the label `run` and someone will.
 
 **Threads** that matter for interop live in many repositories; [`threads.json`](threads.json) links them. An issue here is for a thread that has no other home.
 

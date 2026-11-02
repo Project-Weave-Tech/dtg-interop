@@ -4,7 +4,7 @@
     "title": "Trigger links: a person-to-person flow (shared-connect), carried invitation, size budget, registry entry",
     "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86",
     "context": "Defines the QR and link form two apps need to share for a contact ceremony between apps.",
-    "points": [
+    "scenarios": [
       "contact-ceremony"
     ],
     "state": "open",
@@ -15,7 +15,7 @@
     "title": "A shared wire core across Trust Task implementations: one test, eight dimensions, and a self-report",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/905",
     "context": "What every Trust Task implementation must get identical for documents to be readable across apps.",
-    "points": [
+    "scenarios": [
       "document-framework"
     ],
     "state": "open",
@@ -26,7 +26,7 @@
     "title": "Rulings requested: blocked, verdict versus refusal, already-in-state, defaulted quorum, proof bytes, freshness, indeterminate",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-spec/issues/31",
     "context": "Open rulings in the Trust Tasks specification that decide how two implementations read the same answer.",
-    "points": [
+    "scenarios": [
       "document-framework",
       "error-answers"
     ],
@@ -38,7 +38,7 @@
     "title": "Pin and generate tasks from third-party sources beside the registry",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/pull/934",
     "context": "Lets any project publish its own document types so that others can pin and generate them.",
-    "points": [
+    "scenarios": [
       "document-framework"
     ],
     "state": "implemented",
@@ -49,7 +49,7 @@
     "title": "Verifier-relative edges: a VRC as an edge for a verifier that already knows its issuer",
     "url": "https://github.com/trustoverip/dtgwg-cred-spec/issues/72",
     "context": "How a relationship credential is read by a verifier that already knows one side; affects credential exchange between apps.",
-    "points": [
+    "scenarios": [
       "vrc-exchange"
     ],
     "state": "open",
@@ -60,7 +60,7 @@
     "title": "Data rooms: a few requests from the Keyring wallet integration",
     "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure/issues/2294",
     "context": "What a second client needs from a Data Room host; relevant for any app joining a room it does not host.",
-    "points": [
+    "scenarios": [
       "shared-room",
       "newcomer-history"
     ],

@@ -2,7 +2,7 @@
   "name": "dtg-interop",
   "private": true,
   "version": "0.1.0",
-  "description": "Map of interop points, project rows, scenarios, issues view and dashboard for the implementations of the decentralized trust graph",
+  "description": "Scenarios, project rows, procedures and runs, issues view and dashboard for the implementations of the decentralized trust graph",
   "type": "module",
   "license": "MIT",
   "scripts": {
