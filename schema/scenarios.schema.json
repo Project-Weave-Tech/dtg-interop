@@ -82,7 +82,7 @@
               "type": "string",
               "maxLength": 240
             },
-            "description": "What a project brings to take part, one line each. Name the side (\"Both apps:\", \"Issuing side:\") when the sides differ. A project's status at the point says how far it meets these."
+            "description": "What a project brings to take part, one line each. Name the side (\"Both apps:\", \"Issuing side:\") when the sides differ. A project's status at the scenario says how far it meets these."
           },
           "done": {
             "type": "string",
