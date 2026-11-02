@@ -123,7 +123,7 @@
         "Both apps: the same message document type, carrying a pairwise proof (a MAC or an equivalent construction) rather than a transferable signature",
         "Both apps: a path between them (same-carrier or cross-carrier)"
       ],
-      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it.",
+      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it. A procedure may run it with the sender offline when writing: the message arrives later and is still accepted as of its issue time.",
       "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp"
     },
     {
@@ -254,7 +254,7 @@
         "Host side: a group whose shared state is encrypted under one group key agreement at the boundary (MLS 1.0, ciphersuite 0x0001), joinable by welcome or invitation",
         "Joining side: a client of its own implementation that joins, reads and writes"
       ],
-      "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back.",
+      "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back. A procedure may run it with the writer offline when writing: the record arrives later and the host accepts it as of its issue time.",
       "derivedFrom": {
         "field": "replication",
         "match": {
@@ -277,19 +277,6 @@
       ],
       "done": "A member admitted later from the other app reads what the group wrote before the admission, within what the group allows, and nothing beyond.",
       "origin": "rltp (KV4), OpenVTC epoch chain"
-    },
-    {
-      "id": "offline-write",
-      "layer": "shared-state",
-      "title": "Writes without a host",
-      "asks": "A write made while no host is reachable is accepted by the other app when it arrives later.",
-      "requires": [
-        "Writing side: writes while no host is reachable and delivers the write later",
-        "Receiving side: validates a write by its issuer and content, not by when it arrived"
-      ],
-      "done": "A write made in one app with no host reachable is delivered later and accepted by the other app as of its issue time.",
-      "origin": "Weave deck, Level 0 question: is web access necessary and sufficient",
-      "weaveLevel": "0"
     },
     {
       "id": "captured-device",

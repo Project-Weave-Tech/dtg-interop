@@ -69,16 +69,6 @@
         }
       ]
     },
-    "offline-write": {
-      "status": "stated",
-      "note": "Mesh transports and sneaker-net; Lodge nodes replicate bundles when they meet.",
-      "evidence": [
-        {
-          "label": "social-fabric.us/developers",
-          "url": "https://social-fabric.us/developers"
-        }
-      ]
-    },
     "membership-statement": {
       "status": "stated",
       "note": "Badges and credential entitlements as Open Badges 3.0; committed.",

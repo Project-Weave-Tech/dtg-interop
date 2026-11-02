@@ -196,16 +196,6 @@
         }
       ]
     },
-    "offline-write": {
-      "status": "stated",
-      "note": "did:peer:2 and MLS rooms work without a host; writes settle when peers meet.",
-      "evidence": [
-        {
-          "label": "app.consensu.al",
-          "url": "https://app.consensu.al"
-        }
-      ]
-    },
     "captured-device": {
       "status": "stated",
       "note": "MLS rooms with one leaf per device; removing a leaf rotates the epoch (MLS PCS). Not stated as a cross-app property.",

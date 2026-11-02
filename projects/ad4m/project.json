@@ -37,6 +37,9 @@
     "language": [
       "Rust",
       "TypeScript"
+    ],
+    "offline": [
+      "yes"
     ]
   },
   "credentials": [],
@@ -91,16 +94,6 @@
         {
           "label": "Neighbourhoods",
           "url": "https://docs.ad4m.dev/neighbourhoods"
-        }
-      ]
-    },
-    "offline-write": {
-      "status": "stated",
-      "note": "Holochain source chains are written locally and gossiped later; the DHT is the host-less case by design.",
-      "evidence": [
-        {
-          "label": "AD4M docs",
-          "url": "https://docs.ad4m.dev/"
         }
       ]
     }

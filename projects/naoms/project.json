@@ -170,16 +170,6 @@
         }
       ]
     },
-    "offline-write": {
-      "status": "stated",
-      "note": "Hives are signed hash chains over iroh and mDNS; the project states offline operation.",
-      "evidence": [
-        {
-          "label": "naoms.dev",
-          "url": "https://naoms.dev"
-        }
-      ]
-    },
     "document-framework": {
       "status": "stated",
       "note": "Own task library of about 507 specs, not public; registry PRs closed unmerged.",
