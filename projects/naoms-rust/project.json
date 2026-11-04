@@ -1,0 +1,180 @@
+{
+  "slug": "naoms-rust",
+  "name": "NAOMS-Rust",
+  "purpose": "A clean-room Rust rebuild of the NAOMS core as reusable crates, written spec-first, to replace the TypeScript daemon.",
+  "website": "https://naoms.dev",
+  "docs": "https://blog.naoms.dev/",
+  "logo": "logo-naoms-rust.png",
+  "licence": "core not public",
+  "repositories": [],
+  "stack": {
+    "didMethods": "did:key root; did:naoms for chains and hives; did:peer (numalgo 2/4); did:webvh, never required to resolve",
+    "credentials": "W3C VC 2.0 with a DataIntegrityProof (eddsa-jcs-2022); own Naoms* credential family",
+    "transport": "Any protocol over any network: native TSP 1.0, DIDComm v2, iroh/QUIC, WebRTC, Reticulum, Nostr, BLE and HTTPS, each written from the spec",
+    "groups": "Hives as signed hash chains with a quorum from current membership; Authority credentials for roles",
+    "devices": "FROST threshold signing across a person's devices (keyholder crate); did:key as root"
+  },
+  "facets": {
+    "didMethods": [
+      "did:key",
+      "did:naoms",
+      "did:peer",
+      "did:webvh"
+    ],
+    "keys": [
+      "device",
+      "threshold (FROST)"
+    ],
+    "groupAuthority": [
+      "steward, quorum chain"
+    ],
+    "groupKeys": [
+      "own chain"
+    ],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      {
+        "value": "Rust",
+        "status": "building"
+      }
+    ]
+  },
+  "credentials": [
+    {
+      "model": "W3C VC 2.0",
+      "profiles": [
+        "VRC",
+        "VMC",
+        "VAC",
+        "VDC",
+        "VSC",
+        "VEC"
+      ],
+      "proof": [
+        "eddsa-jcs-2022"
+      ],
+      "status": "committed",
+      "note": "Spec-first redesign, five credential kinds: Relationship (VRC); Authority forms Membership (VMC), Role and Permission (VAC), Delegation (VDC); Attribute (VSC); Opinion (vouch) and Achievement (project, thanks, service) both carry an endorsement (VEC). Core code not public.",
+      "evidence": [
+        {
+          "label": "devlog: writing the rewrite down first",
+          "url": "https://blog.naoms.dev/posts/2026-10-30-writing-the-rewrite-down-first.html"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP 1.0",
+      "via": "direct",
+      "viaName": "native TSP, written from the spec",
+      "status": "committed",
+      "note": "No third-party TSP library. Code not public.",
+      "evidence": [
+        {
+          "label": "devlog: writing the rewrite down first",
+          "url": "https://blog.naoms.dev/posts/2026-10-30-writing-the-rewrite-down-first.html"
+        }
+      ]
+    },
+    {
+      "protocol": "DIDComm v2",
+      "via": "direct",
+      "viaName": "over iroh/QUIC",
+      "status": "committed",
+      "note": "Code not public."
+    },
+    {
+      "protocol": "WebRTC",
+      "via": "direct",
+      "status": "committed",
+      "note": "Browser-to-browser carrier. Code not public."
+    },
+    {
+      "protocol": "Reticulum",
+      "via": "mesh",
+      "status": "committed",
+      "note": "Mesh and long-range radio carrier. Code not public."
+    },
+    {
+      "protocol": "Nostr",
+      "via": "key-blind carrier",
+      "viaName": "Nostr relays",
+      "status": "committed",
+      "note": "Relays carry sealed messages without reading them. Code not public."
+    },
+    {
+      "protocol": "BLE",
+      "via": "direct",
+      "status": "committed",
+      "note": "Offline device-to-device carrier. Code not public."
+    },
+    {
+      "protocol": "HTTPS",
+      "via": "app server",
+      "status": "committed",
+      "note": "Code not public."
+    }
+  ],
+  "replication": [
+    {
+      "protocol": "signed hash chain",
+      "via": "direct",
+      "viaName": "one chain per space or hive, synced between a person's devices",
+      "status": "committed",
+      "note": "Chain crate written from the spec. Code not public.",
+      "evidence": [
+        {
+          "label": "devlog: writing the rewrite down first",
+          "url": "https://blog.naoms.dev/posts/2026-10-30-writing-the-rewrite-down-first.html"
+        }
+      ]
+    }
+  ],
+  "requiredParty": "a steward, per the public material",
+  "scenarios": {
+    "did-resolution": {
+      "status": "spec",
+      "note": "Four DID methods specified (did:key, did:naoms, did:peer, did:webvh); did:webvh is never required to resolve. No public resolver yet."
+    },
+    "vrc-verify": {
+      "status": "spec",
+      "note": "Relationship credential as a W3C VC 2.0 with eddsa-jcs-2022; the test vectors are internal, not yet public."
+    },
+    "contact-ceremony": {
+      "status": "spec",
+      "note": "A ceremony crate: both sides issue the connection credential in one gesture. Not checked against the DTGWG ceremony format."
+    },
+    "shared-room": {
+      "status": "spec",
+      "note": "Hives as signed hash chains with a membership quorum."
+    },
+    "multi-device": {
+      "status": "spec",
+      "note": "FROST threshold signing in the keyholder crate."
+    },
+    "captured-device": {
+      "status": "spec",
+      "note": "Recovery after a lost or captured device: FROST threshold signing (keyholder crate) so a single seized device holds no usable key, plus social-recovery buddies to re-establish a new device. Specified; no public code or vectors yet."
+    },
+    "document-framework": {
+      "status": "spec",
+      "note": "A plugin and package host (a WIT world), not the Trust Tasks Framework."
+    },
+    "direct-message": {
+      "status": "spec",
+      "note": "Native TSP 1.0 and DIDComm v2 specified; no public code yet."
+    }
+  },
+  "provenance": {
+    "kind": "project",
+    "date": "2026-11-04",
+    "sources": [
+      "https://blog.naoms.dev/posts/2026-10-30-writing-the-rewrite-down-first.html",
+      "https://naoms.dev"
+    ]
+  },
+  "updated": "2026-11-04"
+}
