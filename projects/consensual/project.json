@@ -2,8 +2,10 @@
   "slug": "consensual",
   "name": "Consensual / Geb",
   "website": "https://app.consensu.al",
-  "licence": "ALPS 0.4.0 (Alignment License: MPL 2.0 plus purpose terms; not OSI open source)",
-  "repositories": [],
+  "licence": "ALPS 0.4.0 (Alignment License: MPL 2.0 plus purpose terms; not OSI open source); source repository private, access for ALPS signatories (Day, 2026-11-01)",
+  "repositories": [
+    "https://git.myceli.al/consensual/substrate"
+  ],
   "apps": [
     {
       "kind": "web",
@@ -13,7 +15,7 @@
     }
   ],
   "stack": {
-    "didMethods": "did:peer:2",
+    "didMethods": "did:peer:2 per device; did:peer:4 per relationship announced (TSP 1.0 profile, 02.11.2026)",
     "credentials": "VRC (moving to eddsa-jcs-2022 and VCDM, announced)",
     "transport": "TSP; Nostr relays as rendezvous; WebRTC for people present",
     "trustTasks": "Trust Task documents on plain TSP agreed as the shared layer; MLS optional",
@@ -22,7 +24,8 @@
   },
   "facets": {
     "didMethods": [
-      "did:peer:2"
+      "did:peer:2",
+      "did:peer:4"
     ],
     "keys": [
       "device"
@@ -219,12 +222,13 @@
   },
   "provenance": {
     "kind": "public",
-    "date": "2026-10-30",
+    "date": "2026-11-04",
     "sources": [
       "https://app.consensu.al",
-      "https://app.consensu.al/download/"
+      "https://app.consensu.al/download/",
+      "https://git.myceli.al/consensual/substrate"
     ]
   },
-  "updated": "2026-11-01",
+  "updated": "2026-11-04",
   "logo": "logo-consensual.png"
 }
