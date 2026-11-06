@@ -188,7 +188,7 @@ const bringersOf = (kind, id) => {
   if (kind === 'tasks') return (ttTypes.find((t) => t.type === id)?.users ?? []).map((u) => ({ project: u.project, status: u.status }))
   return []
 }
-const partOf = (it, role, group) => ({ kind: it.kind, id: it.id, title: titleOf(it.kind, it.id), role, ...(group != null ? { group } : {}), bringers: bringersOf(it.kind + 's', it.id), runs: runsOf(it.kind, it.id) })
+const partOf = (it, role, group) => ({ kind: it.kind, id: it.id, title: titleOf(it.kind, it.id), role, ...(group != null ? { group } : {}), bringers: bringersOf({ credential: 'credentials', task: 'tasks', ceremony: 'ceremonies', basic: 'basics' }[it.kind], it.id), runs: runsOf(it.kind, it.id) })
 // needs: each entry a single part or a group (oneOf: one is enough); extras do
 // not count towards the goal. parts flattens all three for simple views, with
 // role required / alternative (with its group index) / extra.
