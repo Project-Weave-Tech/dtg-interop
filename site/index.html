@@ -231,7 +231,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./" aria-current="page">Projects</a>
-<a href="scenarios.html">Scenarios</a>
+<a href="goals.html">Goals</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -373,16 +373,16 @@ body{margin:0;background:#F6F6F3}
 </div>
 </sc-if>
 <div class="sec">
-<h4>Scenarios</h4>
+<h4>Needs</h4>
 <div class="ptl">
 <sc-for list="{{pp.points}}" as="x" hint-placeholder-count="5">
 <div class="pti"><div><span class="pill s-{{x.cls}}">{{x.status}}</span></div>
 <div><a href="{{x.href}}" style="font-weight: 500">{{x.title}}</a><div class="muted" style="font-size: 12.5px">{{x.note}}</div>
 <div class="chips" style="margin-top: 4px"><sc-for list="{{x.ev}}" as="e" hint-placeholder-count="1"><a class="chip" href="{{e.url}}" target="_blank" rel="noopener">{{e.label}}</a></sc-for></div></div></div>
 </sc-for>
-<sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">No scenario stated yet.</p></sc-if>
+<sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">Nothing stated yet.</p></sc-if>
 </div>
-<p style="margin: 12px 0 0; font-size: 12.5px"><a href="scenarios.html">All scenarios</a></p>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="goals.html">All goals and what they need</a></p>
 </div>
 <div class="sec">
 <h4>Runs with other projects</h4>
@@ -390,12 +390,6 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{pp.realised}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted">with {{x.other}}, {{x.date}}</span></li></sc-for>
 <sc-if value="{{pp.noRealised}}" hint-placeholder-val="{{ true }}"><li class="muted">No run with another project yet.</li></sc-if>
 </ul>
-<sc-if value="{{pp.hasScenarios}}" hint-placeholder-val="{{ true }}">
-<h4 style="margin-top: 16px">In procedures</h4>
-<ul class="dl">
-<sc-for list="{{pp.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <a href="pairs.html">{{s.title}}</a><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div></li></sc-for>
-</ul>
-</sc-if>
 <p class="muted" style="margin: 14px 0 0; font-size: 12px">Updated {{pp.updated}}. People are listed in the project's README.</p>
 </div>
 </aside>
@@ -458,11 +452,10 @@ class Component extends DCLogic {
     const faces = (d.projects || []).map(face);
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
-    // The data move (points became scenarios, folders became procedures) is read in both shapes
-    const moved = !(d.map && d.map.points);
-    const pts = (moved ? d.scenarios : d.map.points) || [];
-    const scenarios = (moved ? d.procedures : d.scenarios) || [];
-    const cellsOf = (p) => (moved ? p.scenarios : p.points) || {};
+    const pts = d.basics || [];
+    // A former basic lives under the first goal that needs it
+    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    const cellsOf = (p) => p.basics || {};
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
@@ -658,13 +651,12 @@ class Component extends DCLogic {
       const apps = (p.apps || []).map((a) => ({ label: a.label, url: a.url, status: a.status, kind: a.kind }));
       const repos = (p.repositories || []).map((u) => { const r = (d.repos || {})[u] || {}; return { name: r.name || u.replace(/^https?:\/\//, ''), url: u, licence: r.licence || 'licence not reported', pushed: r.pushedAt ? 'pushed ' + this.fmt(r.pushedAt) : 'last push not reported' }; });
       const st = p.stack || {};
-      const points = pts.filter((pt) => cellsOf(p)[pt.id]).map((pt) => { const c = cellsOf(p)[pt.id]; return { title: pt.title, href: 'scenarios.html#' + encodeURIComponent(pt.id), status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
+      const points = pts.filter((pt) => cellsOf(p)[pt.id]).map((pt) => { const c = cellsOf(p)[pt.id]; return { title: pt.title, href: needHref(pt.id), status: c.status, cls: scls(c.status), note: c.note || '', ev: c.evidence || [] }; });
       const realised = [];
-      scenarios.forEach((s) => (s.results || []).forEach((r) => {
+      (d.runs || []).forEach((r) => {
         const sides = (r.sides || []).map((x) => x.project);
-        if (sides.indexOf(p.slug) >= 0 && sides.length > 1) realised.push({ title: s.title, outcome: r.outcome, cls: 'o-' + r.outcome, date: this.fmt(r.date), other: sides.filter((x) => x !== p.slug).map(nameOf).join(', ') });
-      }));
-      const inScn = scenarios.filter((s) => (s.participants || []).indexOf(p.slug) >= 0).map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated' }));
+        if (sides.indexOf(p.slug) >= 0 && sides.length > 1) realised.push({ title: (r.subjects || []).map((x) => x.title).join(', '), outcome: r.outcome, cls: 'o-' + r.outcome + (r.reportedBy ? ' o-rep' : ''), date: this.fmt(r.date), other: sides.filter((x) => x !== p.slug).map(nameOf).join(', ') });
+      });
       pp = {
         tt: (() => {
           const tu = p.trustTaskUse;
@@ -739,7 +731,7 @@ class Component extends DCLogic {
         stack: [['DID methods', (p.facets && p.facets.didMethods) ? p.facets.didMethods.map(fShow).join(', ') || 'none' : st.didMethods], ['Language', (p.facets && p.facets.language) ? p.facets.language.map(fShow).join(', ') || 'none' : ''], ['', '']].filter((x) => x[1]).concat([['Transport', st.transport], ['Groups', st.groups], ['Devices', st.devices]]).map((x) => ({ k: x[0], v: x[1] || 'not stated' })),
         required: p.requiredParty || 'not stated',
         points, noPoints: points.length === 0, realised, noRealised: realised.length === 0,
-        scenarios: inScn, hasScenarios: inScn.length > 0, updated: this.fmt(p.updated),
+        updated: this.fmt(p.updated),
       };
     }
 

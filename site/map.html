@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>DTG Interop Board: Scenarios</title>
-<meta http-equiv="refresh" content="0; url=scenarios.html">
-<script>location.replace('scenarios.html' + location.hash);</script>
+<title>DTG Interop Board: Goals</title>
+<script>
+// Scenarios and basics now live under the goals; old links land on the goal and open the need
+var RENAMED = { 'contact-ceremony': 'connect', 'direct-message': 'write', 'membership-statement': 'membership', 'app-change': 'several-apps', 'multi-app-access': 'membership', 'vrc-exchange': 'connect', 'vrc-verify': 'connect' };
+var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
+h = RENAMED[h] || h;
+fetch('./data.json').then(function (r) { return r.json(); }).then(function (d) {
+  var goals = d.goals || [];
+  if (!h) return location.replace('goals.html');
+  if (goals.some(function (g) { return g.id === h; })) return location.replace('goals.html#goal-' + h);
+  var g = goals.find(function (g) { return (g.parts || []).some(function (x) { return x.kind === 'basic' && x.id === h; }); });
+  location.replace(g ? 'goals.html#goal-' + g.id + '/' + h : 'goals.html');
+}).catch(function () { location.replace('goals.html'); });
+</script>
 </head>
-<body><p>Potential is now <a href="scenarios.html">Scenarios</a>.</p></body></html>
+<body><p>This page moved to <a href="goals.html">Goals</a>.</p></body></html>

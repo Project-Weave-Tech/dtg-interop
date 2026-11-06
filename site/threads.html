@@ -137,7 +137,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="scenarios.html">Scenarios</a>
+<a href="goals.html">Goals</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html" aria-current="page">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -215,9 +215,12 @@ class Component extends DCLogic {
     if (!d) return { ...base, head: {}, groups: [], repoChips: [] };
 
     const repo = d.repo;
-    // The data move (points became scenarios, folders became procedures) is read in both shapes
-    const moved = !(d.map && d.map.points);
-    const ptById = {}; ((moved ? d.scenarios : d.map.points) || []).forEach((p) => { ptById[p.id] = p; });
+    // A thread is about goals, basics or ceremonies; each id links to its own page
+    const about = {};
+    (d.goals || []).forEach((x) => { about[x.id] = { title: x.title, href: 'goals.html#goal-' + encodeURIComponent(x.id) }; });
+    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    (d.basics || []).forEach((x) => { about[x.id] = { title: x.title, href: needHref(x.id) }; });
+    (d.ceremonies || []).forEach((x) => { about[x.id] = { title: x.title, href: 'ceremonies.html#cer-' + encodeURIComponent(x.id) }; });
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newThread: repo + '/edit/main/threads.json' };
 
@@ -233,7 +236,7 @@ class Component extends DCLogic {
         title: t.title, url: t.url, context: t.context, state: t.state,
         owner, repoName, repo: m ? owner + '/' + repoName : t.host, repoUrl: m ? 'https://github.com/' + owner + '/' + repoName : t.url,
         kind: m && m[3] ? kinds[m[3]] + ' #' + m[4] : '',
-        points: (t.scenarios || t.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
+        points: (t.about || []).map((id) => about[id] || { title: id, href: '#' }),
         updated: this.fmt(t.updated), stale: stale(recent(t)),
         answers: !has ? '' : n ? n + (n === 1 ? ' answer' : ' answers') : 'No answers yet',
         when: !has ? this.fmt(t.updated) : a.lastComment ? 'last ' + this.fmt(a.lastComment) : 'opened ' + this.fmt(a.created || a.lastActivity),

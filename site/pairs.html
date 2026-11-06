@@ -68,6 +68,12 @@ body{margin:0;background:#F6F6F3}
 .mx-cell.mx-rep{background:var(--surface);border-style:dashed}
 .mx-cell{display:inline-flex;align-items:center;justify-content:center;gap:1px}
 .mx-old{opacity:.45}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px;padding:18px 20px 22px}
+@media (max-width: 640px){.rgrid{grid-template-columns:minmax(0,1fr);padding:14px}}
+.rhead{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.rsides{display:flex;flex-direction:column;gap:6px}
+.rside{display:flex;align-items:flex-start;gap:8px;font-size:13px}
+.ktag{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-right:6px}
 .mx-n2{font-size:12px}
 .mx-n3{font-size:10px;letter-spacing:-.04em}
 .mk{font-weight:600}
@@ -159,7 +165,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="scenarios.html">Scenarios</a>
+<a href="goals.html">Goals</a>
 <a href="pairs.html" aria-current="page">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -178,7 +184,7 @@ body{margin:0;background:#F6F6F3}
 <div class="wrap" style="display: flex; flex-direction: column; gap: 28px">
 
 <section class="block" aria-labelledby="h-pairs">
-<div class="bhead"><h2 id="h-pairs">Runs</h2><p>Scenarios two projects have run against each other: one mark per scenario, its latest result. A faded mark is older than 30 days.</p></div>
+<div class="bhead"><h2 id="h-pairs">Runs</h2><p>What two projects have tested against each other: one mark per run, with its result. A faded mark is older than 30 days.</p></div>
 <div class="pairs">
 <div class="mx-box">
 <div class="mx-row" aria-hidden="true"><div class="mx-label"></div><sc-for list="{{matrix.head}}" as="h" hint-placeholder-count="11"><div class="mx-head" title="{{h.name}}"><span class="av {{h.hue}}" style="{{h.logoStyle}}">{{h.mono}}</span></div></sc-for></div>
@@ -191,40 +197,28 @@ body{margin:0;background:#F6F6F3}
 <div class="side">
 <a class="btn btn-primary" style="align-self: flex-start" href="{{runAny}}" target="_blank" rel="noopener">
 <svg width="14" height="14" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>Record a run</a>
-<p class="muted">Ran a scenario with another project? Record it in a minute: the link opens a prefilled issue with scenario, both projects, versions, outcome and a note.</p>
-<sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run a scenario together yet. An empty cell reads: not tested together yet.</p></sc-if>
-<p class="muted">Select a cell to see what that pair ran and which procedures either side is in.</p>
+<p class="muted">Ran something with another project? Record it in a minute: the link opens a prefilled issue with what was tested, both projects, versions, outcome and a note.</p>
+<sc-if value="{{matrix.none}}" hint-placeholder-val="{{ true }}"><p>No two projects have run anything together yet. An empty cell reads: not tested together yet.</p></sc-if>
+<p class="muted">One mark per run. Select a cell to see what that pair ran.</p>
 <p style="display: flex; flex-wrap: wrap; gap: 8px"><span class="pill o-pass">✓ pass</span><span class="pill o-partial">◐ partial</span><span class="pill o-fail">✕ fail</span><span class="pill o-pass o-rep">✓ reported, not yet confirmed</span><span class="pill o-pass o-old">✓ last run older than 30 days</span></p>
 </div>
 </div>
 </section>
 
-<section class="block" aria-labelledby="h-scenarios">
-<div class="bhead"><h2 id="h-scenarios">Procedures</h2><p>How two implementations run a scenario against each other: steps, vectors and results. The chips name the scenarios a procedure covers.</p><a class="btn" href="{{head.newScenario}}" target="_blank" rel="noopener">Add a procedure</a></div>
-<div class="cols4">
-<sc-for list="{{columns}}" as="col" hint-placeholder-count="4">
-<div style="min-width: 0">
-<div class="colh"><span class="pill st-{{col.title}}">{{col.title}}</span></div>
-<sc-for list="{{col.cards}}" as="s" hint-placeholder-count="2">
-<article class="card">
-<h3>{{s.title}}</h3>
-<p>{{s.summary}}</p>
-<div class="chips"><sc-for list="{{s.points}}" as="pt" hint-placeholder-count="2"><a class="chip" href="{{pt.href}}">{{pt.title}}</a></sc-for></div>
-<p class="muted faces">With <sc-for list="{{s.faces}}" as="f" hint-placeholder-count="1"><span class="faces"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span>{{f.name}}</span></sc-for><sc-if value="{{s.lonely}}" hint-placeholder-val="{{ true }}"> · waiting for a counterpart</sc-if></p>
-<sc-if value="{{s.hasWaiting}}" hint-placeholder-val="{{ true }}"><p class="wait"><strong style="font-weight: 500">Waits on</strong> {{s.waitingOn}}</p></sc-if>
-<sc-if value="{{s.hasVectors}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 3px"><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a style="font-size: 12.5px" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
-<sc-for list="{{s.results}}" as="x" hint-placeholder-count="0"><div><p style="margin: 0"><span class="pill {{x.cls}}">{{x.outcome}}</span> <span class="mono">{{x.date}}</span> {{x.sides}} <span class="muted">{{x.note}}</span></p><sc-if value="{{x.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><span><strong>Reported, not yet confirmed by either side.</strong> Entered by {{x.by}} from:</span><sc-for list="{{x.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></div></sc-for>
-<div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; padding-top: 6px; border-top: 1px solid var(--line)">
-<a href="{{s.run}}" target="_blank" rel="noopener">Record a run</a>
-<sc-if value="{{s.hasIssue}}" hint-placeholder-val="{{ false }}"><a href="{{s.issueUrl}}" target="_blank" rel="noopener">Tracking issue</a></sc-if>
-<a href="{{s.editUrl}}" target="_blank" rel="noopener">Correct this</a>
-<sc-if value="{{s.stale}}" hint-placeholder-val="{{ false }}"><span class="stale">last updated {{s.updated}}</span></sc-if>
-</div>
+<section class="block" aria-labelledby="h-runlist">
+<div class="bhead"><h2 id="h-runlist">All runs</h2><p>Each run is one test between two projects, of one or more credentials, Trust Tasks, ceremonies or other needs of a goal. Newest first.</p></div>
+<div class="rgrid">
+<sc-for list="{{runList}}" as="s" hint-placeholder-count="2">
+<article class="card" id="run-{{s.index}}">
+<div class="rhead"><span class="pill {{s.cls}}">{{s.outcome}}</span><span class="mono">{{s.date}}</span><sc-if value="{{s.ci}}" hint-placeholder-val="{{ false }}"><span class="pill">CI</span></sc-if></div>
+<div class="rsides"><sc-for list="{{s.sides}}" as="f" hint-placeholder-count="2"><div class="rside"><span class="av av-sm {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span><span><strong style="font-weight: 500">{{f.name}}</strong> <span class="muted">{{f.version}}</span></span></div></sc-for></div>
+<div class="chips"><sc-for list="{{s.subjects}}" as="x" hint-placeholder-count="2"><a class="chip" href="{{x.href}}"><span class="ktag">{{x.kind}}</span>{{x.title}}</a></sc-for></div>
+<sc-if value="{{s.hasNote}}" hint-placeholder-val="{{ true }}"><p class="muted" style="font-size: 12.5px">{{s.note}}</p></sc-if>
+<sc-if value="{{s.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><span><strong>Reported, not yet confirmed by either side.</strong> Entered by {{s.by}} from:</span><sc-for list="{{s.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if>
+<sc-if value="{{s.hasLinks}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; padding-top: 6px; border-top: 1px solid var(--line)"><sc-if value="{{s.hasProtocol}}" hint-placeholder-val="{{ false }}"><a href="{{s.protocol}}" target="_blank" rel="noopener">Protocol</a></sc-if><sc-for list="{{s.vectors}}" as="v" hint-placeholder-count="1"><a href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></sc-if>
 </article>
 </sc-for>
-<sc-if value="{{col.empty}}" hint-placeholder-val="{{ false }}"><div class="emptycol">None.</div></sc-if>
-</div>
-</sc-for>
+<sc-if value="{{noRuns}}" hint-placeholder-val="{{ false }}"><div class="emptycol">No runs yet.</div></sc-if>
 </div>
 </section>
 
@@ -241,17 +235,10 @@ body{margin:0;background:#F6F6F3}
 <div class="sec">
 <h4>Ran together</h4>
 <ul class="dl">
-<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> {{x.title}} <span class="muted mono">{{x.date}}</span><sc-if value="{{x.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><strong>Reported, not yet confirmed by either side.</strong><sc-for list="{{x.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></li></sc-for>
+<sc-for list="{{pair.runs}}" as="x" hint-placeholder-count="1"><li><span class="pill {{x.cls}}">{{x.outcome}}</span> <a href="#run-{{x.index}}" sc-camel-on-click="{{close}}">{{x.title}}</a> <span class="muted mono">{{x.date}}</span><sc-if value="{{x.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><strong>Reported, not yet confirmed by either side.</strong><sc-for list="{{x.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></li></sc-for>
 <sc-if value="{{pair.noRuns}}" hint-placeholder-val="{{ true }}"><li class="muted">Not tested together yet.</li></sc-if>
 </ul>
 <div style="margin-top: 14px"><a class="btn btn-primary" href="{{pair.run}}" target="_blank" rel="noopener">Record a run for this pair</a></div>
-</div>
-<div class="sec">
-<h4>Procedures either side is in</h4>
-<ul class="dl">
-<sc-for list="{{pair.scenarios}}" as="s" hint-placeholder-count="2"><li><span class="pill st-{{s.status}}">{{s.status}}</span> <strong style="font-weight: 500">{{s.title}}</strong><div class="muted" style="font-size: 12.5px">Waiting on {{s.waitingOn}}</div><a style="font-size: 12.5px" href="{{s.run}}" target="_blank" rel="noopener">Record a run of this scenario</a></li></sc-for>
-<sc-if value="{{pair.noScenarios}}" hint-placeholder-val="{{ false }}"><li class="muted">Neither project is in a procedure yet.</li></sc-if>
-</ul>
 </div>
 </aside>
 </sc-if>
@@ -286,7 +273,7 @@ class Component extends DCLogic {
     const d = this.state.data;
     const close = () => this.setState({ pair: null });
     const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, close, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
-    if (!d) return { ...base, head: {}, matrix: { head: [], rows: [], none: false }, columns: [], pair: { show: false }, runAny: '' };
+    if (!d) return { ...base, head: {}, matrix: { head: [], rows: [], none: false }, runList: [], noRuns: false, pair: { show: false }, runAny: '' };
 
     const repo = d.repo;
     const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
@@ -298,23 +285,18 @@ class Component extends DCLogic {
     const faces = (d.projects || []).map(face);
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
-    // The data move (points became scenarios, folders became procedures) is read in both shapes
-    const moved = !(d.map && d.map.points);
-    const pts = (moved ? d.scenarios : d.map.points) || [];
-    const scenarios = (moved ? d.procedures : d.scenarios) || [];
-    const ptById = {}; pts.forEach((p) => { ptById[p.id] = p; });
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);
     const nameOf = (slug) => (prjById[slug] ? short(prjById[slug]) : slug);
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;
     const pairOf = (a, b) => ((d.pairs || {})[a + '|' + b]) || ((d.pairs || {})[b + '|' + a]) || [];
     const runUrl = (s, a, b) => {
-      const title = 'Run: ' + (s ? s.title : '<scenario>');
-      const body = 'Procedure: ' + (s ? s.slug : '') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
+      const title = 'Run: ' + (s ? s.title : '<what was tested>');
+      const body = 'Tested: ' + (s ? s.key : '<credential:VRC, task:<uri>, ceremony:<id> or basic:<id>>') + '\nProject A: ' + (a || '') + '\nVersion A: \nProject B: ' + (b || '') + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ';
       return repo + '/issues/new?labels=run&title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
     };
 
-    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newScenario: repo + '/tree/main/scenarios' };
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', newRun: repo + '/blob/main/runs.json' };
 
     const glyph = { pass: '✓', partial: '◐', fail: '✕' };
     const isFresh = (r) => !!r.date && (Date.parse(d.generated) - Date.parse(r.date)) / 864e5 <= 30;
@@ -327,11 +309,11 @@ class Component extends DCLogic {
           if (i === j) return { diag: true, cls: 'mx-diag', mark: '', marks: [], label: short(a), open: null };
           const runs = pairOf(a.slug, b.slug);
           if (runs.length) anyRun = true;
-          // Latest run per scenario. Freshness is measured in days for now; once CI jobs report runs,
-          // isFresh can compare the run's versions with the latest release of both projects instead.
-          const latest = {};
-          runs.forEach((r) => { if (!latest[r.scenario] || r.date >= latest[r.scenario].date) latest[r.scenario] = r; });
-          const per = Object.keys(latest).map((k) => latest[k]);
+          // One mark per run (d.pairs has an entry per run and subject). Freshness is measured in days for now; once CI jobs
+          // report runs, isFresh can compare the run's versions with the latest release of both projects instead.
+          const byRun = {};
+          runs.forEach((r) => { (byRun[r.run] = byRun[r.run] || { ...r, title: [] }).title.push(r.title); });
+          const per = Object.keys(byRun).map((k) => ({ ...byRun[k], title: byRun[k].title.join(', '), outcome: ((d.runs || [])[k] || {}).outcome || byRun[k].outcome }));
           // The cell takes the colour of the freshest result; a single old mark fades the whole cell, several fade one by one
           const allOld = per.length > 0 && per.every((r) => !isFresh(r));
           const head = per.slice().sort((x, y) => (isFresh(y) - isFresh(x)) || String(y.date).localeCompare(String(x.date)))[0];
@@ -346,33 +328,32 @@ class Component extends DCLogic {
     };
     matrix.none = !anyRun;
 
-    const cards = scenarios.map((s) => {
-      const parts = s.participants || [];
-      return {
-        title: s.title, summary: s.summary, status: s.status,
-        points: (s.scenarios || s.points || []).map((id) => ({ title: ptById[id] ? ptById[id].title : id, href: 'scenarios.html#' + encodeURIComponent(id) })),
-        parts: parts.map(nameOf).join(', ') || 'nobody yet', faces: parts.map((x) => faceOf[x] || { hue: 'h-slate', mono: '?', name: x, logoStyle: '' }), lonely: parts.length < 2,
-        waitingOn: s.waitingOn || '', hasWaiting: !!s.waitingOn,
-        vectors: s.vectors || [], hasVectors: (s.vectors || []).length > 0,
-        results: (s.results || []).map((r) => ({ outcome: r.outcome, cls: 'o-' + r.outcome + (r.reportedBy ? ' o-rep' : ''), date: this.fmt(r.date), note: r.note || '', sides: (r.sides || []).map((x) => nameOf(x.project) + (x.version ? ' ' + x.version : '')).join(' × '), reported: !!r.reportedBy, by: r.reportedBy ? nameOf(r.reportedBy.project) : '', sources: (r.reportedBy && r.reportedBy.sources) || [] })),
-        run: runUrl(s, parts[0], parts[1]), hasIssue: !!s.issue, issueUrl: s.issue ? repo + '/issues/' + s.issue : '',
-        editUrl: s.editUrl || repo, stale: stale(s.updated), updated: this.fmt(s.updated),
-      };
-    });
-    const columns = ['proposed', 'running', 'passing', 'failing'].map((t) => { const c = cards.filter((x) => x.status === t); return { title: t, cards: c, empty: c.length === 0 }; });
+    // A former basic lives under the first goal that needs it
+    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    const HREF = { credential: () => 'credentials.html', task: () => 'trust-tasks.html', ceremony: (id) => 'ceremonies.html#cer-' + encodeURIComponent(id), basic: (id) => needHref(id) };
+    // The kind label of a tested subject; former basics carry their layer, as under Goals
+    const layerTitle = {}; ((d.map && d.map.layers) || []).forEach((l) => { layerTitle[l.id] = l.title; });
+    const basicLayer = {}; (d.basics || []).forEach((b) => { basicLayer[b.id] = (layerTitle[b.layer] || '').toLowerCase(); });
+    const KIND = { credential: 'credential', task: 'Trust Task', ceremony: 'ceremony' };
+    const subj = (x) => ({ kind: KIND[x.kind] || basicLayer[x.id] || 'need', title: x.title, href: (HREF[x.kind] || (() => '#'))(x.id) });
+    const runList = (d.runs || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).map((r) => ({
+      index: r.index, outcome: r.outcome, cls: 'o-' + r.outcome + (r.reportedBy ? ' o-rep' : '') + (isFresh(r) ? '' : ' o-old'), date: this.fmt(r.date), ci: r.source === 'ci',
+      sides: (r.sides || []).map((x) => ({ ...(faceOf[x.project] || { hue: 'h-slate', mono: '?', logoStyle: '' }), name: nameOf(x.project), version: x.version || '' })),
+      subjects: (r.subjects || []).map(subj), note: r.note || '', hasNote: !!r.note,
+      reported: !!r.reportedBy, by: r.reportedBy ? nameOf(r.reportedBy.project) : '', sources: (r.reportedBy && r.reportedBy.sources) || [],
+      protocol: r.protocol || '', hasProtocol: !!r.protocol, vectors: r.vectors || [], hasLinks: !!r.protocol || (r.vectors || []).length > 0,
+    }));
 
     let pair = { show: false };
     const sel = this.state.pair;
     if (sel) {
       const a = sel.a, b = sel.b;
-      const srcOf = (r) => { const sc = scenarios.find((x) => x.slug === (moved ? r.procedure : r.scenario)); const res = sc && (sc.results || []).find((x) => x.date === r.date && x.reportedBy); return (res && res.reportedBy.sources) || []; };
-      const runs = pairOf(a, b).map((r) => ({ title: r.title, outcome: r.outcome, cls: 'o-' + r.outcome + (r.reported ? ' o-rep' : ''), date: this.fmt(r.date), reported: !!r.reported, sources: r.reported ? srcOf(r) : [] }));
-      const scn = scenarios.filter((s) => (s.participants || []).indexOf(a) >= 0 || (s.participants || []).indexOf(b) >= 0)
-        .map((s) => ({ title: s.title, status: s.status, waitingOn: s.waitingOn || 'nothing stated', run: runUrl(s, a, b) }));
-      pair = { show: true, a: nameOf(a), b: nameOf(b), runs, noRuns: runs.length === 0, run: runUrl(null, a, b), scenarios: scn, noScenarios: scn.length === 0 };
+      const idx = [...new Set(pairOf(a, b).map((r) => r.run))];
+      const runs = idx.map((i) => (d.runs || [])[i]).filter(Boolean).sort((x, y) => String(y.date).localeCompare(String(x.date))).map((r) => ({ index: r.index, title: (r.subjects || []).map((x) => x.title).join(', '), outcome: r.outcome, cls: 'o-' + r.outcome + (r.reportedBy ? ' o-rep' : ''), date: this.fmt(r.date), reported: !!r.reportedBy, sources: (r.reportedBy && r.reportedBy.sources) || [] }));
+      pair = { show: true, a: nameOf(a), b: nameOf(b), runs, noRuns: runs.length === 0, run: runUrl(null, a, b) };
     }
 
-    return { ...base, head, matrix, columns, pair, runAny: runUrl(null, '', '') };
+    return { ...base, head, matrix, runList, noRuns: !runList.length, pair, runAny: runUrl(null, '', '') };
   }
 }
 </script>

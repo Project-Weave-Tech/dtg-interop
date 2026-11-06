@@ -179,7 +179,7 @@ body{margin:0;background:#F6F6F3}
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="start.html" aria-current="page">Start</a>
 <a href="./">Projects</a>
-<a href="scenarios.html">Scenarios</a>
+<a href="goals.html">Goals</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -310,16 +310,15 @@ class Component extends DCLogic {
 
     // A status the build derived from the detail data (points[].derivedFrom) counts like a stated one; the open card says where it came from
     const FROM = { credentials: 'Credentials', messaging: 'Messaging', replication: 'Replication', trustTaskUse: 'Trust Tasks' };
-    // The data move (points became scenarios, folders became procedures) is read in both shapes
-    const moved = !(d.map && d.map.points);
-    const cellsOf = (p) => (moved ? p.scenarios : p.points) || {};
-    const catalogue = (moved ? d.scenarios : d.map.points) || [];
+    // The start test page shows the basics as its card wall
+    const cellsOf = (p) => p.basics || {};
+    const catalogue = d.basics || [];
     const raw = (p, id) => (cellsOf(p)[id] ? cellsOf(p)[id].status : null);
     const lvl = (s) => (s === 'runs' ? 'runs' : s === 'vectors' ? 'vectors' : s === 'spec' || s === 'open' ? 'paper' : s === 'stated' ? 'stated' : null);
     const order = { runs: 0, vectors: 1, paper: 2, stated: 3 };
     const layerTitle = {}; d.map.layers.forEach((l) => { layerTitle[l.id] = l.title; });
-    const scn = {}; ((moved ? d.procedures : d.scenarios) || []).forEach((s) => (s.scenarios || s.points || []).forEach((x) => { (scn[x] = scn[x] || []).push(s); }));
-    const thr = {}; (d.threads || []).forEach((t) => (t.scenarios || t.points || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
+    const scn = {};
+    const thr = {}; (d.threads || []).forEach((t) => (t.about || []).forEach((x) => { (thr[x] = thr[x] || []).push(t); }));
     const picked = this.state.layers || [];
     const sel = this.state.point;
 
