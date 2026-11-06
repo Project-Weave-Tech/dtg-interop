@@ -136,7 +136,7 @@
     {
       "id": "shared-room",
       "layer": "shared-state",
-      "title": "Same group in two apps",
+      "title": "Shared encrypted group state",
       "asks": "Several apps read and write the same encrypted shared state of one community.",
       "requires": [
         "Host side: a group whose shared state is encrypted under one group key agreement at the boundary (MLS 1.0, ciphersuite 0x0001), joinable by welcome or invitation",
