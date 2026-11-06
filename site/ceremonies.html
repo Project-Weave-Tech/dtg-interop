@@ -96,6 +96,9 @@ body{margin:0;background:#F6F6F3}
 .ps.ps-nobody{border-color:var(--line);color:var(--muted)}
 .chev{color:var(--muted);transition:transform .15s ease}
 .lrow.open .chev{transform:rotate(90deg)}
+.notetag{color:var(--amber-t);font-weight:500}
+.kdet .cnote{margin:0;padding:8px 12px;border-radius:8px;background:var(--amber-b);color:var(--amber-t);font-size:12.5px}
+.cnote strong{font-weight:600}
 .kdet{display:flex;flex-direction:column;gap:12px;padding:4px 20px 18px;max-width:900px}
 .kdet h4{margin:0 0 4px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .kdet p{margin:0;font-size:13px}
@@ -213,12 +216,13 @@ body{margin:0;background:#F6F6F3}
 <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
 <div class="lrow {{c.openCls}}" id="cer-{{c.id}}">
 <button class="lhead" type="button" aria-expanded="{{c.open}}" sc-camel-on-click="{{c.toggle}}">
-<span class="lt"><span class="ltitle">{{c.title}}</span><span class="lsub">{{c.homeLabel}} · {{c.status}} · {{c.version}}</span></span>
+<span class="lt"><span class="ltitle">{{c.title}}</span><span class="lsub">{{c.homeLabel}} · {{c.status}} · {{c.version}}<sc-if value="{{c.hasNote}}" hint-placeholder-val="{{ false }}"> · <span class="notetag">note before testing</span></sc-if></span></span>
 <span class="bring"><sc-for list="{{c.speakers}}" as="f" hint-placeholder-count="2"><span class="bf" title="{{f.title}}"><span class="sdot sd-{{f.status}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span></span></sc-for><sc-if value="{{c.noSpeakers}}" hint-placeholder-val="{{ false }}"><span class="none">nobody yet</span></sc-if></span>
 <span class="lstage"><span class="ps ps-{{c.stage}} {{c.stageRep}}">{{c.stageLabel}}</span><sc-if value="{{c.hasStageSub}}" hint-placeholder-val="{{ false }}"><span class="sub">{{c.stageSub}}</span></sc-if></span>
 <svg class="chev" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
 </button>
 <sc-if value="{{c.open}}" hint-placeholder-val="{{ false }}"><div class="kdet">
+<sc-if value="{{c.hasNote}}" hint-placeholder-val="{{ false }}"><p class="cnote"><strong>Before testing:</strong> {{c.note}}</p></sc-if>
 <div><h4>The ceremony</h4><p>{{c.summary}}</p><p class="muted" style="font-size: 12px"><sc-if value="{{c.hasDefiner}}" hint-placeholder-val="{{ false }}"><span class="av av-xs {{c.definer.hue}}" aria-hidden="true" style="{{c.definer.logoStyle}}">{{c.definer.mono}}</span> </sc-if>{{c.homeLabel}} · {{c.status}} · {{c.version}} · <a href="{{c.definition}}" target="_blank" rel="noopener">Definition</a></p></div>
 <div><h4>Who speaks it</h4>
 <sc-if value="{{c.hasSpeakers}}" hint-placeholder-val="{{ true }}"><ul><sc-for list="{{c.speakers}}" as="f" hint-placeholder-count="2"><li><a class="who" href="{{f.href}}"><span class="sdot sd-{{f.status}}" aria-hidden="true"></span>{{f.name}}</a> <span class="wword">{{f.status}}</span> <span class="muted">{{f.roles}}</span><sc-if value="{{f.hasNote}}" hint-placeholder-val="{{ false }}"><div class="muted">{{f.note}}</div></sc-if><div class="chips" style="margin-top: 4px"><sc-for list="{{f.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div></li></sc-for></ul></sc-if>
@@ -308,6 +312,7 @@ class Component extends DCLogic {
       const open = this.state.focus === c.id;
       const nT = (c.tasks || []).length;
       return {
+        note: c.note || '', hasNote: !!c.note,
         id: c.id, open, openCls: open ? 'open' : '', toggle: () => this.setState({ focus: open ? '' : c.id }), stageLabel, stageSub, hasStageSub: !!stageSub, stageRep: runs.length && runs[0].reported ? 'rep' : '', title: c.title, summary: c.summary, definition: c.definition, status: c.status, version: c.version ? 'v' + c.version : '',
         homeLabel: c.home === 'registry' ? 'Trust Tasks registry' : 'Defined by ' + fc(c.definedBy).name, hasDefiner: c.home !== 'registry' && !!c.definedBy, definer: fc(c.definedBy),
         speakers, hasSpeakers: speakers.length > 0, noSpeakers: !speakers.length, runs, hasRuns: runs.length > 0, noRuns: !runs.length, stage,
