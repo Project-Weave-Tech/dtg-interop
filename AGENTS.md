@@ -16,7 +16,7 @@ This board records how the implementations of the decentralized trust graph fit 
 | `projects/<slug>/project.json` | One project's row. Your file. |
 | `projects/<slug>/README.md` | One paragraph: what it is, who works on it, what others can try against it today. |
 | `projects/<slug>/trust-tasks.json` | Optional: a long list of Trust Task types, extracted from the source. |
-| `goals.json` | The goals: what people on different apps should be able to do together, and the credentials, Trust Tasks, ceremonies and basics each needs. Shared. |
+| `goals.json` | The goals: what people on different apps should be able to do together, and the credentials, Trust Tasks, ceremonies and basics each needs. A goal is the outcome; a journey (as in the conformance draft) is one end-to-end path to it, and a run is one pass of two projects along such a path. Shared. |
 | `basics.json` | The basics: what two implementations need in common that is neither a Trust Task nor a ceremony (identifiers, carriers, document framework, group keys, devices, registries). Each says what a project brings (`requires`) and what has to happen between two projects (`done`). Shared. |
 | `ceremonies.json` | The ceremonies: multi-step flows composed of Trust Tasks, from the registry or defined by a project, with their tasks and the goals they serve. Shared. |
 | `credential-profiles.json` | The credential profiles (VRC, VMC, …) and their families. Shared. |
