@@ -186,6 +186,8 @@ body{margin:0;background:#F6F6F3}
 .sd-runs{background:var(--green-t)}
 .sd-building{background:linear-gradient(90deg,var(--blue-t) 50%,transparent 50%);border:1.5px solid var(--blue-t)}
 .sd-committed{border:2px solid var(--amber-t)}
+.sd-stated{border:2px solid var(--muted)}
+.wword{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
 .tip{position:absolute;left:calc(100% + 10px);top:0;z-index:6;width:300px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 28px rgba(0,0,0,.18);font-weight:400;font-size:13px;line-height:1.45;color:var(--ink);text-align:left;white-space:normal;display:none;pointer-events:none}
 .pname:hover .tip,.pname:focus-visible .tip{display:block;animation:dtgtip .12s ease}
 @keyframes dtgtip{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
@@ -209,10 +211,6 @@ body{margin:0;background:#F6F6F3}
 .ttype{display:inline-flex;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;padding:1px 7px;border-radius:6px;background:var(--soft);color:var(--ink)}
 .ttype.shared{background:var(--green-b);color:var(--green-t);font-weight:500}
 .ttype.bld{border:1px dashed var(--muted)}
-.more{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-left:auto;font-size:13px;color:var(--muted)}
-.board .more a{color:var(--muted);padding:0 6px;min-height:44px;display:inline-flex;align-items:center;border-bottom:0}
-.board .more a:hover{color:var(--ink)}
-.board .more a[aria-current="page"]{color:var(--ink);font-weight:600}
 </style>
 </helmet>
 <div class="board" data-theme="{{theme}}">
@@ -236,7 +234,7 @@ body{margin:0;background:#F6F6F3}
 <a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
-<span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a></span>
+<span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
 </nav>
 </div>
 </header>
@@ -361,6 +359,17 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{pp.tt.hasSource}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 10px 0 0; font-size: 12px">{{pp.tt.sourceText}} <a href="{{pp.tt.sourceUrl}}" target="_blank" rel="noopener">Source</a></p></sc-if>
 <div class="chips" style="margin-top: 10px"><sc-for list="{{pp.tt.evidence}}" as="e" hint-placeholder-count="1"><a class="chip" href="{{e.url}}" target="_blank" rel="noopener">{{e.label}}</a></sc-for></div>
 <p style="margin: 12px 0 0; font-size: 12.5px"><a href="trust-tasks.html">Who shares which Trust Tasks</a></p>
+</div>
+</sc-if>
+<sc-if value="{{pp.cer.has}}" hint-placeholder-val="{{ false }}">
+<div class="sec">
+<h4>Ceremonies</h4>
+<sc-for list="{{pp.cer.list}}" as="e" hint-placeholder-count="1"><div class="credcard">
+<div class="cred"><span class="sdot sd-{{e.cls}}" role="img" aria-label="{{e.status}}"></span><a href="{{e.href}}" style="font-weight: 500">{{e.title}}</a><span class="muted" style="font-size: 12.5px">{{e.roles}}</span><span class="wword" style="margin-left: auto">{{e.status}}</span></div>
+<sc-if value="{{e.hasNote}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 6px 0 0; font-size: 12.5px">{{e.note}}</p></sc-if>
+<div class="chips" style="margin-top: 6px"><sc-for list="{{e.evidence}}" as="v" hint-placeholder-count="1"><a class="chip" href="{{v.url}}" target="_blank" rel="noopener">{{v.label}}</a></sc-for></div>
+</div></sc-for>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="ceremonies.html">All ceremonies</a></p>
 </div>
 </sc-if>
 <div class="sec">
@@ -704,6 +713,8 @@ class Component extends DCLogic {
           };
         })(),
         purpose: p.purpose || '', hasPurpose: !!p.purpose,
+        // A project's ceremonies, titled from the catalogue; the dot uses the lane colours (runs, building, committed) plus a grey ring for stated
+        cer: { has: (p.ceremonies || []).length > 0, list: (p.ceremonies || []).map((e) => { const c = (d.ceremonies || []).find((x) => x.id === e.ceremony) || {}; return { title: c.title || e.ceremony, href: 'ceremonies.html#cer-' + e.ceremony, status: e.status, cls: e.status, roles: (e.roles || []).join(', '), note: e.note || '', hasNote: !!e.note, evidence: e.evidence || [] }; }) },
         lanes: {
           has: LANES.some((l) => Array.isArray(p[l])),
           groups: LANES.map((l) => ({
