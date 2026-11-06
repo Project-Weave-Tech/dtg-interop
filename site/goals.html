@@ -393,6 +393,8 @@ class Component extends DCLogic {
     const layerTitle = {}; ((d.map && d.map.layers) || []).forEach((l) => { layerTitle[l.id] = l.title; });
     const basicById = {}; (d.basics || []).forEach((b) => { basicById[b.id] = b; });
     const KIND = { credential: 'credential', task: 'Trust Task', ceremony: 'ceremony' };
+    // A Trust Task's title is its type URI; show the part after /spec/, as on the Ceremonies page
+    const taskTitle = (t) => String(t).replace(/^https?:\/\/[^/]+\/(trust-tasks\/)?spec\//, '').replace(/\/(\d+(\.\d+)*)$/, ' $1');
     const runUrl = (key, title, a, b) => repo + '/issues/new?labels=run&title=' + encodeURIComponent('Run: ' + title) + '&body=' + encodeURIComponent('Tested: ' + key + '\nProject A: ' + a + '\nVersion A: \nProject B: ' + b + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ');
     const cellOf = (slug, p) => { const pr = (d.projects || []).find((x) => x.slug === slug) || {}; return p.kind === 'basic' ? ((pr.basics || {})[p.id] || {}) : {}; };
     const exp = this.state.expanded || {};
@@ -422,7 +424,7 @@ class Component extends DCLogic {
         const said = slugs.map((x) => { const c = cellOf(x, p); return { ...fc(x), cls: DOT[best[x]], status: best[x], note: c.note || '' }; });
         const okey = g.id + '/' + p.id; const open = this.state.open === okey;
         return {
-          kind: p.kind, kindLabel: KIND[p.kind] || (layerTitle[b.layer] || '').toLowerCase() || 'need', title: p.title, href: (HREF[p.kind] || (() => ''))(p.id), hasRef: !!HREF[p.kind], refLabel: REF[p.kind] || '',
+          kind: p.kind, kindLabel: KIND[p.kind] || (layerTitle[b.layer] || '').toLowerCase() || 'need', title: taskTitle(p.title), fullTitle: p.title, href: (HREF[p.kind] || (() => ''))(p.id), hasRef: !!HREF[p.kind], refLabel: REF[p.kind] || '',
           bringers, nobody: !bringers.length, stage, label, sub, hasSub: !!sub, rep: ran.length && ran[0].reported ? 'rep' : '',
           asks: b.asks || '', hasAsks: !!b.asks, requires: b.requires || [], hasRequires: (b.requires || []).length > 0, done: b.done || '', hasDone: !!b.done,
           said, hasSaid: said.length > 0, pairs, hasPairs: pairs.length > 0,
