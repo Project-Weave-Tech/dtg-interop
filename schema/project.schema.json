@@ -978,6 +978,61 @@
           }
         }
       }
+    },
+    "ceremonies": {
+      "type": "array",
+      "description": "Ceremonies this project implements, by id from ceremonies.json.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ceremony",
+          "status"
+        ],
+        "properties": {
+          "ceremony": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "enum": [
+              "runs",
+              "building",
+              "committed",
+              "stated"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "url"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

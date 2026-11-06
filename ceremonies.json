@@ -1,0 +1,100 @@
+{
+  "$comment": "Ceremonies: multi-step flows composed of Trust Tasks, as defined in the DTGWG ceremony format or by a project. Who implements which ceremony is said in each project's row (ceremonies[]); the board joins both.",
+  "ceremonies": [
+    {
+      "id": "encounter-scan",
+      "title": "Encounter scan",
+      "summary": "One person shows a contact card with a fresh challenge, the other scans it; each issues a relationship credential bound to both challenges. Works connected or offline.",
+      "home": "project",
+      "definedBy": "rltp",
+      "version": "0.25",
+      "status": "draft",
+      "definition": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json",
+      "tasks": [
+        "https://real-life.org/trust-tasks/spec/encounter-bundle/0.1",
+        "https://real-life.org/trust-tasks/spec/encounter-credential-delivery/0.1"
+      ],
+      "scenarios": [
+        "contact-ceremony",
+        "vrc-verify"
+      ]
+    },
+    {
+      "id": "shared-connect",
+      "title": "shared-connect",
+      "summary": "A code or link carries a signed relationship proposal; the other side accepts and issues a relationship credential, the first may issue one back. Proposed as one ceremony for Keyring, Consensual and RLTP on registry tasks.",
+      "home": "registry",
+      "version": "0.1",
+      "status": "proposed",
+      "definition": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/issues/1034",
+      "tasks": [
+        "https://trusttasks.org/spec/vrc/relationships/propose/0.2",
+        "https://trusttasks.org/spec/vrc/relationships/issue/0.1"
+      ],
+      "scenarios": [
+        "contact-ceremony",
+        "vrc-verify"
+      ],
+      "procedures": [
+        "shared-ceremony"
+      ]
+    },
+    {
+      "id": "mutual-attestation",
+      "title": "In-person mutual attestation",
+      "summary": "Two people meet, confirm each other, and each issues the other a credential; no third party, no network.",
+      "home": "registry",
+      "version": "0.1",
+      "status": "draft",
+      "definition": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/blob/main/ceremonies/mutual-attestation/0.1/ceremony.json",
+      "tasks": [
+        "https://trusttasks.org/spec/credential-exchange/issue/0.1"
+      ],
+      "scenarios": [
+        "contact-ceremony"
+      ]
+    },
+    {
+      "id": "vtc-member-onboarding",
+      "title": "VTC member onboarding",
+      "summary": "A member applies to a Verifiable Trust Community, the community decides, and a membership credential closes the edge.",
+      "home": "registry",
+      "version": "0.1",
+      "status": "draft",
+      "definition": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/blob/main/ceremonies/vtc/member-onboarding/0.1/ceremony.json",
+      "tasks": [
+        "https://trusttasks.org/spec/vtc/join-requests/submit/0.1",
+        "https://trusttasks.org/spec/vtc/join-requests/decide/0.1",
+        "https://trusttasks.org/spec/vtc/members/vmc/0.1"
+      ],
+      "scenarios": [
+        "membership-statement",
+        "registry-lookup"
+      ],
+      "procedures": [
+        "vtc-join-and-vetting"
+      ]
+    },
+    {
+      "id": "identity-vetting",
+      "title": "Identity vetting",
+      "summary": "A vetter checks an applicant's identity for one community in a session and issues a vetting statement or declines.",
+      "home": "registry",
+      "version": "0.1",
+      "status": "draft",
+      "definition": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/blob/main/ceremonies/vetting/identity-vetting/0.1/ceremony.json",
+      "tasks": [
+        "https://trusttasks.org/spec/vetting/request/0.1",
+        "https://trusttasks.org/spec/vetting/session/0.1",
+        "https://trusttasks.org/spec/vetting/decline/0.1",
+        "https://trusttasks.org/spec/credential-exchange/issue/0.1"
+      ],
+      "scenarios": [
+        "registry-lookup"
+      ],
+      "procedures": [
+        "vtc-join-and-vetting"
+      ]
+    }
+  ]
+}

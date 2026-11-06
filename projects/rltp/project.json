@@ -385,5 +385,37 @@
     "kind": "project",
     "date": "2026-10-31"
   },
-  "updated": "2026-11-01"
+  "updated": "2026-11-01",
+  "ceremonies": [
+    {
+      "ceremony": "encounter-scan",
+      "roles": [
+        "displaying side",
+        "scanning side"
+      ],
+      "status": "runs",
+      "note": "In the Web of Trust app, connected and offline.",
+      "evidence": [
+        {
+          "label": "encounter-scan.ceremony.json",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
+        }
+      ]
+    },
+    {
+      "ceremony": "shared-connect",
+      "roles": [
+        "inviter",
+        "responder"
+      ],
+      "status": "committed",
+      "note": "Co-author of the proposal; the app follows once the registry text settles.",
+      "evidence": [
+        {
+          "label": "Trust Tasks TF issue 1034",
+          "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/issues/1034"
+        }
+      ]
+    }
+  ]
 }

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/ceremonies.schema.json",
+  "title": "DTG interop ceremonies",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ceremonies"
+  ],
+  "properties": {
+    "$comment": {
+      "type": "string"
+    },
+    "ceremonies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "home",
+          "status",
+          "tasks"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{1,60}$"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "home": {
+            "enum": [
+              "registry",
+              "project"
+            ],
+            "description": "registry: defined in the Trust Tasks registry (or proposed there); project: defined by one project."
+          },
+          "definedBy": {
+            "type": "string",
+            "description": "Project slug when home is project."
+          },
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "proposed",
+              "draft",
+              "candidate",
+              "published"
+            ]
+          },
+          "definition": {
+            "type": "string",
+            "format": "uri"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "scenarios": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "procedures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

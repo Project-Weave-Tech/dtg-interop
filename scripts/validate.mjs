@@ -16,6 +16,9 @@ const threadSchema = ajv.compile(read('schema/thread.schema.json'))
 const trustTasksSchema = ajv.compile(read('schema/trust-tasks.schema.json'))
 const profilesSchema = ajv.compile(read('schema/credential-profiles.schema.json'))
 const scenariosSchema = ajv.compile(read('schema/scenarios.schema.json'))
+const ceremoniesSchema = ajv.compile(read('schema/ceremonies.schema.json'))
+const cer = read('ceremonies.json')
+const ceremonyIds = new Set(cer.ceremonies.map((c) => c.id))
 const catalogue = read('credential-profiles.json')
 const map = read('scenarios.json')
 const layerIds = new Set(map.layers.map((l) => l.id))
@@ -68,6 +71,16 @@ for (const slug of folders('procedures')) {
     for (const id of r.scenarios ?? []) if (!(s.scenarios ?? []).includes(id)) errors.push(`${file}: results[${i}] names scenario "${id}" the procedure does not cover`)
   }
   if (!existsSync(join(root, `procedures/${slug}/README.md`))) errors.push(`procedures/${slug}/README.md: missing`)
+}
+if (!ceremoniesSchema(cer)) errors.push(`ceremonies.json: ${ajv.errorsText(ceremoniesSchema.errors, { separator: '\n  ' })}`)
+for (const c of cer.ceremonies) {
+  for (const id of c.scenarios ?? []) if (!scenarioIds.has(id)) errors.push(`ceremonies.json: "${c.id}" names unknown scenario "${id}"`)
+  for (const pr of c.procedures ?? []) if (!existsSync(join(root, `procedures/${pr}/procedure.json`))) errors.push(`ceremonies.json: "${c.id}" names unknown procedure "${pr}"`)
+  if (c.home === 'project' && !projects.has(c.definedBy)) errors.push(`ceremonies.json: "${c.id}" is defined by unknown project "${c.definedBy}"`)
+}
+for (const [slug, row] of projects) for (const [i, c] of (row.ceremonies ?? []).entries()) {
+  if (!ceremonyIds.has(c.ceremony)) errors.push(`projects/${slug}/project.json: ceremonies[${i}] names unknown ceremony "${c.ceremony}"`)
+  if (['runs', 'stated'].includes(c.status) && !(c.evidence?.length)) errors.push(`projects/${slug}/project.json: ceremonies[${i}] is "${c.status}" without evidence`)
 }
 const threads = read('threads.json')
 if (!threadSchema(threads)) errors.push(`threads.json: ${ajv.errorsText(threadSchema.errors, { separator: '\n  ' })}`)

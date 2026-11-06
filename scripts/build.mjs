@@ -148,6 +148,13 @@ const scenarios = catalogue.scenarios.map((sc) => {
     runs: (runsOf[sc.id] ?? []).sort((x, y) => x.date.localeCompare(y.date)),
   }
 })
+// Ceremonies: the catalogue joined with who implements each one (from the
+// project rows) and the runs of the procedures that exercise it.
+const ceremonies = read('ceremonies.json').ceremonies.map((c) => ({
+  ...c,
+  implementations: projects.flatMap((p) => (p.ceremonies ?? []).filter((x) => x.ceremony === c.id).map((x) => ({ project: p.slug, ...x }))),
+  runs: procedures.filter((pr) => (c.procedures ?? []).includes(pr.slug)).flatMap((pr) => (pr.results ?? []).map((r) => ({ ...r, procedure: pr.slug, source: r.source || 'manual' }))),
+}))
 const map = { layers: catalogue.layers, statusWords: catalogue.statusWords, shown: catalogue.shown }
 // Trust Tasks: every project's types resolved (inline or from trust-tasks.json),
 // then for each type who uses it, and for each pair of projects what they share.
@@ -188,7 +195,7 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, ceremonies, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))

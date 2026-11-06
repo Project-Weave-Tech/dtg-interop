@@ -17,6 +17,7 @@ This board records how the implementations of the decentralized trust graph fit 
 | `projects/<slug>/README.md` | One paragraph: what it is, who works on it, what others can try against it today. |
 | `projects/<slug>/trust-tasks.json` | Optional: a long list of Trust Task types, extracted from the source. |
 | `scenarios.json` | The scenarios: what two projects should manage together. Id, layer, what each asks, what each side brings to take part (`requires`) and how you know it works between two projects (`done`). Shared. |
+| `ceremonies.json` | The ceremonies: multi-step flows composed of Trust Tasks, from the registry or defined by a project, with their tasks and the scenarios they serve. Shared. |
 | `credential-profiles.json` | The credential profiles (VRC, VMC, …) and their families. Shared. |
 | `procedures/<slug>/procedure.json` | How to run one or more scenarios between two projects (steps, vectors), with the `results` of every run. |
 | `threads.json` | Links to discussions elsewhere that matter for interop. Shared. |
@@ -39,6 +40,7 @@ Required: `slug` (the folder name), `name`, `repositories`, `stack`, `scenarios`
 | `trustTaskUse` | `status`, `namespaces`, `types` (or `typesFile`), `count`, `mapsTo`, `documentProof`. |
 | `requiredParty` | The party without which it does not work. |
 | `scenarios` | What you bring to each scenario: `{ status, note, evidence }`. |
+| `ceremonies` | The ceremonies you implement: `[{ ceremony, roles, status, note, evidence }]`, ids from `ceremonies.json`; status `runs`, `building`, `committed` or `stated`. |
 | `provenance` | `kind`: `project` (written or confirmed by you) or `public` (compiled by someone else); `date`; `sources`. |
 
 ## Rules for values

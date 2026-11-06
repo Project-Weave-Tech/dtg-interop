@@ -262,5 +262,36 @@
       "https://github.com/berkmancenter/keyring-bifold"
     ]
   },
-  "updated": "2026-11-01"
+  "updated": "2026-11-01",
+  "ceremonies": [
+    {
+      "ceremony": "vtc-member-onboarding",
+      "roles": [
+        "applicant"
+      ],
+      "status": "stated",
+      "note": "Joins a VTC by QR and holds the membership credential.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    },
+    {
+      "ceremony": "identity-vetting",
+      "roles": [
+        "applicant",
+        "vetter"
+      ],
+      "status": "stated",
+      "note": "vetting/request, session, attestation and decline tasks in the wallet.",
+      "evidence": [
+        {
+          "label": "keyring-wallet",
+          "url": "https://github.com/berkmancenter/keyring-wallet"
+        }
+      ]
+    }
+  ]
 }

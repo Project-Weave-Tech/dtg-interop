@@ -307,5 +307,36 @@
       "https://www.firstperson.network/white-paper"
     ]
   },
-  "updated": "2026-11-01"
+  "updated": "2026-11-01",
+  "ceremonies": [
+    {
+      "ceremony": "vtc-member-onboarding",
+      "roles": [
+        "community",
+        "administrator"
+      ],
+      "status": "stated",
+      "note": "vtc/join-requests and vtc/members tasks in the VTC service.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    },
+    {
+      "ceremony": "identity-vetting",
+      "roles": [
+        "vetter"
+      ],
+      "status": "stated",
+      "note": "vetting/session in the VTC service.",
+      "evidence": [
+        {
+          "label": "verifiable-trust-infrastructure",
+          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
+        }
+      ]
+    }
+  ]
 }
