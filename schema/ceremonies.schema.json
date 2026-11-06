@@ -63,6 +63,11 @@
             "type": "string",
             "format": "uri"
           },
+          "note": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "A plain fact two implementers need to know before testing this ceremony, such as a version gap between the definition and what an implementation serves. No assessment."
+          },
           "tasks": {
             "type": "array",
             "items": {

@@ -57,6 +57,7 @@
       "version": "0.1",
       "status": "draft",
       "definition": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/blob/main/ceremonies/vtc/member-onboarding/0.1/ceremony.json",
+      "note": "The ceremony definition names vtc/join-requests/submit/0.1; the VTI implementation serves submit/0.3. Two implementations need to agree on one version before a run.",
       "tasks": [
         "https://trusttasks.org/spec/vtc/join-requests/submit/0.1",
         "https://trusttasks.org/spec/vtc/join-requests/decide/0.1",
