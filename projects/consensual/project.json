@@ -138,7 +138,7 @@
     ]
   },
   "requiredParty": "no central party; relays for rendezvous",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:peer:2, resolvable offline.",
@@ -149,39 +149,9 @@
         }
       ]
     },
-    "vrc-verify": {
-      "status": "stated",
-      "note": "Joint ceremony vectors with RLTP exist; VRC format in transition.",
-      "evidence": [
-        {
-          "label": "shared-connect binding vectors (joint)",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
-        }
-      ]
-    },
-    "contact-ceremony": {
-      "status": "stated",
-      "note": "shared-connect ceremony on VTI trigger links, defined jointly with RLTP.",
-      "evidence": [
-        {
-          "label": "shared-connect binding vectors (joint)",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
-        }
-      ]
-    },
     "same-carrier": {
       "status": "stated",
       "note": "TSP; relay path to be agreed with the counterpart.",
-      "evidence": [
-        {
-          "label": "app.consensu.al",
-          "url": "https://app.consensu.al"
-        }
-      ]
-    },
-    "direct-message": {
-      "status": "stated",
-      "note": "Direct messages are MLS rooms of two today.",
       "evidence": [
         {
           "label": "app.consensu.al",

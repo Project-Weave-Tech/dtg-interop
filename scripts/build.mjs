@@ -1,9 +1,9 @@
-// Builds site/dist/data.json for the board from scenarios.json, threads.json,
-// projects/*/project.json (with trust-tasks.json), credential-profiles.json and
-// procedures/*/procedure.json, plus what GitHub
-// reports: licence and last push of every project repository, and this
-// repository's own issues (shown among the threads). GitHub is the database;
-// data.json is a view. Without network access the committed snapshot is used.
+// Builds site/dist/data.json for the board from goals.json, basics.json,
+// ceremonies.json, runs.json, threads.json, credential-profiles.json and
+// projects/*/project.json (with trust-tasks.json), plus what GitHub reports:
+// licence and last push of every project repository, this repository's own
+// issues (shown among the threads) and activity on every thread. GitHub is the
+// database; data.json is a view. Without network access the snapshot is used.
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync, cpSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -16,10 +16,11 @@ const token = process.env.GITHUB_TOKEN
 const headers = { accept: 'application/vnd.github+json', 'user-agent': 'dtg-interop-build', ...(token ? { authorization: `Bearer ${token}` } : {}) }
 const gh = async (path) => { const r = await fetch(`https://api.github.com${path}`, { headers }); if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json() }
 
-const catalogue = read('scenarios.json')
+const basicsFile = read('basics.json')
+const goalsFile = read('goals.json')
+const runsFile = read('runs.json')
 const edit = (p) => `${repoUrl}/edit/main/${p}`
 const projects = folders('projects').map((slug) => ({ ...read(`projects/${slug}/project.json`), readme: `${repoUrl}/blob/main/projects/${slug}/README.md`, editUrl: edit(`projects/${slug}/project.json`) }))
-const procedures = folders('procedures').map((slug) => ({ ...read(`procedures/${slug}/procedure.json`), readme: `${repoUrl}/blob/main/procedures/${slug}/README.md`, editUrl: edit(`procedures/${slug}/procedure.json`) }))
 const threads = read('threads.json').map((t) => ({ ...t, host: new URL(t.url).hostname + '/' + new URL(t.url).pathname.split('/')[1] }))
 
 const snapshotFile = join(root, 'site/github-snapshot.json')
@@ -94,68 +95,57 @@ if (token) {
 if (issuesOk || fetchedRepos || activityOk) writeFileSync(snapshotFile, JSON.stringify({ fetched: new Date().toISOString(), issues: issuesOk ? issues : snapshot.issues, repos: goodRepos, activity }, null, 2) + '\n')
 
 
-// Derived scenario statuses: where a scenario names derivedFrom and a project said no
+// Derived basic statuses: where a basic names derivedFrom and a project said no
 // more than stated there, a matching detail entry with status runs makes the
-// scenario runs, marked derived, with the entry's evidence. Projects that said
+// basic runs, marked derived, with the entry's evidence. Projects that said
 // spec, open, vectors or n/a themselves are left alone.
 const matches = (entry, match) => Object.entries(match).every(([k, accepted]) => {
   const v = entry[k]
   return Array.isArray(v) ? v.some((x) => accepted.includes(x)) : accepted.includes(v)
 })
-for (const pt of catalogue.scenarios) {
+for (const pt of basicsFile.basics) {
   if (!pt.derivedFrom) continue
   const { field, match } = pt.derivedFrom
   for (const p of projects) {
-    const cell = p.scenarios?.[pt.id]
+    const cell = p.basics?.[pt.id]
     if (cell && cell.status !== 'stated') continue
     const entries = Array.isArray(p[field]) ? p[field] : p[field] ? [p[field]] : []
     const hit = entries.find((e) => e.status === 'runs' && matches(e, match))
     if (!hit) continue
-    ;(p.scenarios ??= {})[pt.id] = { ...(cell ?? {}), status: 'runs', derived: { from: field, said: cell?.status ?? null }, evidence: hit.evidence ?? cell?.evidence ?? [] }
+    ;(p.basics ??= {})[pt.id] = { ...(cell ?? {}), status: 'runs', derived: { from: field, said: cell?.status ?? null }, evidence: hit.evidence ?? cell?.evidence ?? [] }
   }
 }
 
-// Runs: every result of a procedure, attached to each scenario the procedure
-// covers. A pass runs every covered scenario; a partial runs the scenarios it
-// names (the others count as partial); a fail fails all of them. Pairs and
-// shown derive from these runs and from nothing else; project statuses never
-// add up to a run. A result neither side entered carries reportedBy and is
-// flagged reported.
-const outcomeFor = (r, id) => r.outcome === 'partial' ? ((r.scenarios ?? []).includes(id) ? 'pass' : 'partial') : r.outcome
-const runsOf = {}
+// Runs: each run tests one or more subjects (a credential profile, a Trust
+// Task type, a ceremony or a basic) between two projects. Pairs and shown
+// derive from runs and from nothing else; project statuses never add up to a
+// run. A run neither side entered carries reportedBy and is flagged reported.
+const cerFile = read('ceremonies.json')
+const profiles = read('credential-profiles.json').profiles
+const titleOf = (kind, id) => kind === 'credential' ? (profiles[id]?.name ? `${id} (${profiles[id].name})` : id)
+  : kind === 'ceremony' ? (cerFile.ceremonies.find((c) => c.id === id)?.title ?? id)
+  : kind === 'basic' ? (basicsFile.basics.find((b) => b.id === id)?.title ?? id) : id
+const keyOf = (s) => `${s.kind}:${s.id}`
+const runs = runsFile.runs.map((r, i) => ({ ...r, index: i, source: r.source || 'manual', subjects: r.subjects.map((x) => ({ ...x, key: keyOf(x), title: titleOf(x.kind, x.id), outcome: x.outcome ?? r.outcome })) }))
+  .sort((x, y) => x.date.localeCompare(y.date))
 const pairs = {}, shown = {}
-for (const pr of procedures) for (const r of pr.results ?? []) {
-  const slugs = [...new Set(r.sides.map((x) => x.project))].sort()
-  for (const id of pr.scenarios ?? []) {
-    const outcome = outcomeFor(r, id)
-    ;(runsOf[id] ??= []).push({ ...r, outcome, procedure: pr.slug, source: r.source || 'manual' })
-    const sc = catalogue.scenarios.find((x) => x.id === id)
-    for (let i = 0; i < slugs.length; i++) for (let j = i + 1; j < slugs.length; j++) {
-      const key = `${slugs[i]}|${slugs[j]}`
-      ;(pairs[key] ??= []).push({ scenario: id, title: sc ? sc.title : id, procedure: pr.slug, date: r.date, outcome, source: r.source || 'manual', ...(r.reportedBy ? { reported: true } : {}) })
-      if (outcome === 'pass') ((shown[key] ??= {})[id] ??= []).push({ procedure: pr.slug, date: r.date, ...(r.reportedBy ? { reported: true } : {}) })
-    }
+for (const r of runs) {
+  const key = [r.sides[0].project, r.sides[1].project].sort().join('|')
+  for (const sub of r.subjects) {
+    ;(pairs[key] ??= []).push({ subject: sub.key, kind: sub.kind, id: sub.id, title: sub.title, date: r.date, outcome: sub.outcome, source: r.source, run: r.index, ...(r.reportedBy ? { reported: true } : {}) })
+    if (sub.outcome === 'pass') ((shown[key] ??= {})[sub.key] ??= []).push({ date: r.date, run: r.index, ...(r.reportedBy ? { reported: true } : {}) })
   }
 }
-// Scenarios in the shape the board reads: the catalogue entry, its procedure
-// (the first folder covering it; absent = no procedure yet) and its runs.
-const scenarios = catalogue.scenarios.map((sc) => {
-  const covering = procedures.filter((pr) => (pr.scenarios ?? []).includes(sc.id))
-  const pr = covering[0]
-  return {
-    ...sc,
-    ...(pr ? { procedure: { slug: pr.slug, title: pr.title, summary: pr.summary, status: pr.status, readme: pr.readme, editUrl: pr.editUrl, vectors: pr.vectors ?? [], participants: pr.participants ?? [], ...(pr.waitingOn ? { waitingOn: pr.waitingOn } : {}), ...(pr.issue ? { issue: pr.issue } : {}), ...(covering.length > 1 ? { also: covering.slice(1).map((x) => x.slug) } : {}) } } : {}),
-    runs: (runsOf[sc.id] ?? []).sort((x, y) => x.date.localeCompare(y.date)),
-  }
-})
+const runsOf = (kind, id) => runs.filter((r) => r.subjects.some((x) => x.kind === kind && x.id === id)).map((r) => r.index)
+const basics = basicsFile.basics.map((b) => ({ ...b, runs: runsOf('basic', b.id) }))
 // Ceremonies: the catalogue joined with who implements each one (from the
-// project rows) and the runs of the procedures that exercise it.
-const ceremonies = read('ceremonies.json').ceremonies.map((c) => ({
+// project rows) and the runs that tested it.
+const ceremonies = cerFile.ceremonies.map((c) => ({
   ...c,
   implementations: projects.flatMap((p) => (p.ceremonies ?? []).filter((x) => x.ceremony === c.id).map((x) => ({ project: p.slug, ...x }))),
-  runs: procedures.filter((pr) => (c.procedures ?? []).includes(pr.slug)).flatMap((pr) => (pr.results ?? []).map((r) => ({ ...r, procedure: pr.slug, source: r.source || 'manual' }))),
+  runs: runsOf('ceremony', c.id),
 }))
-const map = { layers: catalogue.layers, statusWords: catalogue.statusWords, shown: catalogue.shown }
+const map = { layers: basicsFile.layers, statusWords: basicsFile.statusWords }
 // Trust Tasks: every project's types resolved (inline or from trust-tasks.json),
 // then for each type who uses it, and for each pair of projects what they share.
 // An own type mapped to a registry type counts for that registry type too (via).
@@ -188,6 +178,22 @@ for (const t of ttTypes) {
 }
 const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared, sharedVia: ttSharedVia }
 
+// Goals: each need resolved to who brings it (from the project rows) and the
+// runs that tested it, so the board can show how far a goal is without
+// recomputing the joins.
+const bringersOf = (kind, id) => {
+  if (kind === 'credentials') return projects.flatMap((p) => (p.credentials ?? []).filter((c) => (c.profiles ?? []).includes(id)).map((c) => ({ project: p.slug, status: c.status })))
+  if (kind === 'ceremonies') return projects.flatMap((p) => (p.ceremonies ?? []).filter((c) => c.ceremony === id).map((c) => ({ project: p.slug, status: c.status })))
+  if (kind === 'basics') return projects.filter((p) => p.basics?.[id]).map((p) => ({ project: p.slug, status: p.basics[id].status }))
+  if (kind === 'tasks') return (ttTypes.find((t) => t.type === id)?.users ?? []).map((u) => ({ project: u.project, status: u.status }))
+  return []
+}
+const subjectKind = { credentials: 'credential', ceremonies: 'ceremony', basics: 'basic', tasks: 'task' }
+const goals = goalsFile.goals.map((g) => ({
+  ...g,
+  parts: Object.entries(g.needs).flatMap(([kind, ids]) => ids.map((id) => ({ kind: subjectKind[kind], id, title: titleOf(subjectKind[kind], id), bringers: bringersOf(kind, id), runs: runsOf(subjectKind[kind], id) }))),
+}))
+
 // Credentials: the profile catalogue and the closed vocabularies, so the board builds its filters from data
 const credSchema = read('schema/project.schema.json').properties.credentials.items.properties
 const credentialProfiles = read('credential-profiles.json')
@@ -195,8 +201,8 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, procedures, ceremonies, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, goals, basics, ceremonies, runs, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
-console.log(`built site/dist: ${projects.length} project(s), ${scenarios.length} scenario(s), ${procedures.length} procedure(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)
+console.log(`built site/dist: ${projects.length} project(s), ${goals.length} goal(s), ${basics.length} basic(s), ${ceremonies.length} ceremonies, ${runs.length} run(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)

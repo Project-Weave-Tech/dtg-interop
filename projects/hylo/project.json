@@ -89,7 +89,7 @@
     "status": "none"
   },
   "requiredParty": "the Hylo server",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:plc experiment (ATProto).",

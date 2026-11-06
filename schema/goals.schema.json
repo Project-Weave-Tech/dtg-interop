@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/goals.schema.json",
+  "title": "DTG interop goals",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "goals"
+  ],
+  "properties": {
+    "$comment": {
+      "type": "string"
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "asks",
+          "done",
+          "needs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{1,40}$"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "asks": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "done": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "origin": {
+            "type": "string"
+          },
+          "needs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "credentials": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ceremonies": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "basics": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "What makes the goal work: credential profile ids, Trust Task type URIs, ceremony ids, basic ids."
+          },
+          "missing": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "thread": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Pieces that exist nowhere yet, with the thread where they are discussed."
+          }
+        }
+      }
+    }
+  }
+}

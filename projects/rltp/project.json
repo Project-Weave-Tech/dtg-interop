@@ -207,77 +207,7 @@
     ]
   },
   "requiredParty": "the other person",
-  "scenarios": {
-    "vrc-verify": {
-      "status": "runs",
-      "note": "The app issues a DTG RelationshipCredential (eddsa-jcs-2022) at every encounter and verifies the other side's; a reader for foreign plain DTG VRCs under did:key and did:peer:2 runs with negatives. Issuers under did:webvh are not resolved yet.",
-      "evidence": [
-        {
-          "label": "Web of Trust app",
-          "url": "https://github.com/real-life-org/web-of-trust"
-        },
-        {
-          "label": "encounter-cards.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/encounter-cards.json"
-        },
-        {
-          "label": "dtg-vrc-foreign.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/dtg-vrc-foreign.json"
-        },
-        {
-          "label": "conformance/dtg-vrc.mjs",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/conformance/dtg-vrc.mjs"
-        }
-      ]
-    },
-    "several-apps": {
-      "status": "open",
-      "note": "Relationships are documents and travel; membership is a fact in a replicated log, not a credential a wallet carries. An outward membership statement is designed, not built.",
-      "evidence": [
-        {
-          "label": "Membership Tasks 0.21",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/membership-tasks.md"
-        }
-      ]
-    },
-    "contact-ceremony": {
-      "status": "vectors",
-      "note": "encounter-scan is published in the DTGWG ceremony definition format; shared-connect is being defined jointly with Consensual on VTI trigger links, with shared binding vectors.",
-      "evidence": [
-        {
-          "label": "encounter-scan.ceremony.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/interop/ceremonies/encounter-scan.ceremony.json"
-        },
-        {
-          "label": "shared-connect-binding.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/shared-connect-binding.json"
-        }
-      ]
-    },
-    "direct-message": {
-      "status": "vectors",
-      "note": "A pairwise message document under a relationship MAC, no transferable proof. Only RLTP reads it today; we propose a shared type (scenario message-over-tsp).",
-      "evidence": [
-        {
-          "label": "message.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/message.json"
-        }
-      ]
-    },
-    "membership-statement": {
-      "status": "spec",
-      "note": "Membership is invite, the subject's own signed accept, and admission under the group's stated policy, all in the log. No wallet-held VMC; an outward statement for parties outside the group is designed, not built.",
-      "evidence": [
-        {
-          "label": "membership-tasks.json",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/membership-tasks.json"
-        },
-        {
-          "label": "Access 0.58",
-          "url": "https://github.com/real-life-org/trust-protocol/blob/main/spec/access-layer.md"
-        }
-      ]
-    },
+  "basics": {
     "shared-room": {
       "status": "spec",
       "note": "We have no groups in running code. Membership and replication are specifications with a test bench; the replication contract describes joining a foreign data room as a key-blind carrier. A spike that joined an OpenVTC Data Room used OpenVTC's own client and shows nothing about RLTP.",

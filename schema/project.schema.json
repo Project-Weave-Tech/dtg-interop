@@ -9,7 +9,7 @@
     "name",
     "repositories",
     "stack",
-    "scenarios",
+    "basics",
     "provenance",
     "updated"
   ],
@@ -126,7 +126,7 @@
       "type": "string",
       "description": "The party without which the implementation does not work."
     },
-    "scenarios": {
+    "basics": {
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {

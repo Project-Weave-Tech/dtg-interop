@@ -172,30 +172,10 @@
     ]
   },
   "requiredParty": "a Verifiable Trust Agent (VTA) and, for communities, a VTC host",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:webvh and did:key; resolution needs the web for did:webvh.",
-      "evidence": [
-        {
-          "label": "verifiable-trust-infrastructure",
-          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
-        }
-      ]
-    },
-    "vrc-verify": {
-      "status": "runs",
-      "note": "dtg-credentials (Rust) issues and verifies DTG RelationshipCredentials, WD 0.6.0.",
-      "evidence": [
-        {
-          "label": "dtg-credentials",
-          "url": "https://github.com/OpenVTC/dtg-credentials"
-        }
-      ]
-    },
-    "several-apps": {
-      "status": "stated",
-      "note": "VRCs and VMCs live in the VTA/wallet.",
       "evidence": [
         {
           "label": "verifiable-trust-infrastructure",
@@ -224,16 +204,6 @@
         {
           "label": "openvtc",
           "url": "https://github.com/OpenVTC/openvtc"
-        }
-      ]
-    },
-    "membership-statement": {
-      "status": "runs",
-      "note": "VMC issued by the community (VTC).",
-      "evidence": [
-        {
-          "label": "verifiable-trust-infrastructure",
-          "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure"
         }
       ]
     },

@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/scenarios.schema.json",
-  "title": "DTG interop scenarios",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/basics.schema.json",
+  "title": "DTG interop basics",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "layers",
-    "scenarios",
+    "basics",
     "statusWords"
   ],
   "properties": {
@@ -41,7 +41,7 @@
         }
       }
     },
-    "scenarios": {
+    "basics": {
       "type": "array",
       "minItems": 1,
       "items": {
@@ -72,7 +72,7 @@
           "asks": {
             "type": "string",
             "maxLength": 300,
-            "description": "What the scenario is about, one sentence."
+            "description": "What the basic is about, one sentence."
           },
           "requires": {
             "type": "array",
@@ -82,22 +82,22 @@
               "type": "string",
               "maxLength": 240
             },
-            "description": "What a project brings to take part, one line each. Name the side (\"Both apps:\", \"Issuing side:\") when the sides differ. A project's status at the scenario says how far it meets these."
+            "description": "What a project brings to take part, one line each. Name the side (\"Both apps:\", \"Issuing side:\") when the sides differ. A project's status at the basic says how far it meets these."
           },
           "done": {
             "type": "string",
             "maxLength": 400,
-            "description": "What has to happen between two projects for the scenario to count as run. A procedure is a recipe for exactly this; a passing result is the proof."
+            "description": "What has to happen between two projects for the basic to count as run. A procedure is a recipe for exactly this; a passing result is the proof."
           },
           "origin": {
             "type": "string",
             "maxLength": 200,
-            "description": "Where the scenario comes from: a deck, a one-pager, a task force, a project."
+            "description": "Where the basic comes from: a deck, a one-pager, a task force, a project."
           },
           "weaveLevel": {
             "type": "string",
             "maxLength": 4,
-            "description": "The level in the Project Weave deck, if the scenario comes from there."
+            "description": "The level in the Project Weave deck, if the basic comes from there."
           },
           "derivedFrom": {
             "type": "object",
@@ -106,7 +106,7 @@
               "field",
               "match"
             ],
-            "description": "How the build fills a project's status at this scenario from its detail fields when the project has not said more than stated: an entry of `field` with status runs that matches every key in `match` makes the point runs (derived), with that entry's evidence.",
+            "description": "How the build fills a project's status at this basic from its detail fields when the project has not said more than stated: an entry of `field` with status runs that matches every key in `match` makes the point runs (derived), with that entry's evidence.",
             "properties": {
               "field": {
                 "enum": [
@@ -133,7 +133,7 @@
           "candidate": {
             "type": "string",
             "maxLength": 240,
-            "description": "An open question about the scenario itself: a proposal to merge it into another scenario or to drop it, with the reason. Removed when decided."
+            "description": "An open question about the basic itself: a proposal to merge it into another basic or to drop it, with the reason. Removed when decided."
           }
         }
       }
@@ -172,7 +172,7 @@
     },
     "shown": {
       "type": "string",
-      "description": "One sentence on how the board derives that a scenario has run between two projects."
+      "description": "One sentence on how the board derives that a basic has run between two projects."
     }
   }
 }

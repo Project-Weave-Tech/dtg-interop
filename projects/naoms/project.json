@@ -119,30 +119,10 @@
     ]
   },
   "requiredParty": "a steward, per the public material",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:key root; did:webvh and did:naoms.",
-      "evidence": [
-        {
-          "label": "naoms.dev",
-          "url": "https://naoms.dev"
-        }
-      ]
-    },
-    "vrc-verify": {
-      "status": "stated",
-      "note": "VRC vectors planned for cross-verification.",
-      "evidence": [
-        {
-          "label": "NAOMS blog",
-          "url": "https://blog.naoms.dev/"
-        }
-      ]
-    },
-    "contact-ceremony": {
-      "status": "stated",
-      "note": "Contacts by handshake; format not public.",
       "evidence": [
         {
           "label": "naoms.dev",
@@ -177,16 +157,6 @@
         {
           "label": "NAOMS blog",
           "url": "https://blog.naoms.dev/"
-        }
-      ]
-    },
-    "direct-message": {
-      "status": "stated",
-      "note": "DIDComm v2 over iroh between people; message type not documented.",
-      "evidence": [
-        {
-          "label": "naoms.dev",
-          "url": "https://naoms.dev"
         }
       ]
     }

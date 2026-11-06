@@ -11,7 +11,7 @@
       "title",
       "url",
       "context",
-      "scenarios",
+      "about",
       "state",
       "updated"
     ],
@@ -33,12 +33,13 @@
         "maxLength": 300,
         "description": "One line: why this thread matters for interop."
       },
-      "scenarios": {
+      "about": {
         "type": "array",
         "items": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]{1,40}$"
-        }
+        },
+        "description": "Ids of the goals, basics or ceremonies the thread is about."
       },
       "state": {
         "enum": [

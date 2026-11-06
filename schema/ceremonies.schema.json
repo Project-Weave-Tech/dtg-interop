@@ -70,13 +70,7 @@
               "format": "uri"
             }
           },
-          "scenarios": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "procedures": {
+          "goals": {
             "type": "array",
             "items": {
               "type": "string"

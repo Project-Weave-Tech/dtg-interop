@@ -103,40 +103,10 @@
     ]
   },
   "requiredParty": "none at runtime (direct libp2p); community admins",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:scid:vh and did:peer:4.",
-      "evidence": [
-        {
-          "label": "p2p-trust-stack",
-          "url": "https://github.com/TrustStackers/p2p-trust-stack"
-        }
-      ]
-    },
-    "vrc-verify": {
-      "status": "stated",
-      "note": "VRC in progress; DTG conformance to be checked.",
-      "evidence": [
-        {
-          "label": "p2p-trust-stack",
-          "url": "https://github.com/TrustStackers/p2p-trust-stack"
-        }
-      ]
-    },
-    "membership-statement": {
-      "status": "stated",
-      "note": "VMC minted by community ceremonies in the code; verification by another app not shown.",
-      "evidence": [
-        {
-          "label": "p2p-trust-stack",
-          "url": "https://github.com/TrustStackers/p2p-trust-stack"
-        }
-      ]
-    },
-    "contact-ceremony": {
-      "status": "stated",
-      "note": "Ceremonies in the code mint VRC, VMC and VIC; a QR ceremony between two apps is not documented.",
       "evidence": [
         {
           "label": "p2p-trust-stack",

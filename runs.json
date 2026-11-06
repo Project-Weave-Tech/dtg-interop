@@ -1,0 +1,91 @@
+{
+  "$comment": "Runs: one entry per run between two projects, appended, never edited into an earlier one. A run names what it tested (subjects: credential profiles, Trust Task types, ceremonies, basics), both sides with versions, and the outcome.",
+  "runs": [
+    {
+      "subjects": [
+        {
+          "kind": "credential",
+          "id": "VRC"
+        },
+        {
+          "kind": "basic",
+          "id": "did-resolution"
+        }
+      ],
+      "date": "2026-10-11",
+      "sides": [
+        {
+          "project": "rltp",
+          "version": "trust-protocol, conformance/dtg-vrc.mjs (Oct 2026)"
+        },
+        {
+          "project": "consensual",
+          "version": "geb, VRCs in DTG WD 0.6.0 form (Oct 2026)"
+        }
+      ],
+      "outcome": "pass",
+      "note": "Vectors both ways. Consensual's independent DI-EDDSA verifier confirmed RLTP's encounter credentials (8 Oct). RLTP's reader verified 12 of 12 Consensual dyad VRCs under did:peer:2 after six form fixes on their side (11 Oct); the run surfaced a key-purpose check fixed in trust-protocol #74. Consensual's vectors are not public yet.",
+      "protocol": "https://github.com/real-life-org/trust-protocol/pull/74",
+      "vectors": [
+        {
+          "label": "RLTP encounter credential (DTG context v1)",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/encounter-cards.json"
+        },
+        {
+          "label": "Foreign plain DTG VRCs, informative",
+          "url": "https://github.com/real-life-org/trust-protocol/blob/main/vectors/dtg-vrc-foreign.json"
+        }
+      ]
+    },
+    {
+      "subjects": [
+        {
+          "kind": "ceremony",
+          "id": "vtc-member-onboarding"
+        },
+        {
+          "kind": "ceremony",
+          "id": "identity-vetting"
+        },
+        {
+          "kind": "credential",
+          "id": "VMC"
+        }
+      ],
+      "date": "2026-10-15",
+      "sides": [
+        {
+          "project": "keyring",
+          "version": "Prague app build (keyring-bifold PR 56, TSP Rev 3 vendored)"
+        },
+        {
+          "project": "openvtc",
+          "version": "vta-service 0.42.0, vtc-service 0.11.58 (the Farm)"
+        }
+      ],
+      "outcome": "pass",
+      "note": "Shown in Prague at Open Source Summit Europe, 7 to 9 October 2026: the first verifiable trust community for an open source project, with the Keyring app appointing and approving a vetter and the vetter vetting a new contributor. The date is that of the public report. Keyring's release harness also checks its vetting card with the upstream tool. Compiled from public sources, not entered by either side.",
+      "reportedBy": {
+        "project": "rltp",
+        "sources": [
+          {
+            "label": "LFDT blog, 15 Oct 2026",
+            "url": "https://www.lfdecentralizedtrust.org/blog/lf-decentralized-trust-demonstrates-the-first-open-source-verifiable-trust-community-in-prague"
+          },
+          {
+            "label": "keyring-wallet #732: vetting card checked with the upstream tool",
+            "url": "https://github.com/berkmancenter/keyring-wallet/issues/732"
+          },
+          {
+            "label": "keyring-wallet PR 168: pinned to what the Farm runs",
+            "url": "https://github.com/berkmancenter/keyring-wallet/pull/168"
+          },
+          {
+            "label": "keyring-bifold PR 56: Prague app chunk",
+            "url": "https://github.com/berkmancenter/keyring-bifold/pull/56"
+          }
+        ]
+      }
+    }
+  ]
+}

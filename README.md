@@ -1,6 +1,6 @@
 # DTG interop
 
-A status board for interoperability between the implementations of the decentralized trust graph: who builds what, where it could fit together, what has been shown to work between two projects.
+A status board for interoperability between the implementations of the decentralized trust graph: who builds what, where it could fit together, what has been shown to work between two projects. It is organised by goals (what people on different apps should be able to do together) and the credentials, Trust Tasks, ceremonies and basics that make them work.
 
 Board: https://project-weave-tech.github.io/dtg-interop/ (data: [`site/dist/data.json`](site/) built from this repository and from GitHub).
 
@@ -8,7 +8,7 @@ Most rows were compiled from public sources and say so. **Every project can corr
 
 **Using an AI agent?** Point it at [`AGENTS.md`](AGENTS.md): files, fields, rules, the check before pushing and recipes for the common changes.
 
-**Record a run** between two projects: add a line to `results` in [`procedures/<slug>/procedure.json`](procedures/) (date, two sides with versions, outcome), or open an issue with the label `run` and someone will.
+**Record a run** between two projects: add an entry to [`runs.json`](runs.json) (what was tested, date, two sides with versions, outcome), or open an issue with the label `run` and someone will.
 
 **Threads** that matter for interop live in many repositories; [`threads.json`](threads.json) links them. An issue here is for a thread that has no other home.
 

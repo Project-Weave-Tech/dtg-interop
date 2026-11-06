@@ -76,7 +76,7 @@
     "note": "Pluggable Languages define how data is stored and shared."
   },
   "requiredParty": "none by default (Holochain peers); an optional link-server",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "Agents are did:key.",

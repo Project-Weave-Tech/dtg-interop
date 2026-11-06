@@ -58,20 +58,10 @@
     }
   ],
   "requiredParty": "not stated publicly",
-  "scenarios": {
+  "basics": {
     "traditional-tools": {
       "status": "stated",
       "note": "Recipe manifests unlocked by badges.",
-      "evidence": [
-        {
-          "label": "social-fabric.us/developers",
-          "url": "https://social-fabric.us/developers"
-        }
-      ]
-    },
-    "membership-statement": {
-      "status": "stated",
-      "note": "Badges and credential entitlements as Open Badges 3.0; committed.",
       "evidence": [
         {
           "label": "social-fabric.us/developers",

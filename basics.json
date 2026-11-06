@@ -1,15 +1,10 @@
 {
-  "$comment": "The map of interop scenarios: every place where two implementations of the decentralized trust graph can meet. Not a ladder; scenarios have no order. Each scenario names its origin, what a project brings to take part (requires) and what has to happen between two projects for the scenario to count (done). A project's status at a scenario says how far it meets the requirements and scenarios at evidence; whether the row was written by the project or compiled from its public sources is provenance.kind; whether the scenario was shown between two projects follows only from a passing scenario result. Whoever adds a scenario decides that it belongs; its origin names where it comes from. A candidate line is an open question about the scenario itself. Scenarios with derivedFrom get a project's status filled in by the build from its detail fields (credentials, messaging, replication, trustTaskUse) where the project itself said no more than stated; the result is marked derived.",
+  "$comment": "Basics: what two implementations need in common that is neither a Trust Task nor a ceremony (identifiers, carriers, the document framework, group keys, devices, registries). Each names what a project brings (requires) and what has to happen between two projects (done). Runs test them like credentials, tasks and ceremonies.",
   "layers": [
     {
       "id": "person",
       "title": "The person",
       "asks": "Who is this, across devices and apps?"
-    },
-    {
-      "id": "two-people",
-      "title": "Two people",
-      "asks": "Can two people on two apps connect and talk to each other?"
     },
     {
       "id": "wire",
@@ -32,7 +27,7 @@
       "asks": "How do communities recognise one another?"
     }
   ],
-  "scenarios": [
+  "basics": [
     {
       "id": "did-resolution",
       "layer": "person",
@@ -57,74 +52,6 @@
       ],
       "done": "The counterpart app treats a person's second device as the same relationship, and a restored device continues it without a new ceremony.",
       "origin": "rltp (E15), Consensual persona"
-    },
-    {
-      "id": "several-apps",
-      "layer": "person",
-      "title": "Use your credentials in several apps",
-      "asks": "A person uses the same relationship and membership credentials in two apps at once; moving from one app to another is the case where the first one is no longer used.",
-      "requires": [
-        "First app: hands the person's credentials to the second app, together with access to a key of the person (shared, or a key of its own under the same person)",
-        "Second app: imports them, verifies each one (vrc-verify, membership-statement) and can act as their holder"
-      ],
-      "done": "Credentials from one app are usable in another: they verify there, the person sees their contacts and memberships in both apps, and both apps keep working.",
-      "origin": "Weave deck, Level 0b (app change with VRCs and VMCs), read as concurrent use",
-      "weaveLevel": "0b"
-    },
-    {
-      "id": "contact-ceremony",
-      "layer": "two-people",
-      "title": "Contact ceremony between apps",
-      "asks": "Two people on different apps connect through one QR-code ceremony and both end with a credential the other app reads.",
-      "requires": [
-        "Both apps: the same ceremony, run from one definition in the DTGWG ceremony format, one app as the displaying side and one as the scanning side",
-        "Both apps: issue and verify the credential the ceremony ends with (vrc-verify)"
-      ],
-      "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
-      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force"
-    },
-    {
-      "id": "vrc-verify",
-      "layer": "two-people",
-      "title": "Verify another app's relationship credential",
-      "asks": "A relationship credential issued in one app verifies in another; no transport needed, a file is enough.",
-      "requires": [
-        "Each side: issues a DTG RelationshipCredential with a proof from the credentials vocabulary",
-        "Each side: resolves the other side's DID method (did-resolution)"
-      ],
-      "done": "Each side verifies proof, context and issuer scope of a relationship credential the other side issued.",
-      "derivedFrom": {
-        "field": "credentials",
-        "match": {
-          "model": [
-            "W3C VC 2.0",
-            "W3C VC 1.1"
-          ],
-          "profiles": [
-            "VRC"
-          ],
-          "proof": [
-            "eddsa-jcs-2022",
-            "eddsa-rdfc-2022",
-            "ecdsa-jcs-2019"
-          ]
-        }
-      },
-      "origin": "Weave deck, Level 0a",
-      "weaveLevel": "0a"
-    },
-    {
-      "id": "direct-message",
-      "layer": "two-people",
-      "title": "Direct message between apps",
-      "asks": "Two connected people on two different apps exchange a message each way, as a document both read.",
-      "requires": [
-        "Both apps: a relationship between the two people (contact-ceremony, or any ceremony both apps accept)",
-        "Both apps: the same message document type, carrying a pairwise proof (a MAC or an equivalent construction) rather than a transferable signature",
-        "Both apps: a path between them (same-carrier or cross-carrier)"
-      ],
-      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it. A procedure may run it with the sender offline when writing: the message arrives later and is still accepted as of its issue time.",
-      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp"
     },
     {
       "id": "same-carrier",
@@ -193,19 +120,6 @@
       ],
       "done": "One app sends a document the other cannot process; the answer is a trust-task-error the sender reads, and the sender's state afterwards matches the error.",
       "origin": "Trust Tasks framework, trust-task-error"
-    },
-    {
-      "id": "membership-statement",
-      "layer": "membership",
-      "title": "Membership statement another app reads",
-      "asks": "A community states who belongs in a form a wallet or another app holds and verifies.",
-      "requires": [
-        "Community side: issues a statement of who belongs (a VMC or an equivalent document) under the community's identifier",
-        "Other app: verifies the statement and the issuer's authority over the community"
-      ],
-      "done": "A membership statement issued in one app verifies in another, naming the person and the community.",
-      "origin": "Weave deck, Level 1a; also covers Weave Level 1b (one membership, several apps) once the statement verifies in two or more apps",
-      "weaveLevel": "1a"
     },
     {
       "id": "traditional-tools",
@@ -298,6 +212,5 @@
     "spec": "written down, not yet built",
     "open": "the project knows the gap and says so",
     "n/a": "the project does not aim at this scenario, with a reason"
-  },
-  "shown": "A scenario counts as run between two projects only through a passing run of a procedure that covers it (or a partial run naming it). Project statuses never add up to a run."
+  }
 }

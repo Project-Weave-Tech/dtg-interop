@@ -1,0 +1,99 @@
+{
+  "$comment": "Goals: what people on different apps should be able to do together. A goal is not a test; it lists the credentials, Trust Tasks, ceremonies and basics that make it work, and what is still missing.",
+  "goals": [
+    {
+      "id": "connect",
+      "title": "Connect across apps",
+      "asks": "Two people on two different apps connect and each holds a credential the other app verifies.",
+      "done": "Two people on different apps run one QR-code ceremony and each holds a credential the other app verifies.",
+      "needs": {
+        "credentials": [
+          "VRC"
+        ],
+        "ceremonies": [
+          "encounter-scan",
+          "shared-connect",
+          "mutual-attestation"
+        ],
+        "basics": [
+          "did-resolution",
+          "same-carrier"
+        ]
+      },
+      "origin": "Weave one-pager (QR-code contact ceremonies between apps); proposed as a level by rltp; definition format from the DTGWG Trust Ceremonies task force"
+    },
+    {
+      "id": "write",
+      "title": "Write each other",
+      "asks": "Two connected people on two different apps send each other messages, and a third party holding a message cannot show who wrote it.",
+      "done": "Each person sends one message from their app; the other app shows it in the conversation with that person, the reply arrives the same way, and a third party holding the envelope cannot show who wrote it. A procedure may run it with the sender offline when writing: the message arrives later and is still accepted as of its issue time.",
+      "needs": {
+        "basics": [
+          "same-carrier",
+          "cross-carrier",
+          "document-framework",
+          "error-answers"
+        ]
+      },
+      "missing": [
+        {
+          "label": "A Trust Task type for a person-to-person message",
+          "thread": "tt-message-type"
+        }
+      ],
+      "origin": "Weave one-pager (messaging across apps); proposed as a level by rltp; deniability from rltp"
+    },
+    {
+      "id": "membership",
+      "title": "Prove membership to another app",
+      "asks": "A community states who belongs in a form another app, or a conventional tool, verifies.",
+      "done": "A membership statement issued in one app verifies in another, naming the person and the community.",
+      "needs": {
+        "credentials": [
+          "VMC"
+        ],
+        "ceremonies": [
+          "vtc-member-onboarding",
+          "identity-vetting"
+        ],
+        "basics": [
+          "registry-lookup",
+          "traditional-tools",
+          "trust-network"
+        ]
+      },
+      "origin": "Weave deck, Level 1a; also covers Weave Level 1b (one membership, several apps) once the statement verifies in two or more apps"
+    },
+    {
+      "id": "same-group",
+      "title": "Same group in two apps",
+      "asks": "Members on different apps read and write the same encrypted group, newcomers read what the group allows, and a removed device reads nothing new.",
+      "done": "A client of one implementation joins a group hosted by another, reads the records already there and writes one the host reads back. A procedure may run it with the writer offline when writing: the record arrives later and the host accepts it as of its issue time.",
+      "needs": {
+        "basics": [
+          "shared-room",
+          "newcomer-history",
+          "captured-device"
+        ]
+      },
+      "origin": "Weave deck, Level 2a; one-pager (being in the same group in two different apps); key agreement at the boundary from rltp (E13)"
+    },
+    {
+      "id": "several-apps",
+      "title": "Your credentials in several apps",
+      "asks": "One person uses the same contacts and memberships in two apps at once; moving apps is the case where the first one is no longer used.",
+      "done": "Credentials from one app are usable in another: they verify there, the person sees their contacts and memberships in both apps, and both apps keep working.",
+      "needs": {
+        "credentials": [
+          "VRC",
+          "VMC"
+        ],
+        "basics": [
+          "multi-device",
+          "did-resolution"
+        ]
+      },
+      "origin": "Weave deck, Level 0b (app change with VRCs and VMCs), read as concurrent use"
+    }
+  ]
+}

@@ -148,20 +148,10 @@
     ]
   },
   "requiredParty": "a VTA and mediator for the VTI leg; wallet-to-wallet over DIDComm",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "stated",
       "note": "did:peer and did:key on device; did:webvh via VTA.",
-      "evidence": [
-        {
-          "label": "keyring-wallet",
-          "url": "https://github.com/berkmancenter/keyring-wallet"
-        }
-      ]
-    },
-    "vrc-verify": {
-      "status": "stated",
-      "note": "DTG VRC exchange wallet to wallet; acceptance of foreign issuers to be checked.",
       "evidence": [
         {
           "label": "keyring-wallet",
@@ -189,33 +179,9 @@
         }
       ]
     },
-    "membership-statement": {
-      "status": "stated",
-      "note": "Holds VMCs and vetting credentials issued by VTI communities; shown with OpenVTC in Prague, October 2026.",
-      "evidence": [
-        {
-          "label": "keyring-wallet",
-          "url": "https://github.com/berkmancenter/keyring-wallet"
-        },
-        {
-          "label": "LFDT blog, 15 Oct 2026",
-          "url": "https://www.lfdecentralizedtrust.org/blog/lf-decentralized-trust-demonstrates-the-first-open-source-verifiable-trust-community-in-prague"
-        }
-      ]
-    },
     "error-answers": {
       "status": "stated",
       "note": "@openvtc/trust-tasks includes trust-task-error; whether the wallet shows it is not documented.",
-      "evidence": [
-        {
-          "label": "keyring-wallet",
-          "url": "https://github.com/berkmancenter/keyring-wallet"
-        }
-      ]
-    },
-    "direct-message": {
-      "status": "stated",
-      "note": "DIDComm v2 between wallets through mediators; whether a person-to-person message is a Trust Task document is not documented.",
       "evidence": [
         {
           "label": "keyring-wallet",

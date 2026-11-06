@@ -14,9 +14,8 @@
         "https://real-life.org/trust-tasks/spec/encounter-bundle/0.1",
         "https://real-life.org/trust-tasks/spec/encounter-credential-delivery/0.1"
       ],
-      "scenarios": [
-        "contact-ceremony",
-        "vrc-verify"
+      "goals": [
+        "connect"
       ]
     },
     {
@@ -31,12 +30,8 @@
         "https://trusttasks.org/spec/vrc/relationships/propose/0.2",
         "https://trusttasks.org/spec/vrc/relationships/issue/0.1"
       ],
-      "scenarios": [
-        "contact-ceremony",
-        "vrc-verify"
-      ],
-      "procedures": [
-        "shared-ceremony"
+      "goals": [
+        "connect"
       ]
     },
     {
@@ -50,8 +45,8 @@
       "tasks": [
         "https://trusttasks.org/spec/credential-exchange/issue/0.1"
       ],
-      "scenarios": [
-        "contact-ceremony"
+      "goals": [
+        "connect"
       ]
     },
     {
@@ -67,12 +62,8 @@
         "https://trusttasks.org/spec/vtc/join-requests/decide/0.1",
         "https://trusttasks.org/spec/vtc/members/vmc/0.1"
       ],
-      "scenarios": [
-        "membership-statement",
-        "registry-lookup"
-      ],
-      "procedures": [
-        "vtc-join-and-vetting"
+      "goals": [
+        "membership"
       ]
     },
     {
@@ -89,11 +80,8 @@
         "https://trusttasks.org/spec/vetting/decline/0.1",
         "https://trusttasks.org/spec/credential-exchange/issue/0.1"
       ],
-      "scenarios": [
-        "registry-lookup"
-      ],
-      "procedures": [
-        "vtc-join-and-vetting"
+      "goals": [
+        "membership"
       ]
     }
   ]

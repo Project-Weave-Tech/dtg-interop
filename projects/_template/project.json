@@ -25,20 +25,7 @@
     "devices": "what a person with several devices is"
   },
   "requiredParty": "the party without which your implementation does not work, or 'the other person'",
-  "scenarios": {
-    "vrc-verify": {
-      "status": "open",
-      "note": "one sentence",
-      "evidence": []
-    },
-    "contact-ceremony": {
-      "status": "open",
-      "note": "one sentence"
-    },
-    "direct-message": {
-      "status": "open",
-      "note": "one sentence"
-    },
+  "basics": {
     "shared-room": {
       "status": "open",
       "note": "one sentence"

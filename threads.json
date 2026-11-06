@@ -4,117 +4,117 @@
     "title": "Trigger links: a person-to-person flow (shared-connect), carried invitation, size budget, registry entry",
     "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/86",
     "context": "Defines the QR and link form two apps need to share for a contact ceremony between apps.",
-    "scenarios": [
-      "contact-ceremony"
-    ],
     "state": "open",
-    "updated": "2026-10-31"
+    "updated": "2026-10-31",
+    "about": [
+      "connect"
+    ]
   },
   {
     "id": "tt-shared-wire-core",
     "title": "A shared wire core across Trust Task implementations: one test, eight dimensions, and a self-report",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/905",
     "context": "What every Trust Task implementation must get identical for documents to be readable across apps.",
-    "scenarios": [
-      "document-framework"
-    ],
     "state": "open",
-    "updated": "2026-10-28"
+    "updated": "2026-10-28",
+    "about": [
+      "document-framework"
+    ]
   },
   {
     "id": "tt-rulings",
     "title": "Rulings requested: blocked, verdict versus refusal, already-in-state, defaulted quorum, proof bytes, freshness, indeterminate",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-spec/issues/31",
     "context": "Open rulings in the Trust Tasks specification that decide how two implementations read the same answer.",
-    "scenarios": [
+    "state": "open",
+    "updated": "2026-10-30",
+    "about": [
       "document-framework",
       "error-answers"
-    ],
-    "state": "open",
-    "updated": "2026-10-30"
+    ]
   },
   {
     "id": "data-rooms-keyring-requests",
     "title": "Data rooms: a few requests from the Keyring wallet integration",
     "url": "https://github.com/OpenVTC/verifiable-trust-infrastructure/issues/2294",
     "context": "What a second client needs from a Data Room host; relevant for any app joining a room it does not host.",
-    "scenarios": [
+    "state": "open",
+    "updated": "2026-10-30",
+    "about": [
       "shared-room",
       "newcomer-history"
-    ],
-    "state": "open",
-    "updated": "2026-10-30"
+    ]
   },
   {
     "id": "tt-conformance-roadmap",
     "title": "A roadmap to Trust Task conformance: layers, profiles and optional modules",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/914",
     "context": "How a shared conformance suite for Trust Task documents could be layered; the natural home for running procedures between projects (see issue 1 here).",
-    "scenarios": [
+    "state": "open",
+    "updated": "2026-10-30",
+    "about": [
       "document-framework",
       "error-answers"
-    ],
-    "state": "open",
-    "updated": "2026-10-30"
+    ]
   },
   {
     "id": "tt-libp2p-binding",
     "title": "Proposal: a libp2p transport binding for Trust Tasks",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/248",
     "context": "Decides whether projects on libp2p without a mediator share a transport with projects on TSP mediators.",
-    "scenarios": [
+    "state": "open",
+    "updated": "2026-10-26",
+    "about": [
       "same-carrier",
       "cross-carrier"
-    ],
-    "state": "open",
-    "updated": "2026-10-26"
+    ]
   },
   {
     "id": "vmc-nested-membership",
     "title": "VMC: allow a VTN's members to be VTCs or VTNs, and keep nested membership per-hop",
     "url": "https://github.com/trustoverip/dtgwg-cred-spec/pull/83",
     "context": "Sets how a membership credential names a community that is itself a member of a trust network; affects what another app checks.",
-    "scenarios": [
-      "membership-statement",
-      "trust-network"
-    ],
     "state": "open",
-    "updated": "2026-11-02"
+    "updated": "2026-11-02",
+    "about": [
+      "membership",
+      "trust-network"
+    ]
   },
   {
     "id": "vti-two-mediators",
     "title": "Two parties at two different mediators: how do they reach each other?",
     "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/92",
     "context": "Two apps at different TSP mediators cannot reach each other today; decides whether people on different apps can write without agreeing on a mediator.",
-    "scenarios": [
+    "state": "open",
+    "updated": "2026-11-02",
+    "about": [
       "cross-carrier",
       "same-carrier"
-    ],
-    "state": "open",
-    "updated": "2026-11-02"
+    ]
   },
   {
     "id": "tt-message-type",
     "title": "A Trust Task type for a message from one person to another",
     "url": "https://github.com/trustoverip/dtgwg-trust-tasks-tf/discussions/1013",
     "context": "No registry type exists for a message between two people; a shared type with no transferable proof would let two apps exchange messages.",
-    "scenarios": [
-      "direct-message",
-      "document-framework"
-    ],
     "state": "open",
-    "updated": "2026-11-02"
+    "updated": "2026-11-02",
+    "about": [
+      "write",
+      "document-framework"
+    ]
   },
   {
     "id": "vti-wake-endpoint",
     "title": "A wake endpoint at the mediator: one URL, called when a message is stored for a client that is not connected",
     "url": "https://github.com/trustoverip/dtgwg-vti-spec/issues/93",
     "context": "How a mediator wakes a client that is not connected, without a push provider in the mediator; decides whether a message reaches a person whose app is closed.",
-    "scenarios": [
-      "same-carrier",
-      "direct-message"
-    ],
     "state": "open",
-    "updated": "2026-11-02"
+    "updated": "2026-11-02",
+    "about": [
+      "same-carrier",
+      "write"
+    ]
   }
 ]

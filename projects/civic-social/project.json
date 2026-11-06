@@ -94,27 +94,7 @@
     "note": "ActivityStreams 2.0 profile with its own JSON-LD context."
   },
   "requiredParty": "an engine hosting the civic space",
-  "scenarios": {
-    "vrc-verify": {
-      "status": "stated",
-      "note": "SD-JWT VC required; Data Integrity optional. Common ground needs a shared suite.",
-      "evidence": [
-        {
-          "label": "civic-social-docs",
-          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
-        }
-      ]
-    },
-    "several-apps": {
-      "status": "stated",
-      "note": "Civic Personal Data Store holds relationships and memberships for portability.",
-      "evidence": [
-        {
-          "label": "civic-social-docs",
-          "url": "https://github.com/Mosaic-Foundation/civic-social-docs"
-        }
-      ]
-    },
+  "basics": {
     "shared-room": {
       "status": "stated",
       "note": "Civic Space portable across engines.",
