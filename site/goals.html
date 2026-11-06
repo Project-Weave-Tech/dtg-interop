@@ -62,8 +62,8 @@ body{margin:0;background:#F6F6F3}
 .gcard.exp{padding:6px 8px 18px}
 .gcard.exp > .gdone,.gcard.exp > .parts{margin:0 12px}
 .gcard.focus{box-shadow:0 0 0 2px var(--accent)}
-.ghead{display:grid;grid-template-columns:44px minmax(0,1fr) auto auto 18px;align-items:center;gap:8px 24px;width:100%;padding:10px 12px;background:none;border:0;border-radius:8px;text-align:left;cursor:pointer;font:inherit;color:inherit}
-.ghead:hover{background:var(--soft)}
+.ghead{display:grid;grid-template-columns:44px minmax(0,1fr) auto 18px;align-items:center;gap:8px 24px;width:100%;padding:10px 12px;background:none;border:0;border-radius:8px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.gcard:hover{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
 .ghead:hover h3{text-decoration:underline}
 .gchev{color:var(--muted);transition:transform .15s ease}
 .gcard.exp .gchev{transform:rotate(90deg)}
@@ -78,12 +78,14 @@ body{margin:0;background:#F6F6F3}
 .n-one{border-color:var(--violet-t);color:var(--violet-t)}
 .n-broken{background:var(--red-b);color:var(--red-t);border-color:transparent}
 .n-missing{background:var(--amber-b);color:var(--amber-t);border-color:transparent;font-weight:500}
-.cover{display:grid;grid-template-columns:28px auto;align-items:center;gap:0 8px;width:160px}
-.ghead .ring{width:150px}
-.cbig{font-size:26px;font-weight:600;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums}
-.cbig.some{color:var(--green-t)}
-.cover .csub{font-size:11.5px;color:var(--muted);line-height:1.35}
-.cover .blocked{color:var(--amber-t)}
+.stats{display:flex;align-items:center;gap:12px;width:250px;padding:4px 0 4px 16px;border-left:1px solid var(--line)}
+.ringbox{position:relative;width:56px;height:56px;flex:none}
+.rnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
+.rnum strong{color:var(--ink);font-size:17px;font-weight:600}
+.slines{display:flex;flex-direction:column;gap:1px;font-size:12px;color:var(--muted);line-height:1.4;min-width:0}
+.sl strong{font-size:14px;font-weight:600;color:var(--ink)}
+.sl strong.some{color:var(--green-t)}
+.sl.blocked{color:var(--amber-t)}
 .gpairs{margin:0 12px;display:flex;flex-direction:column;gap:6px}
 .plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .plist li{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:8px;font-size:12.5px}
@@ -91,15 +93,9 @@ body{margin:0;background:#F6F6F3}
 .pfaces .av{width:20px;height:20px;border-radius:5px;font-size:8.5px}
 .capline{margin:4px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px}
 .capline .av{width:22px;height:22px;border-radius:6px;font-size:9px}
-.ring{position:relative;display:grid;grid-template-columns:52px auto;align-items:center;gap:0 10px}
-.ring svg{grid-row:1/3}
-.rnum{position:absolute;left:0;top:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
-.rnum strong{color:var(--ink);font-size:16px;font-weight:600}
-.rsub{grid-row:1/3;align-self:center;font-size:11.5px;color:var(--muted);line-height:1.35}
-@media (max-width: 640px){.cover,.ghead .ring{width:auto}.nchip{white-space:normal;max-width:100%}.ghead{grid-template-columns:44px minmax(0,1fr) 18px}.ghead .ring{grid-row:2;grid-column:2}.ghead .cover{grid-row:3;grid-column:2}.gchev{grid-row:1;grid-column:3}.plist li{grid-template-columns:auto minmax(0,1fr)}}
-.ghead .gt{min-width:0;display:flex;flex-direction:column;gap:3px}
+@media (max-width: 640px){.stats{width:auto;border-left:0;padding-left:0}.nchip{white-space:normal;max-width:100%}.ghead{grid-template-columns:44px minmax(0,1fr) 18px}.ghead .stats{grid-row:2;grid-column:1/3;justify-self:stretch}.gchev{grid-row:1;grid-column:3}.plist li{grid-template-columns:auto minmax(0,1fr)}}
 .ghead h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}
-.gask{font-size:13px;color:var(--muted)}
+.gask{display:block;font-size:13px;color:var(--muted)}
 .gcard:not(.exp) .gask{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gcard.exp .ghead h3{font-size:18px}
 .prog{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
@@ -127,7 +123,6 @@ body{margin:0;background:#F6F6F3}
 .need.extra .ptitle{font-weight:400}
 .part{display:grid;grid-template-columns:104px minmax(0,1.3fr) minmax(0,1fr) 220px 16px;gap:6px 16px;align-items:center;width:100%;min-height:44px;padding:9px 6px;margin:0;background:none;border:0;border-radius:6px;text-align:left;font:inherit;color:inherit}
 button.part{cursor:pointer}
-button.part:hover{background:var(--soft)}
 button.part:hover .ptitle{text-decoration:underline}
 .part.miss .kindtag{color:var(--amber-t)}
 .part.miss .ptitle{color:var(--amber-t)}
@@ -294,8 +289,8 @@ button.part:hover .ptitle{text-decoration:underline}
 <button class="ghead" type="button" aria-expanded="{{g.expanded}}" sc-camel-on-click="{{g.toggle}}">
 <span class="gicon {{g.iconCls}}"><sc-if value="{{g.i_qr}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3z"></path><path d="M20 14v.01"></path><path d="M14 20h.01"></path><path d="M17 20h4v-3"></path></svg></sc-if><sc-if value="{{g.i_chat}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"></path></svg></sc-if><sc-if value="{{g.i_usercheck}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"></circle><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"></path><path d="M16 11l2 2 4-4"></path></svg></sc-if><sc-if value="{{g.i_users}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"></circle><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg></sc-if><sc-if value="{{g.i_doc}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M9 13h6"></path><path d="M9 17h6"></path></svg></sc-if><sc-if value="{{g.i_target}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg></sc-if></span>
 <span class="gt"><h3>{{g.title}}</h3><span class="gask">{{g.asks}}</span><span class="nchips"><sc-for list="{{g.chips}}" as="c" hint-placeholder-count="4"><span class="nchip n-{{c.cls}}" title="{{c.title}}">{{c.mark}}{{c.label}}</span></sc-for></span></span>
-<span class="ring" title="{{g.progTitle}}"><svg width="52" height="52" sc-camel-view-box="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle cx="26" cy="26" r="21" fill="none" stroke="var(--green-t)" stroke-width="5" stroke-linecap="{{g.cap}}" stroke-dasharray="{{g.dash}}" transform="rotate(-90 26 26)"></circle></svg><span class="rnum"><strong>{{g.nMet}}</strong>/{{g.nNeeded}}</span><span class="rsub">needs met<sc-if value="{{g.hasExtras}}" hint-placeholder-val="{{ false }}"><br>{{g.nExtrasRun}}/{{g.nExtras}} nice to have</sc-if></span></span>
-<span class="cover" title="{{g.coverTitle}}"><strong class="cbig {{g.coverCls}}">{{g.nReached}}</strong><span class="csub">{{g.reachedWord}}<br><span class="{{g.capCls}}">{{g.capText}}</span></span></span>
+<span class="stats" title="{{g.coverTitle}}"><span class="ringbox" title="{{g.progTitle}}"><svg width="56" height="56" sc-camel-view-box="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle cx="26" cy="26" r="21" fill="none" stroke="var(--green-t)" stroke-width="5" stroke-linecap="{{g.cap}}" stroke-dasharray="{{g.dash}}" transform="rotate(-90 26 26)"></circle></svg><span class="rnum"><strong>{{g.nMet}}</strong>/{{g.nNeeded}}</span></span>
+<span class="slines"><span class="sl">needs met<sc-if value="{{g.hasExtras}}" hint-placeholder-val="{{ false }}"><span class="muted"> · {{g.nExtrasRun}}/{{g.nExtras}} nice to have</span></sc-if></span><span class="sl"><strong class="{{g.coverCls}}">{{g.nReached}}</strong> {{g.reachedWord}}</span><span class="sl {{g.capCls}}">{{g.capText}}</span></span></span>
 <svg class="gchev" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
 <sc-if value="{{g.expanded}}" hint-placeholder-val="{{ true }}"><p class="gdone"><b>Done when</b>{{g.done}}</p>
 <div class="gpairs">
