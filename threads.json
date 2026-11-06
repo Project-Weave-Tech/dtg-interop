@@ -116,5 +116,19 @@
       "same-carrier",
       "write"
     ]
+  },
+  {
+    "id": "tt-conformance-draft",
+    "title": "Trust Task Conformance (working draft): tasks, capabilities, profiles and signed results",
+    "url": "https://claude.ai/artifact/7hZkfPPFd3sDgDPNzjaSxL",
+    "context": "How two implementations show they complete the same ceremony and refuse the same way: a first capability (credential-delivery/0.1), a signed result format, and the version, wire and DID gaps found so far.",
+    "state": "open",
+    "updated": "2026-11-05",
+    "about": [
+      "did-resolution",
+      "same-carrier",
+      "error-answers",
+      "vtc-member-onboarding"
+    ]
   }
 ]
