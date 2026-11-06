@@ -109,6 +109,14 @@
           "id": "registry-lookup"
         },
         {
+          "kind": "task",
+          "id": "https://trusttasks.org/spec/registry/authorization/0.2"
+        },
+        {
+          "kind": "task",
+          "id": "https://trusttasks.org/spec/registry/recognition/0.2"
+        },
+        {
           "kind": "basic",
           "id": "trust-network"
         }
