@@ -188,11 +188,15 @@ const bringersOf = (kind, id) => {
   if (kind === 'tasks') return (ttTypes.find((t) => t.type === id)?.users ?? []).map((u) => ({ project: u.project, status: u.status }))
   return []
 }
-const subjectKind = { credentials: 'credential', ceremonies: 'ceremony', basics: 'basic', tasks: 'task' }
-const goals = goalsFile.goals.map((g) => ({
-  ...g,
-  parts: Object.entries(g.needs).flatMap(([kind, ids]) => ids.map((id) => ({ kind: subjectKind[kind], id, title: titleOf(subjectKind[kind], id), bringers: bringersOf(kind, id), runs: runsOf(subjectKind[kind], id) }))),
-}))
+const partOf = (it, role, group) => ({ kind: it.kind, id: it.id, title: titleOf(it.kind, it.id), role, ...(group != null ? { group } : {}), bringers: bringersOf(it.kind + 's', it.id), runs: runsOf(it.kind, it.id) })
+// needs: each entry a single part or a group (oneOf: one is enough); extras do
+// not count towards the goal. parts flattens all three for simple views, with
+// role required / alternative (with its group index) / extra.
+const goals = goalsFile.goals.map((g) => {
+  const needs = g.needs.map((n, i) => n.oneOf ? { oneOf: n.oneOf.map((it) => partOf(it, 'alternative', i)) } : partOf(n, 'required'))
+  const extras = (g.extras ?? []).map((it) => partOf(it, 'extra'))
+  return { ...g, needs, extras, parts: [...needs.flatMap((n) => n.oneOf ?? [n]), ...extras] }
+})
 
 // Credentials: the profile catalogue and the closed vocabularies, so the board builds its filters from data
 const credSchema = read('schema/project.schema.json').properties.credentials.items.properties

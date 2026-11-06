@@ -65,12 +65,12 @@ for (const c of cer.ceremonies) {
   for (const g of c.goals ?? []) if (!goalIds.has(g)) errors.push(`ceremonies.json: "${c.id}" names unknown goal "${g}"`)
   if (c.home === 'project' && !projects.has(c.definedBy)) errors.push(`ceremonies.json: "${c.id}" is defined by unknown project "${c.definedBy}"`)
 }
-const known = { credentials: (id) => !!catalogue.profiles[id], ceremonies: (id) => ceremonyIds.has(id), basics: (id) => basicIds.has(id), tasks: () => true }
+const subjectKnown = { credential: (id) => !!catalogue.profiles[id], ceremony: (id) => ceremonyIds.has(id), basic: (id) => basicIds.has(id), task: () => true }
 for (const g of goals.goals) {
-  for (const [kind, ids] of Object.entries(g.needs)) for (const id of ids) if (!known[kind](id)) errors.push(`goals.json: "${g.id}" needs unknown ${kind.replace(/s$/, '')} "${id}"`)
+  const items = [...g.needs.flatMap((n) => n.oneOf ?? [n]), ...(g.extras ?? [])]
+  for (const it of items) if (!subjectKnown[it.kind](it.id)) errors.push(`goals.json: "${g.id}" names unknown ${it.kind} "${it.id}"`)
   for (const m of g.missing ?? []) if (m.thread && !threadIds.has(m.thread)) errors.push(`goals.json: "${g.id}" names unknown thread "${m.thread}"`)
 }
-const subjectKnown = { credential: (id) => !!catalogue.profiles[id], ceremony: (id) => ceremonyIds.has(id), basic: (id) => basicIds.has(id), task: () => true }
 const runs = read('runs.json'); check(S.runs, runs, 'runs.json')
 for (const [i, r] of runs.runs.entries()) {
   for (const s of r.subjects) if (!subjectKnown[s.kind](s.id)) errors.push(`runs.json: runs[${i}] tests unknown ${s.kind} "${s.id}"`)
