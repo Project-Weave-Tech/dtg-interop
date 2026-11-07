@@ -82,10 +82,12 @@ if (token) {
         const d = (await gql(DISC, { o, r, n: +n })).repository.discussion
         const dates = d.comments.nodes.flatMap((c) => [c.createdAt, ...c.replies.nodes.map((x) => x.createdAt)])
         const replies = d.comments.nodes.reduce((k, c) => k + c.replies.totalCount, 0)
-        activity[url] = { comments: d.comments.totalCount + replies, lastComment: dates.sort().at(-1)?.slice(0, 10) ?? null, lastActivity: d.updatedAt.slice(0, 10), state: d.closed ? 'closed' : 'open', created: d.createdAt.slice(0, 10) }
+        const lastAt = [d.updatedAt, ...dates].sort().at(-1)
+        activity[url] = { comments: d.comments.totalCount + replies, lastComment: dates.sort().at(-1)?.slice(0, 10) ?? null, lastActivity: lastAt.slice(0, 10), lastActivityAt: lastAt, state: d.closed ? 'closed' : 'open', created: d.createdAt.slice(0, 10) }
       } else {
         const d = (await gql(ISSUE, { o, r, n: +n })).repository.issueOrPullRequest
-        activity[url] = { comments: d.comments.totalCount, lastComment: d.comments.nodes[0]?.createdAt.slice(0, 10) ?? null, lastActivity: d.updatedAt.slice(0, 10), state: d.state.toLowerCase(), created: d.createdAt.slice(0, 10) }
+        const lastAt = [d.updatedAt, d.comments.nodes[0]?.createdAt].filter(Boolean).sort().at(-1)
+        activity[url] = { comments: d.comments.totalCount, lastComment: d.comments.nodes[0]?.createdAt.slice(0, 10) ?? null, lastActivity: lastAt.slice(0, 10), lastActivityAt: lastAt, state: d.state.toLowerCase(), created: d.createdAt.slice(0, 10) }
       }
     } catch (e) { failed++; console.warn(`activity not fetched for ${url}: ${String(e.message).slice(0, 200)}`); if (activity[url]) activity[url].stale = true }
   }
@@ -205,7 +207,12 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, basics, ceremonies, runs, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
+// Threads newest activity first. lastActivityAt is a full ISO timestamp so the
+// board can say "2 hours ago"; without fetched activity the thread's own
+// `updated` date stands in.
+const lastAt = (t) => t.activity?.lastActivityAt ?? t.activity?.lastActivity ?? t.updated ?? ''
+const threadsByActivity = [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)).sort((a, b) => String(lastAt(b)).localeCompare(String(lastAt(a))))
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, basics, ceremonies, runs, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: threadsByActivity, repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
