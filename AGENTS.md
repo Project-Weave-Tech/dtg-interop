@@ -135,4 +135,4 @@ Every run is appended, never edited into an earlier one. **Runs age:** the board
 
 **From the table to the file.** "Record a run" on the board opens a prefilled issue with the label `run`. Either of the two projects (or its agent) turns it into an entry in `runs.json`, then closes the issue with a link to the commit.
 
-**3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then push (or open a pull request if you have no write access yet).
+**3. Add a new project.** Copy `projects/_template/` to `projects/<slug>/` (lowercase, hyphens), set `slug` to the folder name, fill in what you know and leave out what you do not. The template shows one entry for each of the four kinds of item (`credentials`, `trustTaskUse`, `ceremonies`, `basics`); replace the examples with your own or delete them. Set `provenance.kind` to `project`. Write the `README.md` paragraph. Validate, then push (or open a pull request if you have no write access yet).

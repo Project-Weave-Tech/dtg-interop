@@ -24,18 +24,20 @@
     "groups": "how a group is formed and who may change it",
     "devices": "what a person with several devices is"
   },
-  "requiredParty": "the party without which your implementation does not work, or 'the other person'",
-  "basics": {
-    "shared-room": {
-      "status": "open",
-      "note": "one sentence"
-    }
+  "facets": {
+    "didMethods": [
+      "did:key"
+    ],
+    "keys": [
+      "device"
+    ],
+    "offline": [
+      "yes"
+    ],
+    "language": [
+      "TypeScript"
+    ]
   },
-  "provenance": {
-    "kind": "project",
-    "date": "2026-11-01"
-  },
-  "updated": "2026-11-01",
   "credentials": [
     {
       "model": "W3C VC 2.0",
@@ -45,6 +47,20 @@
       "proof": [
         "eddsa-jcs-2022"
       ],
+      "status": "runs",
+      "evidence": [
+        {
+          "label": "where it is in the code",
+          "url": "https://github.com/your-org/your-repo"
+        }
+      ]
+    }
+  ],
+  "messaging": [
+    {
+      "protocol": "TSP 1.0",
+      "via": "mediator",
+      "viaName": "VTI mediator",
       "status": "runs",
       "evidence": [
         {
@@ -73,12 +89,15 @@
       }
     ]
   },
-  "messaging": [
+  "ceremonies": [
     {
-      "protocol": "TSP 1.0",
-      "via": "mediator",
-      "viaName": "VTI mediator",
-      "status": "runs",
+      "ceremony": "shared-connect",
+      "roles": [
+        "inviter",
+        "responder"
+      ],
+      "status": "building",
+      "note": "one sentence",
       "evidence": [
         {
           "label": "where it is in the code",
@@ -87,5 +106,26 @@
       ]
     }
   ],
-  "replication": []
+  "basics": {
+    "did-resolution": {
+      "status": "runs",
+      "note": "Resolves did:key and did:peer:4.",
+      "evidence": [
+        {
+          "label": "where it is in the code",
+          "url": "https://github.com/your-org/your-repo"
+        }
+      ]
+    },
+    "shared-room": {
+      "status": "open",
+      "note": "one sentence"
+    }
+  },
+  "requiredParty": "the party without which your implementation does not work, or 'the other person'",
+  "provenance": {
+    "kind": "project",
+    "date": "2026-11-01"
+  },
+  "updated": "2026-11-01"
 }

@@ -1,6 +1,6 @@
 // Validates scenarios.json, basics.json, ceremonies.json, runs.json, threads.json,
 // credential-profiles.json and projects/*/project.json (with an optional
-// projects/*/trust-tasks.json) against the schemas, and checks that every id a
+// projects/*/trust-tasks.json, and the template projects/_template/) against the schemas, and checks that every id a
 // file names exists. Exits 1 with every error.
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -60,6 +60,14 @@ for (const slug of folders('projects')) {
     for (const pr of c.profiles ?? []) if (!catalogue.profiles[pr]) errors.push(`${file}: credentials[${i}] names unknown profile "${pr}" (add it to credential-profiles.json)`)
   }
   projects.set(slug, row)
+}
+// The template is what agents copy: it must stay valid and name only real ids.
+{
+  const file = 'projects/_template/project.json'
+  const tpl = read(file); check(S.project, tpl, file)
+  for (const id of Object.keys(tpl.basics ?? {})) if (!basicIds.has(id)) errors.push(`${file}: unknown basic "${id}"`)
+  for (const c of tpl.ceremonies ?? []) if (!ceremonyIds.has(c.ceremony)) errors.push(`${file}: unknown ceremony "${c.ceremony}"`)
+  for (const c of tpl.credentials ?? []) for (const pr of c.profiles ?? []) if (!catalogue.profiles[pr]) errors.push(`${file}: unknown profile "${pr}"`)
 }
 for (const c of cer.ceremonies) {
   for (const s of c.scenarios ?? []) if (!scenarioIds.has(s)) errors.push(`ceremonies.json: "${c.id}" names unknown scenario "${s}"`)
