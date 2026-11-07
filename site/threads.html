@@ -137,7 +137,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="goals.html">Goals</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html" aria-current="page">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -215,10 +215,10 @@ class Component extends DCLogic {
     if (!d) return { ...base, head: {}, groups: [], repoChips: [] };
 
     const repo = d.repo;
-    // A thread is about goals, basics or ceremonies; each id links to its own page
+    // A thread is about scenarios, basics or ceremonies; each id links to its own page
     const about = {};
-    (d.goals || []).forEach((x) => { about[x.id] = { title: x.title, href: 'goals.html#goal-' + encodeURIComponent(x.id) }; });
-    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    (d.scenarios || []).forEach((x) => { about[x.id] = { title: x.title, href: 'scenarios.html#scenario-' + encodeURIComponent(x.id) }; });
+    const needHref = (id) => { const g = (d.scenarios || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'scenarios.html#scenario-' + g.id + '/' + encodeURIComponent(id) : 'scenarios.html'; };
     (d.basics || []).forEach((x) => { about[x.id] = { title: x.title, href: needHref(x.id) }; });
     (d.ceremonies || []).forEach((x) => { about[x.id] = { title: x.title, href: 'ceremonies.html#cer-' + encodeURIComponent(x.id) }; });
     const stale = (u) => !!u && (Date.parse(d.generated) - Date.parse(u)) / 864e5 > 90;

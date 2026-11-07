@@ -231,7 +231,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./" aria-current="page">Projects</a>
-<a href="goals.html">Goals</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -382,7 +382,7 @@ body{margin:0;background:#F6F6F3}
 </sc-for>
 <sc-if value="{{pp.noPoints}}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin: 0">Nothing stated yet.</p></sc-if>
 </div>
-<p style="margin: 12px 0 0; font-size: 12.5px"><a href="goals.html">All goals and what they need</a></p>
+<p style="margin: 12px 0 0; font-size: 12.5px"><a href="scenarios.html">All scenarios and what they need</a></p>
 </div>
 <div class="sec">
 <h4>Runs with other projects</h4>
@@ -453,8 +453,8 @@ class Component extends DCLogic {
     const faceOf = {}; faces.forEach((f) => { faceOf[f.slug] = f; });
     const P = d.projects || [];
     const pts = d.basics || [];
-    // A former basic lives under the first goal that needs it
-    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    // A former basic lives under the first scenario that needs it
+    const needHref = (id) => { const g = (d.scenarios || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'scenarios.html#scenario-' + g.id + '/' + encodeURIComponent(id) : 'scenarios.html'; };
     const cellsOf = (p) => p.basics || {};
     const prjById = {}; P.forEach((p) => { prjById[p.slug] = p; });
     const short = (p) => (p.shortName || p.name.split(' / ')[0].split(' (')[0]);

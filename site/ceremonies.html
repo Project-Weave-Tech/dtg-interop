@@ -193,7 +193,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="goals.html">Goals</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html" aria-current="page">Ceremonies</a></span>
@@ -232,7 +232,7 @@ body{margin:0;background:#F6F6F3}
 <sc-if value="{{c.hasRuns}}" hint-placeholder-val="{{ false }}"><ul><sc-for list="{{c.runs}}" as="r" hint-placeholder-count="1"><li><span class="ps ps-{{r.outcome}} {{r.cls}}">{{r.label}}</span> <a href="pairs.html#run-{{r.index}}">{{r.pair}}</a> <span class="wword">{{r.date}}</span><sc-if value="{{r.reported}}" hint-placeholder-val="{{ false }}"><div class="rep"><strong>Reported, not yet confirmed by either side.</strong><sc-for list="{{r.sources}}" as="q" hint-placeholder-count="1"><a href="{{q.url}}" target="_blank" rel="noopener">{{q.label}}</a></sc-for></div></sc-if></li></sc-for></ul></sc-if>
 <sc-if value="{{c.noRuns}}" hint-placeholder-val="{{ true }}"><p class="none">No pair has run it yet.</p></sc-if>
 </div>
-<sc-if value="{{c.hasGoals}}" hint-placeholder-val="{{ false }}"><div><h4>Needed for</h4><div class="chips"><sc-for list="{{c.goals}}" as="g" hint-placeholder-count="1"><a class="chip" href="{{g.href}}">{{g.title}}</a></sc-for></div></div></sc-if>
+<sc-if value="{{c.hasScenarios}}" hint-placeholder-val="{{ false }}"><div><h4>Needed for</h4><div class="chips"><sc-for list="{{c.scenarios}}" as="g" hint-placeholder-count="1"><a class="chip" href="{{g.href}}">{{g.title}}</a></sc-for></div></div></sc-if>
 <div><h4>{{c.tasksLabel}}</h4><ul><sc-for list="{{c.tasks}}" as="t" hint-placeholder-count="2"><li class="mono"><a href="{{t.url}}" target="_blank" rel="noopener">{{t.label}}</a></li></sc-for></ul></div>
 </div></sc-if>
 </div>
@@ -285,7 +285,7 @@ class Component extends DCLogic {
       face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
     });
     const fc = (x) => face[x] || { name: x, hue: 'h-slate', mono: '?', href: './', logoStyle: '' };
-    const goalById = {}; (d.goals || []).forEach((x) => { goalById[x.id] = x; });
+    const scenarioById = {}; (d.scenarios || []).forEach((x) => { scenarioById[x.id] = x; });
     const isFresh = (r) => !!r.date && (Date.parse(d.generated) - Date.parse(r.date)) / 864e5 <= 30;
     const RANK = { runs: 3, building: 2, committed: 1, stated: 0 };
     const GLYPH = { pass: '✓ pass', partial: '◐ partial', fail: '✕ fail' };
@@ -301,7 +301,7 @@ class Component extends DCLogic {
           runs.push({ index: r.index, sources: (r.reportedBy && r.reportedBy.sources) || [], pair: fc(sl[i]).name + ' × ' + fc(sl[j]).name, outcome: r.outcome, label: (GLYPH[r.outcome] || r.outcome) + (r.reportedBy ? ' (reported)' : ''), cls: (r.reportedBy ? 'rep' : '') + (isFresh(r) ? '' : ' old'), date: this.fmt(r.date), reported: !!r.reportedBy });
         }
       });
-      // The row's stage, as on Goals: a pair that ran it, else how many run it on their own
+      // The row's stage, as on Scenarios: a pair that ran it, else how many run it on their own
       const running = impl.filter((m) => m.status === 'runs');
       const nPairs = running.length * (running.length - 1) / 2 - runs.length;
       const by = {}; impl.filter((m) => m.status !== 'runs').forEach((m) => { by[m.status] = (by[m.status] || 0) + 1; });
@@ -316,7 +316,7 @@ class Component extends DCLogic {
         id: c.id, open, openCls: open ? 'open' : '', toggle: () => this.setState({ focus: open ? '' : c.id }), stageLabel, stageSub, hasStageSub: !!stageSub, stageRep: runs.length && runs[0].reported ? 'rep' : '', title: c.title, summary: c.summary, definition: c.definition, status: c.status, version: c.version ? 'v' + c.version : '',
         homeLabel: c.home === 'registry' ? 'Trust Tasks registry' : 'Defined by ' + fc(c.definedBy).name, hasDefiner: c.home !== 'registry' && !!c.definedBy, definer: fc(c.definedBy),
         speakers, hasSpeakers: speakers.length > 0, noSpeakers: !speakers.length, runs, hasRuns: runs.length > 0, noRuns: !runs.length, stage,
-        hasGoals: (c.goals || []).length > 0, goals: (c.goals || []).map((x) => ({ title: goalById[x] ? goalById[x].title : x, href: 'goals.html#goal-' + encodeURIComponent(x) })),
+        hasScenarios: (c.scenarios || []).length > 0, scenarios: (c.scenarios || []).map((x) => ({ title: scenarioById[x] ? scenarioById[x].title : x, href: 'scenarios.html#scenario-' + encodeURIComponent(x) })),
         tasksLabel: nT === 1 ? 'Trust Task' : nT + ' Trust Tasks', tasks: (c.tasks || []).map((u) => ({ url: u, label: String(u).replace(/^https?:\/\/[^/]+\/(trust-tasks\/)?spec\//, '') })),
         weight: runs.length * 100 + impl.reduce((n, m) => n + RANK[m.status] + 1, 0),
       };

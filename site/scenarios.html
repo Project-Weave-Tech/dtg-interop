@@ -1,19 +1,529 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>DTG Interop Board: Goals</title>
-<script>
-// Scenarios and basics now live under the goals; old links land on the goal and open the need
-var RENAMED = { 'contact-ceremony': 'connect', 'direct-message': 'write', 'membership-statement': 'membership', 'app-change': 'several-apps', 'multi-app-access': 'membership', 'vrc-exchange': 'connect', 'vrc-verify': 'connect' };
-var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
-h = RENAMED[h] || h;
-fetch('./data.json').then(function (r) { return r.json(); }).then(function (d) {
-  var goals = d.goals || [];
-  if (!h) return location.replace('goals.html');
-  if (goals.some(function (g) { return g.id === h; })) return location.replace('goals.html#goal-' + h);
-  var g = goals.find(function (g) { return (g.parts || []).some(function (x) { return x.kind === 'basic' && x.id === h; }); });
-  location.replace(g ? 'goals.html#goal-' + g.id + '/' + h : 'goals.html');
-}).catch(function () { location.replace('goals.html'); });
-</script>
+<title>DTG Interop Board: Scenarios</title>
+<meta name="description" content="Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.">
+<script src="dc-runtime.js"></script>
 </head>
-<body><p>This page moved to <a href="goals.html">Goals</a>.</p></body></html>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+<style>
+body{margin:0;background:#F6F6F3}
+.board{--bg:#F6F6F3;--surface:#FFFFFF;--ink:#17181A;--muted:#5B6067;--line:#E1E1DA;--soft:#EFEFEA;--accent:#2349BF;--accent-soft:#E7ECFA;--warn:#A24A06;--fail:#A11D1D;color-scheme:light}
+.board[data-theme="dark"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--bg:#121315;--surface:#1A1C1F;--ink:#ECECE7;--muted:#A6ABB2;--line:#2D3035;--soft:#222428;--accent:#93ADFF;--accent-soft:#1E2742;--warn:#F2A660;--fail:#FF8F85;color-scheme:dark}}
+.board{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:64px}
+.board a{color:var(--accent);text-decoration:none}
+.board a:hover{text-decoration:underline}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px}
+.muted{color:var(--muted)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 32px}
+.hdr{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-top:16px}
+.tabs-right{display:flex;flex-wrap:wrap;gap:4px;margin-left:auto}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.board .tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent}
+.board .tabs a:hover{color:var(--ink);text-decoration:none}
+.board .tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.bhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
+.bhead h2{margin:0;font-size:17px;font-weight:600}
+.bhead p{margin:0;color:var(--muted);font-size:13px;flex:1 1 220px}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
+.board a.btn{color:var(--ink)}
+.board a.btn:hover{text-decoration:none;border-color:var(--muted)}
+.pill{display:inline-flex;align-items:center;padding:1px 8px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:18px;white-space:nowrap;border:1px solid transparent}
+.st-open{border-color:var(--muted);color:var(--muted)}
+.st-decided{border-color:var(--accent);color:var(--accent)}
+.st-implemented{background:var(--accent);color:var(--surface)}
+.chips{display:flex;flex-wrap:wrap;gap:4px 6px}
+.chip{display:inline-flex;align-items:center;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.stale{font-size:11px;color:var(--muted);font-style:italic}
+.grp{display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--soft);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.fchip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:12.5px;cursor:pointer}
+.fchip:hover{border-color:var(--muted)}
+.fchip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.fchip .n{font-family:"IBM Plex Mono",monospace;font-size:11px;opacity:.7}
+.sec{padding:18px 20px 22px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sech{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 14px}
+.sech h3{margin:0;font-size:15px;font-weight:600;text-transform:capitalize}
+.sech .cnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+.sech p{margin:0;color:var(--muted);font-size:13px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.tcard{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.scenarios{display:flex;flex-direction:column;gap:16px}
+.gcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 8px;display:flex;flex-direction:column;gap:12px}
+.gcard.exp{padding:6px 8px 18px}
+.gcard.exp > .gdone,.gcard.exp > .parts{margin:0 12px}
+.gcard.focus{box-shadow:0 0 0 2px var(--accent)}
+.ghead{display:grid;grid-template-columns:44px minmax(0,1fr) auto 18px;align-items:center;gap:8px 24px;width:100%;padding:10px 12px;background:none;border:0;border-radius:8px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.gcard:hover{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.ghead:hover h3{text-decoration:underline}
+.gchev{color:var(--muted);transition:transform .15s ease}
+.gcard.exp .gchev{transform:rotate(90deg)}
+.scenarios{gap:10px}
+.gicon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);align-self:start}
+.gicon.done{background:var(--green-b);color:var(--green-t)}
+.nchips{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:6px}
+.nchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;line-height:18px;padding:0 8px;border-radius:999px;border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.n-met{background:var(--green-b);color:var(--green-t);border-color:transparent;font-weight:500}
+.n-stale{background:var(--green-b);color:var(--green-t);border-color:transparent;opacity:.6}
+.n-possible{border-color:var(--blue-t);color:var(--blue-t)}
+.n-one{border-color:var(--violet-t);color:var(--violet-t)}
+.n-broken{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.n-missing{background:var(--amber-b);color:var(--amber-t);border-color:transparent;font-weight:500}
+.stats{display:flex;align-items:center;gap:12px;width:250px;padding:4px 0 4px 16px;border-left:1px solid var(--line)}
+.netbox{width:56px;height:56px;flex:none}.netbox img{display:block}
+.slines{display:flex;flex-direction:column;gap:1px;font-size:12px;color:var(--muted);line-height:1.4;min-width:0}
+.sl strong{font-size:14px;font-weight:600;color:var(--ink)}
+.sl strong.some{color:var(--green-t)}
+.sl.blocked{color:var(--amber-t)}.sl.ready{color:var(--ink)}
+.gpairs{margin:0 12px;display:flex;flex-direction:column;gap:6px}
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.plist li{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:8px;font-size:12.5px}
+.pfaces{display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.pfaces .av{width:20px;height:20px;border-radius:5px;font-size:8.5px}
+.capline{margin:4px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px}
+.capline .av{width:22px;height:22px;border-radius:6px;font-size:9px}
+@media (max-width: 640px){.stats{width:auto;border-left:0;padding-left:0}.nchip{white-space:normal;max-width:100%}.ghead{grid-template-columns:44px minmax(0,1fr) 18px}.ghead .stats{grid-row:2;grid-column:1/3;justify-self:stretch}.gchev{grid-row:1;grid-column:3}.plist li{grid-template-columns:auto minmax(0,1fr)}}
+.ghead h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}
+.gask{display:block;font-size:13px;color:var(--muted)}
+.gcard:not(.exp) .gask{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gcard.exp .ghead h3{font-size:18px}
+.prog{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.bar{display:flex;gap:3px}
+.bar span{width:22px;height:8px;border-radius:3px;background:var(--line)}
+.bar .b-run{background:var(--green-t)}
+.bar .b-stale{background:var(--green-t);opacity:.5}
+.bar .b-broken{background:var(--red-t)}
+.bar .b-possible{background:var(--blue-t)}
+.bar .b-one{background:var(--violet-t)}
+.bar .b-missing{background:var(--amber-t)}
+.prog .pt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.prog .pt strong{color:var(--ink);font-weight:600}
+.gdone{margin:0;font-size:13px}
+.gdone b{font-weight:500;color:var(--muted);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+.parts{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.needsh{display:flex;align-items:baseline;gap:8px;padding:10px 0 6px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.needsh .cnum{font-family:"IBM Plex Mono",monospace;font-weight:400}
+.need{border-top:1px dashed var(--line)}
+.ghd{display:grid;grid-template-columns:104px minmax(0,1fr) auto;gap:6px 16px;align-items:center;padding:10px 6px 4px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.ghd .kindtag{color:var(--ink)}
+.need.in-group{margin-left:18px;border-left:2px solid var(--line);border-top-style:dotted}
+.need.in-group .part{grid-template-columns:86px minmax(0,1.3fr) minmax(0,1fr) 220px 16px}
+.extrash{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.need.extra .ptitle{font-weight:400}
+.part{display:grid;grid-template-columns:104px minmax(0,1.3fr) minmax(0,1fr) 220px 16px;gap:6px 16px;align-items:center;width:100%;min-height:44px;padding:9px 6px;margin:0;background:none;border:0;border-radius:6px;text-align:left;font:inherit;color:inherit}
+button.part{cursor:pointer}
+button.part:hover .ptitle{text-decoration:underline}
+.part.miss .kindtag{color:var(--amber-t)}
+.part.miss .ptitle{color:var(--amber-t)}
+.need.open{background:color-mix(in srgb,var(--accent-soft) 45%,var(--surface));border-radius:8px}
+.chev{color:var(--muted);transition:transform .15s ease}
+.need.open .chev{transform:rotate(90deg)}
+.pdet{display:flex;flex-direction:column;gap:12px;padding:4px 6px 16px 126px;max-width:900px}
+.pdet h4{margin:0 0 4px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.pdet p{margin:0;font-size:13px}
+.pdet ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.pdet li{font-size:12.5px}
+.pdet li.prow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px}
+.prow .rec{font-size:12px;white-space:nowrap}
+.board a.who{display:inline-flex;align-items:center;gap:5px;color:var(--ink);font-weight:500}
+.kindtag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.ptitle{color:var(--ink);font-weight:500;font-size:13.5px}
+.bring{display:flex;flex-wrap:wrap;gap:5px 9px;align-items:center}
+.bf{display:inline-flex;align-items:center;gap:3px}
+.bf .av{width:20px;height:20px;border-radius:5px;font-size:8.5px}
+.stage{font-size:12px;display:flex;flex-direction:column;gap:2px}
+.ps{display:inline-flex;align-self:flex-start;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:10.5px;line-height:17px;padding:0 7px;border-radius:999px;border:1.5px solid transparent;white-space:nowrap}
+.ps-run{background:var(--green-b);color:var(--green-t)}
+.ps-stale{background:var(--green-b);color:var(--green-t);opacity:.55}
+.ps-broken{background:var(--red-b);color:var(--red-t)}
+.ps.ps-possible{border-color:var(--blue-t);color:var(--blue-t)}
+.ps.ps-one{border-color:var(--violet-t);color:var(--violet-t)}
+.ps.ps-nobody{border-color:var(--line);color:var(--muted)}
+.ps.rep{background:transparent;border-style:dashed;border-color:currentColor}
+.stage .sub{color:var(--muted);font-size:11.5px}
+.sd-vectors{background:var(--blue-t)}
+.sd-paper{border:2px solid var(--violet-t)}
+@media (max-width: 900px){.part{grid-template-columns:80px minmax(0,1fr) 16px}.bring,.stage{grid-column:2}.chev{grid-row:1;grid-column:3}.pdet{padding-left:6px}.prog{align-items:flex-start}}
+.tcard.c-ran{border-left-color:var(--green-t)}
+.tcard.c-spoken{border-left-color:var(--blue-t)}
+.tcard.c-nobody{border-style:dashed;border-left-style:solid}
+.tcard.focus{box-shadow:0 0 0 2px var(--accent)}
+.home{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--muted)}
+.home .av{width:18px;height:18px;border-radius:5px;font-size:8px}
+.ch h4{margin:0 0 6px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.faces{display:flex;flex-direction:column;gap:6px}
+.board a.f{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--ink);min-width:0}
+.board a.f:hover{text-decoration:none}
+.board a.f:hover .fn{text-decoration:underline}
+.f .av{width:22px;height:22px;border-radius:6px;font-size:9.5px}
+.f .roles{font-weight:400;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f .wword{margin-left:auto;flex:none}
+.sdot{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box}
+.sd-runs{background:var(--green-t)}
+.sd-building{background:linear-gradient(90deg,var(--blue-t) 50%,transparent 50%);border:1.5px solid var(--blue-t)}
+.sd-committed{border:2px solid var(--amber-t)}
+.sd-stated{border:2px solid var(--muted)}
+.wword{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.none{margin:0;font-size:12.5px;color:var(--muted);font-style:italic}
+.runs{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.runs li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:12.5px}
+.ps{display:inline-flex;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:10.5px;line-height:17px;padding:0 7px;border-radius:999px;border:1.5px solid transparent;white-space:nowrap}
+.ps-pass{background:var(--green-b);color:var(--green-t)}
+.ps-partial{background:var(--amber-b);color:var(--amber-t)}
+.ps-fail{background:var(--red-b);color:var(--red-t)}
+.ps.rep{background:transparent;border-style:dashed;border-color:currentColor}
+.ps.old{opacity:.55}
+.runs .src{flex-basis:100%;font-size:11.5px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:12px 20px;margin:0;font-size:12px;color:var(--muted)}
+.legend .li{display:inline-flex;align-items:center;gap:6px}
+.trepo{display:flex;align-items:center;gap:8px;min-width:0;font-family:"IBM Plex Mono",monospace;font-size:12px}
+.board a.rlink{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--ink)}
+.rlink .own{color:var(--muted);white-space:nowrap;flex:none}
+.rlink .nm{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kind{margin-left:auto;flex:none;color:var(--muted);white-space:nowrap}
+.board a.ttitle{font-weight:600;font-size:15px;line-height:1.35;color:var(--ink)}
+.board a.ttitle:hover{color:var(--accent)}
+.tctx{margin:0;font-size:13px;color:var(--muted)}
+.tfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.tfoot .when{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.act{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.act strong{font-weight:600;color:var(--ink)}
+.act .d{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+.act.new strong,.act.new svg{color:var(--accent)}
+.act.none{font-style:italic}
+.board a.chip{color:var(--ink)}
+.board a.chip:hover{border-color:var(--muted);text-decoration:none}
+@media (max-width: 640px){
+.wrap{padding:0 16px}
+.tgrid{grid-template-columns:minmax(0,1fr)}
+.sec,.filters{padding-left:14px;padding-right:14px}
+.trepo{flex-wrap:wrap;row-gap:2px}
+.kind{margin-left:0;width:100%}
+}
+.board{--blue-b:#E3EBFF;--blue-t:#1D44B0;--teal-b:#D9F2EC;--teal-t:#0B6555;--violet-b:#EDE5FF;--violet-t:#5530B0;--amber-b:#FCEFD2;--amber-t:#7E4E00;--pink-b:#FCE3EE;--pink-t:#9C2259;--green-b:#DDF3E2;--green-t:#1B6F31;--red-b:#FDE2E0;--red-t:#A3201B;--slate-b:#ECEEF1;--slate-t:#47505D;--rust-b:#FBE5D8;--rust-t:#953C10;--sky-b:#DCEFFA;--sky-t:#0B5A80;--olive-b:#ECF0D3;--olive-t:#535E0C}
+.board[data-theme="dark"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}
+@media (prefers-color-scheme: dark){.board[data-theme="auto"]{--blue-b:#1C2747;--blue-t:#A9C0FF;--teal-b:#11302B;--teal-t:#7FDCC6;--violet-b:#2A2147;--violet-t:#C7B4FF;--amber-b:#352914;--amber-t:#F4C76F;--pink-b:#3A1A2A;--pink-t:#F7A3C8;--green-b:#15301D;--green-t:#86DE9C;--red-b:#3A1716;--red-t:#FF9C94;--slate-b:#262A30;--slate-t:#C1C7D0;--rust-b:#3A2014;--rust-t:#F7AE84;--sky-b:#102A38;--sky-t:#8FD2F2;--olive-b:#262B12;--olive-t:#CBD98A}}
+.h-blue{background:var(--blue-b);color:var(--blue-t)}.h-teal{background:var(--teal-b);color:var(--teal-t)}.h-violet{background:var(--violet-b);color:var(--violet-t)}.h-amber{background:var(--amber-b);color:var(--amber-t)}.h-pink{background:var(--pink-b);color:var(--pink-t)}.h-green{background:var(--green-b);color:var(--green-t)}.h-red{background:var(--red-b);color:var(--red-t)}.h-slate{background:var(--slate-b);color:var(--slate-t)}.h-rust{background:var(--rust-b);color:var(--rust-t)}.h-sky{background:var(--sky-b);color:var(--sky-t)}.h-olive{background:var(--olive-b);color:var(--olive-t)}
+.av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;font-weight:600;font-size:12.5px;letter-spacing:.02em;flex:none;position:relative;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.av-sm{width:26px;height:26px;border-radius:7px;font-size:10.5px}
+.av.conf::after{content:"";position:absolute;right:-3px;bottom:-3px;width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.av.conf::after{background:var(--green-t);border:2px solid var(--surface)}
+.board a.av{text-decoration:none;transition:transform .12s ease}
+.board a.av:hover{transform:translateY(-2px)}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--green-t);position:relative;flex:none;display:inline-block}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green-t);opacity:0;animation:dtgring 2s ease-out infinite}
+@keyframes dtgring{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse::after{animation:none}}
+.still{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.pill{border-width:1.5px;font-weight:500}
+.s-runs{background:var(--green-t);color:var(--surface);border-color:var(--green-t)}
+.s-vectors{background:var(--blue-b);color:var(--blue-t);border-color:var(--blue-t)}
+.s-spec{background:var(--violet-b);color:var(--violet-t);border:1.5px dashed var(--violet-t)}
+.s-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.s-na{color:var(--muted)}
+.s-stated{color:var(--muted);border:1.5px solid var(--line)}
+.o-pass{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.o-partial{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.o-fail{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-proposed{background:var(--slate-b);color:var(--slate-t);border-color:transparent}
+.st-running{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-passing{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.st-failing{background:var(--red-b);color:var(--red-t);border-color:transparent}
+.st-open{background:var(--amber-b);color:var(--amber-t);border-color:transparent}
+.st-decided{background:var(--blue-b);color:var(--blue-t);border-color:transparent}
+.st-implemented{background:var(--green-b);color:var(--green-t);border-color:transparent}
+.btn-icon{width:40px;height:40px;padding:0;justify-content:center}
+</style>
+</helmet>
+<div class="board" data-theme="{{theme}}">
+
+<header class="hdr">
+<div class="wrap">
+<div class="hdr-in">
+<div style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 420px; min-width: 0">
+<h1 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">DTG Interop Board</h1>
+<p style="margin: 0; color: var(--muted); font-size: 14px">Who builds what, where it could fit, and what already runs between two implementations of the Decentralized Trust Graph.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span class="mono muted">data {{head.generated}}</span>
+<button class="btn btn-icon" type="button" sc-camel-on-click="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<a class="btn btn-icon" href="{{head.repo}}" target="_blank" rel="noopener" aria-label="Repository on GitHub" title="Repository on GitHub"><svg width="18" height="18" sc-camel-view-box="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
+<a class="btn" href="{{head.addProject}}" target="_blank" rel="noopener">Add a project</a>
+</div>
+</div>
+<nav class="tabs" aria-label="Board sections" style="align-items: center">
+<a href="./">Projects</a>
+<a href="scenarios.html" aria-current="page">Scenarios</a>
+<a href="pairs.html">Runs</a>
+<a href="threads.html">Threads</a>
+<span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
+</nav>
+</div>
+</header>
+
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><p class="muted">Reading data.json …</p></div>
+</sc-if>
+<sc-if value="{{hasError}}" hint-placeholder-val="{{ false }}">
+<div class="wrap"><div class="block" style="padding: 20px"><strong>data.json could not be read.</strong> <span class="muted">The board expects it beside this page. {{error}}</span></div></div>
+</sc-if>
+
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div class="wrap">
+<section class="block" aria-labelledby="h-scenarios">
+<div class="bhead"><h2 id="h-scenarios">Scenarios</h2><p>What people on different apps should be able to do together, and what each scenario needs: credentials, Trust Tasks, ceremonies and what else two apps have to get right together. A pair has played a scenario when its runs cover every need. The aim is many apps that play each scenario with each other; open one for the pairs and the details.</p><button class="btn" type="button" sc-camel-on-click="{{toggleAll}}">{{toggleAllLabel}}</button><a class="btn" href="{{head.scenariosData}}" target="_blank" rel="noopener">Add a scenario</a></div>
+<div class="sec scenarios">
+<sc-for list="{{scenarios}}" as="g" hint-placeholder-count="5">
+<article class="gcard {{g.focusCls}} {{g.expCls}}" id="scenario-{{g.id}}">
+<button class="ghead" type="button" aria-expanded="{{g.expanded}}" sc-camel-on-click="{{g.toggle}}">
+<span class="gicon {{g.iconCls}}"><sc-if value="{{g.i_qr}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3z"></path><path d="M20 14v.01"></path><path d="M14 20h.01"></path><path d="M17 20h4v-3"></path></svg></sc-if><sc-if value="{{g.i_chat}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"></path></svg></sc-if><sc-if value="{{g.i_usercheck}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"></circle><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"></path><path d="M16 11l2 2 4-4"></path></svg></sc-if><sc-if value="{{g.i_users}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"></circle><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg></sc-if><sc-if value="{{g.i_doc}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M9 13h6"></path><path d="M9 17h6"></path></svg></sc-if><sc-if value="{{g.i_target}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg></sc-if></span>
+<span class="gt"><h3>{{g.title}}</h3><span class="gask">{{g.asks}}</span><span class="nchips"><sc-for list="{{g.chips}}" as="c" hint-placeholder-count="4"><span class="nchip n-{{c.cls}}" title="{{c.title}}">{{c.mark}}{{c.label}}</span></sc-for></span></span>
+<span class="stats" title="{{g.coverTitle}}"><span class="netbox"><img src="{{g.netSrc}}" width="56" height="56" alt=""></span><span class="slines"><span class="sl"><strong class="{{g.coverCls}}">{{g.nPlayedApps}}</strong> of {{g.nApps}} apps played it</span><span class="sl {{g.capCls}}">{{g.capText}}</span></span></span>
+<svg class="gchev" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<sc-if value="{{g.expanded}}" hint-placeholder-val="{{ true }}"><p class="gdone"><b>Done when</b>{{g.done}}</p>
+<div class="gpairs">
+<div class="needsh">Pairs that played it <span class="cnum">{{g.nReached}}</span></div>
+<sc-if value="{{g.hasReached}}" hint-placeholder-val="{{ false }}"><ul class="plist"><sc-for list="{{g.reached}}" as="q" hint-placeholder-count="1"><li><span class="ps ps-run {{q.rep}}">✓ played</span><span class="pfaces"><span class="av {{q.a.hue}}" aria-hidden="true" style="{{q.a.logoStyle}}">{{q.a.mono}}</span>{{q.a.name}} <span class="muted">×</span> <span class="av {{q.b.hue}}" aria-hidden="true" style="{{q.b.logoStyle}}">{{q.b.mono}}</span>{{q.b.name}}</span><span class="wword">{{q.date}}{{q.repNote}}</span></li></sc-for></ul></sc-if>
+<sc-if value="{{g.noReached}}" hint-placeholder-val="{{ true }}"><p class="none">{{g.noReachedText}}</p></sc-if>
+<p class="capline"><span class="muted">Bring every need:</span> <sc-for list="{{g.capable}}" as="f" hint-placeholder-count="3"><a class="bf" href="{{f.href}}" title="{{f.name}}"><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span></a></sc-for><sc-if value="{{g.noCapable}}" hint-placeholder-val="{{ false }}"><span class="none">no app yet</span></sc-if></p>
+<sc-if value="{{g.hasCands}}" hint-placeholder-val="{{ false }}"><ul class="plist"><sc-for list="{{g.cands}}" as="q" hint-placeholder-count="2"><li><span class="ps ps-possible">ready</span><span class="pfaces">{{q.a.name}} <span class="muted">×</span> {{q.b.name}}</span><span class="muted">still to run: {{q.todo}}</span></li></sc-for></ul><sc-if value="{{g.hasMoreCands}}" hint-placeholder-val="{{ false }}"><p class="muted" style="font-size: 12px">and {{g.moreCands}} more pairs</p></sc-if></sc-if>
+</div>
+<div class="parts">
+<div class="needsh">Needs <span class="cnum">{{g.nNeeded}}</span></div>
+<sc-for list="{{g.rows}}" as="p" hint-placeholder-count="5">
+<sc-if value="{{p.isSection}}" hint-placeholder-val="{{ false }}"><div class="needsh extrash">{{p.label}} <span class="cnum">{{p.n}}</span></div></sc-if>
+<sc-if value="{{p.isHead}}" hint-placeholder-val="{{ false }}"><div class="ghd {{p.metCls}}"><span class="kindtag">one of</span><span>{{p.label}}</span><span class="ps ps-{{p.stage}}">{{p.stageLabel}}</span></div></sc-if>
+<sc-if value="{{p.isMissing}}" hint-placeholder-val="{{ false }}"><div class="need"><div class="part miss"><span class="kindtag">missing</span><span class="ptitle">{{p.label}}</span><span></span><span class="stage"><sc-if value="{{p.hasUrl}}" hint-placeholder-val="{{ false }}"><a href="{{p.url}}" target="_blank" rel="noopener">Thread</a></sc-if></span><span></span></div></div></sc-if>
+<sc-if value="{{p.isPart}}" hint-placeholder-val="{{ true }}"><div class="need {{p.openCls}} {{p.rowCls}}" id="{{p.anchor}}">
+<button class="part" type="button" aria-expanded="{{p.open}}" sc-camel-on-click="{{p.toggle}}">
+<span class="kindtag">{{p.kindLabel}}</span>
+<span class="ptitle">{{p.title}}</span>
+<span class="bring"><sc-for list="{{p.bringers}}" as="f" hint-placeholder-count="3"><span class="bf" title="{{f.title}}"><span class="sdot sd-{{f.cls}}" aria-hidden="true"></span><span class="av {{f.hue}}" aria-hidden="true" style="{{f.logoStyle}}">{{f.mono}}</span></span></sc-for><sc-if value="{{p.nobody}}" hint-placeholder-val="{{ false }}"><span class="none">nobody yet</span></sc-if></span>
+<span class="stage"><span class="ps ps-{{p.stage}} {{p.rep}}">{{p.label}}</span><sc-if value="{{p.hasSub}}" hint-placeholder-val="{{ false }}"><span class="sub">{{p.sub}}</span></sc-if></span>
+<svg class="chev" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+<sc-if value="{{p.open}}" hint-placeholder-val="{{ false }}"><div class="pdet">
+<sc-if value="{{p.hasAsks}}" hint-placeholder-val="{{ false }}"><div><h4>What it means</h4><p>{{p.asks}}</p></div></sc-if>
+<sc-if value="{{p.hasRequires}}" hint-placeholder-val="{{ false }}"><div><h4>Each side brings</h4><ul><sc-for list="{{p.requires}}" as="q" hint-placeholder-count="2"><li>{{q}}</li></sc-for></ul></div></sc-if>
+<sc-if value="{{p.hasDone}}" hint-placeholder-val="{{ false }}"><div><h4>How you know it works</h4><p>{{p.done}}</p></div></sc-if>
+<sc-if value="{{p.hasRef}}" hint-placeholder-val="{{ false }}"><p><a href="{{p.href}}">{{p.refLabel}}</a></p></sc-if>
+<div><h4>Who brings it</h4>
+<sc-if value="{{p.hasSaid}}" hint-placeholder-val="{{ true }}"><ul><sc-for list="{{p.said}}" as="x" hint-placeholder-count="2"><li><a class="who" href="{{x.href}}"><span class="sdot sd-{{x.cls}}" aria-hidden="true"></span>{{x.name}}</a> <span class="wword">{{x.status}}</span><span class="muted"> {{x.note}}</span></li></sc-for></ul></sc-if>
+<sc-if value="{{p.nobody}}" hint-placeholder-val="{{ false }}"><p class="none">No project has said anything here yet.</p></sc-if>
+</div>
+<sc-if value="{{p.hasPairs}}" hint-placeholder-val="{{ false }}"><div><h4>Pairs</h4><ul><sc-for list="{{p.pairs}}" as="q" hint-placeholder-count="2"><li class="prow"><span class="ps ps-{{q.stage}} {{q.rep}}">{{q.label}}</span><span>{{q.pair}} <span class="wword">{{q.date}}</span></span><span><sc-if value="{{q.canRecord}}" hint-placeholder-val="{{ false }}"><a class="rec" href="{{q.record}}" target="_blank" rel="noopener">Record a run</a></sc-if></span></li></sc-for></ul></div></sc-if>
+</div></sc-if>
+</div></sc-if>
+</sc-for>
+</div></sc-if>
+</article>
+</sc-for>
+</div>
+<p class="legend"><span class="li"><span class="sdot sd-runs"></span> runs</span><span class="li"><span class="sdot sd-vectors"></span> test vectors</span><span class="li"><span class="sdot sd-building"></span> building</span><span class="li"><span class="sdot sd-committed"></span> committed</span><span class="li"><span class="sdot sd-paper"></span> on paper (spec, known gap)</span><span class="li"><span class="sdot sd-stated"></span> stated</span><span class="li"><span class="ps ps-possible">possible</span> two or more bring it, no run yet</span></p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;auto&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let savedTheme = 'auto'; try { savedTheme = localStorage.getItem('dtg-interop-theme') || 'auto'; } catch (e) {}
+    // #scenario-<id> scrolls to a scenario; #scenario-<id>/<need id> also opens that need.
+    // Old links keep working: #goal-<id> (goals.html), and ids of the scenarios before goals (RENAMED).
+    const RENAMED = { 'contact-ceremony': 'connect', 'direct-message': 'write', 'membership-statement': 'membership', 'app-change': 'several-apps', 'multi-app-access': 'membership', 'vrc-exchange': 'connect', 'vrc-verify': 'connect' };
+    let h = ''; try { h = decodeURIComponent(location.hash.slice(1)).replace(/^(scenario|goal)-/, ''); } catch (e) {}
+    h = RENAMED[h] || h;
+    const cut = h.indexOf('/');
+    const focus = cut < 0 ? h : h.slice(0, cut);
+    // Scenarios start folded for a compact overview; a linked scenario starts open
+    this.state = { data: null, err: '' , theme: savedTheme, focus, open: cut < 0 ? '' : h, expanded: focus ? { [focus]: true } : {} };
+  }
+  componentDidMount() {
+    fetch('./data.json')
+      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then((data) => this.setState(this.basicLink(data), () => { const el = this.state.focus && document.getElementById(this.state.open ? 'need-' + this.state.open.replace('/', '-') : 'scenario-' + this.state.focus); if (el) setTimeout(() => el.scrollIntoView({ block: 'center' }), 50); }))
+      .catch((e) => this.setState({ err: String((e && e.message) || e) }));
+  }
+  fmt(d) {
+    if (!d) return '';
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p = String(d).slice(0, 10).split('-');
+    return (+p[2]) + ' ' + m[(+p[1]) - 1] + ' ' + p[0];
+  }
+  // A bare basic id (old scenarios.html#<basic>) opens that need under the scenario that has it
+  basicLink(data) {
+    const f = this.state.focus; const all = data.scenarios || [];
+    if (!f || all.some((g) => g.id === f)) return { data };
+    const g = all.find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === f));
+    return g ? { data, focus: g.id, open: g.id + '/' + f, expanded: { [g.id]: true } } : { data, focus: '' };
+  }
+
+  renderVals() {
+    let sysDark = false; try { sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    const theme = this.state.theme === 'light' || this.state.theme === 'dark' ? this.state.theme : (sysDark ? 'dark' : 'light');
+    const isDark = theme === 'dark';
+    const themeAria = isDark ? 'Switch to light' : 'Switch to dark';
+    const toggleTheme = () => { const next = isDark ? 'light' : 'dark'; try { localStorage.setItem('dtg-interop-theme', next); } catch (e) {} this.setState({ theme: next }); };
+    const d = this.state.data;
+    const base = { theme, isDark, isLight: !isDark, themeAria, toggleTheme, loading: !d && !this.state.err, hasError: !!this.state.err, error: this.state.err, ready: !!d };
+    if (!d) return { ...base, head: {}, scenarios: [], toggleAll: null, toggleAllLabel: 'Expand all' };
+
+    const repo = d.repo;
+    const head = { generated: this.fmt(d.generated), repo, addProject: repo + '/tree/main/projects', scenariosData: repo + '/edit/main/scenarios.json' };
+    const HUES = ['h-blue', 'h-teal', 'h-violet', 'h-amber', 'h-pink', 'h-green', 'h-rust', 'h-sky', 'h-olive', 'h-slate'];
+    const face = {};
+    (d.projects || []).forEach((p, i) => {
+      const n = (p.shortName || p.name.split(' / ')[0].split(' (')[0]); const w = n.split(/[\s.]+/).filter(Boolean);
+      face[p.slug] = { name: n, hue: HUES[i % HUES.length], mono: (w.length > 1 ? w[0][0] + w[1][0] : n.slice(0, 2)).toUpperCase(), href: './#project=' + p.slug, logoStyle: p.logo ? "background: url('" + p.logo + "') center / contain no-repeat; color: transparent" : '' };
+    });
+    const fc = (x) => face[x] || { name: x, hue: 'h-slate', mono: '?', href: './', logoStyle: '' };
+    const thrById = {}; (d.threads || []).forEach((t) => { thrById[t.id] = t; });
+    const isFresh = (r) => !!r.date && (Date.parse(d.generated) - Date.parse(r.date)) / 864e5 <= 30;
+    // What a project brings: runs or test vectors count as bringing it; the rest is shown but does not count
+    const DOT = { runs: 'runs', vectors: 'vectors', building: 'building', committed: 'committed', spec: 'paper', open: 'paper', stated: 'stated' };
+    const RANK = { runs: 6, vectors: 5, building: 4, committed: 3, spec: 2, open: 2, stated: 1 };
+    const built = (s) => s === 'runs' || s === 'vectors';
+    const HREF = { credential: () => 'credentials.html', task: () => 'trust-tasks.html', ceremony: (id) => 'ceremonies.html#cer-' + encodeURIComponent(id) };
+    const REF = { credential: 'Compare credentials', task: 'Who shares which Trust Tasks', ceremony: 'The ceremony and who speaks it' };
+    // The kind label of a need; needs that are neither credential, task nor ceremony carry their layer instead
+    const layerTitle = {}; ((d.map && d.map.layers) || []).forEach((l) => { layerTitle[l.id] = l.title; });
+    const basicById = {}; (d.basics || []).forEach((b) => { basicById[b.id] = b; });
+    const KIND = { credential: 'credential', task: 'Trust Task', ceremony: 'ceremony' };
+    // A Trust Task's title is its type URI; show the part after /spec/, as on the Ceremonies page
+    const taskTitle = (t) => String(t).replace(/^https?:\/\/[^/]+\/(trust-tasks\/)?spec\//, '').replace(/\/(\d+(\.\d+)*)$/, ' $1');
+    const runUrl = (key, title, a, b) => repo + '/issues/new?labels=run&title=' + encodeURIComponent('Run: ' + title) + '&body=' + encodeURIComponent('Tested: ' + key + '\nProject A: ' + a + '\nVersion A: \nProject B: ' + b + '\nVersion B: \nOutcome: pass | partial | fail\nNote: \nProtocol (link): ');
+    const cellOf = (slug, p) => { const pr = (d.projects || []).find((x) => x.slug === slug) || {}; return p.kind === 'basic' ? ((pr.basics || {})[p.id] || {}) : {}; };
+    const exp = this.state.expanded || {};
+    const ICON = { connect: 'qr', write: 'chat', membership: 'usercheck', 'same-group': 'users', 'several-apps': 'doc' };
+    const allSlugs = (d.projects || []).map((x) => x.slug);
+    const scenarios = (d.scenarios || []).map((g) => {
+      const parts = (g.parts || []).map((p, n) => {
+        const best = {}; (p.bringers || []).forEach((b) => { if (!DOT[b.status]) return; if (!best[b.project] || RANK[b.status] > RANK[best[b.project]]) best[b.project] = b.status; });
+        const slugs = Object.keys(best).sort((a, b) => RANK[best[b]] - RANK[best[a]] || fc(a).name.localeCompare(fc(b).name));
+        const bringers = slugs.map((x) => ({ ...fc(x), cls: DOT[best[x]], title: fc(x).name + ': ' + best[x] }));
+        // A pair's latest run for this part decides: run, stale after 30 days, broken on fail
+        const key = p.kind + ':' + p.id; const latest = {};
+        (p.runs || []).forEach((i) => { const r = (d.runs || [])[i]; if (!r) return; const sub = (r.subjects || []).find((x) => x.key === key) || {}; const sl = [...new Set((r.sides || []).map((x) => x.project))].sort(); const k = sl.join('|'); if (!latest[k] || r.date >= latest[k].date) latest[k] = { date: r.date, outcome: sub.outcome || r.outcome, reported: !!r.reportedBy, names: sl.map((x) => fc(x).name).join(' × '), sl }; });
+        const ran = Object.keys(latest).map((k) => latest[k]).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        const nb = slugs.filter((x) => built(best[x])).length;
+        const nPairs = nb * (nb - 1) / 2 - ran.length;
+        let stage, label, sub = '';
+        if (ran.length) { const r = ran[0]; stage = r.outcome === 'fail' ? 'broken' : isFresh(r) ? 'run' : 'stale'; label = (stage === 'broken' ? '✕ ' : '✓ ') + r.names; sub = this.fmt(r.date) + (r.reported ? ' · reported, not yet confirmed' : '') + (ran.length > 1 ? ' · +' + (ran.length - 1) + ' more' : '') + (nPairs > 0 ? ' · ' + nPairs + ' more possible' : ''); }
+        else if (nb >= 2) { stage = 'possible'; label = 'possible · ' + nPairs + (nPairs === 1 ? ' pair' : ' pairs'); }
+        else if (nb === 1) { stage = 'one'; label = 'one side: ' + fc(slugs.find((x) => built(best[x]))).name; }
+        else { stage = 'nobody'; label = 'nobody brings it yet'; const by = {}; slugs.forEach((x) => { const w = best[x] === 'open' ? 'spec' : best[x]; by[w] = (by[w] || 0) + 1; }); sub = ['building', 'committed', 'spec', 'stated'].filter((w) => by[w]).map((w) => by[w] + ' ' + w).join(', '); }
+        // Every pair with its stage: ran (run, stale, broken) or possible when both bring it
+        const LBL = { run: '✓ run', stale: '✓ run, over 30 days ago', broken: '✕ broken', possible: 'possible' };
+        const pairs = ran.map((r) => { const st = r.outcome === 'fail' ? 'broken' : isFresh(r) ? 'run' : 'stale'; return { stage: st, label: LBL[st] + (r.reported ? ' (reported)' : ''), rep: r.reported ? 'rep' : '', pair: r.names, date: this.fmt(r.date), canRecord: st !== 'run', record: runUrl(key, p.title, r.sl[0], r.sl[1]) }; });
+        const bs = slugs.filter((x) => built(best[x])).sort();
+        for (let i = 0; i < bs.length; i++) for (let j = i + 1; j < bs.length; j++) if (!latest[bs[i] + '|' + bs[j]]) pairs.push({ stage: 'possible', label: LBL.possible, rep: '', pair: fc(bs[i]).name + ' × ' + fc(bs[j]).name, date: '', canRecord: true, record: runUrl(key, p.title, bs[i], bs[j]) });
+        const b = p.kind === 'basic' ? (basicById[p.id] || {}) : {};
+        const said = slugs.map((x) => { const c = cellOf(x, p); return { ...fc(x), cls: DOT[best[x]], status: best[x], note: c.note || '' }; });
+        const okey = g.id + '/' + p.id; const open = this.state.open === okey;
+        return {
+          kind: p.kind, kindLabel: KIND[p.kind] || (layerTitle[b.layer] || '').toLowerCase() || 'need', title: taskTitle(p.title), fullTitle: p.title, href: (HREF[p.kind] || (() => ''))(p.id), hasRef: !!HREF[p.kind], refLabel: REF[p.kind] || '',
+          bringers, nobody: !bringers.length, stage, label, sub, hasSub: !!sub, rep: ran.length && ran[0].reported ? 'rep' : '',
+          asks: b.asks || '', hasAsks: !!b.asks, requires: b.requires || [], hasRequires: (b.requires || []).length > 0, done: b.done || '', hasDone: !!b.done,
+          said, hasSaid: said.length > 0, pairs, hasPairs: pairs.length > 0,
+          anchor: 'need-' + g.id + '-' + p.id, open, openCls: open ? 'open' : '', toggle: () => this.setState({ open: open ? '' : okey }),
+        };
+      });
+      // Needed units: each required part, each one-of group, each missing item; extras are shown but are no condition
+      const byKey = {}; (g.parts || []).forEach((p, n) => { byKey[p.role + ':' + p.kind + ':' + p.id] = parts[n]; });
+      const pick = (x, role) => byKey[role + ':' + x.kind + ':' + x.id];
+      const met = (st) => st === 'run' || st === 'stale';
+      const ORDER = ['run', 'stale', 'possible', 'one', 'broken', 'nobody'];
+      const rows = []; const bar = []; const chips = []; let nMet = 0; let nNeeded = 0;
+      const short = (t) => String(t).replace(/\s*\(.*\)$/, '');
+      const chip = (cls, label, title) => ({ cls, label, title, mark: cls === 'met' || cls === 'stale' ? '✓ ' : cls === 'missing' ? '! ' : cls === 'broken' ? '✕ ' : '' });
+      (g.needs || []).forEach((x) => {
+        nNeeded++;
+        if (x.oneOf) {
+          const ms = x.oneOf.map((y) => pick(y, 'alternative')).filter(Boolean);
+          const best = ms.map((m) => m.stage).sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b))[0] || 'nobody';
+          const ok = ms.some((m) => met(m.stage)); if (ok) nMet++;
+          bar.push(ok ? 'run' : best);
+          const hit = ms.find((m) => met(m.stage));
+          const KW = { credential: 'credentials', task: 'Trust Tasks', ceremony: 'ceremonies' };
+          const same = ms.every((m) => m.kind === ms[0].kind) && KW[ms[0].kind];
+          chips.push(chip(ok ? 'met' : best, hit ? short(hit.title) : ms.length <= 2 ? ms.map((m) => short(m.title)).join(' or ') : 'one of ' + ms.length + ' ' + (same || 'options'), 'One of: ' + ms.map((m) => m.title + ' (' + m.stage + ')').join(', ')));
+          rows.push({ isHead: true, label: 'One of these is enough', stage: ok ? 'run' : 'nobody', stageLabel: ok ? '✓ met' : 'not met yet', metCls: ok ? 'met' : '' });
+          ms.forEach((m) => rows.push({ ...m, isPart: true, rowCls: 'in-group' }));
+        } else {
+          const m = pick(x, 'required'); if (!m) return;
+          if (met(m.stage)) nMet++;
+          bar.push(m.stage);
+          chips.push(chip(met(m.stage) ? (m.stage === 'stale' ? 'stale' : 'met') : m.stage, short(m.title), m.title + ': ' + m.label));
+          rows.push({ ...m, isPart: true, rowCls: '' });
+        }
+      });
+      const missing = (g.missing || []).map((m) => { const t = m.thread && thrById[m.thread]; return { isMissing: true, label: m.label, url: t ? t.url : '', hasUrl: !!t }; });
+      missing.forEach((m) => { nNeeded++; bar.push('missing'); rows.push(m); chips.push(chip('missing', m.label.replace(/^A /, ''), 'Missing: ' + m.label)); });
+      const extras = (g.extras || []).map((x) => pick(x, 'extra')).filter(Boolean);
+      // A pair played the scenario when its passing runs cover one journey: every need ran between those two
+      // (a oneOf group by any of its items). Apps that bring every need are ready to try it with each other.
+      // Something missing blocks every pair.
+      const units = (g.needs || []).map((x) => (x.oneOf ? x.oneOf : [x]));
+      const rawOf = (x) => (g.parts || []).find((q) => q.kind === x.kind && q.id === x.id) || x;
+      // Ready to try: the project has the item (runs, test vectors) or says so with evidence (stated)
+      const ready = (slug, x) => (rawOf(x).bringers || []).some((b) => b.project === slug && (built(b.status) || b.status === 'stated'));
+      const ranBy = (x, a, b) => { const key = x.kind + ':' + x.id; let hit = null; (rawOf(x).runs || []).forEach((i) => { const r = (d.runs || [])[i]; if (!r) return; const sl = (r.sides || []).map((y) => y.project); const sub = (r.subjects || []).find((y) => y.key === key) || {}; if (sl.indexOf(a) >= 0 && sl.indexOf(b) >= 0 && (sub.outcome || r.outcome) !== 'fail' && (!hit || r.date > hit.date)) hit = r; }); return hit; };
+      const unitLabel = (u) => (u.length === 1 ? short(u[0].title) : u.map((x) => short(x.title)).join(' or '));
+      const pairKeys = {}; units.forEach((u) => u.forEach((x) => (rawOf(x).runs || []).forEach((i) => { const r = (d.runs || [])[i]; if (!r) return; const sl = [...new Set((r.sides || []).map((y) => y.project))].sort(); for (let a = 0; a < sl.length; a++) for (let b = a + 1; b < sl.length; b++) pairKeys[sl[a] + '|' + sl[b]] = 1; })));
+      const blocked = (g.missing || []).length > 0;
+      const reached = blocked ? [] : Object.keys(pairKeys).map((k) => { const [a, b] = k.split('|'); const hits = units.map((u) => u.map((x) => ranBy(x, a, b)).filter(Boolean)[0]); if (!units.length || hits.some((h) => !h)) return null; const last = hits.slice().sort((x, y) => String(y.date).localeCompare(String(x.date)))[0]; const rep = hits.some((h) => h.reportedBy); return { sa: a, sb: b, last: last.date, a: fc(a), b: fc(b), date: this.fmt(last.date), rep: rep ? 'rep' : '', repNote: rep ? ' · reported, not yet confirmed' : '' }; }).filter(Boolean);
+      const reachedKey = {}; reached.forEach((q) => { reachedKey[q.a.name + '|' + q.b.name] = 1; });
+      const capableSlugs = units.length ? allSlugs.filter((x) => units.every((u) => u.some((y) => ready(x, y)))) : [];
+      const candsAll = [];
+      for (let a = 0; a < capableSlugs.length; a++) for (let b = a + 1; b < capableSlugs.length; b++) {
+        const A = capableSlugs[a], B = capableSlugs[b]; if (reachedKey[fc(A).name + '|' + fc(B).name] || reachedKey[fc(B).name + '|' + fc(A).name]) continue;
+        const todo = units.filter((u) => !u.some((x) => ranBy(x, A, B))).map(unitLabel);
+        candsAll.push({ a: fc(A), b: fc(B), todo: todo.join(', ') + (blocked ? (todo.length ? ', ' : '') + 'and what is missing' : ''), n: todo.length });
+      }
+      candsAll.sort((x, y) => x.n - y.n);
+      const cands = candsAll.slice(0, 6);
+      // The apps as a ring, each at the same place in every scenario: filled = played it, ring = ready to try,
+      // dot = not yet. A line joins a pair that played it, paler after 30 days without a new run.
+      const playedApps = [...new Set(reached.flatMap((q) => [q.sa, q.sb]))];
+      const readySet = new Set(capableSlugs);
+      const C = isDark ? { on: '#86DE9C', ring: '#ECECE7', off: '#4A4F56' } : { on: '#1B6F31', ring: '#17181A', off: '#D6D6CE' };
+      const pos = {}; allSlugs.forEach((x, n) => { const a = -Math.PI / 2 + (2 * Math.PI * n) / allSlugs.length; pos[x] = [(26 + 20 * Math.cos(a)).toFixed(1), (26 + 20 * Math.sin(a)).toFixed(1)]; });
+      const old = (dt) => (Date.now() - new Date(dt).getTime()) / 864e5 > 30;
+      const lines = reached.map((q) => '<line x1="' + pos[q.sa][0] + '" y1="' + pos[q.sa][1] + '" x2="' + pos[q.sb][0] + '" y2="' + pos[q.sb][1] + '" stroke="' + C.on + '" stroke-width="2" stroke-linecap="round" opacity="' + (old(q.last) ? 0.4 : 1) + '"/>').join('');
+      const dots = allSlugs.map((x) => { const [cx, cy] = pos[x]; return playedApps.includes(x) ? '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="' + C.on + '"/>' : readySet.has(x) && !blocked ? '<circle cx="' + cx + '" cy="' + cy + '" r="3.3" fill="none" stroke="' + C.ring + '" stroke-width="1.4"/>' : '<circle cx="' + cx + '" cy="' + cy + '" r="2.6" fill="' + C.off + '"/>'; }).join('');
+      const net = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">' + lines + dots + '</svg>');
+      if (extras.length) { rows.push({ isSection: true, label: 'Nice to have', n: extras.length }); extras.forEach((m) => rows.push({ ...m, isPart: true, rowCls: 'extra' })); }
+      return {
+        // Icons by scenario; one whose needs are all met turns green
+        ...{ [ 'i_' + (ICON[g.id] || 'target') ]: true }, iconCls: nNeeded && nMet === nNeeded ? 'done' : '', chips, dash: (nNeeded ? (nMet / nNeeded) * 131.95 : 0).toFixed(1) + ' 132', cap: nMet ? 'round' : 'butt',
+        id: g.id, expanded: !!exp[g.id], expCls: exp[g.id] ? 'exp' : '', toggle: () => this.setState({ expanded: { ...exp, [g.id]: !exp[g.id] } }), focusCls: this.state.focus === g.id && !this.state.open ? 'focus' : '', title: g.title, asks: g.asks, done: g.done, rows, bar, nMet, nNeeded,
+        nExtras: extras.length, hasExtras: extras.length > 0, nExtrasRun: extras.filter((m) => met(m.stage)).length,
+        nReached: reached.length, reached, hasReached: reached.length > 0, noReached: !reached.length, nPlayedApps: playedApps.length, nApps: allSlugs.length, netSrc: net, coverCls: playedApps.length ? 'some' : '',
+        noReachedText: blocked ? 'No pair yet: something the scenario needs does not exist yet.' : 'No pair has run every need together yet.',
+        capText: blocked ? 'blocked: ' + (g.missing || []).length + ' missing' : candsAll.length ? candsAll.length + (candsAll.length === 1 ? ' pair' : ' pairs') + ' ready to try' : 'no pair ready to try', capCls: blocked ? 'blocked' : candsAll.length ? 'ready' : '',
+        coverTitle: playedApps.length + ' of ' + allSlugs.length + ' apps played it with at least one other app. ' + (blocked ? 'Blocked: something it needs exists nowhere yet.' : candsAll.length ? 'Ready to try: ' + candsAll.map((q) => q.a.name + ' × ' + q.b.name).join(', ') : 'No pair brings every need yet.'),
+        capable: capableSlugs.map(fc), noCapable: !capableSlugs.length, cands, hasCands: cands.length > 0, hasMoreCands: candsAll.length > cands.length, moreCands: candsAll.length - cands.length,
+      };
+    });
+
+    const allOpen = scenarios.length > 0 && scenarios.every((g) => g.expanded);
+    const toggleAll = () => { const next = {}; if (!allOpen) scenarios.forEach((g) => { next[g.id] = true; }); this.setState({ expanded: next }); };
+    return { ...base, head, scenarios, toggleAll, toggleAllLabel: allOpen ? 'Collapse all' : 'Expand all' };
+  }
+}
+</script>
+
+
+</body></html>

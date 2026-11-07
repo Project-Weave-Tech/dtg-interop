@@ -165,7 +165,7 @@ body{margin:0;background:#F6F6F3}
 </div>
 <nav class="tabs" aria-label="Board sections" style="align-items: center">
 <a href="./">Projects</a>
-<a href="goals.html">Goals</a>
+<a href="scenarios.html">Scenarios</a>
 <a href="pairs.html" aria-current="page">Runs</a>
 <a href="threads.html">Threads</a>
 <span class="tabs-right"><a href="credentials.html">Credentials</a><a href="trust-tasks.html">Trust Tasks</a><a href="ceremonies.html">Ceremonies</a></span>
@@ -206,7 +206,7 @@ body{margin:0;background:#F6F6F3}
 </section>
 
 <section class="block" aria-labelledby="h-runlist">
-<div class="bhead"><h2 id="h-runlist">All runs</h2><p>Each run is one test between two projects, of one or more credentials, Trust Tasks, ceremonies or other needs of a goal. Newest first.</p></div>
+<div class="bhead"><h2 id="h-runlist">All runs</h2><p>Each run is one test between two projects, of one or more credentials, Trust Tasks, ceremonies or other needs of a scenario. Newest first.</p></div>
 <div class="rgrid">
 <sc-for list="{{runList}}" as="s" hint-placeholder-count="2">
 <article class="card" id="run-{{s.index}}">
@@ -328,10 +328,10 @@ class Component extends DCLogic {
     };
     matrix.none = !anyRun;
 
-    // A former basic lives under the first goal that needs it
-    const needHref = (id) => { const g = (d.goals || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'goals.html#goal-' + g.id + '/' + encodeURIComponent(id) : 'goals.html'; };
+    // A former basic lives under the first scenario that needs it
+    const needHref = (id) => { const g = (d.scenarios || []).find((x) => (x.parts || []).some((q) => q.kind === 'basic' && q.id === id)); return g ? 'scenarios.html#scenario-' + g.id + '/' + encodeURIComponent(id) : 'scenarios.html'; };
     const HREF = { credential: () => 'credentials.html', task: () => 'trust-tasks.html', ceremony: (id) => 'ceremonies.html#cer-' + encodeURIComponent(id), basic: (id) => needHref(id) };
-    // The kind label of a tested subject; former basics carry their layer, as under Goals
+    // The kind label of a tested subject; former basics carry their layer, as under Scenarios
     const layerTitle = {}; ((d.map && d.map.layers) || []).forEach((l) => { layerTitle[l.id] = l.title; });
     const basicLayer = {}; (d.basics || []).forEach((b) => { basicLayer[b.id] = (layerTitle[b.layer] || '').toLowerCase(); });
     const KIND = { credential: 'credential', task: 'Trust Task', ceremony: 'ceremony' };
