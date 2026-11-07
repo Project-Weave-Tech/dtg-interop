@@ -1,6 +1,6 @@
 # DTG interop
 
-A status board for interoperability between the implementations of the decentralized trust graph: who builds what, where it could fit together, what has been shown to work between two projects. It is organised by goals (what people on different apps should be able to do together) and the credentials, Trust Tasks, ceremonies and basics that make them work.
+A status board for interoperability between the implementations of the decentralized trust graph: who builds what, where it could fit together, what has been shown to work between two projects. It is organised by scenarios (what people on different apps should be able to do together), the needs of each scenario (credentials, Trust Tasks, ceremonies and basics), and runs (what two projects have actually tried together).
 
 Board: https://project-weave-tech.github.io/dtg-interop/ (data: [`site/dist/data.json`](site/) built from this repository and from GitHub).
 

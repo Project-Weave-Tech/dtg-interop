@@ -39,7 +39,7 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]{1,40}$"
         },
-        "description": "Ids of the goals, basics or ceremonies the thread is about."
+        "description": "Ids of the scenarios, basics or ceremonies the thread is about."
       },
       "state": {
         "enum": [

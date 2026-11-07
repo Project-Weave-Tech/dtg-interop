@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/goals.schema.json",
-  "title": "DTG interop goals",
+  "$id": "https://github.com/Project-Weave-Tech/dtg-interop/schema/scenarios.schema.json",
+  "title": "DTG interop scenarios",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "goals"
+    "scenarios"
   ],
   "properties": {
     "$comment": {
       "type": "string"
     },
-    "goals": {
+    "scenarios": {
       "type": "array",
       "items": {
         "type": "object",
@@ -105,7 +105,7 @@
                 }
               ]
             },
-            "description": "What the goal cannot do without: a single item, or a group where one item is enough."
+            "description": "What the scenario cannot do without: a single item, or a group where one item is enough."
           },
           "missing": {
             "type": "array",
@@ -149,7 +149,7 @@
                 }
               }
             },
-            "description": "What makes the goal better or more complete but is not needed for a first run."
+            "description": "What makes the scenario better or more complete but is not needed for a first run."
           }
         }
       }

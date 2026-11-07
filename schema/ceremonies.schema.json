@@ -75,11 +75,12 @@
               "format": "uri"
             }
           },
-          "goals": {
+          "scenarios": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Ids of the scenarios this ceremony can fulfil a need of."
           }
         }
       }

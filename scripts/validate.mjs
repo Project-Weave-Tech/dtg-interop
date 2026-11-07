@@ -1,4 +1,4 @@
-// Validates goals.json, basics.json, ceremonies.json, runs.json, threads.json,
+// Validates scenarios.json, basics.json, ceremonies.json, runs.json, threads.json,
 // credential-profiles.json and projects/*/project.json (with an optional
 // projects/*/trust-tasks.json) against the schemas, and checks that every id a
 // file names exists. Exits 1 with every error.
@@ -11,7 +11,7 @@ const root = new URL('../', import.meta.url).pathname
 const read = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'))
 const ajv = new Ajv2020({ allErrors: true, strict: true }); addFormats(ajv)
 const compile = (f) => ajv.compile(read(`schema/${f}.schema.json`))
-const S = { project: compile('project'), thread: compile('thread'), trustTasks: compile('trust-tasks'), profiles: compile('credential-profiles'), basics: compile('basics'), goals: compile('goals'), ceremonies: compile('ceremonies'), runs: compile('runs') }
+const S = { project: compile('project'), thread: compile('thread'), trustTasks: compile('trust-tasks'), profiles: compile('credential-profiles'), basics: compile('basics'), scenarios: compile('scenarios'), ceremonies: compile('ceremonies'), runs: compile('runs') }
 const errors = []
 const check = (schema, data, file) => { if (!schema(data)) errors.push(`${file}: ${ajv.errorsText(schema.errors, { separator: '\n  ' })}`) }
 
@@ -24,8 +24,8 @@ if (basicIds.size !== basics.basics.length) errors.push('basics.json: duplicate 
 for (const b of basics.basics) if (!layerIds.has(b.layer)) errors.push(`basics.json: "${b.id}" names unknown layer "${b.layer}"`)
 const cer = read('ceremonies.json'); check(S.ceremonies, cer, 'ceremonies.json')
 const ceremonyIds = new Set(cer.ceremonies.map((c) => c.id))
-const goals = read('goals.json'); check(S.goals, goals, 'goals.json')
-const goalIds = new Set(goals.goals.map((g) => g.id))
+const scenarios = read('scenarios.json'); check(S.scenarios, scenarios, 'scenarios.json')
+const scenarioIds = new Set(scenarios.scenarios.map((s) => s.id))
 const threads = read('threads.json'); check(S.thread, threads, 'threads.json')
 const threadIds = new Set(threads.map((t) => t.id))
 if (threadIds.size !== threads.length) errors.push('threads.json: duplicate id')
@@ -62,14 +62,14 @@ for (const slug of folders('projects')) {
   projects.set(slug, row)
 }
 for (const c of cer.ceremonies) {
-  for (const g of c.goals ?? []) if (!goalIds.has(g)) errors.push(`ceremonies.json: "${c.id}" names unknown goal "${g}"`)
+  for (const s of c.scenarios ?? []) if (!scenarioIds.has(s)) errors.push(`ceremonies.json: "${c.id}" names unknown scenario "${s}"`)
   if (c.home === 'project' && !projects.has(c.definedBy)) errors.push(`ceremonies.json: "${c.id}" is defined by unknown project "${c.definedBy}"`)
 }
 const subjectKnown = { credential: (id) => !!catalogue.profiles[id], ceremony: (id) => ceremonyIds.has(id), basic: (id) => basicIds.has(id), task: () => true }
-for (const g of goals.goals) {
-  const items = [...g.needs.flatMap((n) => n.oneOf ?? [n]), ...(g.extras ?? [])]
-  for (const it of items) if (!subjectKnown[it.kind](it.id)) errors.push(`goals.json: "${g.id}" names unknown ${it.kind} "${it.id}"`)
-  for (const m of g.missing ?? []) if (m.thread && !threadIds.has(m.thread)) errors.push(`goals.json: "${g.id}" names unknown thread "${m.thread}"`)
+for (const s of scenarios.scenarios) {
+  const items = [...s.needs.flatMap((n) => n.oneOf ?? [n]), ...(s.extras ?? [])]
+  for (const it of items) if (!subjectKnown[it.kind](it.id)) errors.push(`scenarios.json: "${s.id}" names unknown ${it.kind} "${it.id}"`)
+  for (const m of s.missing ?? []) if (m.thread && !threadIds.has(m.thread)) errors.push(`scenarios.json: "${s.id}" names unknown thread "${m.thread}"`)
 }
 const runs = read('runs.json'); check(S.runs, runs, 'runs.json')
 for (const [i, r] of runs.runs.entries()) {
@@ -78,7 +78,7 @@ for (const [i, r] of runs.runs.entries()) {
   if (r.sides[0].project === r.sides[1].project) errors.push(`runs.json: runs[${i}] has the same project on both sides`)
   if (r.reportedBy && !projects.has(r.reportedBy.project)) errors.push(`runs.json: runs[${i}] reportedBy names unknown project "${r.reportedBy.project}"`)
 }
-const anyId = (id) => goalIds.has(id) || basicIds.has(id) || ceremonyIds.has(id)
+const anyId = (id) => scenarioIds.has(id) || basicIds.has(id) || ceremonyIds.has(id)
 for (const t of threads) for (const id of t.about) if (!anyId(id)) errors.push(`threads.json: "${t.id}" is about unknown "${id}"`)
 if (errors.length) { console.error(errors.join('\n')); process.exit(1) }
-console.log(`valid: ${projects.size} project(s), ${goalIds.size} goal(s), ${basicIds.size} basic(s), ${ceremonyIds.size} ceremonies, ${runs.runs.length} run(s), ${threads.length} thread(s)`)
+console.log(`valid: ${projects.size} project(s), ${scenarioIds.size} scenario(s), ${basicIds.size} basic(s), ${ceremonyIds.size} ceremonies, ${runs.runs.length} run(s), ${threads.length} thread(s)`)

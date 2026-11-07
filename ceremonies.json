@@ -14,7 +14,7 @@
         "https://real-life.org/trust-tasks/spec/encounter-bundle/0.1",
         "https://real-life.org/trust-tasks/spec/encounter-credential-delivery/0.1"
       ],
-      "goals": [
+      "scenarios": [
         "connect"
       ]
     },
@@ -30,7 +30,7 @@
         "https://trusttasks.org/spec/vrc/relationships/propose/0.2",
         "https://trusttasks.org/spec/vrc/relationships/issue/0.1"
       ],
-      "goals": [
+      "scenarios": [
         "connect"
       ]
     },
@@ -45,7 +45,7 @@
       "tasks": [
         "https://trusttasks.org/spec/credential-exchange/issue/0.1"
       ],
-      "goals": [
+      "scenarios": [
         "connect"
       ]
     },
@@ -63,7 +63,7 @@
         "https://trusttasks.org/spec/vtc/join-requests/decide/0.1",
         "https://trusttasks.org/spec/vtc/members/vmc/0.1"
       ],
-      "goals": [
+      "scenarios": [
         "membership"
       ]
     },
@@ -81,7 +81,7 @@
         "https://trusttasks.org/spec/vetting/decline/0.1",
         "https://trusttasks.org/spec/credential-exchange/issue/0.1"
       ],
-      "goals": [
+      "scenarios": [
         "membership"
       ]
     }

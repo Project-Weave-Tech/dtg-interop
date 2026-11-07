@@ -2,7 +2,7 @@
   "name": "dtg-interop",
   "private": true,
   "version": "0.1.0",
-  "description": "Scenarios, project rows, procedures and runs, issues view and dashboard for the implementations of the decentralized trust graph",
+  "description": "Interop board for the implementations of the decentralized trust graph: projects, scenarios, runs, threads, and the credentials, Trust Tasks and ceremonies they rest on",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -14,5 +14,7 @@
     "ajv": "8.17.1",
     "ajv-formats": "3.0.1"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

@@ -1,4 +1,4 @@
-// Builds site/dist/data.json for the board from goals.json, basics.json,
+// Builds site/dist/data.json for the board from scenarios.json, basics.json,
 // ceremonies.json, runs.json, threads.json, credential-profiles.json and
 // projects/*/project.json (with trust-tasks.json), plus what GitHub reports:
 // licence and last push of every project repository, this repository's own
@@ -17,7 +17,7 @@ const headers = { accept: 'application/vnd.github+json', 'user-agent': 'dtg-inte
 const gh = async (path) => { const r = await fetch(`https://api.github.com${path}`, { headers }); if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json() }
 
 const basicsFile = read('basics.json')
-const goalsFile = read('goals.json')
+const scenariosFile = read('scenarios.json')
 const runsFile = read('runs.json')
 const edit = (p) => `${repoUrl}/edit/main/${p}`
 const projects = folders('projects').map((slug) => ({ ...read(`projects/${slug}/project.json`), readme: `${repoUrl}/blob/main/projects/${slug}/README.md`, editUrl: edit(`projects/${slug}/project.json`) }))
@@ -32,7 +32,7 @@ try {
   issues = (await gh(`/repos/${owner}/${repo}/issues?state=all&per_page=100`)).filter((i) => !i.pull_request).map((i) => ({
     id: `issue-${i.number}`, number: i.number, title: i.title, url: i.html_url, host: `github.com/${owner}`, state: i.state === 'closed' ? 'decided' : 'open',
     context: (i.body ?? '').split('\n').find((l) => l.trim()) ?? '', labels: i.labels.map((l) => l.name),
-    scenarios: i.labels.map((l) => l.name).filter((n) => n.startsWith('scenario:') || n.startsWith('point:')).map((n) => n.slice(n.indexOf(':') + 1)), updated: i.updated_at.slice(0, 10), comments: i.comments }))
+    scenarios: i.labels.map((l) => l.name).filter((n) => n.startsWith('scenario:')).map((n) => n.slice('scenario:'.length)), updated: i.updated_at.slice(0, 10), comments: i.comments }))
   issuesOk = true
 } catch (e) { console.warn(`issues not fetched (${e.message}); using the snapshot`) }
 try {
@@ -178,8 +178,8 @@ for (const t of ttTypes) {
 }
 const trustTasks = { registry: REGISTRY, types: ttTypes, shared: ttShared, sharedVia: ttSharedVia }
 
-// Goals: each need resolved to who brings it (from the project rows) and the
-// runs that tested it, so the board can show how far a goal is without
+// Scenarios: each need resolved to who brings it (from the project rows) and the
+// runs that tested it, so the board can show how far a scenario is without
 // recomputing the joins.
 const bringersOf = (kind, id) => {
   if (kind === 'credentials') return projects.flatMap((p) => (p.credentials ?? []).filter((c) => (c.profiles ?? []).includes(id)).map((c) => ({ project: p.slug, status: c.status })))
@@ -190,12 +190,12 @@ const bringersOf = (kind, id) => {
 }
 const partOf = (it, role, group) => ({ kind: it.kind, id: it.id, title: titleOf(it.kind, it.id), role, ...(group != null ? { group } : {}), bringers: bringersOf({ credential: 'credentials', task: 'tasks', ceremony: 'ceremonies', basic: 'basics' }[it.kind], it.id), runs: runsOf(it.kind, it.id) })
 // needs: each entry a single part or a group (oneOf: one is enough); extras do
-// not count towards the goal. parts flattens all three for simple views, with
+// not count towards the scenario. parts flattens all three for simple views, with
 // role required / alternative (with its group index) / extra.
-const goals = goalsFile.goals.map((g) => {
-  const needs = g.needs.map((n, i) => n.oneOf ? { oneOf: n.oneOf.map((it) => partOf(it, 'alternative', i)) } : partOf(n, 'required'))
-  const extras = (g.extras ?? []).map((it) => partOf(it, 'extra'))
-  return { ...g, needs, extras, parts: [...needs.flatMap((n) => n.oneOf ?? [n]), ...extras] }
+const scenarios = scenariosFile.scenarios.map((s) => {
+  const needs = s.needs.map((n, i) => n.oneOf ? { oneOf: n.oneOf.map((it) => partOf(it, 'alternative', i)) } : partOf(n, 'required'))
+  const extras = (s.extras ?? []).map((it) => partOf(it, 'extra'))
+  return { ...s, needs, extras, parts: [...needs.flatMap((n) => n.oneOf ?? [n]), ...extras] }
 })
 
 // Credentials: the profile catalogue and the closed vocabularies, so the board builds its filters from data
@@ -205,8 +205,8 @@ const lane = (k) => read('schema/project.schema.json').properties[k].items.prope
 const laneVocabulary = { messaging: lane('messaging').protocol.enum, replication: lane('replication').protocol.enum, via: lane('messaging').via.enum }
 const credentialVocabulary = { models: credSchema.model.enum, proofs: credSchema.proof.items.enum, documentProofs: read('schema/project.schema.json').properties.trustTaskUse.properties.documentProof.items.enum }
 
-const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, goals, basics, ceremonies, runs, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
+const data = { generated: new Date().toISOString().slice(0, 10), repo: repoUrl, githubFetched, map, projects, scenarios, basics, ceremonies, runs, pairs, shown, trustTasks, credentialProfiles, credentialVocabulary, laneVocabulary, threads: [...threads, ...issues].map((t) => (activity[t.url] ? { ...t, activity: activity[t.url] } : t)), repos }
 const out = join(root, 'site/dist'); mkdirSync(out, { recursive: true })
 writeFileSync(join(out, 'data.json'), JSON.stringify(data, null, 2) + '\n')
 for (const f of readdirSync(join(root, 'site'))) if (/\.(html|js|css|svg|png)$/.test(f)) cpSync(join(root, 'site', f), join(out, f))
-console.log(`built site/dist: ${projects.length} project(s), ${goals.length} goal(s), ${basics.length} basic(s), ${ceremonies.length} ceremonies, ${runs.length} run(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)
+console.log(`built site/dist: ${projects.length} project(s), ${scenarios.length} scenario(s), ${basics.length} basic(s), ${ceremonies.length} ceremonies, ${runs.length} run(s), ${threads.length} thread(s) + ${issues.length} issue(s)${githubFetched ? '' : ' (snapshot)'}`)

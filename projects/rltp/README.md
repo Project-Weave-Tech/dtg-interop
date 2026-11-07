@@ -6,7 +6,7 @@ A local-first implementation of the decentralized trust graph on the ToIP stack.
 
 **Try it:** the browser simulators at https://trust-protocol.real-life.org/ (the app on three devices, one ceremony under the microscope, the graph); the Web of Trust app (Android alpha, web); our TSP mediator at `mediator.web-of-trust.de`.
 
-**What we can show at a table:** two phones connect through the encounter ceremony and the credential is a DTG VRC; delivery over TSP through a VTI mediator; the group test bench (20 scenarios, no owner, concurrent removals, PCS after a captured device, BeeKEM and MLS through the same key port); a browser tab writing into an OpenVTC Data Room.
+**What we can show at a table:** two phones connect through the encounter ceremony and the credential is a DTG VRC; delivery over TSP through a VTI mediator; the group test bench (20 test cases, no owner, concurrent removals, PCS after a captured device, BeeKEM and MLS through the same key port); a browser tab writing into an OpenVTC Data Room.
 
 **What we cannot show yet:** groups in the shipped app; a message read by another implementation; a membership statement read outside the group; two parties at two different mediators.
 

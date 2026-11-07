@@ -211,6 +211,6 @@
     "vectors": "byte-exact test vectors published, re-derivable by a shared runner, not yet exercised against another implementation",
     "spec": "written down, not yet built",
     "open": "the project knows the gap and says so",
-    "n/a": "the project does not aim at this scenario, with a reason"
+    "n/a": "the basic does not apply to the project, with a reason"
   }
 }

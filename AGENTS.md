@@ -9,6 +9,28 @@ This board records how the implementations of the decentralized trust graph fit 
 - Nothing guessed as running. `runs` means it runs in code someone can look at, and it needs `evidence`.
 - Notes in your own words, one or two sentences, no marketing language.
 
+## How the board is built
+
+Six words carry the board. Use them as defined here, in files, commits and notes.
+
+- **Scenario** (`scenarios.json`): something people on different apps should be able to do together, such as connecting across apps or proving membership to another app. It says what is true at the end (`done`), not how to get there.
+- **Need**: what a scenario cannot do without. A need is one item, or a `oneOf` group where any one item is enough. `extras` make a scenario better or more complete but are not needed for a first run. `missing` names a piece that exists nowhere yet, with the thread where it is discussed; while a scenario has a `missing` piece, no pair can play it.
+- **Item**: one of four kinds. Each kind has its catalogue, and each project says in its own row which items it brings:
+
+  | `kind` | Catalogue | A project brings it in |
+  |---|---|---|
+  | `credential` | `credential-profiles.json` (a profile id such as `VRC`) | `credentials[].profiles` |
+  | `task` | the Trust Tasks registry (a type URI) | `trustTaskUse` |
+  | `ceremony` | `ceremonies.json` | `ceremonies` |
+  | `basic` | `basics.json` | `basics` |
+
+  A **basic** is what two implementations need in common that is none of the other three: identifiers, carriers, the document framework, group keys, devices, registries.
+- **Run** (`runs.json`): two projects tried one or more items together, on a date, with both versions and an outcome. Only a run makes an item count as working between two projects; the board derives pairs from runs and from nothing else.
+- **Journey**: one end-to-end path through a scenario, that is one item for each need (one per `oneOf` group). A run tests items, not scenarios: a pair has played a scenario when its passing runs together cover one journey. (The word comes from the Trust Task conformance draft and means the same there.)
+- **Thread** (`threads.json`): a discussion elsewhere that a scenario, basic or ceremony depends on. An issue in this repository with the label `scenario:<id>` is shown as a thread of that scenario.
+
+In one line: a scenario lists its needs, each project says which items it brings, runs between two projects test items, and the board shows per scenario which pairs have covered a journey.
+
 ## Files
 
 | File | Holds |
@@ -16,9 +38,9 @@ This board records how the implementations of the decentralized trust graph fit 
 | `projects/<slug>/project.json` | One project's row. Your file. |
 | `projects/<slug>/README.md` | One paragraph: what it is, who works on it, what others can try against it today. |
 | `projects/<slug>/trust-tasks.json` | Optional: a long list of Trust Task types, extracted from the source. |
-| `goals.json` | The goals: what people on different apps should be able to do together, and the credentials, Trust Tasks, ceremonies and basics each needs. A goal is the outcome; a journey (as in the conformance draft) is one end-to-end path to it, and a run is one pass of two projects along such a path. Shared. |
-| `basics.json` | The basics: what two implementations need in common that is neither a Trust Task nor a ceremony (identifiers, carriers, document framework, group keys, devices, registries). Each says what a project brings (`requires`) and what has to happen between two projects (`done`). Shared. |
-| `ceremonies.json` | The ceremonies: multi-step flows composed of Trust Tasks, from the registry or defined by a project, with their tasks and the goals they serve. Shared. |
+| `scenarios.json` | The scenarios, each with its `needs`, `extras` and `missing`. Shared. |
+| `basics.json` | The basics. Each says what a project brings (`requires`) and what has to happen between two projects (`done`). Shared. |
+| `ceremonies.json` | The ceremonies: multi-step flows composed of Trust Tasks, from the registry or defined by a project, with their tasks and the scenarios whose needs they can fulfil. Shared. |
 | `credential-profiles.json` | The credential profiles (VRC, VMC, …) and their families. Shared. |
 | `runs.json` | Every run between two projects: what it tested (credential profiles, Trust Task types, ceremonies, basics), both sides with versions, outcome. Appended, never edited. |
 | `threads.json` | Links to discussions elsewhere that matter for interop. Shared. |
@@ -82,17 +104,17 @@ Without write access (new to the board, or no access to the repository yet): for
 
 ```json
 "basics": {
-  "vrc-verify": {
+  "did-resolution": {
     "status": "runs",
-    "note": "Issues and verifies VRCs with eddsa-jcs-2022.",
-    "evidence": [{ "label": "vrc module", "url": "https://github.com/your-org/your-repo/tree/main/src/vrc" }]
+    "note": "Resolves did:key, did:peer:4 and did:webvh.",
+    "evidence": [{ "label": "resolver", "url": "https://github.com/your-org/your-repo/tree/main/src/did" }]
   }
 }
 ```
 
 Only ids from `basics.json`. A missing basic is added to `basics.json` with `origin`, `requires` and `done`, in its own commit. A ceremony you implement goes into `ceremonies` (ids from `ceremonies.json`; a new ceremony is added there with its definition).
 
-**2. Record a run between two projects.** In `runs.json`, append to `runs`:
+**2. Record a run between two projects.** A run names the items it tested, not a scenario; the board works out which scenarios the pair has played. In `runs.json`, append to `runs`:
 
 ```json
 {

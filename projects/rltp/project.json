@@ -298,7 +298,7 @@
     },
     "multi-device": {
       "status": "spec",
-      "note": "Experiment E15: keys per device, allocation by the person, 20 scenarios in the experiment code; core merged, restore lifecycle open; no vectors and not in the app.",
+      "note": "Experiment E15: keys per device, allocation by the person, 20 test cases in the experiment code; core merged, restore lifecycle open; no vectors and not in the app.",
       "evidence": [
         {
           "label": "mehrgeraet-k2 notes",

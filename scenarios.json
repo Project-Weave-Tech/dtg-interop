@@ -1,6 +1,6 @@
 {
-  "$comment": "Goals: what people on different apps should be able to do together. A goal is not a test. needs lists what it cannot do without: a single item, or a group of which one is enough (oneOf); extras make it better or more complete but are not needed for a first run; missing names what exists nowhere yet, with its thread. Items are credential profiles, Trust Task types, ceremonies or basics.",
-  "goals": [
+  "$comment": "Scenarios: what people on different apps should be able to do together. A scenario says what is true at the end (done), not how to get there; a run plays it through one path. needs lists what it cannot do without: a single item, or a group of which one is enough (oneOf); extras make it better or more complete but are not needed for a first run; missing names what exists nowhere yet, with its thread. Items are credential profiles, Trust Task types, ceremonies or basics.",
+  "scenarios": [
     {
       "id": "connect",
       "title": "Connect across apps",
