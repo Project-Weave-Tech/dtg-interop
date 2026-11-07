@@ -4,6 +4,8 @@ A status board for interoperability between the implementations of the decentral
 
 Board: https://project-weave-tech.github.io/dtg-interop/ (data: [`site/dist/data.json`](site/) built from this repository and from GitHub).
 
+The wider picture (communities, projects, people and ideas around Project Weave, beyond interop) is collected in [weave-big-picture](https://github.com/Project-Weave-Tech/weave-big-picture).
+
 Most rows were compiled from public sources and say so. **Every project can correct its own row:** change [`projects/<slug>/project.json`](projects/) and push to `main` (ask for write access), or send a pull request without it. Statuses, apps, repositories, anything. Every push is validated before it goes live.
 
 **Using an AI agent?** Point it at [`AGENTS.md`](AGENTS.md): files, fields, rules, the check before pushing and recipes for the common changes.
