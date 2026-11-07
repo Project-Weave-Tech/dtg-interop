@@ -1,32 +1,44 @@
 {
   "slug": "playnet",
-  "name": "Playnet / ValueFlows",
-  "purpose": "A shared plan for people who already trust each other: a mutual aid pod, a co-op, a family, a block.",
+  "name": "Playnet",
+  "purpose": "A shared plan for people who already trust each other: say what you have and need, and a planner over ValueFlows data finds the match.",
   "website": "https://playnet.earth/info",
   "docs": "https://www.valueflo.ws/",
   "logo": "https://playnet.earth/assets/icons/icon.svg",
-  "licence": "not stated; ValueFlows CC-BY-SA-4.0",
+  "licence": "AGPL-3.0 with additional terms (Section 7: attribution, marking changed planner protocols, names)",
   "repositories": [
-    "https://codeberg.org/valueflows/valueflows",
-    "https://playnet.earth/radicle/"
+    "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu",
+    "https://playnet.earth/z4TqnftXD1fRoeCjniQSgNneAMAmu.git",
+    "https://codeberg.org/valueflows/valueflows"
   ],
   "stack": {
-    "didMethods": "",
-    "credentials": "ACDC / KERI",
-    "transport": "Reticulum over Tor, LoRa, packet radio, TCP; Goblins actors over OCapN",
+    "didMethods": "did:keri (an AID with a did:keri: prefix, resolvable over HTTP at the gateway)",
+    "credentials": "ACDC over KERI; the First Person credential set (personhood, relationship, contact points, device authorization) rendered as ACDCs",
+    "transport": "Goblins actors over OCapN: WebSocket to the gateway, WebRTC between browsers, Reticulum mesh (LoRa, serial, I2P, packet radio, TCP), Tor",
     "trustTasks": "none; ValueFlows vocabulary (needs, offers, processes, commitments, recipes)",
-    "groups": "commons written in Guile Scheme",
-    "devices": "KERI identifiers (AIDs) with an own key event log per participant; no DID method"
+    "groups": "scopes (Goblins vats) in a federation tree; rules, state and history as Scheme expressions; logged, revocable capabilities",
+    "devices": "KERI AID per person, keys derived in the browser from a passcode; recovery on another device with the same passcode"
   },
   "facets": {
-    "didMethods": [],
+    "didMethods": [
+      {
+        "value": "did:keri",
+        "status": "building",
+        "evidence": [
+          {
+            "label": "module/playnet/keri/did.scm (Radicle)",
+            "url": "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
+          }
+        ]
+      }
+    ],
     "keys": [
       "device"
     ],
     "trustTasks": [],
     "groupKeys": [],
     "offline": [
-      "yes"
+      "partial: device copy, actions wait for the gateway"
     ],
     "language": [
       "Guile Scheme"
@@ -38,12 +50,12 @@
       "proof": [
         "KERI signatures"
       ],
-      "status": "committed",
-      "note": "Named on the project page; no public code checked.",
+      "status": "building",
+      "note": "First Person set as ACDCs; personhood issued after k witnesses who met the person sign (k-of-n ceremony). Not W3C VC, so DTG exchange needs a bridge.",
       "evidence": [
         {
-          "label": "playnet.earth",
-          "url": "https://playnet.earth/info"
+          "label": "module/playnet/keri/first-person, module/playnet/personhood (Radicle)",
+          "url": "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
         }
       ]
     }
@@ -52,13 +64,26 @@
     {
       "protocol": "Reticulum",
       "via": "mesh",
-      "viaName": "Tor, LoRa, packet radio, TCP",
-      "status": "committed",
-      "note": "Goblins actors over OCapN; code on Radicle, not checked.",
+      "viaName": "LoRa, serial, I2P, packet radio, TCP",
+      "status": "building",
+      "note": "Goblins actors over OCapN.",
       "evidence": [
         {
-          "label": "playnet.earth",
-          "url": "https://playnet.earth/info"
+          "label": "README: Networking (Radicle)",
+          "url": "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
+        }
+      ]
+    },
+    {
+      "protocol": "WebRTC",
+      "via": "app server",
+      "viaName": "the gateway introduces peers",
+      "status": "building",
+      "note": "Browser to browser; peers find each other only through the gateway.",
+      "evidence": [
+        {
+          "label": "README: Peer discovery and WebRTC (Radicle)",
+          "url": "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
         }
       ]
     }
@@ -66,13 +91,13 @@
   "replication": [
     {
       "protocol": "event log",
-      "via": "mesh",
-      "status": "committed",
-      "note": "Own event log per participant.",
+      "via": "app server",
+      "status": "building",
+      "note": "Scope state lives in Goblins vats at the gateway; a device holds a copy and queues actions while offline.",
       "evidence": [
         {
-          "label": "playnet.earth",
-          "url": "https://playnet.earth/info"
+          "label": "browser/app/shell/offline-seat.js (Radicle)",
+          "url": "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
         }
       ]
     }
@@ -81,15 +106,15 @@
     "status": "none",
     "note": "ValueFlows vocabulary."
   },
-  "requiredParty": "not stated publicly",
+  "requiredParty": "a gateway: the trust root that introduces peers, holds key event logs and runs the scopes",
   "basics": {},
   "provenance": {
     "kind": "public",
-    "date": "2026-10-30",
+    "date": "2026-11-06",
     "sources": [
       "https://playnet.earth/info",
-      "https://www.valueflo.ws/"
+      "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu"
     ]
   },
-  "updated": "2026-11-01"
+  "updated": "2026-11-06"
 }
