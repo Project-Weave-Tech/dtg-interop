@@ -7,7 +7,8 @@
   "logo": "https://playnet.earth/assets/icons/icon.svg",
   "licence": "not stated; ValueFlows CC-BY-SA-4.0",
   "repositories": [
-    "https://codeberg.org/valueflows/valueflows"
+    "https://codeberg.org/valueflows/valueflows",
+    "https://playnet.earth/radicle/"
   ],
   "stack": {
     "didMethods": "",
