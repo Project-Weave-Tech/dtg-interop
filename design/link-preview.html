@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!--
-  Source of site/board-preview.png, the 1200x630 link preview (og:image).
-  Render from the repository root:
-    chromium --headless=new --hide-scrollbars --virtual-time-budget=6000 \
-      --window-size=1200,630 --screenshot=site/board-preview.png "file://$PWD/design/link-preview.html"
-  The ring lists the projects; PLAYED lists the pairs that have run together.
+  Template of the 1200x630 link preview (og:image). scripts/link-preview.mjs fills
+  window.PREVIEW from site/dist/data.json after every build, renders it with headless
+  Chrome and writes site/dist/board-preview.png. site/board-preview.png is the
+  fallback when rendering fails. Run locally: npm run build && npm run preview
 -->
 <html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=IBM+Plex+Sans:wght@600;700&display=swap">
@@ -24,13 +23,10 @@ p{font-size:44px;line-height:1.2;font-weight:600;margin:0;color:#2349BF}
 <div class="r" id="r"><svg id="net" width="560" height="630" viewBox="0 0 560 630" style="position:absolute;left:0;top:0"></svg></div>
 <script>
 const LINE = '#2349BF';
-const PROJECTS = [
-  ['rltp', 'https://trust-protocol.real-life.org/favicon.svg'], ['civic-social', '../site/logo-civic-social.png'], ['hylo', 'https://github.com/Hylozoic.png?size=96'],
-  ['keyring', '../site/logo-keyring.png'], ['jlinc', '../site/logo-jlinc.png'], ['consensual', '../site/logo-consensual.png'],
-  ['naoms', ''], ['playnet', 'https://playnet.earth/assets/icons/icon.svg'], ['openvtc', 'https://github.com/OpenVTC.png?size=96'],
-  ['social-fabric', 'https://social-fabric.us/favicon.ico'], ['trust-stackers', '../site/logo-trust-stackers.png']];
-// Partners sit across the ring, so their lines cross it
-const PLAYED = [['rltp', 'consensual'], ['keyring', 'openvtc']];
+// Filled in by scripts/link-preview.mjs: projects as [slug, logo] in ring order, pairs that ran
+const PREVIEW = window.PREVIEW || { projects: [], played: [] };
+const PROJECTS = PREVIEW.projects;
+const PLAYED = PREVIEW.played;
 const n = PROJECTS.length, cx = 270, cy = 315, R = 215;
 const pos = PROJECTS.map((_, i) => { const a = -Math.PI / 2 + 2 * Math.PI * i / n; return [cx + R * Math.cos(a), cy + R * Math.sin(a)]; });
 const idx = Object.fromEntries(PROJECTS.map((p, i) => [p[0], i]));

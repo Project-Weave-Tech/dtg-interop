@@ -30,6 +30,9 @@ jobs:
         env:
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # The link preview from today's projects and runs (Chrome is on the runner);
+      # without it the committed site/board-preview.png stays.
+      - run: npm run preview
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with: { path: site/dist }
