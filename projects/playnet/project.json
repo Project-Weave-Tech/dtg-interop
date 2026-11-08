@@ -4,7 +4,7 @@
   "purpose": "A shared plan for people who already trust each other: say what you have and need, and a planner over ValueFlows data finds the match.",
   "website": "https://playnet.earth/info",
   "docs": "https://www.valueflo.ws/",
-  "logo": "https://playnet.earth/assets/icons/icon.svg",
+  "logo": "logo-playnet.png",
   "licence": "AGPL-3.0 with additional terms (Section 7: attribution, marking changed planner protocols, names)",
   "repositories": [
     "https://playnet.earth/radicle/nodes/playnet.earth:443/rad:z4TqnftXD1fRoeCjniQSgNneAMAmu",
