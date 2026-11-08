@@ -4,6 +4,7 @@
   "purpose": "Identity, encrypted storage, sync, self-governing groups and a trust network on people's own devices, with no servers.",
   "website": "https://naoms.dev",
   "docs": "https://blog.naoms.dev/",
+  "logo": "logo-naoms.png",
   "licence": "core not public; mirror MIT",
   "repositories": [
     "https://github.com/javruben/naoms-flow-funding",
@@ -150,6 +151,16 @@
         }
       ]
     },
+    "captured-device": {
+      "status": "stated",
+      "note": "Recovery after a lost or captured device rests on FROST threshold keys plus social-recovery trust tasks (buddies add/list/remove, status) — four of those tasks are verified against the implementation; the full end-to-end two-device recovery is not yet demonstrated publicly.",
+      "evidence": [
+        {
+          "label": "NAOMS blog",
+          "url": "https://blog.naoms.dev/"
+        }
+      ]
+    },
     "document-framework": {
       "status": "stated",
       "note": "Own task library of about 507 specs, not public; registry PRs closed unmerged.",
@@ -162,13 +173,13 @@
     }
   },
   "provenance": {
-    "kind": "public",
-    "date": "2026-10-30",
+    "kind": "project",
+    "date": "2026-11-04",
     "sources": [
       "https://naoms.dev",
       "https://blog.naoms.dev/",
       "https://github.com/javruben"
     ]
   },
-  "updated": "2026-11-01"
+  "updated": "2026-11-04"
 }
