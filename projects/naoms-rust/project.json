@@ -16,23 +16,50 @@
   },
   "facets": {
     "didMethods": [
-      "did:key",
-      "did:naoms",
-      "did:peer",
-      "did:webvh"
+      {
+        "value": "did:key",
+        "status": "committed"
+      },
+      {
+        "value": "did:naoms",
+        "status": "committed"
+      },
+      {
+        "value": "did:peer",
+        "status": "committed"
+      },
+      {
+        "value": "did:webvh",
+        "status": "committed"
+      }
     ],
     "keys": [
-      "device",
-      "threshold (FROST)"
+      {
+        "value": "device",
+        "status": "committed"
+      },
+      {
+        "value": "threshold (FROST)",
+        "status": "committed"
+      }
     ],
     "groupAuthority": [
-      "steward, quorum chain"
+      {
+        "value": "steward, quorum chain",
+        "status": "committed"
+      }
     ],
     "groupKeys": [
-      "own chain"
+      {
+        "value": "own chain",
+        "status": "committed"
+      }
     ],
     "offline": [
-      "yes"
+      {
+        "value": "yes",
+        "status": "committed"
+      }
     ],
     "language": [
       {
@@ -134,18 +161,10 @@
     }
   ],
   "requiredParty": "a steward, per the public material",
-  "scenarios": {
+  "basics": {
     "did-resolution": {
       "status": "spec",
       "note": "Four DID methods specified (did:key, did:naoms, did:peer, did:webvh); did:webvh is never required to resolve. No public resolver yet."
-    },
-    "vrc-verify": {
-      "status": "spec",
-      "note": "Relationship credential as a W3C VC 2.0 with eddsa-jcs-2022; the test vectors are internal, not yet public."
-    },
-    "contact-ceremony": {
-      "status": "spec",
-      "note": "A ceremony crate: both sides issue the connection credential in one gesture. Not checked against the DTGWG ceremony format."
     },
     "shared-room": {
       "status": "spec",
@@ -157,15 +176,11 @@
     },
     "captured-device": {
       "status": "spec",
-      "note": "Recovery after a lost or captured device: FROST threshold signing (keyholder crate) so a single seized device holds no usable key, plus social-recovery buddies to re-establish a new device. Specified; no public code or vectors yet."
+      "note": "Recovery after a lost or captured device: FROST threshold signing (keyholder crate) so a single seized device holds no usable key, plus social-recovery buddies to re-establish a new device. Specified; no public code or vectors yet. Describes recovery; removing the device and rotating the group key are not described yet."
     },
     "document-framework": {
       "status": "spec",
       "note": "A plugin and package host (a WIT world), not the Trust Tasks Framework."
-    },
-    "direct-message": {
-      "status": "spec",
-      "note": "Native TSP 1.0 and DIDComm v2 specified; no public code yet."
     }
   },
   "provenance": {
